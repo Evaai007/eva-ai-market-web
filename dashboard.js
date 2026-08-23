@@ -107,23 +107,38 @@ document.getElementById('create-api-key').addEventListener('click', async event 
   }
 });
 
-document.getElementById('copy-api-key').addEventListener('click', async () => {
+document.getElementById('copy-api-key').addEventListener('click', async event => {
   const field = document.getElementById('new-api-key');
+  const button = event.currentTarget;
+  const value = field.value;
+  if (!value) return setNotice('No API key is available to copy.', true);
+
+  field.removeAttribute('readonly');
   field.focus();
   field.select();
-  field.setSelectionRange(0, field.value.length);
+  field.setSelectionRange(0, value.length);
+
   let copied = false;
-  try {
-    if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(field.value);
-      copied = true;
-    }
-  } catch {}
+  try { copied = document.execCommand('copy'); } catch {}
+
+  field.setAttribute('readonly', '');
   if (!copied) {
-    try { copied = document.execCommand('copy'); } catch {}
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(value);
+        copied = true;
+      }
+    } catch {}
   }
+
+  field.focus();
+  field.select();
+  field.setSelectionRange(0, value.length);
+  button.textContent = copied ? 'Copied — paste now' : 'Key selected — tap Copy';
   setNotice(
-    copied ? 'API key copied. Paste it into Notes now.' : 'Key selected. Press and hold inside the field, then tap Copy.',
+    copied
+      ? 'Copy requested. Paste into Notes now. If Paste is missing, press and hold the selected key and tap Copy.'
+      : 'Key selected. Press and hold the highlighted key, then tap Copy.',
     !copied
   );
 });
