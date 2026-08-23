@@ -44,15 +44,22 @@ export default async function handler(req, res) {
   }
 
   const keyHash = createHash('sha256').update(customerKey).digest('hex');
-  const keyResponse = await serviceFetch(env, `api_keys?key_hash=eq.${keyHash}&status=eq.active&select=id,user_id&limit=1`);
+  const keyResponse = await serviceFetch(env, 'rpc/resolve_api_key_for_relay', {
+    method: 'POST',
+    body: JSON.stringify({ p_key_hash: keyHash })
+  });
   const keys = await keyResponse.json().catch(() => []);
-  if (!keyResponse.ok || !keys[0]) return send(res, 401, { error: 'API key is invalid or inactive.' });
-  const apiKey = keys[0];
-
-  const walletResponse = await serviceFetch(env, `wallets?user_id=eq.${apiKey.user_id}&select=balance_usd&limit=1`);
-  const wallets = await walletResponse.json().catch(() => []);
-  if (!walletResponse.ok || !wallets[0]) return send(res, 402, { error: 'Wallet not found.' });
-  if (Number(wallets[0].balance_usd) < 0.005) {
+  if (!keyResponse.ok) {
+    return send(res, 502, { error: keys?.message || 'API key verification failed.' });
+  }
+  if (!Array.isArray(keys) || !keys[0]) {
+    return send(res, 401, { error: 'API key is invalid or inactive.' });
+  }
+  const apiKey = {
+    id: keys[0].api_key_id,
+    user_id: keys[0].customer_user_id
+  };
+  if (Number(keys[0].balance_usd) < 0.005) {
     return send(res, 402, { error: 'Insufficient balance. Deposit credits to continue.' });
   }
 
