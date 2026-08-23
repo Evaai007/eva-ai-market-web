@@ -92,7 +92,7 @@ document.getElementById('create-api-key').addEventListener('click', async event 
     const response = await fetch('/api/keys/create', {
       method: 'POST',
       headers: { 'content-type': 'application/json', authorization: `Bearer ${session.access_token}` },
-      body: JSON.stringify({ name: 'Gemini key' })
+      body: JSON.stringify({ name: 'EVA multi-provider key' })
     });
     const body = await response.json();
     if (!response.ok) throw new Error(body.error || 'Could not create API key.');
@@ -108,35 +108,31 @@ document.getElementById('create-api-key').addEventListener('click', async event 
   }
 });
 
-document.getElementById('test-api-key').addEventListener('click', async event => {
-  const button = event.currentTarget;
+async function testProvider({ button, provider, endpoint, requestBody, readReply }) {
   const apiKey = document.getElementById('new-api-key').value;
   const resultBox = document.getElementById('api-test-result');
   if (!apiKey) return setNotice('Create a new API key before testing.', true);
 
   button.disabled = true;
-  button.textContent = 'Testing Gemini…';
+  button.textContent = `Testing ${provider}…`;
   resultBox.hidden = true;
-  setNotice('Sending a small test request to Gemini…');
+  setNotice(`Sending a small test request to ${provider}…`);
 
   try {
-    const response = await fetch('/api/v1/gemini', {
+    const response = await fetch(endpoint, {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'x-api-key': apiKey },
-      body: JSON.stringify({
-        prompt: 'Reply with exactly: EVA API test successful',
-        generationConfig: { maxOutputTokens: 30, temperature: 0 }
-      })
+      body: JSON.stringify(requestBody)
     });
     const body = await response.json();
-    if (!response.ok) throw new Error(body.error || 'Gemini API test failed.');
+    if (!response.ok) throw new Error(body.error || `${provider} API test failed.`);
 
-    const reply = body.candidates?.[0]?.content?.parts?.map(part => part.text || '').join('').trim() || 'Response received';
+    const reply = readReply(body) || 'Response received';
     const charged = Number(body.eva_usage?.charged_usd || 0);
     const balance = Number(body.eva_usage?.balance_usd || 0);
-    resultBox.textContent = `${reply} · Charged ${charged.toFixed(6)} · Balance ${balance.toFixed(6)}`;
+    resultBox.textContent = `${reply} · Charged $${charged.toFixed(6)} · Balance $${balance.toFixed(6)}`;
     resultBox.hidden = false;
-    setNotice('Gemini API test passed. Usage and balance were updated.');
+    setNotice(`${provider} API test passed. Usage and balance were updated.`);
     const { data: { user } } = await client.auth.getUser();
     if (user) await loadData(user.id);
   } catch (error) {
@@ -145,9 +141,32 @@ document.getElementById('test-api-key').addEventListener('click', async event =>
     setNotice(error.message, true);
   } finally {
     button.disabled = false;
-    button.textContent = 'Test Gemini API';
+    button.textContent = `Test ${provider} API`;
   }
-});
+}
+
+document.getElementById('test-api-key').addEventListener('click', event => testProvider({
+  button: event.currentTarget,
+  provider: 'Gemini',
+  endpoint: '/api/v1/gemini',
+  requestBody: {
+    prompt: 'Reply with exactly: EVA Gemini API test successful',
+    generationConfig: { maxOutputTokens: 30, temperature: 0 }
+  },
+  readReply: body => body.candidates?.[0]?.content?.parts?.map(part => part.text || '').join('').trim()
+}));
+
+document.getElementById('test-claude-api').addEventListener('click', event => testProvider({
+  button: event.currentTarget,
+  provider: 'Claude',
+  endpoint: '/api/v1/claude',
+  requestBody: {
+    prompt: 'Reply with exactly: EVA Claude API test successful',
+    max_tokens: 30,
+    temperature: 0
+  },
+  readReply: body => body.content?.map(block => block.text || '').join('').trim()
+}));
 
 document.getElementById('copy-api-key').addEventListener('click', async event => {
   const field = document.getElementById('new-api-key');
