@@ -156,6 +156,21 @@ document.getElementById('test-api-key').addEventListener('click', event => testP
   readReply: body => body.candidates?.[0]?.content?.parts?.map(part => part.text || '').join('').trim()
 }));
 
+document.getElementById('test-openai-api').addEventListener('click', event => testProvider({
+  button: event.currentTarget,
+  provider: 'OpenAI',
+  endpoint: '/api/v1/openai',
+  requestBody: {
+    prompt: 'Reply with exactly: EVA OpenAI API test successful',
+    max_output_tokens: 64
+  },
+  readReply: body => body.output_text || body.output
+    ?.flatMap(item => item.content || [])
+    .map(part => part.text || '')
+    .join('')
+    .trim()
+}));
+
 document.getElementById('test-claude-api').addEventListener('click', event => testProvider({
   button: event.currentTarget,
   provider: 'Claude',
