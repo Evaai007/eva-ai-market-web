@@ -1,5 +1,6 @@
 let client;
-const money = value => `$${Number(value || 0).toFixed(2)}`;
+const money = value => `${Number(value || 0).toFixed(2)}`;
+const moneyPrecise = value => `${Number(value || 0).toFixed(6)}`;
 const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 const setNotice = (message, error = false) => { const el = document.getElementById('dash-notice'); el.textContent = message; el.className = error ? 'dash-notice error' : 'dash-notice success'; };
 
@@ -31,13 +32,13 @@ async function loadData(userId, retry = true) {
     }
     throw firstError;
   }
-  document.getElementById('balance').textContent = money(wallet.data?.balance_usd);
+  document.getElementById('balance').textContent = moneyPrecise(wallet.data?.balance_usd);
   document.getElementById('pending-count').textContent = deposits.data.filter(item => item.status === 'pending').length;
   document.getElementById('key-count').textContent = keys.data.filter(item => item.status === 'active').length;
   renderRows('deposit-rows', deposits.data, item => `<tr><td>${new Date(item.created_at).toLocaleDateString()}</td><td>${escapeHtml(item.network)}</td><td>${money(item.amount_usdt)}</td><td><span class="status ${escapeHtml(item.status)}">${escapeHtml(item.status)}</span></td></tr>`, 4);
-  renderRows('ledger-rows', ledger.data, item => `<tr><td>${new Date(item.created_at).toLocaleDateString()}</td><td>${escapeHtml(item.entry_type)}</td><td class="${Number(item.amount_usd)>=0?'positive':'negative'}">${money(item.amount_usd)}</td><td>${money(item.balance_after)}</td></tr>`, 4);
+  renderRows('ledger-rows', ledger.data, item => `<tr><td>${new Date(item.created_at).toLocaleDateString()}</td><td>${escapeHtml(item.entry_type)}</td><td class="${Number(item.amount_usd)>=0?'positive':'negative'}">${moneyPrecise(item.amount_usd)}</td><td>${moneyPrecise(item.balance_after)}</td></tr>`, 4);
   renderRows('key-rows', keys.data, item => `<tr><td><code>${escapeHtml(item.key_prefix)}••••••••</code></td><td><span class="status ${escapeHtml(item.status)}">${escapeHtml(item.status)}</span></td><td>${item.last_used_at ? new Date(item.last_used_at).toLocaleDateString() : 'Never'}</td></tr>`, 3);
-  renderRows('usage-rows', usage.data, item => `<tr><td>${escapeHtml(item.provider)}</td><td>${escapeHtml(item.model)}</td><td>${Number(item.input_tokens)+Number(item.output_tokens)}</td><td>${money(item.cost_usd)}</td></tr>`, 4);
+  renderRows('usage-rows', usage.data, item => `<tr><td>${escapeHtml(item.provider)}</td><td>${escapeHtml(item.model)}</td><td>${Number(item.input_tokens)+Number(item.output_tokens)}</td><td>${moneyPrecise(item.cost_usd)}</td></tr>`, 4);
 }
 
 function renderRows(id, rows, mapper, colspan) { document.getElementById(id).innerHTML = rows.length ? rows.map(mapper).join('') : `<tr><td colspan="${colspan}" class="empty">No records yet.</td></tr>`; }
