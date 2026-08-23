@@ -1,8 +1,8 @@
 import { createHash, randomUUID } from 'node:crypto';
 
-const MODEL = 'gemini-2.5-flash-lite';
-const INPUT_RETAIL_PER_TOKEN = 0.000000135;
-const OUTPUT_RETAIL_PER_TOKEN = 0.00000054;
+const MODEL = 'gemini-3.5-flash-lite';
+const INPUT_RETAIL_PER_TOKEN = 0.000000405;
+const OUTPUT_RETAIL_PER_TOKEN = 0.000003375;
 const MINIMUM_CHARGE = 0.0001;
 
 const send = (res, status, body) => {
