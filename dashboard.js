@@ -107,6 +107,47 @@ document.getElementById('create-api-key').addEventListener('click', async event 
   }
 });
 
+document.getElementById('test-api-key').addEventListener('click', async event => {
+  const button = event.currentTarget;
+  const apiKey = document.getElementById('new-api-key').value;
+  const resultBox = document.getElementById('api-test-result');
+  if (!apiKey) return setNotice('Create a new API key before testing.', true);
+
+  button.disabled = true;
+  button.textContent = 'Testing Gemini…';
+  resultBox.hidden = true;
+  setNotice('Sending a small test request to Gemini…');
+
+  try {
+    const response = await fetch('/api/v1/gemini', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'x-api-key': apiKey },
+      body: JSON.stringify({
+        prompt: 'Reply with exactly: EVA API test successful',
+        generationConfig: { maxOutputTokens: 30, temperature: 0 }
+      })
+    });
+    const body = await response.json();
+    if (!response.ok) throw new Error(body.error || 'Gemini API test failed.');
+
+    const reply = body.candidates?.[0]?.content?.parts?.map(part => part.text || '').join('').trim() || 'Response received';
+    const charged = Number(body.eva_usage?.charged_usd || 0);
+    const balance = Number(body.eva_usage?.balance_usd || 0);
+    resultBox.textContent = `${reply} · Charged ${charged.toFixed(6)} · Balance ${balance.toFixed(6)}`;
+    resultBox.hidden = false;
+    setNotice('Gemini API test passed. Usage and balance were updated.');
+    const { data: { user } } = await client.auth.getUser();
+    if (user) await loadData(user.id);
+  } catch (error) {
+    resultBox.textContent = error.message;
+    resultBox.hidden = false;
+    setNotice(error.message, true);
+  } finally {
+    button.disabled = false;
+    button.textContent = 'Test Gemini API';
+  }
+});
+
 document.getElementById('copy-api-key').addEventListener('click', async event => {
   const field = document.getElementById('new-api-key');
   const button = event.currentTarget;
