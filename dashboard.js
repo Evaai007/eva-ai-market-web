@@ -1,6 +1,6 @@
 let client;
-const money = value => `${Number(value || 0).toFixed(2)}`;
-const moneyPrecise = value => `${Number(value || 0).toFixed(6)}`;
+const money = value => '$' + Number(value || 0).toFixed(2);
+const moneyPrecise = value => '$' + Number(value || 0).toFixed(6);
 const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 const setNotice = (message, error = false) => { const el = document.getElementById('dash-notice'); el.textContent = message; el.className = error ? 'dash-notice error' : 'dash-notice success'; };
 
