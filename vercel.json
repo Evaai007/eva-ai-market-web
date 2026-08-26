@@ -1,6 +1,16 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/v1/messages",
+      "destination": "/api/v1/claude?compat=anthropic"
+    },
+    {
+      "source": "/v1/models",
+      "destination": "/models.json"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
