@@ -1,9 +1,6 @@
-import { createHash, randomUUID } from 'node:crypto';
+import { createHash, createHmac, randomUUID } from 'node:crypto';
 import { acquireRelayGate, applyRelayCors, fetchWithTimeout, relayClientIdentity } from '../_security.js';
 
-const MODEL = 'claude-haiku-4-5-20251001';
-const INPUT_RETAIL_PER_TOKEN = 0.00000135;
-const OUTPUT_RETAIL_PER_TOKEN = 0.00000675;
 const MINIMUM_CHARGE = 0.0001;
 const MINIMUM_BALANCE = 0.015;
 
@@ -17,7 +14,13 @@ const send = (res, status, body) => {
 const serviceEnv = () => ({
   url: process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
   service: process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY,
-  anthropic: process.env.ANTHROPIC_API_KEY
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  sessionToken: process.env.AWS_SESSION_TOKEN,
+  region: process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'us-east-1',
+  model: process.env.AWS_BEDROCK_MODEL_ID,
+  inputRetailPerToken: Number(process.env.BEDROCK_INPUT_RETAIL_PER_TOKEN || 0.00000135),
+  outputRetailPerToken: Number(process.env.BEDROCK_OUTPUT_RETAIL_PER_TOKEN || 0.00000675)
 });
 
 const serviceFetch = (env, path, options = {}) => fetch(`${env.url}/rest/v1/${path}`, {
@@ -30,6 +33,54 @@ const serviceFetch = (env, path, options = {}) => fetch(`${env.url}/rest/v1/${pa
   }
 });
 
+const sha256 = value => createHash('sha256').update(value).digest('hex');
+const hmac = (key, value, encoding) => createHmac('sha256', key).update(value).digest(encoding);
+
+function awsSignedHeaders(env, host, path, body) {
+  const now = new Date();
+  const amzDate = now.toISOString().replace(/[:-]|\.\d{3}/g, '');
+  const dateStamp = amzDate.slice(0, 8);
+  const payloadHash = sha256(body);
+  const headers = {
+    'content-type': 'application/json',
+    host,
+    'x-amz-content-sha256': payloadHash,
+    'x-amz-date': amzDate
+  };
+  if (env.sessionToken) headers['x-amz-security-token'] = env.sessionToken;
+
+  const signedHeaderNames = Object.keys(headers).sort();
+  const canonicalHeaders = signedHeaderNames.map(name => `${name}:${String(headers[name]).trim()}\n`).join('');
+  const signedHeaders = signedHeaderNames.join(';');
+  const canonicalRequest = ['POST', path, '', canonicalHeaders, signedHeaders, payloadHash].join('\n');
+  const scope = `${dateStamp}/${env.region}/bedrock/aws4_request`;
+  const stringToSign = ['AWS4-HMAC-SHA256', amzDate, scope, sha256(canonicalRequest)].join('\n');
+  const kDate = hmac(`AWS4${env.secretAccessKey}`, dateStamp);
+  const kRegion = hmac(kDate, env.region);
+  const kService = hmac(kRegion, 'bedrock');
+  const kSigning = hmac(kService, 'aws4_request');
+  const signature = hmac(kSigning, stringToSign, 'hex');
+
+  return {
+    'content-type': headers['content-type'],
+    'x-amz-content-sha256': payloadHash,
+    'x-amz-date': amzDate,
+    ...(env.sessionToken ? { 'x-amz-security-token': env.sessionToken } : {}),
+    authorization: `AWS4-HMAC-SHA256 Credential=${env.accessKeyId}/${scope}, SignedHeaders=${signedHeaders}, Signature=${signature}`
+  };
+}
+
+function normalizeContent(content) {
+  if (typeof content === 'string') return [{ text: content }];
+  if (Array.isArray(content)) {
+    const blocks = content
+      .map(item => typeof item === 'string' ? { text: item } : item?.text ? { text: String(item.text) } : null)
+      .filter(Boolean);
+    return blocks.length ? blocks : [{ text: '' }];
+  }
+  return [{ text: String(content ?? '') }];
+}
+
 export default async function handler(req, res) {
   if (!applyRelayCors(req, res)) return send(res, 403, { error: 'This browser origin is not allowed.' });
   if (req.method === 'OPTIONS') return send(res, 204, {});
@@ -40,8 +91,8 @@ export default async function handler(req, res) {
   clientGate.release();
 
   const env = serviceEnv();
-  if (!env.url || !env.service || !env.anthropic) {
-    return send(res, 503, { error: 'Claude service is not configured.' });
+  if (!env.url || !env.service || !env.accessKeyId || !env.secretAccessKey || !env.model) {
+    return send(res, 503, { error: 'Amazon Bedrock Claude service is not configured.' });
   }
 
   const customerKey = String(req.headers['x-api-key'] || req.headers.authorization?.replace(/^Bearer\s+/i, '') || '').trim();
@@ -55,71 +106,68 @@ export default async function handler(req, res) {
     body: JSON.stringify({ p_key_hash: keyHash })
   });
   const keys = await keyResponse.json().catch(() => []);
-  if (!keyResponse.ok) {
-    return send(res, 502, { error: keys?.message || 'API key verification failed.' });
-  }
-  if (!Array.isArray(keys) || !keys[0]) {
-    return send(res, 401, { error: 'API key is invalid or inactive.' });
-  }
+  if (!keyResponse.ok) return send(res, 502, { error: keys?.message || 'API key verification failed.' });
+  if (!Array.isArray(keys) || !keys[0]) return send(res, 401, { error: 'API key is invalid or inactive.' });
 
-  const apiKey = {
-    id: keys[0].api_key_id,
-    user_id: keys[0].customer_user_id
-  };
+  const apiKey = { id: keys[0].api_key_id, user_id: keys[0].customer_user_id };
   if (Number(keys[0].balance_usd) < MINIMUM_BALANCE) {
     return send(res, 402, { error: 'Insufficient balance. Deposit credits to continue.' });
   }
 
   const suppliedMessages = Array.isArray(req.body?.messages) ? req.body.messages : null;
   const prompt = typeof req.body?.prompt === 'string' ? req.body.prompt.trim() : '';
-  const messages = suppliedMessages || (prompt ? [{ role: 'user', content: prompt }] : null);
-  if (!messages) return send(res, 400, { error: 'Provide a prompt or Claude messages array.' });
+  const sourceMessages = suppliedMessages || (prompt ? [{ role: 'user', content: prompt }] : null);
+  if (!sourceMessages) return send(res, 400, { error: 'Provide a prompt or Claude messages array.' });
 
-  const textLength = JSON.stringify(messages).length;
-  if (textLength > 20000) {
+  if (JSON.stringify(sourceMessages).length > 20000) {
     return send(res, 413, { error: 'Request is too large. Maximum 20,000 characters.' });
   }
 
-  const maxTokens = Math.min(Math.max(Number(req.body?.max_tokens) || 512, 1), 1024);
+  const messages = sourceMessages.map(message => ({
+    role: message.role === 'assistant' ? 'assistant' : 'user',
+    content: normalizeContent(message.content)
+  }));
+  const maxTokens = Math.min(Math.max(Number(req.body?.max_tokens) || 512, 1), 4096);
   const requestedTemperature = Number(req.body?.temperature);
-  const temperature = Number.isFinite(requestedTemperature)
-    ? Math.min(Math.max(requestedTemperature, 0), 1)
-    : 0.7;
+  const temperature = Number.isFinite(requestedTemperature) ? Math.min(Math.max(requestedTemperature, 0), 1) : 0.7;
   const providerRequest = {
-    model: MODEL,
-    max_tokens: maxTokens,
-    temperature,
-    messages
+    messages,
+    inferenceConfig: { maxTokens, temperature }
   };
   if (typeof req.body?.system === 'string' && req.body.system.trim()) {
-    providerRequest.system = req.body.system.trim().slice(0, 5000);
+    providerRequest.system = [{ text: req.body.system.trim().slice(0, 5000) }];
   }
+
+  const body = JSON.stringify(providerRequest);
+  const host = `bedrock-runtime.${env.region}.amazonaws.com`;
+  const path = `/model/${encodeURIComponent(env.model)}/converse`;
+  const headers = awsSignedHeaders(env, host, path, body);
 
   const gate = acquireRelayGate(req, res, keyHash);
   if (!gate.ok) return send(res, gate.status, { error: gate.error });
 
-  const providerResponse = await fetchWithTimeout('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'x-api-key': env.anthropic,
-      'anthropic-version': '2023-06-01'
-    },
-    body: JSON.stringify(providerRequest)
-  });
+  let providerResponse;
+  try {
+    providerResponse = await fetchWithTimeout(`https://${host}${path}`, {
+      method: 'POST',
+      headers,
+      body
+    });
+  } finally {
+    gate.release();
+  }
 
   const providerBody = await providerResponse.json().catch(() => ({}));
-  gate.release();
   if (!providerResponse.ok) {
-    const providerMessage = providerBody?.error?.message || 'Claude request failed.';
+    const providerMessage = providerBody?.message || providerBody?.error?.message || 'Amazon Bedrock Claude request failed.';
     return send(res, providerResponse.status === 429 ? 429 : 502, { error: providerMessage });
   }
 
-  const inputTokens = Number(providerBody.usage?.input_tokens || 0);
-  const outputTokens = Number(providerBody.usage?.output_tokens || 0);
+  const inputTokens = Number(providerBody.usage?.inputTokens || 0);
+  const outputTokens = Number(providerBody.usage?.outputTokens || 0);
   const charge = Math.max(
     MINIMUM_CHARGE,
-    Number((inputTokens * INPUT_RETAIL_PER_TOKEN + outputTokens * OUTPUT_RETAIL_PER_TOKEN).toFixed(6))
+    Number((inputTokens * env.inputRetailPerToken + outputTokens * env.outputRetailPerToken).toFixed(6))
   );
   const requestId = randomUUID();
 
@@ -128,7 +176,7 @@ export default async function handler(req, res) {
     body: JSON.stringify({
       p_user_id: apiKey.user_id,
       p_api_key_id: apiKey.id,
-      p_model: MODEL,
+      p_model: env.model,
       p_input_tokens: inputTokens,
       p_output_tokens: outputTokens,
       p_cost_usd: charge,
@@ -142,11 +190,12 @@ export default async function handler(req, res) {
 
   return send(res, 200, {
     ...providerBody,
+    provider: 'amazon-bedrock',
     eva_usage: {
       request_id: requestId,
       charged_usd: charge,
       balance_usd: Number(billing.balance),
-      model: MODEL
+      model: env.model
     }
   });
 }
