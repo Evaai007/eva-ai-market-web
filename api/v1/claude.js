@@ -1,201 +1,29 @@
 import { createHash, createHmac, randomUUID } from 'node:crypto';
-import { acquireRelayGate, applyRelayCors, fetchWithTimeout, relayClientIdentity } from '../_security.js';
+import { acquireRelayGate, applyRelayCors, fetchWithTimeout, relayClientIdentity } from '../../_security.js';
 
-const MINIMUM_CHARGE = 0.0001;
-const MINIMUM_BALANCE = 0.015;
+const MINIMUM_CHARGE=0.0001,MINIMUM_BALANCE=0.015;
+const send=(res,status,body)=>{res.setHeader('Cache-Control','no-store');res.setHeader('Access-Control-Allow-Headers','Content-Type, X-API-Key, Authorization');res.setHeader('Access-Control-Allow-Methods','POST, OPTIONS');return res.status(status).json(body)};
+const serviceEnv=()=>({url:process.env.SUPABASE_URL||process.env.NEXT_PUBLIC_SUPABASE_URL,service:process.env.SUPABASE_SERVICE_ROLE_KEY||process.env.SUPABASE_SECRET_KEY,accessKeyId:process.env.AWS_ACCESS_KEY_ID,secretAccessKey:process.env.AWS_SECRET_ACCESS_KEY,sessionToken:process.env.AWS_SESSION_TOKEN,region:process.env.AWS_REGION||process.env.AWS_DEFAULT_REGION||'us-east-1',model:process.env.AWS_BEDROCK_MODEL_ID,inputRetailPerToken:Number(process.env.BEDROCK_INPUT_RETAIL_PER_TOKEN||0.00000135),outputRetailPerToken:Number(process.env.BEDROCK_OUTPUT_RETAIL_PER_TOKEN||0.00000675)});
+const serviceFetch=(env,path,options={})=>fetch(`${env.url}/rest/v1/${path}`,{...options,headers:{apikey:env.service,authorization:`Bearer ${env.service}`,'content-type':'application/json',...(options.headers||{})}});
+const sha256=value=>createHash('sha256').update(value).digest('hex');
+const hmac=(key,value,encoding)=>createHmac('sha256',key).update(value).digest(encoding);
+function awsSignedHeaders(env,host,path,body){const now=new Date(),amzDate=now.toISOString().replace(/[:-]|\.\d{3}/g,''),dateStamp=amzDate.slice(0,8),payloadHash=sha256(body),headers={'content-type':'application/json',host,'x-amz-content-sha256':payloadHash,'x-amz-date':amzDate};if(env.sessionToken)headers['x-amz-security-token']=env.sessionToken;const signedHeaderNames=Object.keys(headers).sort(),canonicalHeaders=signedHeaderNames.map(name=>`${name}:${String(headers[name]).trim()}\n`).join(''),signedHeaders=signedHeaderNames.join(';'),canonicalRequest=['POST',path,'',canonicalHeaders,signedHeaders,payloadHash].join('\n'),scope=`${dateStamp}/${env.region}/bedrock/aws4_request`,stringToSign=['AWS4-HMAC-SHA256',amzDate,scope,sha256(canonicalRequest)].join('\n'),kDate=hmac(`AWS4${env.secretAccessKey}`,dateStamp),kRegion=hmac(kDate,env.region),kService=hmac(kRegion,'bedrock'),kSigning=hmac(kService,'aws4_request'),signature=hmac(kSigning,stringToSign,'hex');return{'content-type':headers['content-type'],'x-amz-content-sha256':payloadHash,'x-amz-date':amzDate,...(env.sessionToken?{'x-amz-security-token':env.sessionToken}:{}),authorization:`AWS4-HMAC-SHA256 Credential=${env.accessKeyId}/${scope}, SignedHeaders=${signedHeaders}, Signature=${signature}`}}
+function normalizeContent(content){if(typeof content==='string')return[{text:content}];if(Array.isArray(content)){const blocks=content.map(item=>typeof item==='string'?{text:item}:item?.text?{text:String(item.text)}:null).filter(Boolean);return blocks.length?blocks:[{text:''}]}return[{text:String(content??'')}]}
 
-const send = (res, status, body) => {
-  res.setHeader('Cache-Control', 'no-store');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-API-Key, Authorization');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  return res.status(status).json(body);
-};
-
-const serviceEnv = () => ({
-  url: process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
-  service: process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  sessionToken: process.env.AWS_SESSION_TOKEN,
-  region: process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'us-east-1',
-  model: process.env.AWS_BEDROCK_MODEL_ID,
-  inputRetailPerToken: Number(process.env.BEDROCK_INPUT_RETAIL_PER_TOKEN || 0.00000135),
-  outputRetailPerToken: Number(process.env.BEDROCK_OUTPUT_RETAIL_PER_TOKEN || 0.00000675)
-});
-
-const serviceFetch = (env, path, options = {}) => fetch(`${env.url}/rest/v1/${path}`, {
-  ...options,
-  headers: {
-    apikey: env.service,
-    authorization: `Bearer ${env.service}`,
-    'content-type': 'application/json',
-    ...(options.headers || {})
-  }
-});
-
-const sha256 = value => createHash('sha256').update(value).digest('hex');
-const hmac = (key, value, encoding) => createHmac('sha256', key).update(value).digest(encoding);
-
-function awsSignedHeaders(env, host, path, body) {
-  const now = new Date();
-  const amzDate = now.toISOString().replace(/[:-]|\.\d{3}/g, '');
-  const dateStamp = amzDate.slice(0, 8);
-  const payloadHash = sha256(body);
-  const headers = {
-    'content-type': 'application/json',
-    host,
-    'x-amz-content-sha256': payloadHash,
-    'x-amz-date': amzDate
-  };
-  if (env.sessionToken) headers['x-amz-security-token'] = env.sessionToken;
-
-  const signedHeaderNames = Object.keys(headers).sort();
-  const canonicalHeaders = signedHeaderNames.map(name => `${name}:${String(headers[name]).trim()}\n`).join('');
-  const signedHeaders = signedHeaderNames.join(';');
-  const canonicalRequest = ['POST', path, '', canonicalHeaders, signedHeaders, payloadHash].join('\n');
-  const scope = `${dateStamp}/${env.region}/bedrock/aws4_request`;
-  const stringToSign = ['AWS4-HMAC-SHA256', amzDate, scope, sha256(canonicalRequest)].join('\n');
-  const kDate = hmac(`AWS4${env.secretAccessKey}`, dateStamp);
-  const kRegion = hmac(kDate, env.region);
-  const kService = hmac(kRegion, 'bedrock');
-  const kSigning = hmac(kService, 'aws4_request');
-  const signature = hmac(kSigning, stringToSign, 'hex');
-
-  return {
-    'content-type': headers['content-type'],
-    'x-amz-content-sha256': payloadHash,
-    'x-amz-date': amzDate,
-    ...(env.sessionToken ? { 'x-amz-security-token': env.sessionToken } : {}),
-    authorization: `AWS4-HMAC-SHA256 Credential=${env.accessKeyId}/${scope}, SignedHeaders=${signedHeaders}, Signature=${signature}`
-  };
-}
-
-function normalizeContent(content) {
-  if (typeof content === 'string') return [{ text: content }];
-  if (Array.isArray(content)) {
-    const blocks = content
-      .map(item => typeof item === 'string' ? { text: item } : item?.text ? { text: String(item.text) } : null)
-      .filter(Boolean);
-    return blocks.length ? blocks : [{ text: '' }];
-  }
-  return [{ text: String(content ?? '') }];
-}
-
-export default async function handler(req, res) {
-  if (!applyRelayCors(req, res)) return send(res, 403, { error: 'This browser origin is not allowed.' });
-  if (req.method === 'OPTIONS') return send(res, 204, {});
-  if (req.method !== 'POST') return send(res, 405, { error: 'Method not allowed.' });
-
-  const clientGate = acquireRelayGate(req, res, `ip:${relayClientIdentity(req)}`);
-  if (!clientGate.ok) return send(res, clientGate.status, { error: clientGate.error });
-  clientGate.release();
-
-  const env = serviceEnv();
-  if (!env.url || !env.service || !env.accessKeyId || !env.secretAccessKey || !env.model) {
-    return send(res, 503, { error: 'Amazon Bedrock Claude service is not configured.' });
-  }
-
-  const customerKey = String(req.headers['x-api-key'] || req.headers.authorization?.replace(/^Bearer\s+/i, '') || '').trim();
-  if (!/^eva_live_[A-Za-z0-9_-]{20,}$/.test(customerKey)) {
-    return send(res, 401, { error: 'A valid EVA API key is required.' });
-  }
-
-  const keyHash = createHash('sha256').update(customerKey).digest('hex');
-  const keyResponse = await serviceFetch(env, 'rpc/resolve_api_key_for_relay', {
-    method: 'POST',
-    body: JSON.stringify({ p_key_hash: keyHash })
-  });
-  const keys = await keyResponse.json().catch(() => []);
-  if (!keyResponse.ok) return send(res, 502, { error: keys?.message || 'API key verification failed.' });
-  if (!Array.isArray(keys) || !keys[0]) return send(res, 401, { error: 'API key is invalid or inactive.' });
-
-  const apiKey = { id: keys[0].api_key_id, user_id: keys[0].customer_user_id };
-  if (Number(keys[0].balance_usd) < MINIMUM_BALANCE) {
-    return send(res, 402, { error: 'Insufficient balance. Deposit credits to continue.' });
-  }
-
-  const suppliedMessages = Array.isArray(req.body?.messages) ? req.body.messages : null;
-  const prompt = typeof req.body?.prompt === 'string' ? req.body.prompt.trim() : '';
-  const sourceMessages = suppliedMessages || (prompt ? [{ role: 'user', content: prompt }] : null);
-  if (!sourceMessages) return send(res, 400, { error: 'Provide a prompt or Claude messages array.' });
-
-  if (JSON.stringify(sourceMessages).length > 20000) {
-    return send(res, 413, { error: 'Request is too large. Maximum 20,000 characters.' });
-  }
-
-  const messages = sourceMessages.map(message => ({
-    role: message.role === 'assistant' ? 'assistant' : 'user',
-    content: normalizeContent(message.content)
-  }));
-  const maxTokens = Math.min(Math.max(Number(req.body?.max_tokens) || 512, 1), 4096);
-  const requestedTemperature = Number(req.body?.temperature);
-  const temperature = Number.isFinite(requestedTemperature) ? Math.min(Math.max(requestedTemperature, 0), 1) : 0.7;
-  const providerRequest = {
-    messages,
-    inferenceConfig: { maxTokens, temperature }
-  };
-  if (typeof req.body?.system === 'string' && req.body.system.trim()) {
-    providerRequest.system = [{ text: req.body.system.trim().slice(0, 5000) }];
-  }
-
-  const body = JSON.stringify(providerRequest);
-  const host = `bedrock-runtime.${env.region}.amazonaws.com`;
-  const path = `/model/${encodeURIComponent(env.model)}/converse`;
-  const headers = awsSignedHeaders(env, host, path, body);
-
-  const gate = acquireRelayGate(req, res, keyHash);
-  if (!gate.ok) return send(res, gate.status, { error: gate.error });
-
-  let providerResponse;
-  try {
-    providerResponse = await fetchWithTimeout(`https://${host}${path}`, {
-      method: 'POST',
-      headers,
-      body
-    });
-  } finally {
-    gate.release();
-  }
-
-  const providerBody = await providerResponse.json().catch(() => ({}));
-  if (!providerResponse.ok) {
-    const providerMessage = providerBody?.message || providerBody?.error?.message || 'Amazon Bedrock Claude request failed.';
-    return send(res, providerResponse.status === 429 ? 429 : 502, { error: providerMessage });
-  }
-
-  const inputTokens = Number(providerBody.usage?.inputTokens || 0);
-  const outputTokens = Number(providerBody.usage?.outputTokens || 0);
-  const charge = Math.max(
-    MINIMUM_CHARGE,
-    Number((inputTokens * env.inputRetailPerToken + outputTokens * env.outputRetailPerToken).toFixed(6))
-  );
-  const requestId = randomUUID();
-
-  const billingResponse = await serviceFetch(env, 'rpc/record_claude_usage', {
-    method: 'POST',
-    body: JSON.stringify({
-      p_user_id: apiKey.user_id,
-      p_api_key_id: apiKey.id,
-      p_model: env.model,
-      p_input_tokens: inputTokens,
-      p_output_tokens: outputTokens,
-      p_cost_usd: charge,
-      p_request_id: requestId
-    })
-  });
-  const billing = await billingResponse.json().catch(() => ({}));
-  if (!billingResponse.ok) {
-    return send(res, 402, { error: billing.message || 'Usage could not be charged. Add credits and retry.' });
-  }
-
-  return send(res, 200, {
-    ...providerBody,
-    provider: 'amazon-bedrock',
-    eva_usage: {
-      request_id: requestId,
-      charged_usd: charge,
-      balance_usd: Number(billing.balance),
-      model: env.model
-    }
-  });
+export default async function handler(req,res){
+ if(!applyRelayCors(req,res))return send(res,403,{error:'This browser origin is not allowed.'});
+ if(req.method==='OPTIONS')return send(res,204,{});
+ if(req.method!=='POST')return send(res,405,{error:'Method not allowed.'});
+ const clientGate=acquireRelayGate(req,res,`ip:${relayClientIdentity(req)}`);if(!clientGate.ok)return send(res,clientGate.status,{error:clientGate.error});clientGate.release();
+ const env=serviceEnv();if(!env.url||!env.service||!env.accessKeyId||!env.secretAccessKey||!env.model)return send(res,503,{error:'Amazon Bedrock Claude service is not configured.'});
+ const customerKey=String(req.headers['x-api-key']||req.headers.authorization?.replace(/^Bearer\s+/i,'')||'').trim();if(!/^eva_live_[A-Za-z0-9_-]{20,}$/.test(customerKey))return send(res,401,{error:'A valid EVA API key is required.'});
+ const keyHash=createHash('sha256').update(customerKey).digest('hex'),keyResponse=await serviceFetch(env,'rpc/resolve_api_key_for_relay',{method:'POST',body:JSON.stringify({p_key_hash:keyHash})}),keys=await keyResponse.json().catch(()=>[]);if(!keyResponse.ok)return send(res,502,{error:keys?.message||'API key verification failed.'});if(!Array.isArray(keys)||!keys[0])return send(res,401,{error:'API key is invalid or inactive.'});
+ const apiKey={id:keys[0].api_key_id,user_id:keys[0].customer_user_id};if(Number(keys[0].balance_usd)<MINIMUM_BALANCE)return send(res,402,{error:'Insufficient balance. Deposit credits to continue.'});
+ const suppliedMessages=Array.isArray(req.body?.messages)?req.body.messages:null,prompt=typeof req.body?.prompt==='string'?req.body.prompt.trim():'',sourceMessages=suppliedMessages||(prompt?[{role:'user',content:prompt}]:null);if(!sourceMessages)return send(res,400,{error:'Provide a prompt or Claude messages array.'});if(JSON.stringify(sourceMessages).length>20000)return send(res,413,{error:'Request is too large. Maximum 20,000 characters.'});
+ const messages=sourceMessages.map(message=>({role:message.role==='assistant'?'assistant':'user',content:normalizeContent(message.content)})),maxTokens=Math.min(Math.max(Number(req.body?.max_tokens)||512,1),4096),requestedTemperature=Number(req.body?.temperature),temperature=Number.isFinite(requestedTemperature)?Math.min(Math.max(requestedTemperature,0),1):0.7,providerRequest={messages,inferenceConfig:{maxTokens,temperature}};if(typeof req.body?.system==='string'&&req.body.system.trim())providerRequest.system=[{text:req.body.system.trim().slice(0,5000)}];
+ const body=JSON.stringify(providerRequest),host=`bedrock-runtime.${env.region}.amazonaws.com`,path=`/model/${encodeURIComponent(env.model)}/converse`,headers=awsSignedHeaders(env,host,path,body),gate=acquireRelayGate(req,res,keyHash);if(!gate.ok)return send(res,gate.status,{error:gate.error});
+ let providerResponse;try{providerResponse=await fetchWithTimeout(`https://${host}${path}`,{method:'POST',headers,body})}finally{gate.release()}
+ const providerBody=await providerResponse.json().catch(()=>({}));if(!providerResponse.ok){const providerMessage=providerBody?.message||providerBody?.error?.message||'Amazon Bedrock Claude request failed.';return send(res,providerResponse.status===429?429:502,{error:providerMessage})}
+ const inputTokens=Number(providerBody.usage?.inputTokens||0),outputTokens=Number(providerBody.usage?.outputTokens||0),charge=Math.max(MINIMUM_CHARGE,Number((inputTokens*env.inputRetailPerToken+outputTokens*env.outputRetailPerToken).toFixed(6))),requestId=randomUUID(),billingResponse=await serviceFetch(env,'rpc/record_claude_usage',{method:'POST',body:JSON.stringify({p_user_id:apiKey.user_id,p_api_key_id:apiKey.id,p_model:env.model,p_input_tokens:inputTokens,p_output_tokens:outputTokens,p_cost_usd:charge,p_request_id:requestId})}),billing=await billingResponse.json().catch(()=>({}));if(!billingResponse.ok)return send(res,402,{error:billing.message||'Usage could not be charged. Add credits and retry.'});
+ return send(res,200,{...providerBody,provider:'amazon-bedrock',eva_usage:{request_id:requestId,charged_usd:charge,balance_usd:Number(billing.balance),model:env.model}})
 }
