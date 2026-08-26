@@ -1,5 +1,5 @@
 import { createHash, randomUUID } from 'node:crypto';
-import { acquireRelayGate, applyRelayCors, fetchWithTimeout, relayClientIdentity } from '../_security.js';
+import { acquireRelayGate, applyRelayCors, fetchWithTimeout, relayClientIdentity } from '../../_security.js';
 
 const MODEL = 'gpt-5.6-luna';
 const INPUT_RETAIL_PER_TOKEN = 0.00000027;
@@ -55,40 +55,22 @@ export default async function handler(req, res) {
     body: JSON.stringify({ p_key_hash: keyHash })
   });
   const keys = await keyResponse.json().catch(() => []);
-  if (!keyResponse.ok) {
-    return send(res, 502, { error: keys?.message || 'API key verification failed.' });
-  }
-  if (!Array.isArray(keys) || !keys[0]) {
-    return send(res, 401, { error: 'API key is invalid or inactive.' });
-  }
+  if (!keyResponse.ok) return send(res, 502, { error: keys?.message || 'API key verification failed.' });
+  if (!Array.isArray(keys) || !keys[0]) return send(res, 401, { error: 'API key is invalid or inactive.' });
 
-  const apiKey = {
-    id: keys[0].api_key_id,
-    user_id: keys[0].customer_user_id
-  };
+  const apiKey = { id: keys[0].api_key_id, user_id: keys[0].customer_user_id };
   if (Number(keys[0].balance_usd) < MINIMUM_BALANCE) {
     return send(res, 402, { error: 'Insufficient balance. Deposit credits to continue.' });
   }
 
-  const suppliedInput = Array.isArray(req.body?.input) || typeof req.body?.input === 'string'
-    ? req.body.input
-    : null;
+  const suppliedInput = Array.isArray(req.body?.input) || typeof req.body?.input === 'string' ? req.body.input : null;
   const prompt = typeof req.body?.prompt === 'string' ? req.body.prompt.trim() : '';
   const input = suppliedInput || prompt || null;
   if (!input) return send(res, 400, { error: 'Provide a prompt or OpenAI Responses input.' });
-
-  const textLength = JSON.stringify(input).length;
-  if (textLength > 20000) {
-    return send(res, 413, { error: 'Request is too large. Maximum 20,000 characters.' });
-  }
+  if (JSON.stringify(input).length > 20000) return send(res, 413, { error: 'Request is too large. Maximum 20,000 characters.' });
 
   const maxOutputTokens = Math.min(Math.max(Number(req.body?.max_output_tokens) || 512, 64), 1024);
-  const providerRequest = {
-    model: MODEL,
-    input,
-    max_output_tokens: maxOutputTokens,
-    reasoning: { effort: 'none' }
-  };
+  const providerRequest = { model: MODEL, input, max_output_tokens: maxOutputTokens, reasoning: { effort: 'none' } };
   if (typeof req.body?.instructions === 'string' && req.body.instructions.trim()) {
     providerRequest.instructions = req.body.instructions.trim().slice(0, 5000);
   }
@@ -96,17 +78,18 @@ export default async function handler(req, res) {
   const gate = acquireRelayGate(req, res, keyHash);
   if (!gate.ok) return send(res, gate.status, { error: gate.error });
 
-  const providerResponse = await fetchWithTimeout('https://api.openai.com/v1/responses', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      authorization: `Bearer ${env.openai}`
-    },
-    body: JSON.stringify(providerRequest)
-  });
+  let providerResponse;
+  try {
+    providerResponse = await fetchWithTimeout('https://api.openai.com/v1/responses', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', authorization: `Bearer ${env.openai}` },
+      body: JSON.stringify(providerRequest)
+    });
+  } finally {
+    gate.release();
+  }
 
   const providerBody = await providerResponse.json().catch(() => ({}));
-  gate.release();
   if (!providerResponse.ok) {
     const providerMessage = providerBody?.error?.message || 'OpenAI request failed.';
     return send(res, providerResponse.status === 429 ? 429 : 502, { error: providerMessage });
@@ -114,10 +97,7 @@ export default async function handler(req, res) {
 
   const inputTokens = Number(providerBody.usage?.input_tokens || 0);
   const outputTokens = Number(providerBody.usage?.output_tokens || 0);
-  const charge = Math.max(
-    MINIMUM_CHARGE,
-    Number((inputTokens * INPUT_RETAIL_PER_TOKEN + outputTokens * OUTPUT_RETAIL_PER_TOKEN).toFixed(6))
-  );
+  const charge = Math.max(MINIMUM_CHARGE, Number((inputTokens * INPUT_RETAIL_PER_TOKEN + outputTokens * OUTPUT_RETAIL_PER_TOKEN).toFixed(6)));
   const requestId = randomUUID();
 
   const billingResponse = await serviceFetch(env, 'rpc/record_openai_usage', {
@@ -133,17 +113,10 @@ export default async function handler(req, res) {
     })
   });
   const billing = await billingResponse.json().catch(() => ({}));
-  if (!billingResponse.ok) {
-    return send(res, 402, { error: billing.message || 'Usage could not be charged. Add credits and retry.' });
-  }
+  if (!billingResponse.ok) return send(res, 402, { error: billing.message || 'Usage could not be charged. Add credits and retry.' });
 
   return send(res, 200, {
     ...providerBody,
-    eva_usage: {
-      request_id: requestId,
-      charged_usd: charge,
-      balance_usd: Number(billing.balance),
-      model: MODEL
-    }
+    eva_usage: { request_id: requestId, charged_usd: charge, balance_usd: Number(billing.balance), model: MODEL }
   });
 }
