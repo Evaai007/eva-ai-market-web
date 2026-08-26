@@ -75,8 +75,9 @@
       </section>
 
       <section class="panel api-section">
-        <span class="kicker">Claude</span>
+        <span class="kicker">Amazon Bedrock · Claude</span>
         <h2>Claude API request</h2>
+        <p>Claude requests are processed through the Amazon Bedrock Converse API while customers continue using the same EVA API key and endpoint.</p>
         <div class="endpoint"><span class="method">POST</span><code>https://eva-ai-market.vercel.app/api/v1/claude</code></div>
         <pre><code>curl "https://eva-ai-market.vercel.app/api/v1/claude" \
   -H "Content-Type: application/json" \
@@ -90,7 +91,7 @@
 
       <section class="panel api-section">
         <h2>Authentication and billing</h2>
-        <p>You may also send <code>Authorization: Bearer eva_live_YOUR_KEY</code>. One active EVA key works across every currently enabled provider endpoint. The provider response includes an <code>eva_usage</code object with the request ID, charged amount, remaining balance, and active model.</p>
+        <p>You may also send <code>Authorization: Bearer eva_live_YOUR_KEY</code>. One active EVA key works across every currently enabled provider endpoint. The provider response includes an <code>eva_usage</code> object with the request ID, charged amount, remaining balance, and active model.</p>
         <pre><code>{
   "eva_usage": {
     "request_id": "request-uuid",
@@ -114,6 +115,6 @@
       </section>
     </div>
   </main>
-  <footer><div class="container footer"><a class="brand" href="/"><span class="brand-mark">E</span><span>EVA AI MARKET</span></a><p>EVA AI MARKET is an independent API-powered service and is not an official Anthropic, OpenAI, or Google partnership.</p><small>© 2026 EVA AI MARKET</small></div></footer>
+  <footer><div class="container footer"><a class="brand" href="/"><span class="brand-mark">E</span><span>EVA AI MARKET</span></a><p>EVA AI MARKET is an independent API-powered service and is not an official Amazon Web Services, Anthropic, OpenAI, or Google partnership.</p><small>© 2026 EVA AI MARKET</small></div></footer>
 </body>
 </html>
