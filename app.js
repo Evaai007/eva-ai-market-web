@@ -7,6 +7,10 @@ document.querySelectorAll('[data-copy]').forEach(button=>button.addEventListener
 const bedrockProvider=[...document.querySelectorAll('.provider')].find(provider=>provider.querySelector('strong')?.textContent.trim()==='AWS Bedrock — Claude');
 if(bedrockProvider){const status=bedrockProvider.querySelector('small'),indicator=bedrockProvider.querySelector(':scope > span');if(status)status.textContent='Status: Live & Available';if(indicator)indicator.textContent='✓'}
 
+const heroButtons=document.querySelector('.hero .buttons');
+if(heroButtons){const fundButton=[...heroButtons.querySelectorAll('a')].find(link=>/Add Balance|Fund/i.test(link.textContent));if(fundButton){fundButton.classList.remove('secondary');fundButton.classList.add('primary');fundButton.textContent='Login & Submit Deposit';fundButton.href='/login.html'}const notice=document.createElement('p');notice.className='mini-note';notice.style.marginTop='14px';notice.style.padding='12px 14px';notice.style.border='1px solid rgba(65,215,232,.35)';notice.style.borderRadius='12px';notice.style.background='rgba(65,215,232,.08)';notice.innerHTML='<strong>Already paid?</strong> Log in to My Account and submit the successful payment TXID. Your balance is added only after this deposit request is approved.';heroButtons.insertAdjacentElement('afterend',notice)}
+const depositNav=[...siteNav.querySelectorAll('a')].find(link=>link.textContent.trim()==='Deposit Credits');if(depositNav){depositNav.href='/login.html';depositNav.textContent='Submit Deposit'}
+
 function highlightPaymentNetwork(network){document.querySelectorAll('[data-network-card]').forEach(card=>card.classList.toggle('active',card.dataset.networkCard===network))}
 function isValidTelegram(value){return /^@[A-Za-z0-9_]{5,32}$/.test(value)}
 function isValidTransactionId(network,value){const ownAddresses=new Set(['0x644ed89caecc120d3a3180e9f20a90d970cfa3e8'.toLowerCase(),'TJCFS6hDKsEnquGuvw43krk141QLvHnGbG'.toLowerCase()]);if(ownAddresses.has(value.toLowerCase()))return false;if(network==='BEP20'||network==='ERC20')return /^0x[a-fA-F0-9]{64}$/.test(value);return /^[a-fA-F0-9]{64}$/.test(value)}
