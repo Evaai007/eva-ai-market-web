@@ -4,6 +4,9 @@ menuButton.addEventListener('click',()=>{const open=siteNav.classList.toggle('op
 siteNav.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{siteNav.classList.remove('open');menuButton.setAttribute('aria-expanded','false')}));
 document.querySelectorAll('[data-copy]').forEach(button=>button.addEventListener('click',async()=>{const address=document.getElementById(button.dataset.copy).textContent.trim();try{await navigator.clipboard.writeText(address)}catch{const area=document.createElement('textarea');area.value=address;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();document.execCommand('copy');area.remove()}const original=button.textContent;button.textContent='Copied ✓';showToast('Wallet address copied');setTimeout(()=>button.textContent=original,1800)}));
 
+const bedrockProvider=[...document.querySelectorAll('.provider')].find(provider=>provider.querySelector('strong')?.textContent.trim()==='AWS Bedrock — Claude');
+if(bedrockProvider){const status=bedrockProvider.querySelector('small'),indicator=bedrockProvider.querySelector(':scope > span');if(status)status.textContent='Status: Live & Available';if(indicator)indicator.textContent='✓'}
+
 function highlightPaymentNetwork(network){document.querySelectorAll('[data-network-card]').forEach(card=>card.classList.toggle('active',card.dataset.networkCard===network))}
 function isValidTelegram(value){return /^@[A-Za-z0-9_]{5,32}$/.test(value)}
 function isValidTransactionId(network,value){const ownAddresses=new Set(['0x644ed89caecc120d3a3180e9f20a90d970cfa3e8'.toLowerCase(),'TJCFS6hDKsEnquGuvw43krk141QLvHnGbG'.toLowerCase()]);if(ownAddresses.has(value.toLowerCase()))return false;if(network==='BEP20'||network==='ERC20')return /^0x[a-fA-F0-9]{64}$/.test(value);return /^[a-fA-F0-9]{64}$/.test(value)}
