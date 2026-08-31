@@ -1,8 +1,53 @@
 import { json, requireUser, serviceRequest } from './_supabase.js';
 
-const serviceContext=()=>({url:process.env.SUPABASE_URL||process.env.NEXT_PUBLIC_SUPABASE_URL,service:process.env.SUPABASE_SERVICE_ROLE_KEY||process.env.SUPABASE_SECRET_KEY});
+const serviceContext=()=>({
+ url:process.env.SUPABASE_URL||process.env.NEXT_PUBLIC_SUPABASE_URL,
+ anon:process.env.SUPABASE_ANON_KEY||process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY||process.env.SUPABASE_PUBLISHABLE_KEY,
+ service:process.env.SUPABASE_SERVICE_ROLE_KEY||process.env.SUPABASE_SECRET_KEY
+});
+
+const validTx=(network,value)=>{
+ const own=new Set(['0x644ed89caecc120d3a3180e9f20a90d970cfa3e8','tjcfs6hdksenquguvw43krk141qlvhngbg']);
+ const tx=String(value||'').trim();
+ if(own.has(tx.toLowerCase()))return false;
+ return network==='BEP20'||network==='ERC20'?/^0x[a-fA-F0-9]{64}$/.test(tx):/^[a-fA-F0-9]{64}$/.test(tx);
+};
+
+async function submitDepositWithRefresh(req,res){
+ const ctx=serviceContext();
+ if(!ctx.url||!ctx.anon||!ctx.service)return json(res,503,{error:'Account service is not configured.'});
+ const refreshToken=String(req.body?.refreshToken||'');
+ const amount=Number(req.body?.amount);
+ const network=String(req.body?.network||'');
+ const transactionId=String(req.body?.transaction_id||'').trim();
+ if(!refreshToken)return json(res,401,{error:'Please sign in again.'});
+ if(amount<10||!['TRC20','BEP20','ERC20'].includes(network)||!validTx(network,transactionId))return json(res,400,{error:'Enter at least 10 USDT and a valid completed payment transaction ID.'});
+ const tokenResponse=await fetch(`${ctx.url}/auth/v1/token?grant_type=refresh_token`,{
+  method:'POST',
+  headers:{apikey:ctx.anon,'content-type':'application/json'},
+  body:JSON.stringify({refresh_token:refreshToken})
+ });
+ const tokenBody=await tokenResponse.json().catch(()=>({}));
+ if(!tokenResponse.ok||!tokenBody?.user?.id)return json(res,401,{error:'Your secure session expired. Please sign in again.'});
+ const insertResponse=await serviceRequest(ctx,'deposits',{
+  method:'POST',
+  headers:{Prefer:'return=minimal'},
+  body:JSON.stringify({user_id:tokenBody.user.id,amount_usdt:amount,network,transaction_id:transactionId})
+ });
+ const insertBody=await insertResponse.json().catch(()=>({}));
+ if(!insertResponse.ok){
+  const message=insertBody?.code==='23505'?'This transaction ID was already submitted.':insertBody?.message||'Deposit submission failed.';
+  return json(res,insertBody?.code==='23505'?409:400,{error:message});
+ }
+ return json(res,200,{
+  submitted:true,
+  access_token:tokenBody.access_token,
+  refresh_token:tokenBody.refresh_token
+ });
+}
 
 export default async function handler(req,res){
+ if(req.method==='POST'&&req.body?.action==='submit_deposit')return submitDepositWithRefresh(req,res);
  if(req.method==='GET'&&req.query?.view!=='orders'){
   const ctx=serviceContext();
   if(!ctx.url||!ctx.service)return json(res,503,{error:'Store is not configured.'});
