@@ -1,2 +1,58 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#020817"><title>Account — EVA AI MARKET</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="auth-premium.css?v=20260902"></head>
-<body class="account-page"><div class="glow glow-a"></div><div class="glow glow-b"></div><main class="account-shell"><a class="brand" href="/"><span class="brand-mark">E</span><span>EVA AI MARKET</span></a><section class="auth-card panel"><div class="heading left compact"><span>Secure account</span><h1 class="account-title">Customer access</h1><p>Sign in to view your real balance, deposits and API usage.</p></div><div class="auth-tabs"><button class="active" data-auth-tab="login" type="button">Sign in</button><button data-auth-tab="signup" type="button">Create account</button></div><form id="login-form" class="auth-form"><label>Email<input id="login-email" type="email" autocomplete="email" placeholder="name@example.com" required></label><label>Password<input id="login-password" type="password" autocomplete="current-password" placeholder="Enter your password" minlength="8" required></label><button class="button primary" type="submit">Sign in</button></form><form id="signup-form" class="auth-form" hidden><label>Email<input id="signup-email" type="email" autocomplete="email" placeholder="name@example.com" required></label><label>Password<input id="signup-password" type="password" autocomplete="new-password" placeholder="Create a secure password" minlength="8" required></label><small>Use at least 8 characters. Never reuse your API-key password.</small><button class="button primary" type="submit">Create account</button></form><p id="auth-status" class="auth-status" role="status"></p><a class="back-link" href="/">← Back to website</a></section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="auth.js?v=20260902-auth-premium"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#020817">
+  <title>Account — EVA AI MARKET</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="auth-premium.css?v=20260902">
+  <link rel="stylesheet" href="google-auth.css?v=20260902">
+</head>
+<body class="account-page">
+  <div class="glow glow-a"></div>
+  <div class="glow glow-b"></div>
+  <main class="account-shell">
+    <a class="brand" href="/"><span class="brand-mark">E</span><span>EVA AI MARKET</span></a>
+    <section class="auth-card panel">
+      <div class="heading left compact">
+        <span>Secure account</span>
+        <h1 class="account-title">Customer access</h1>
+        <p>Sign in to view your real balance, deposits and API usage.</p>
+      </div>
+      <button id="google-auth-button" class="google-auth-button" type="button">
+        <svg aria-hidden="true" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.4-.18-2.07H12v3.92h5.38a4.6 4.6 0 0 1-2 3.02v2.54h3.24c1.9-1.75 2.98-4.33 2.98-7.41Z"/>
+          <path fill="#34A853" d="M12 22c2.7 0 4.98-.9 6.64-2.36l-3.24-2.54c-.9.6-2.05.96-3.4.96-2.61 0-4.82-1.76-5.61-4.13H3.04v2.62A10 10 0 0 0 12 22Z"/>
+          <path fill="#FBBC05" d="M6.39 13.93A6.02 6.02 0 0 1 6.07 12c0-.67.12-1.32.32-1.93V7.45H3.04A10 10 0 0 0 2 12c0 1.61.39 3.14 1.04 4.55l3.35-2.62Z"/>
+          <path fill="#EA4335" d="M12 5.94c1.47 0 2.79.5 3.83 1.5l2.87-2.87A9.63 9.63 0 0 0 12 2a10 10 0 0 0-8.96 5.45l3.35 2.62C7.18 7.7 9.39 5.94 12 5.94Z"/>
+        </svg>
+        <span>Continue with Google</span>
+      </button>
+      <div class="auth-divider"><span>or continue with email</span></div>
+      <div class="auth-tabs">
+        <button class="active" data-auth-tab="login" type="button">Sign in</button>
+        <button data-auth-tab="signup" type="button">Create account</button>
+      </div>
+      <form id="login-form" class="auth-form">
+        <label>Email<input id="login-email" type="email" autocomplete="email" placeholder="name@example.com" required></label>
+        <label>Password<input id="login-password" type="password" autocomplete="current-password" placeholder="Enter your password" minlength="8" required></label>
+        <button class="button primary" type="submit">Sign in</button>
+      </form>
+      <form id="signup-form" class="auth-form" hidden>
+        <label>Email<input id="signup-email" type="email" autocomplete="email" placeholder="name@example.com" required></label>
+        <label>Password<input id="signup-password" type="password" autocomplete="new-password" placeholder="Create a secure password" minlength="8" required></label>
+        <small>Use at least 8 characters. Never reuse your API-key password.</small>
+        <button class="button primary" type="submit">Create account</button>
+      </form>
+      <p id="auth-status" class="auth-status" role="status"></p>
+      <a class="back-link" href="/">← Back to website</a>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js?v=20260902-google-auth"></script>
+</body>
+</html>
