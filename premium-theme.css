@@ -1,0 +1,22 @@
+:root{--bg:#030816;--soft:#071127;--panel:#0b1630;--border:rgba(116,155,255,.22);--purple:#ff4fb8;--purple2:#ff8bd3;--cyan:#65a7ff;--text:#f8fbff;--muted:#9aa9c5;--green:#54e6b0}
+body{background:
+radial-gradient(circle at 14% 6%,rgba(38,99,235,.18),transparent 34%),
+radial-gradient(circle at 86% 12%,rgba(255,79,184,.14),transparent 30%),
+linear-gradient(180deg,#030816 0%,#061127 50%,#030816 100%);}
+header{background:rgba(3,8,22,.82);border-bottom:1px solid rgba(101,167,255,.12);box-shadow:0 8px 35px rgba(0,0,0,.24)}
+.glow-a{background:#ff4fb8;opacity:.16}.glow-b{background:#2775ff;opacity:.16}
+.brand-mark{color:#fff;background:linear-gradient(135deg,#246bff,#ff4fb8);box-shadow:0 0 34px rgba(74,116,255,.35)}
+.panel{background:linear-gradient(145deg,rgba(13,29,61,.95),rgba(5,12,29,.96));border-color:rgba(114,149,255,.22);box-shadow:0 26px 80px rgba(0,0,0,.36),inset 0 1px 0 rgba(255,255,255,.035)}
+h1 span,.store-heading em,.api-support h2 span{background:linear-gradient(100deg,#6aa8ff,#ff6fc5);-webkit-background-clip:text;background-clip:text;color:transparent}
+.primary{color:#fff;background:linear-gradient(110deg,#246bff,#ff4fb8);box-shadow:0 14px 38px rgba(36,107,255,.28)}
+.secondary,.nav-account{background:rgba(255,255,255,.035);border-color:rgba(114,149,255,.22)}
+.eyebrow,.kicker,.heading>span{color:#7db3ff}.eyebrow{border-color:rgba(101,167,255,.22);background:rgba(101,167,255,.08)}
+.trust-strip{background:linear-gradient(90deg,rgba(36,107,255,.09),rgba(255,79,184,.07));border-color:rgba(114,149,255,.12)}
+.account-product{transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}.account-product:hover{transform:translateY(-6px);border-color:rgba(255,111,197,.45);box-shadow:0 28px 70px rgba(0,0,0,.38),0 0 0 1px rgba(101,167,255,.08)}
+.account-product:first-child{border-color:rgba(255,111,197,.52);box-shadow:0 28px 80px rgba(0,0,0,.4),0 0 32px rgba(255,79,184,.11)}
+.product-tag{color:#8dbaff!important}.stock-line .in-stock{color:#54e6b0!important}
+.tinted{background:linear-gradient(180deg,rgba(9,23,52,.62),rgba(3,8,22,.9));border-color:rgba(114,149,255,.1)}
+.wallet[data-network-card].active{border-color:rgba(255,111,197,.56);box-shadow:0 0 0 2px rgba(255,79,184,.08),0 24px 70px rgba(0,0,0,.34)}
+.copy{color:#7db3ff;border-color:rgba(101,167,255,.22);background:rgba(101,167,255,.07)}
+footer{background:rgba(2,7,18,.62)}
+@media(max-width:860px){nav{background:#071127;border-color:rgba(114,149,255,.22)}}
