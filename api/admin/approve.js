@@ -3,17 +3,30 @@ import { json, requireAdmin, serviceRequest } from '../_supabase.js';
 const emailPattern=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const txPattern=/^(?:0x)?[a-fA-F0-9]{64}$/;
 
+async function findAuthUserByEmail(ctx,email){
+  for(let page=1;page<=10;page++){
+    const response=await fetch(`${ctx.url}/auth/v1/admin/users?page=${page}&per_page=1000`,{
+      headers:{apikey:ctx.service,authorization:`Bearer ${ctx.service}`}
+    });
+    const body=await response.json().catch(()=>({}));
+    if(!response.ok)throw new Error(body?.msg||body?.message||'Could not search registered customers.');
+    const users=Array.isArray(body?.users)?body.users:Array.isArray(body)?body:[];
+    const found=users.find(user=>String(user?.email||'').toLowerCase()===email);
+    if(found)return found;
+    if(users.length<1000)break;
+  }
+  return null;
+}
+
 async function reassignDeposit(ctx,req,res){
   const email=String(req.body?.email||'').trim().toLowerCase();
   const transactionId=String(req.body?.transactionId||'').trim();
   if(!emailPattern.test(email))return json(res,400,{error:'Enter a valid customer email.'});
   if(!txPattern.test(transactionId))return json(res,400,{error:'Enter the full valid transaction ID.'});
 
-  const profileResponse=await serviceRequest(ctx,`profiles?select=id,email&email=eq.${encodeURIComponent(email)}&limit=1`);
-  const profiles=await profileResponse.json().catch(()=>[]);
-  const profile=Array.isArray(profiles)?profiles[0]:null;
-  if(!profileResponse.ok)return json(res,502,{error:profiles?.message||'Could not find customer.'});
-  if(!profile?.id)return json(res,404,{error:'No registered account was found for this email.'});
+  let customer;
+  try{customer=await findAuthUserByEmail(ctx,email)}catch(error){return json(res,502,{error:error.message});}
+  if(!customer?.id)return json(res,404,{error:'No registered account was found for this email.'});
 
   const depositResponse=await serviceRequest(ctx,`deposits?select=id,user_id,status,amount_usdt,transaction_id&transaction_id=eq.${encodeURIComponent(transactionId)}&limit=1`);
   const deposits=await depositResponse.json().catch(()=>[]);
@@ -21,16 +34,16 @@ async function reassignDeposit(ctx,req,res){
   if(!depositResponse.ok)return json(res,502,{error:deposits?.message||'Could not find deposit.'});
   if(!deposit?.id)return json(res,404,{error:'No deposit was found for this TxID.'});
   if(deposit.status!=='pending')return json(res,409,{error:'Only pending deposits can be reassigned safely.'});
-  if(deposit.user_id===profile.id)return json(res,200,{reassigned:false,email:profile.email,depositId:deposit.id,message:'Deposit is already linked to this customer.'});
+  if(deposit.user_id===customer.id)return json(res,200,{reassigned:false,email:customer.email,depositId:deposit.id,message:'Deposit is already linked to this customer.'});
 
   const updateResponse=await serviceRequest(ctx,`deposits?id=eq.${encodeURIComponent(deposit.id)}`,{
     method:'PATCH',
     headers:{Prefer:'return=representation'},
-    body:JSON.stringify({user_id:profile.id,admin_note:`Reassigned by admin to ${profile.email}`})
+    body:JSON.stringify({user_id:customer.id,admin_note:`Reassigned by admin to ${customer.email}`})
   });
   const updated=await updateResponse.json().catch(()=>[]);
   if(!updateResponse.ok)return json(res,400,{error:updated?.message||'Could not reassign deposit.'});
-  return json(res,200,{reassigned:true,email:profile.email,depositId:deposit.id,amount:deposit.amount_usdt});
+  return json(res,200,{reassigned:true,email:customer.email,depositId:deposit.id,amount:deposit.amount_usdt});
 }
 
 export default async function handler(req, res) {
