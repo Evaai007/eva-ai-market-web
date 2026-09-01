@@ -1,0 +1,74 @@
+@media (max-width: 700px) {
+  .dash-card .table-wrap {
+    overflow: visible;
+  }
+
+  #order-rows,
+  #order-rows tr,
+  #order-rows td {
+    display: block;
+    width: 100%;
+  }
+
+  #order-rows tr {
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+
+  #order-rows td {
+    padding: 8px 0;
+    border: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  #order-rows td::before {
+    display: block;
+    margin-bottom: 3px;
+    color: #aaa3be;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  #order-rows td:nth-child(1)::before { content: 'Date'; }
+  #order-rows td:nth-child(2)::before { content: 'Product'; }
+  #order-rows td:nth-child(3)::before { content: 'Price'; }
+  #order-rows td:nth-child(4)::before { content: 'Status'; }
+  #order-rows td:nth-child(5)::before { content: 'Delivery'; }
+
+  #order-rows + * { clear: both; }
+
+  #order-rows:empty::after {
+    content: 'No orders yet.';
+    display: block;
+    color: #aaa3be;
+  }
+
+  #order-rows {
+    min-width: 0;
+  }
+
+  #order-rows tr > td:first-child {
+    padding-left: 0;
+  }
+
+  #order-rows tr > td:last-child {
+    padding-right: 0;
+  }
+
+  #order-rows ~ * {
+    max-width: 100%;
+  }
+
+  .dash-card:has(#order-rows) table,
+  .dash-card:has(#order-rows) thead {
+    display: block;
+    width: 100%;
+  }
+
+  .dash-card:has(#order-rows) thead {
+    display: none;
+  }
+}
