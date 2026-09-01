@@ -1,6 +1,6 @@
 let adminClient;
 const adminNotice = (message, error = false) => { const el=document.getElementById('admin-notice'); el.textContent=message; el.className=error?'dash-notice error':'dash-notice success'; };
-const escapeAdmin = value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+const escapeAdmin = value => String(value ?? '').replace(/[&<>'\"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[c]));
 
 async function adminFetch(path, options = {}, retry = true) {
   let { data: { session } } = await adminClient.auth.getSession();
@@ -39,8 +39,16 @@ async function initAdmin() {
 
 async function loadDeposits() {
   const { deposits } = await adminFetch(`/api/admin/deposits?refresh=${Date.now()}`, { cache:'no-store', headers:{ 'cache-control':'no-cache' } });
-  document.getElementById('admin-deposit-rows').innerHTML = deposits.length ? deposits.map(item => `<tr><td>${new Date(item.created_at).toLocaleString()}</td><td>${escapeAdmin(item.profile?.email || item.user_id)}</td><td>${escapeAdmin(item.network)}</td><td>${Number(item.amount_usdt).toFixed(2)} USDT</td><td><code title="${escapeAdmin(item.transaction_id)}">${escapeAdmin(item.transaction_id.slice(0,10))}…</code></td><td><span class="status ${escapeAdmin(item.status)}">${escapeAdmin(item.status)}</span></td><td>${item.status==='pending'?`<button class="approve-button" data-id="${item.id}">Approve</button>`:'—'}</td></tr>`).join('') : '<tr><td colspan="7" class="empty">No deposits yet.</td></tr>';
+  document.getElementById('admin-deposit-rows').innerHTML = deposits.length ? deposits.map(item => {
+    const action = item.status==='pending'
+      ? `<button class="approve-button" data-id="${item.id}">Approve</button>`
+      : item.status==='approved'
+        ? `<button class="repair-button button secondary small-button" data-id="${item.id}">Repair balance</button>`
+        : '—';
+    return `<tr><td>${new Date(item.created_at).toLocaleString()}</td><td>${escapeAdmin(item.profile?.email || item.user_id)}</td><td>${escapeAdmin(item.network)}</td><td>${Number(item.amount_usdt).toFixed(2)} USDT</td><td><code title="${escapeAdmin(item.transaction_id)}">${escapeAdmin(item.transaction_id.slice(0,10))}…</code></td><td><span class="status ${escapeAdmin(item.status)}">${escapeAdmin(item.status)}</span></td><td>${action}</td></tr>`;
+  }).join('') : '<tr><td colspan="7" class="empty">No deposits yet.</td></tr>';
   document.querySelectorAll('.approve-button').forEach(button => button.addEventListener('click', () => approve(button)));
+  document.querySelectorAll('.repair-button').forEach(button => button.addEventListener('click', () => repairBalance(button)));
 }
 
 async function approve(button) {
@@ -48,6 +56,16 @@ async function approve(button) {
   button.disabled=true; adminNotice('Approving payment…');
   try { await adminFetch('/api/admin/approve',{method:'POST',body:JSON.stringify({depositId:button.dataset.id})}); adminNotice('Payment approved and balance added.'); await loadDeposits(); }
   catch(error){ adminNotice(error.message,true); button.disabled=false; }
+}
+
+async function repairBalance(button) {
+  if(!confirm('Repair this approved deposit only if the customer balance was not credited?')) return;
+  button.disabled=true; adminNotice('Checking and repairing customer balance…');
+  try {
+    const result=await adminFetch('/api/admin/approve',{method:'POST',body:JSON.stringify({depositId:button.dataset.id,repair:true})});
+    adminNotice(result.repaired?'Balance repaired successfully.':'No repair was needed; this deposit was already credited.');
+    await loadDeposits();
+  } catch(error){ adminNotice(error.message,true); button.disabled=false; }
 }
 
 document.getElementById('trial-credit-form').addEventListener('submit', async event => {
