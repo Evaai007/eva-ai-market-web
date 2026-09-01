@@ -1,0 +1,80 @@
+/* EVA AI MARKET — admin mobile premium layout */
+body.dashboard-page{overflow-x:hidden}
+#deposits,#orders,#inventory,.trial-card{scroll-margin-top:88px}
+
+@media(max-width:760px){
+  .dashboard-page header{position:sticky;top:0}
+  .dashboard-page header .nav-wrap{min-height:60px;gap:10px}
+  .dashboard-page header .brand{min-width:0;gap:9px}
+  .dashboard-page header .brand-mark{width:36px;height:36px;min-width:36px;border-radius:11px}
+  .dashboard-page header .brand span:last-child{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dashboard-page header .button{min-height:38px;padding:0 11px;font-size:11px;white-space:nowrap}
+
+  .dash-main{padding-top:14px;padding-bottom:44px}
+  .dash-heading{margin-bottom:14px;padding:18px!important;gap:14px!important;border-radius:18px!important}
+  .dash-heading h1{font-size:28px!important;line-height:1.08;margin:5px 0 8px}
+  .dash-heading p{font-size:13px;line-height:1.55}
+  .dash-heading .button,.dash-heading button{min-height:46px}
+
+  .admin-quick-nav{display:grid!important;grid-template-columns:1fr!important;gap:10px!important;margin:0 0 14px!important}
+  .admin-quick-nav a{padding:14px 15px!important;border-radius:14px!important;background:linear-gradient(135deg,rgba(13,31,68,.95),rgba(5,15,36,.96))!important;box-shadow:0 12px 34px rgba(0,0,0,.22)}
+  .admin-quick-nav a:nth-child(1){border-color:rgba(85,199,255,.35)}
+  .admin-quick-nav a:nth-child(2){border-color:rgba(255,79,186,.35)}
+  .admin-quick-nav a:nth-child(3){border-color:rgba(155,92,255,.35)}
+  .admin-quick-nav a span{font-size:11px;line-height:1.45}
+
+  .dash-card{margin-top:14px!important;padding:16px!important;border-radius:18px!important;overflow:hidden}
+  .dash-card h2{font-size:20px!important;margin-bottom:12px!important}
+  .safe-note{font-size:12px;line-height:1.55}
+
+  .table-wrap{overflow:visible!important;border:0!important;background:transparent!important}
+  .table-wrap table,.table-wrap thead,.table-wrap tbody,.table-wrap tr,.table-wrap td{display:block;width:100%}
+  .table-wrap thead{display:none!important}
+  .table-wrap tbody{min-width:0!important}
+  .table-wrap tbody tr{margin:0 0 12px;padding:14px;border:1px solid rgba(96,136,239,.24);border-radius:16px;background:linear-gradient(145deg,rgba(10,25,55,.97),rgba(4,12,29,.98));box-shadow:0 14px 36px rgba(0,0,0,.26)}
+  .table-wrap tbody tr:last-child{margin-bottom:0}
+  .table-wrap tbody td{display:flex!important;align-items:flex-start;justify-content:space-between;gap:14px;padding:8px 0!important;border:0!important;font-size:13px;line-height:1.45;white-space:normal!important;overflow-wrap:anywhere;text-align:right}
+  .table-wrap tbody td::before{flex:0 0 88px;display:block;color:#8fa0bf;font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;text-align:left}
+  .table-wrap tbody td>*{max-width:calc(100% - 96px)}
+  .table-wrap input,.table-wrap select,.table-wrap textarea,.table-wrap button{max-width:100%;width:100%;margin-top:4px}
+  .table-wrap textarea{min-height:86px!important;padding:11px 12px!important}
+  .table-wrap button{min-height:42px}
+
+  #admin-deposit-rows td:nth-child(1)::before{content:'Date'}
+  #admin-deposit-rows td:nth-child(2)::before{content:'Customer'}
+  #admin-deposit-rows td:nth-child(3)::before{content:'Network'}
+  #admin-deposit-rows td:nth-child(4)::before{content:'Amount'}
+  #admin-deposit-rows td:nth-child(5)::before{content:'TXID'}
+  #admin-deposit-rows td:nth-child(6)::before{content:'Status'}
+  #admin-deposit-rows td:nth-child(7)::before{content:'Action'}
+
+  #admin-order-rows td:nth-child(1)::before{content:'Date'}
+  #admin-order-rows td:nth-child(2)::before{content:'Customer'}
+  #admin-order-rows td:nth-child(3)::before{content:'Product'}
+  #admin-order-rows td:nth-child(4)::before{content:'Price'}
+  #admin-order-rows td:nth-child(5)::before{content:'Status'}
+  #admin-order-rows td:nth-child(6)::before{content:'Delivery'}
+  #admin-order-rows td:nth-child(7)::before{content:'Action'}
+
+  #admin-deposit-rows td:nth-child(5),#admin-order-rows td:nth-child(6){flex-direction:column;align-items:stretch;text-align:left}
+  #admin-deposit-rows td:nth-child(5)::before,#admin-order-rows td:nth-child(6)::before{flex-basis:auto}
+  #admin-deposit-rows td:last-child,#admin-order-rows td:last-child{flex-direction:column;align-items:stretch;text-align:left;padding-top:12px!important;border-top:1px solid rgba(96,136,239,.14)!important}
+  #admin-deposit-rows td:last-child::before,#admin-order-rows td:last-child::before{flex-basis:auto;margin-bottom:4px}
+
+  .admin-product-grid{grid-template-columns:1fr!important;gap:12px!important}
+  .admin-product-card{padding:15px!important;border-radius:16px!important;box-shadow:0 14px 36px rgba(0,0,0,.24)}
+  .admin-product-card input,.admin-product-card select{min-height:44px!important}
+
+  .trial-form{grid-template-columns:1fr!important;gap:12px!important}
+  .trial-form .button{width:100%!important;min-width:0!important}
+}
+
+@media(max-width:390px){
+  .dashboard-page .container{width:calc(100% - 12px)!important}
+  .dashboard-page header .brand span:last-child{max-width:135px}
+  .dash-heading{padding:15px!important}
+  .dash-card{padding:14px!important}
+  .table-wrap tbody tr{padding:12px}
+  .table-wrap tbody td{gap:10px}
+  .table-wrap tbody td::before{flex-basis:76px}
+}
