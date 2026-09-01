@@ -16,12 +16,45 @@ body.dashboard-page{overflow-x:hidden}
   .dash-heading p{font-size:13px;line-height:1.55}
   .dash-heading .button,.dash-heading button{min-height:46px}
 
-  .admin-quick-nav{display:grid!important;grid-template-columns:1fr!important;gap:10px!important;margin:0 0 14px!important}
-  .admin-quick-nav a{padding:14px 15px!important;border-radius:14px!important;background:linear-gradient(135deg,rgba(13,31,68,.95),rgba(5,15,36,.96))!important;box-shadow:0 12px 34px rgba(0,0,0,.22)}
-  .admin-quick-nav a:nth-child(1){border-color:rgba(85,199,255,.35)}
-  .admin-quick-nav a:nth-child(2){border-color:rgba(255,79,186,.35)}
-  .admin-quick-nav a:nth-child(3){border-color:rgba(155,92,255,.35)}
-  .admin-quick-nav a span{font-size:11px;line-height:1.45}
+  .admin-quick-nav{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+    width:100%!important;
+    margin:0 0 18px!important;
+    padding:0!important;
+    background:transparent!important;
+    border:0!important;
+    box-shadow:none!important;
+  }
+  .admin-quick-nav a{
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:center!important;
+    align-items:flex-start!important;
+    width:100%!important;
+    min-height:96px!important;
+    margin:0!important;
+    padding:18px!important;
+    border-radius:18px!important;
+    border:1px solid rgba(96,136,239,.28)!important;
+    background:linear-gradient(145deg,rgba(10,25,55,.98),rgba(4,12,29,.98))!important;
+    box-shadow:0 14px 36px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.035)!important;
+    color:#f7f9ff!important;
+    text-decoration:none!important;
+    line-height:1.25!important;
+  }
+  .admin-quick-nav a:nth-child(1){border-color:rgba(85,199,255,.42)!important;box-shadow:0 14px 36px rgba(0,0,0,.24),0 0 22px rgba(85,199,255,.08)!important}
+  .admin-quick-nav a:nth-child(2){border-color:rgba(255,79,186,.42)!important;box-shadow:0 14px 36px rgba(0,0,0,.24),0 0 22px rgba(255,79,186,.08)!important}
+  .admin-quick-nav a:nth-child(3){border-color:rgba(155,92,255,.42)!important;box-shadow:0 14px 36px rgba(0,0,0,.24),0 0 22px rgba(155,92,255,.08)!important}
+  .admin-quick-nav a span{
+    display:block!important;
+    margin-top:7px!important;
+    color:#95a6c8!important;
+    font-size:12px!important;
+    font-weight:600!important;
+    line-height:1.45!important;
+  }
 
   .dash-card{margin-top:14px!important;padding:16px!important;border-radius:18px!important;overflow:hidden}
   .dash-card h2{font-size:20px!important;margin-bottom:12px!important}
@@ -74,6 +107,8 @@ body.dashboard-page{overflow-x:hidden}
   .dashboard-page header .brand span:last-child{max-width:135px}
   .dash-heading{padding:15px!important}
   .dash-card{padding:14px!important}
+  .admin-quick-nav{gap:10px!important;margin-bottom:14px!important}
+  .admin-quick-nav a{min-height:88px!important;padding:16px!important;border-radius:16px!important}
   .table-wrap tbody tr{padding:12px}
   .table-wrap tbody td{gap:10px}
   .table-wrap tbody td::before{flex-basis:76px}
