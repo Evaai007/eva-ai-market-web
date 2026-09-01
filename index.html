@@ -70,5 +70,19 @@
   <footer><div class="container footer"><a class="brand" href="/"><span class="brand-mark">E</span><span>EVA <b>AI</b> MARKET</span></a><p>Premium AI, cloud and official API support—delivered worldwide. EVA AI MARKET is an independent service provider.</p><small>© 2026 EVA AI MARKET</small></div></footer>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <form id="payment-form" hidden><input id="telegram"><input id="amount" value="10"><select id="product"><option>Store product</option></select><select id="network"><option>TRC20</option><option>BEP20</option><option>ERC20</option></select><input id="txid"><span data-error="telegram"></span><span data-error="amount"></span><span data-error="txid"></span></form>
-  <script src="app.js?v=20260826-premium-migration"></script>
+  <script src="app.js?v=20260901-featured-bundle"></script>
+  <script>
+    window.sortStoreProducts=function(products){
+      return [...products].sort((a,b)=>{
+        const featured='aws-kiro-gcp-bundle';
+        if(a.id===featured&&b.id!==featured)return -1;
+        if(b.id===featured&&a.id!==featured)return 1;
+        const aAws=a.category==='AWS Cloud Accounts',bAws=b.category==='AWS Cloud Accounts';
+        if(aAws!==bAws)return aAws?-1:1;
+        if(!aAws)return 0;
+        const size=p=>{const text=`${p.name||''} ${p.subtitle||''}`;const match=text.match(/(\d{1,4})\s*(?:v?cpu|v\b)/i);return match?Number(match[1]):Number((p.name||'').match(/\d{1,4}/)?.[0]||0)};
+        return size(b)-size(a);
+      });
+    };
+  </script>
 </body></html>
