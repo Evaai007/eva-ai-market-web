@@ -2,6 +2,23 @@
 body.dashboard-page{overflow-x:hidden}
 #deposits,#orders,#inventory,.trial-card{scroll-margin-top:88px}
 
+/* Keep the admin section menu in normal document flow. This intentionally
+   overrides the public-site mobile nav rules applied to all <nav> elements. */
+.dashboard-page .admin-quick-nav{
+  position:static!important;
+  inset:auto!important;
+  top:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  left:auto!important;
+  z-index:auto!important;
+  transform:none!important;
+  float:none!important;
+  overflow:visible!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+
 @media(max-width:760px){
   .dashboard-page header{position:sticky;top:0}
   .dashboard-page header .nav-wrap{min-height:60px;gap:10px}
@@ -10,30 +27,52 @@ body.dashboard-page{overflow-x:hidden}
   .dashboard-page header .brand span:last-child{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .dashboard-page header .button{min-height:38px;padding:0 11px;font-size:11px;white-space:nowrap}
 
-  .dash-main{padding-top:14px;padding-bottom:44px}
-  .dash-heading{margin-bottom:14px;padding:18px!important;gap:14px!important;border-radius:18px!important}
-  .dash-heading h1{font-size:28px!important;line-height:1.08;margin:5px 0 8px}
-  .dash-heading p{font-size:13px;line-height:1.55}
-  .dash-heading .button,.dash-heading button{min-height:46px}
+  .dashboard-page .dash-main{display:block!important;padding-top:14px;padding-bottom:44px}
+  .dashboard-page .dash-heading{
+    position:relative!important;
+    display:flex!important;
+    flex-direction:column!important;
+    width:100%!important;
+    min-height:0!important;
+    margin:0 0 14px!important;
+    padding:18px!important;
+    gap:14px!important;
+    border-radius:18px!important;
+    overflow:hidden!important;
+  }
+  .dashboard-page .dash-heading>div{position:relative!important;z-index:1!important;width:100%!important}
+  .dashboard-page .dash-heading h1{font-size:28px!important;line-height:1.08;margin:5px 0 8px}
+  .dashboard-page .dash-heading p{font-size:13px;line-height:1.55}
+  .dashboard-page .dash-heading .button,.dashboard-page .dash-heading button{width:100%!important;min-height:46px}
 
-  .admin-quick-nav{
+  .dashboard-page .admin-quick-nav{
+    position:static!important;
     display:grid!important;
     grid-template-columns:1fr!important;
     gap:12px!important;
     width:100%!important;
+    max-width:none!important;
+    height:auto!important;
+    min-height:0!important;
     margin:0 0 18px!important;
     padding:0!important;
     background:transparent!important;
     border:0!important;
+    border-radius:0!important;
     box-shadow:none!important;
   }
-  .admin-quick-nav a{
+  .dashboard-page .admin-quick-nav a{
+    position:relative!important;
+    inset:auto!important;
     display:flex!important;
     flex-direction:column!important;
     justify-content:center!important;
     align-items:flex-start!important;
     width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
     min-height:96px!important;
+    height:auto!important;
     margin:0!important;
     padding:18px!important;
     border-radius:18px!important;
@@ -43,11 +82,12 @@ body.dashboard-page{overflow-x:hidden}
     color:#f7f9ff!important;
     text-decoration:none!important;
     line-height:1.25!important;
+    transform:none!important;
   }
-  .admin-quick-nav a:nth-child(1){border-color:rgba(85,199,255,.42)!important;box-shadow:0 14px 36px rgba(0,0,0,.24),0 0 22px rgba(85,199,255,.08)!important}
-  .admin-quick-nav a:nth-child(2){border-color:rgba(255,79,186,.42)!important;box-shadow:0 14px 36px rgba(0,0,0,.24),0 0 22px rgba(255,79,186,.08)!important}
-  .admin-quick-nav a:nth-child(3){border-color:rgba(155,92,255,.42)!important;box-shadow:0 14px 36px rgba(0,0,0,.24),0 0 22px rgba(155,92,255,.08)!important}
-  .admin-quick-nav a span{
+  .dashboard-page .admin-quick-nav a:nth-child(1){border-color:rgba(85,199,255,.42)!important;box-shadow:0 14px 36px rgba(0,0,0,.24),0 0 22px rgba(85,199,255,.08)!important}
+  .dashboard-page .admin-quick-nav a:nth-child(2){border-color:rgba(255,79,186,.42)!important;box-shadow:0 14px 36px rgba(0,0,0,.24),0 0 22px rgba(255,79,186,.08)!important}
+  .dashboard-page .admin-quick-nav a:nth-child(3){border-color:rgba(155,92,255,.42)!important;box-shadow:0 14px 36px rgba(0,0,0,.24),0 0 22px rgba(155,92,255,.08)!important}
+  .dashboard-page .admin-quick-nav a span{
     display:block!important;
     margin-top:7px!important;
     color:#95a6c8!important;
@@ -56,8 +96,8 @@ body.dashboard-page{overflow-x:hidden}
     line-height:1.45!important;
   }
 
-  .dash-card{margin-top:14px!important;padding:16px!important;border-radius:18px!important;overflow:hidden}
-  .dash-card h2{font-size:20px!important;margin-bottom:12px!important}
+  .dashboard-page .dash-card{position:relative!important;clear:both!important;width:100%!important;margin:14px 0 0!important;padding:16px!important;border-radius:18px!important;overflow:hidden}
+  .dashboard-page .dash-card h2{font-size:20px!important;margin-bottom:12px!important}
   .safe-note{font-size:12px;line-height:1.55}
 
   .table-wrap{overflow:visible!important;border:0!important;background:transparent!important}
@@ -105,10 +145,10 @@ body.dashboard-page{overflow-x:hidden}
 @media(max-width:390px){
   .dashboard-page .container{width:calc(100% - 12px)!important}
   .dashboard-page header .brand span:last-child{max-width:135px}
-  .dash-heading{padding:15px!important}
-  .dash-card{padding:14px!important}
-  .admin-quick-nav{gap:10px!important;margin-bottom:14px!important}
-  .admin-quick-nav a{min-height:88px!important;padding:16px!important;border-radius:16px!important}
+  .dashboard-page .dash-heading{padding:15px!important}
+  .dashboard-page .dash-card{padding:14px!important}
+  .dashboard-page .admin-quick-nav{gap:10px!important;margin-bottom:14px!important}
+  .dashboard-page .admin-quick-nav a{min-height:88px!important;padding:16px!important;border-radius:16px!important}
   .table-wrap tbody tr{padding:12px}
   .table-wrap tbody td{gap:10px}
   .table-wrap tbody td::before{flex-basis:76px}
