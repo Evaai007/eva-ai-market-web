@@ -1,36 +1,224 @@
 @media (max-width: 700px) {
-  .dash-card .table-wrap {
-    overflow: visible;
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
+  .dashboard-page header .nav-wrap {
+    min-height: 58px;
+    padding: 8px 0;
+  }
+
+  .dashboard-page .brand {
+    gap: 9px;
+    min-width: 0;
+    font-size: 15px;
+    white-space: nowrap;
+  }
+
+  .dashboard-page .brand-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    flex: 0 0 36px;
+  }
+
+  .dashboard-page .key-actions,
+  .dashboard-page .key-actions .button {
+    flex: 0 0 auto;
+  }
+
+  .dashboard-page .key-actions .button {
+    min-height: 40px;
+    padding: 0 14px;
+    border-radius: 12px;
+    font-size: 13px;
+  }
+
+  .dash-main {
+    width: calc(100% - 20px) !important;
+    padding-top: 22px;
+  }
+
+  .dash-heading {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .dash-heading h1 {
+    margin: 5px 0 4px;
+    font-size: 30px;
+    line-height: 1.08;
+  }
+
+  .dash-heading p {
+    margin: 0;
+    overflow-wrap: anywhere;
+    font-size: 13px;
+  }
+
+  .dash-heading > .button {
+    width: 100%;
+  }
+
+  .metric-grid,
+  .dash-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .metric,
+  .dash-card {
+    min-width: 0;
+    border-radius: 18px !important;
+  }
+
+  .metric {
+    padding: 18px !important;
+  }
+
+  .metric strong {
+    font-size: 30px;
+  }
+
+  .dash-card {
+    padding: 18px !important;
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+
+  .dash-card h2 {
+    margin: 0 0 16px;
+    font-size: 24px;
+    line-height: 1.2;
+  }
+
+  .card-title-row {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .card-title-row .button {
+    flex: 0 0 auto;
+  }
+
+  .auth-form input,
+  .auth-form select,
+  .auth-form .button,
+  .deposit-address button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .deposit-address {
+    padding: 13px !important;
+  }
+
+  .deposit-address code {
+    font-size: 11px !important;
+  }
+
+  .dash-card .table-wrap {
+    overflow: visible;
+    width: 100%;
+  }
+
+  .dash-card:has(#deposit-rows) table,
+  .dash-card:has(#ledger-rows) table,
+  .dash-card:has(#order-rows) table,
+  .dash-card:has(#deposit-rows) tbody,
+  .dash-card:has(#ledger-rows) tbody,
+  .dash-card:has(#order-rows) tbody,
+  #deposit-rows,
+  #ledger-rows,
   #order-rows,
+  #deposit-rows tr,
+  #ledger-rows tr,
   #order-rows tr,
+  #deposit-rows td,
+  #ledger-rows td,
   #order-rows td {
     display: block;
     width: 100%;
   }
 
-  #order-rows tr {
-    padding: 14px 0;
-    border-bottom: 1px solid rgba(255,255,255,.08);
+  .dash-card:has(#deposit-rows) thead,
+  .dash-card:has(#ledger-rows) thead,
+  .dash-card:has(#order-rows) thead {
+    display: none;
   }
 
+  #deposit-rows,
+  #ledger-rows,
+  #order-rows {
+    min-width: 0;
+  }
+
+  #deposit-rows tr,
+  #ledger-rows tr,
+  #order-rows tr {
+    position: relative;
+    margin: 0 0 12px;
+    padding: 15px;
+    border: 1px solid rgba(91, 131, 255, .2);
+    border-radius: 16px;
+    background:
+      radial-gradient(circle at 100% 0, rgba(255, 63, 180, .08), transparent 36%),
+      linear-gradient(145deg, rgba(9, 24, 54, .98), rgba(4, 11, 29, .98));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.035), 0 12px 28px rgba(0,0,0,.22);
+  }
+
+  #deposit-rows td,
+  #ledger-rows td,
   #order-rows td {
+    display: grid;
+    grid-template-columns: minmax(90px, .8fr) minmax(0, 1.4fr);
+    gap: 12px;
+    align-items: start;
     padding: 8px 0;
     border: 0;
+    border-bottom: 1px solid rgba(255,255,255,.055);
     white-space: normal;
     overflow-wrap: anywhere;
+    text-align: right;
+    line-height: 1.45;
   }
 
-  #order-rows td::before {
-    display: block;
-    margin-bottom: 3px;
-    color: #aaa3be;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: .08em;
-    text-transform: uppercase;
+  #deposit-rows td:last-child,
+  #ledger-rows td:last-child,
+  #order-rows td:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
   }
+
+  #deposit-rows td:first-child,
+  #ledger-rows td:first-child,
+  #order-rows td:first-child {
+    padding-top: 0;
+  }
+
+  #deposit-rows td::before,
+  #ledger-rows td::before,
+  #order-rows td::before {
+    color: #8ea2c9;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    text-align: left;
+  }
+
+  #deposit-rows td:nth-child(1)::before { content: 'Date'; }
+  #deposit-rows td:nth-child(2)::before { content: 'Network'; }
+  #deposit-rows td:nth-child(3)::before { content: 'Amount'; }
+  #deposit-rows td:nth-child(4)::before { content: 'Status'; }
+
+  #ledger-rows td:nth-child(1)::before { content: 'Date'; }
+  #ledger-rows td:nth-child(2)::before { content: 'Type'; }
+  #ledger-rows td:nth-child(3)::before { content: 'Change'; }
+  #ledger-rows td:nth-child(4)::before { content: 'Balance'; }
 
   #order-rows td:nth-child(1)::before { content: 'Date'; }
   #order-rows td:nth-child(2)::before { content: 'Product'; }
@@ -38,37 +226,63 @@
   #order-rows td:nth-child(4)::before { content: 'Status'; }
   #order-rows td:nth-child(5)::before { content: 'Delivery'; }
 
-  #order-rows + * { clear: both; }
-
-  #order-rows:empty::after {
-    content: 'No orders yet.';
-    display: block;
-    color: #aaa3be;
+  #deposit-rows td:nth-child(4),
+  #order-rows td:nth-child(4) {
+    font-weight: 800;
   }
 
-  #order-rows {
+  #ledger-rows td:nth-child(3) {
+    font-weight: 800;
+  }
+
+  #deposit-rows:empty::after,
+  #ledger-rows:empty::after,
+  #order-rows:empty::after {
+    display: block;
+    padding: 18px;
+    border: 1px dashed rgba(100, 140, 255, .22);
+    border-radius: 14px;
+    color: #8fa1c0;
+    text-align: center;
+    background: rgba(7, 18, 43, .55);
+  }
+
+  #deposit-rows:empty::after { content: 'No deposits yet.'; }
+  #ledger-rows:empty::after { content: 'No balance activity yet.'; }
+  #order-rows:empty::after { content: 'No orders yet.'; }
+
+  .compact-store {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .compact-store .account-product {
     min-width: 0;
   }
 
-  #order-rows tr > td:first-child {
-    padding-left: 0;
+  .dashboard-page footer .footer {
+    gap: 14px;
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+}
+
+@media (max-width: 420px) {
+  .dashboard-page .brand span:last-child {
+    max-width: 155px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  #order-rows tr > td:last-child {
-    padding-right: 0;
+  .dash-card {
+    padding: 15px !important;
   }
 
-  #order-rows ~ * {
-    max-width: 100%;
-  }
-
-  .dash-card:has(#order-rows) table,
-  .dash-card:has(#order-rows) thead {
-    display: block;
-    width: 100%;
-  }
-
-  .dash-card:has(#order-rows) thead {
-    display: none;
+  #deposit-rows td,
+  #ledger-rows td,
+  #order-rows td {
+    grid-template-columns: 82px minmax(0, 1fr);
+    gap: 10px;
+    font-size: 13px;
   }
 }
