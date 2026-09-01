@@ -1,6 +1,5 @@
 let evaClient;
 const statusEl = document.getElementById('auth-status');
-const googleButton = document.getElementById('google-auth-button');
 const showStatus = (message, error = false) => {
   statusEl.textContent = message;
   statusEl.className = error ? 'auth-status error' : 'auth-status success';
@@ -18,20 +17,6 @@ async function init() {
     showStatus(error.message, true);
   }
 }
-
-googleButton.addEventListener('click', async () => {
-  if (!evaClient) return showStatus('Authentication is still loading. Please try again.', true);
-  googleButton.disabled = true;
-  showStatus('Opening Google sign in…');
-  const { error } = await evaClient.auth.signInWithOAuth({
-    provider: 'google',
-    options: { redirectTo: `${location.origin}/dashboard.html` }
-  });
-  if (error) {
-    googleButton.disabled = false;
-    showStatus(error.message, true);
-  }
-});
 
 document.getElementById('login-form').addEventListener('submit', async (event) => {
   event.preventDefault();
