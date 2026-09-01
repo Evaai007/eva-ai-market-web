@@ -36,11 +36,27 @@ async function submitDepositWithRefresh(req,res){
  });
  const insertBody=await insertResponse.json().catch(()=>({}));
  if(!insertResponse.ok){
-  const message=insertBody?.code==='23505'?'This transaction ID was already submitted.':insertBody?.message||'Deposit submission failed.';
-  return json(res,insertBody?.code==='23505'?409:400,{error:message});
+  if(insertBody?.code==='23505'){
+   const existingResponse=await serviceRequest(ctx,`deposits?select=id,user_id,status,amount_usdt,network&transaction_id=eq.${encodeURIComponent(transactionId)}&limit=1`);
+   const existingBody=await existingResponse.json().catch(()=>[]);
+   const existing=Array.isArray(existingBody)?existingBody[0]:null;
+   if(existingResponse.ok&&existing?.user_id===tokenBody.user.id){
+    return json(res,200,{
+     submitted:true,
+     already_submitted:true,
+     status:existing.status,
+     amount:existing.amount_usdt,
+     access_token:tokenBody.access_token,
+     refresh_token:tokenBody.refresh_token
+    });
+   }
+   return json(res,409,{error:'This transaction ID was already used by another account. Contact support with the TxID.'});
+  }
+  return json(res,400,{error:insertBody?.message||'Deposit submission failed.'});
  }
  return json(res,200,{
   submitted:true,
+  already_submitted:false,
   access_token:tokenBody.access_token,
   refresh_token:tokenBody.refresh_token
  });
