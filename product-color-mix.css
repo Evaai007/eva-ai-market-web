@@ -90,3 +90,20 @@
     box-shadow:0 18px 48px rgba(0,0,0,.36),0 0 22px var(--card-glow),inset 0 1px 0 rgba(255,255,255,.04)!important;
   }
 }
+
+
+/* Keep the featured badge subtle instead of covering the whole card */
+#public-store-products .account-product:first-child::before{
+  inset:0 auto auto 0!important;
+  right:auto!important;
+  bottom:auto!important;
+  color:#dce9ff!important;
+  background:linear-gradient(90deg,rgba(45,91,174,.96),rgba(92,63,160,.96))!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.22)!important;
+}
+#public-store-products .account-product:nth-child(6n+1){
+  --card-a:rgba(100,66,180,.14);
+  --card-b:rgba(35,105,190,.15);
+  --card-border:rgba(100,112,205,.42);
+  --card-glow:rgba(70,91,185,.12);
+}
