@@ -8,8 +8,8 @@ const bedrockProvider=[...document.querySelectorAll('.provider')].find(provider=
 if(bedrockProvider){const status=bedrockProvider.querySelector('small'),indicator=bedrockProvider.querySelector(':scope > span');if(status)status.textContent='Status: Live & Available';if(indicator)indicator.textContent='✓'}
 
 const heroButtons=document.querySelector('.hero .buttons');
-if(heroButtons){const fundButton=[...heroButtons.querySelectorAll('a')].find(link=>/Add Balance|Fund/i.test(link.textContent));if(fundButton){fundButton.classList.remove('secondary');fundButton.classList.add('primary');fundButton.textContent='Login & Submit Deposit';fundButton.href='/login.html'}const notice=document.createElement('p');notice.className='mini-note';notice.style.marginTop='14px';notice.style.padding='12px 14px';notice.style.border='1px solid rgba(65,215,232,.35)';notice.style.borderRadius='12px';notice.style.background='rgba(65,215,232,.08)';notice.innerHTML='<strong>Already paid?</strong> Log in to My Account and submit the successful payment TXID. Your balance is added only after this deposit request is approved.';heroButtons.insertAdjacentElement('afterend',notice)}
-const depositNav=[...siteNav.querySelectorAll('a')].find(link=>link.textContent.trim()==='Deposit Credits');if(depositNav){depositNav.href='/login.html';depositNav.textContent='Submit Deposit'}
+if(heroButtons){const fundButton=[...heroButtons.querySelectorAll('a')].find(link=>/Add Balance|Fund/i.test(link.textContent));if(fundButton){fundButton.classList.remove('secondary');fundButton.classList.add('primary');fundButton.textContent='Login & Submit Deposit';fundButton.href='/login.html'}const notice=document.createElement('p');notice.className='mini-note';notice.style.marginTop='14px';notice.style.padding='12px 14px';notice.style.border='1px solid rgba(65,215,232,.35)';notice.style.borderRadius='12px';notice.style.background='rgba(65,215,232,.08)';notice.innerHTML='<strong>Already paid?</strong> Submit the successful payment TXID below. Your balance is added after admin approval.';heroButtons.insertAdjacentElement('afterend',notice)}
+const depositNav=[...siteNav.querySelectorAll('a')].find(link=>link.textContent.trim()==='Deposit Credits');if(depositNav){depositNav.href='#deposit';depositNav.textContent='Submit Deposit'}
 
 function highlightPaymentNetwork(network){document.querySelectorAll('[data-network-card]').forEach(card=>card.classList.toggle('active',card.dataset.networkCard===network))}
 function isValidTelegram(value){return /^@[A-Za-z0-9_]{5,32}$/.test(value)}
@@ -19,8 +19,63 @@ networkSelect.addEventListener('change',()=>highlightPaymentNetwork(networkSelec
 highlightPaymentNetwork(networkSelect.value);
 
 const form=document.getElementById('payment-form');
-function setError(id,message){const input=document.getElementById(id);input.classList.toggle('invalid',Boolean(message));document.querySelector(`[data-error="${id}"]`).textContent=message}
-form.addEventListener('submit',event=>{event.preventDefault();const telegram=document.getElementById('telegram').value.trim(),amount=Number(document.getElementById('amount').value),product=document.getElementById('product').value,network=document.getElementById('network').value,txid=document.getElementById('txid').value.trim();const telegramOk=isValidTelegram(telegram),txidOk=isValidTransactionId(network,txid);setError('telegram',telegramOk?'':'Enter a valid username starting with @.');setError('amount',amount>=10?'':'Minimum deposit is 10 USDT.');setError('txid',txidOk?'':'Enter the completed payment TxID—not a wallet address.');if(!telegramOk||amount<10||!txidOk){showToast('Please correct the payment details');return}const message=['EVA AI MARKET — Payment Verification','',`Telegram username: ${telegram}`,`Product: ${product}`,`Amount: ${amount.toFixed(2)} USDT`,`Network: ${network}`,`Transaction ID: ${txid}`].join('\n');window.open(`https://t.me/eva007_8?text=${encodeURIComponent(message)}`,'_blank','noopener,noreferrer')});
+function setError(id,message){const input=document.getElementById(id);input.classList.toggle('invalid',Boolean(message));const target=document.querySelector(`[data-error="${id}"]`);if(target)target.textContent=message}
+
+function loadScript(src){return new Promise((resolve,reject)=>{if(document.querySelector(`script[src="${src}"]`))return resolve();const script=document.createElement('script');script.src=src;script.onload=resolve;script.onerror=reject;document.head.appendChild(script)})}
+async function createPublicDepositClient(){await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');const response=await fetch('/api/config',{cache:'no-store'});const config=await response.json().catch(()=>({}));if(!response.ok)throw new Error(config.error||'Account service unavailable.');return window.supabase.createClient(config.url,config.anonKey)}
+
+(function mountPublicDepositForm(){
+ const depositSection=document.getElementById('deposit');
+ if(!depositSection||!form)return;
+ form.hidden=false;
+ form.className='payment-form panel public-deposit-form';
+ form.innerHTML=`
+  <h3 style="margin-top:0">Submit payment for balance</h3>
+  <p class="safe-note">You must be signed in. After admin verification, the approved amount is added to your EVA balance.</p>
+  <label>Telegram username<input id="telegram" type="text" placeholder="@username" required><small data-error="telegram"></small></label>
+  <label>Amount in USDT<input id="amount" type="number" min="10" step="0.01" value="10" required><small data-error="amount"></small></label>
+  <label>Product / purpose<select id="product"><option>Wallet balance</option><option>Claude / AI subscription</option><option>AWS / Cloud service</option><option>Telegram service</option></select></label>
+  <label>Network<select id="network"><option>TRC20</option><option>BEP20</option><option>ERC20</option></select></label>
+  <label>Completed transaction ID<input id="txid" type="text" placeholder="Paste TxID / transaction hash" required><small data-error="txid"></small></label>
+  <button class="button primary submit" type="submit">Submit for verification</button>
+  <p class="form-note">Do not paste the wallet address. Use the completed transaction ID.</p>`;
+ const grid=depositSection.querySelector('.deposit-grid');
+ if(grid)grid.insertAdjacentElement('afterend',form);
+ const select=document.getElementById('network');
+ select.addEventListener('change',()=>highlightPaymentNetwork(select.value));
+ highlightPaymentNetwork(select.value);
+})();
+
+form.addEventListener('submit',async event=>{
+ event.preventDefault();
+ event.stopImmediatePropagation();
+ const button=form.querySelector('button[type="submit"]');
+ const telegram=document.getElementById('telegram').value.trim();
+ const amount=Number(document.getElementById('amount').value);
+ const network=document.getElementById('network').value;
+ const txid=document.getElementById('txid').value.trim();
+ const telegramOk=isValidTelegram(telegram),txidOk=isValidTransactionId(network,txid);
+ setError('telegram',telegramOk?'':'Enter a valid username starting with @.');
+ setError('amount',amount>=10?'':'Minimum deposit is 10 USDT.');
+ setError('txid',txidOk?'':'Enter the completed payment TxID—not a wallet address.');
+ if(!telegramOk||amount<10||!txidOk){showToast('Please correct the payment details');return}
+ const original=button.textContent;button.disabled=true;button.textContent='Submitting…';
+ try{
+  const client=await createPublicDepositClient();
+  let {data:{session}}=await client.auth.getSession();
+  if(!session){const refreshed=await client.auth.refreshSession();session=refreshed.data.session}
+  if(!session){sessionStorage.setItem('eva-return-to','/#deposit');location.href='/login.html';return}
+  const response=await fetch('/api/store',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'submit_deposit',refreshToken:session.refresh_token,amount,network,transaction_id:txid})});
+  const body=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(body.error||'Deposit submission failed.');
+  showToast('Deposit submitted for verification');
+  form.reset();
+  document.getElementById('amount').value='10';
+  document.getElementById('network').value='TRC20';
+  highlightPaymentNetwork('TRC20');
+ }catch(error){showToast(error.message||'Deposit submission failed.')}
+ finally{button.disabled=false;button.textContent=original}
+},true);
 
 function sortStoreProducts(products){return [...products].sort((a,b)=>{const aAws=a.category==='AWS Cloud Accounts',bAws=b.category==='AWS Cloud Accounts';if(aAws!==bAws)return aAws?-1:1;if(!aAws)return 0;const size=p=>{const text=`${p.name||''} ${p.subtitle||''}`;const match=text.match(/(\d{1,4})\s*(?:v?cpu|v\b)/i);return match?Number(match[1]):Number((p.name||'').match(/\d{1,4}/)?.[0]||0)};return size(b)-size(a)})}
 const telegramQuoteServices=[
