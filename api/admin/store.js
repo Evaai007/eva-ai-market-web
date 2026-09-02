@@ -5,13 +5,25 @@ const allowedStatuses = new Set(['approved','processing','delivered','cancelled'
 export default async function handler(req,res){
  const ctx=await requireAdmin(req,res);if(!ctx)return;
  if(req.method==='GET'){
-  const [pr,or]=await Promise.all([
+  const [pr,or,ur]=await Promise.all([
    serviceRequest(ctx,'store_products?select=*&order=sort_order.asc'),
-   serviceRequest(ctx,'store_orders?select=*&order=created_at.desc&limit=100')
+   serviceRequest(ctx,'store_orders?select=*&order=created_at.desc&limit=100'),
+   fetch(`${ctx.url}/auth/v1/admin/users?page=1&per_page=1000`,{
+    headers:{apikey:ctx.service,authorization:`Bearer ${ctx.service}`}
+   })
   ]);
-  const [products,orders]=await Promise.all([pr.json().catch(()=>[]),or.json().catch(()=>[])]);
+  const [products,orders,userResult]=await Promise.all([
+   pr.json().catch(()=>[]),
+   or.json().catch(()=>[]),
+   ur.json().catch(()=>({users:[]}))
+  ]);
   if(!pr.ok||!or.ok)return json(res,502,{error:products?.message||orders?.message||'Could not load store.'});
-  return json(res,200,{products,orders});
+  const emailByUserId=new Map((userResult.users||[]).map(user=>[user.id,user.email||'']));
+  const ordersWithCustomers=orders.map(order=>({
+   ...order,
+   customer_email:emailByUserId.get(order.user_id)||''
+  }));
+  return json(res,200,{products,orders:ordersWithCustomers});
  }
  if(req.method==='POST'){
   const action=String(req.body?.action||'');
