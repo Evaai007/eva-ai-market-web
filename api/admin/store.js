@@ -5,27 +5,23 @@ const allowedStatuses = new Set(['approved','processing','delivered','cancelled'
 export default async function handler(req,res){
  const ctx=await requireAdmin(req,res);if(!ctx)return;
  if(req.method==='GET'){
-  const [pr,or,wr,ur]=await Promise.all([
+  const [pr,or,ur]=await Promise.all([
    serviceRequest(ctx,'store_products?select=*&order=sort_order.asc'),
    serviceRequest(ctx,'store_orders?select=*&order=created_at.desc&limit=100'),
-   serviceRequest(ctx,'wallets?select=user_id,balance_usd'),
    fetch(`${ctx.url}/auth/v1/admin/users?page=1&per_page=1000`,{
     headers:{apikey:ctx.service,authorization:`Bearer ${ctx.service}`}
    })
   ]);
-  const [products,orders,wallets,userResult]=await Promise.all([
+  const [products,orders,userResult]=await Promise.all([
    pr.json().catch(()=>[]),
    or.json().catch(()=>[]),
-   wr.json().catch(()=>[]),
    ur.json().catch(()=>({users:[]}))
   ]);
-  if(!pr.ok||!or.ok||!wr.ok)return json(res,502,{error:products?.message||orders?.message||wallets?.message||'Could not load store.'});
+  if(!pr.ok||!or.ok)return json(res,502,{error:products?.message||orders?.message||'Could not load store.'});
   const emailByUserId=new Map((userResult.users||[]).map(user=>[user.id,user.email||'']));
-  const balanceByUserId=new Map(wallets.map(wallet=>[wallet.user_id,Number(wallet.balance_usd)]));
   const ordersWithCustomers=orders.map(order=>({
    ...order,
-   customer_email:emailByUserId.get(order.user_id)||'',
-   customer_balance:balanceByUserId.get(order.user_id)
+   customer_email:emailByUserId.get(order.user_id)||''
   }));
   return json(res,200,{products,orders:ordersWithCustomers});
  }
