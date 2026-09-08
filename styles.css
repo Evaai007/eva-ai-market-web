@@ -290,3 +290,22 @@ header{position:sticky;top:0;z-index:50;background:rgba(8,5,16,.84);backdrop-fil
  .product-cover .cover-brand{font-size:8px}
  .product-cover small{font-size:7px}
 }
+
+
+/* Preserve the original product-card system; artwork enhancement only */
+@media(max-width:600px){
+  .store-showcase .store-products{grid-template-columns:1fr;gap:18px}
+  .store-showcase .account-product{padding:0 23px 23px;border-radius:20px}
+  .product-cover{margin:0 -23px 20px;padding:18px 16px}
+  .product-cover .brand-icon-shell{width:66px;height:66px;margin-bottom:10px;border-radius:19px}
+  .product-cover strong{font-size:21px;line-height:1.08}
+  .product-cover .cover-brand{font-size:10px}
+  .product-cover small{font-size:10px}
+  .store-showcase .product-tag{position:absolute;top:16px;right:16px;margin:0;padding:5px 8px;font-size:8px}
+  .store-showcase .account-product h3{margin:17px 0 4px;font-size:21px}
+  .store-showcase .account-product>p{font-size:13px;line-height:1.5}
+  .store-showcase .account-product>strong{margin:16px 0;font-size:31px}
+  .stock-line{display:flex;gap:10px;margin-bottom:17px;text-align:left;font-size:11px}
+  .store-showcase .account-product .button{min-height:46px;padding:12px 16px;font-size:13px}
+  .aws-features{display:block}
+}
