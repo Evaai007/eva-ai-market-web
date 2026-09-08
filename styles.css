@@ -257,3 +257,36 @@ header{position:sticky;top:0;z-index:50;background:rgba(8,5,16,.84);backdrop-fil
     font-size:9px;
   }
 }
+
+
+/* 2026-09-09 embedded official-style vector product artwork */
+.product-cover .brand-icon-shell{
+  position:relative;
+  transform:perspective(320px) rotateX(7deg) rotateY(-7deg);
+  border:1px solid rgba(255,255,255,.38);
+  background:linear-gradient(145deg,rgba(255,255,255,.28),rgba(255,255,255,.055));
+  box-shadow:0 20px 38px rgba(0,0,0,.42),inset 0 1px 1px rgba(255,255,255,.42),inset 0 -10px 24px rgba(0,0,0,.12);
+}
+.product-cover .brand-icon-shell::after{
+  content:"";position:absolute;inset:8%;border-radius:inherit;
+  background:linear-gradient(145deg,rgba(255,255,255,.13),transparent 52%);
+  pointer-events:none
+}
+.brand-logo{position:relative;z-index:2;display:block;width:58%;height:58%;fill:currentColor;color:#fff;filter:drop-shadow(0 9px 13px rgba(0,0,0,.38))}
+.brand-logo-aws{width:70%;height:70%;color:#ffb44a}
+.brand-logo-claude{color:#f1a27d}
+.brand-logo-openai{color:#fff}
+.brand-logo-gemini{color:#cab8ff;filter:drop-shadow(0 0 12px rgba(174,135,255,.7))}
+.brand-logo-grok{color:#fff}
+.brand-logo-capcut{width:67%;height:67%;color:#fff}
+.brand-logo-telegram{width:64%;height:64%;color:#fff}
+.product-cover{border-radius:18px 18px 0 0}
+.product-cover::before{box-shadow:0 0 70px currentColor}
+@media(max-width:600px){
+ .store-showcase .store-products{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .product-cover{aspect-ratio:16/9;padding:9px 7px}
+ .product-cover .brand-icon-shell{width:46px;height:46px;margin-bottom:6px;border-radius:14px}
+ .product-cover strong{font-size:14px;line-height:1.08}
+ .product-cover .cover-brand{font-size:8px}
+ .product-cover small{font-size:7px}
+}
