@@ -1,0 +1,444 @@
+/* EVA AI MARKET — consolidated production UI polish
+   Keeps application behavior intact; visual consistency only. */
+
+:root{
+  --eva-bg:#050713;
+  --eva-bg-2:#090a20;
+  --eva-card:rgba(14,16,44,.90);
+  --eva-card-2:rgba(8,10,29,.96);
+  --eva-line:rgba(120,103,255,.30);
+  --eva-line-soft:rgba(255,255,255,.07);
+  --eva-purple:#a75cff;
+  --eva-pink:#f33dcc;
+  --eva-blue:#4e9cff;
+  --eva-cyan:#51d9ff;
+  --eva-green:#53e2ad;
+  --eva-danger:#ff7890;
+  --eva-text:#f7f8ff;
+  --eva-muted:#aeb5cc;
+  --eva-shadow:0 20px 55px rgba(0,0,0,.34);
+}
+html{background:var(--eva-bg)}
+body{background:
+  radial-gradient(circle at 12% -8%,rgba(112,62,255,.16),transparent 31%),
+  radial-gradient(circle at 95% 18%,rgba(50,129,255,.10),transparent 30%),
+  linear-gradient(180deg,var(--eva-bg),#060817 56%,#040610);
+  color:var(--eva-text)
+}
+.button{
+  border-radius:14px;
+  min-height:48px;
+  font-weight:800;
+  letter-spacing:-.01em;
+}
+.button.primary{
+  color:#fff;
+  background:linear-gradient(90deg,var(--eva-pink),var(--eva-purple) 52%,var(--eva-blue));
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 12px 30px rgba(112,61,255,.22)
+}
+.button.secondary{
+  color:#eef1ff;
+  background:linear-gradient(145deg,rgba(18,20,56,.92),rgba(8,10,28,.98));
+  border:1px solid rgba(118,98,255,.38)
+}
+.button:hover{transform:translateY(-1px)}
+.panel{
+  border:1px solid var(--eva-line);
+  background:
+    radial-gradient(circle at 100% 0,rgba(65,105,255,.08),transparent 35%),
+    linear-gradient(150deg,var(--eva-card),var(--eva-card-2));
+  box-shadow:var(--eva-shadow)
+}
+.kicker,.heading>span{color:var(--eva-cyan)!important}
+
+/* HOME — preserve approved hero, unify everything below it */
+.premium-home .store-showcase,
+.premium-home #api-support,
+.premium-home #deposit,
+.premium-home #delivery{
+  background-color:transparent;
+}
+.premium-home .store-heading h2,
+.premium-home .heading h2{
+  color:var(--eva-text);
+  letter-spacing:-.045em
+}
+.premium-home .store-showcase .account-product{
+  border:1px solid rgba(92,116,255,.28)!important;
+  border-radius:20px!important;
+  background:
+    radial-gradient(circle at 90% 0,rgba(69,140,255,.12),transparent 32%),
+    linear-gradient(155deg,rgba(14,20,51,.97),rgba(5,9,23,.99))!important;
+  box-shadow:0 18px 45px rgba(0,0,0,.28)!important
+}
+.premium-home .store-showcase .account-product:hover{
+  transform:translateY(-2px);
+  border-color:rgba(100,147,255,.46)!important
+}
+.premium-home .product-tag{
+  border-color:rgba(78,170,255,.25);
+  background:rgba(52,129,255,.08);
+  color:#79d9ff
+}
+.premium-home .stock-line{
+  padding-top:3px;
+  border-top:1px solid rgba(255,255,255,.05)
+}
+
+/* LOGIN */
+.account-page{
+  min-height:100dvh;
+  display:grid;
+  place-items:center;
+  padding:max(24px,env(safe-area-inset-top)) 0 max(24px,env(safe-area-inset-bottom));
+}
+.account-page .account-shell{
+  width:min(calc(100% - 28px),455px);
+  margin:auto;
+  padding:0
+}
+.account-page .account-shell>.brand{
+  width:100%;
+  justify-content:center;
+  margin:0 0 20px;
+  font-size:15px
+}
+.account-page .brand-mark{
+  background:linear-gradient(135deg,var(--eva-pink),var(--eva-purple),var(--eva-cyan));
+  color:#fff
+}
+.account-page .auth-card{
+  position:relative;
+  overflow:hidden;
+  padding:28px;
+  border-radius:24px;
+  border-color:rgba(121,89,255,.48);
+  background:
+    radial-gradient(circle at 92% 4%,rgba(78,114,255,.18),transparent 35%),
+    radial-gradient(circle at 8% 92%,rgba(224,49,255,.08),transparent 34%),
+    linear-gradient(155deg,#0d1030,#080a20 62%,#07091a)
+}
+.account-page .auth-card:before{
+  content:"";
+  position:absolute;inset:0;pointer-events:none;opacity:.12;
+  background-image:linear-gradient(rgba(108,110,255,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(108,110,255,.13) 1px,transparent 1px);
+  background-size:30px 30px
+}
+.account-page .auth-card>*{position:relative;z-index:1}
+.account-page .heading.compact{margin-bottom:22px}
+.account-page .heading.compact>span{
+  display:inline-flex;
+  padding:7px 10px;
+  border-radius:999px;
+  border:1px solid rgba(89,211,255,.20);
+  background:rgba(54,149,255,.07);
+  letter-spacing:.09em
+}
+.account-page .account-title{
+  margin:13px 0 8px;
+  font-size:clamp(34px,9vw,42px);
+  line-height:1.02
+}
+.account-page .heading p{font-size:13px;line-height:1.6}
+.account-page .auth-tabs{
+  margin:0 0 20px;
+  padding:5px;
+  border:1px solid rgba(255,255,255,.055);
+  background:rgba(0,0,0,.25)
+}
+.account-page .auth-tabs button{min-height:42px}
+.account-page .auth-tabs button.active{
+  color:#fff;
+  background:linear-gradient(90deg,rgba(224,55,217,.22),rgba(91,101,255,.22));
+  box-shadow:inset 0 0 0 1px rgba(142,94,255,.22)
+}
+.account-page .auth-form{gap:14px}
+.account-page .auth-form label{gap:7px;color:#e8eaff;font-size:12px}
+.account-page .auth-form input{
+  min-height:52px;
+  border-color:rgba(133,120,255,.20);
+  background:rgba(3,5,18,.72);
+  border-radius:13px
+}
+.account-page .auth-form input:focus{
+  border-color:rgba(126,97,255,.75);
+  box-shadow:0 0 0 3px rgba(126,97,255,.12)
+}
+.account-page .auth-form .button{min-height:54px;margin-top:2px}
+.account-page .auth-status{min-height:20px;margin-top:13px}
+.account-page .back-link{
+  display:flex;justify-content:center;margin-top:14px;
+  color:#aab4cf
+}
+
+/* DASHBOARD */
+.dashboard-page header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(5,7,19,.86);
+  border-bottom:1px solid rgba(111,102,255,.16);
+  backdrop-filter:blur(18px)
+}
+.dashboard-page .nav-wrap{min-height:66px}
+.dashboard-page .brand-mark{
+  color:#fff;
+  background:linear-gradient(135deg,var(--eva-pink),var(--eva-purple),var(--eva-cyan))
+}
+.dashboard-page .dash-main{
+  width:min(calc(100% - 32px),1120px);
+  padding:42px 0 64px
+}
+.dashboard-page .dash-heading{
+  align-items:center;
+  margin-bottom:22px
+}
+.dashboard-page .dash-heading h1{
+  margin:5px 0 3px;
+  font-size:clamp(36px,6vw,58px);
+  line-height:1;
+  letter-spacing:-.055em
+}
+.dashboard-page #customer-email{
+  max-width:100%;
+  overflow:hidden;text-overflow:ellipsis
+}
+.dashboard-page .dash-notice{
+  min-height:0;
+  margin:0 0 14px;
+  padding:0;
+  border-radius:12px
+}
+.dashboard-page .dash-notice:not(:empty){
+  padding:11px 13px;
+  border:1px solid rgba(80,215,255,.18);
+  background:rgba(57,179,255,.055)
+}
+.dashboard-page .dash-notice.error:not(:empty){
+  border-color:rgba(255,106,125,.22);
+  background:rgba(255,85,110,.06)
+}
+.dashboard-page .metric-grid{gap:12px}
+.dashboard-page .metric{
+  min-height:132px;
+  padding:20px;
+  border-radius:18px
+}
+.dashboard-page .metric span{
+  color:#b5bdd2;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.055em
+}
+.dashboard-page .metric strong{
+  margin:7px 0 3px;
+  font-size:31px;
+  color:#fff
+}
+.dashboard-page .metric small{font-size:11px}
+.dashboard-page .dash-grid{gap:12px;margin:12px 0}
+.dashboard-page .dash-card{
+  padding:21px;
+  border-radius:19px
+}
+.dashboard-page .dash-card h2{
+  margin-bottom:14px;
+  font-size:19px;
+  letter-spacing:-.025em
+}
+.dashboard-page .auth-form input,
+.dashboard-page .auth-form select{
+  min-height:50px;
+  border-radius:12px;
+  border-color:rgba(117,109,255,.20);
+  background:rgba(3,5,18,.72)
+}
+.dashboard-page .deposit-address{
+  margin:11px 0 15px!important;
+  padding:13px!important;
+  border-radius:14px!important;
+  border-color:rgba(77,188,255,.25)!important;
+  background:linear-gradient(145deg,rgba(40,105,255,.08),rgba(82,36,174,.06))!important
+}
+.dashboard-page .deposit-address code{
+  padding:11px!important;
+  border:1px solid rgba(255,255,255,.055);
+  background:rgba(0,0,0,.28)!important;
+  color:#f2f5ff!important
+}
+.dashboard-page .deposit-address button{
+  min-height:42px;
+  border-radius:10px!important;
+  color:#7bdfff!important
+}
+.dashboard-page #dashboard-deposit-form>.button{
+  width:100%;
+  min-height:52px
+}
+.dashboard-page .store-dashboard{margin:12px 0}
+.dashboard-page .compact-store{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin-top:17px
+}
+.dashboard-page .account-product{
+  min-width:0;
+  padding:19px;
+  border-radius:17px;
+  border-color:rgba(96,105,255,.25);
+  background:
+    radial-gradient(circle at 100% 0,rgba(62,146,255,.10),transparent 35%),
+    linear-gradient(150deg,rgba(14,19,48,.97),rgba(5,9,22,.99))
+}
+.dashboard-page .account-product h3{
+  margin:14px 0 3px;
+  font-size:17px;
+  line-height:1.25
+}
+.dashboard-page .account-product p{font-size:11px;line-height:1.5}
+.dashboard-page .account-product>strong{
+  margin:14px 0;
+  font-size:27px
+}
+.dashboard-page .stock-line{
+  align-items:center;
+  margin-bottom:14px;
+  font-size:10px
+}
+.dashboard-page .account-product .button{min-height:45px}
+.dashboard-page .product-tag{font-size:9px}
+.dashboard-page .safe-note{line-height:1.65}
+.dashboard-page .table-wrap{
+  border:1px solid rgba(255,255,255,.055);
+  border-radius:13px;
+  background:rgba(0,0,0,.10)
+}
+.dashboard-page table{font-size:11px}
+.dashboard-page th{
+  padding:11px 10px;
+  background:rgba(80,86,170,.06)
+}
+.dashboard-page td{padding:11px 10px}
+.dashboard-page tbody tr:last-child td{border-bottom:0}
+.dashboard-page td pre{
+  margin:0;
+  max-width:320px;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  color:#d9f8ff;
+  font:11px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace
+}
+.dashboard-page .status{
+  padding:5px 9px;
+  border:1px solid transparent;
+  font-weight:800
+}
+.dashboard-page .status.pending{
+  color:#ffd877;background:rgba(255,194,66,.09);border-color:rgba(255,194,66,.15)
+}
+.dashboard-page .status.approved{
+  color:#8aecc1;background:rgba(61,210,151,.09);border-color:rgba(61,210,151,.15)
+}
+.dashboard-page .status.processing{
+  color:#88c9ff;background:rgba(67,146,255,.10);border-color:rgba(67,146,255,.18)
+}
+.dashboard-page .status.delivered{
+  color:#62edb7;background:rgba(65,228,164,.10);border-color:rgba(65,228,164,.18)
+}
+.dashboard-page .status.refunded{
+  color:#d7bcff;background:rgba(171,113,255,.10);border-color:rgba(171,113,255,.18)
+}
+.dashboard-page .status.cancelled,
+.dashboard-page .status.rejected{
+  color:#ff9aab;background:rgba(255,92,118,.08);border-color:rgba(255,92,118,.16)
+}
+.dashboard-page footer{
+  background:rgba(3,5,14,.62);
+  border-top-color:rgba(112,103,255,.13)
+}
+.dashboard-page .footer{gap:22px}
+
+/* MOBILE */
+@media(max-width:760px){
+  .container{width:min(calc(100% - 24px),var(--max))}
+  .section{padding:58px 0}
+
+  .premium-home .store-showcase{padding-top:56px!important}
+  .premium-home .store-heading{margin-bottom:26px}
+  .premium-home .store-heading h2,
+  .premium-home .heading h2{font-size:34px!important}
+  .premium-home .store-showcase .store-products{grid-template-columns:1fr!important;gap:12px!important}
+  .premium-home .store-showcase .account-product{padding:19px!important}
+  .premium-home .store-showcase .account-product h3{font-size:19px!important}
+  .premium-home .store-showcase .account-product>strong{font-size:29px!important}
+  .premium-home .store-trust{gap:7px}
+  .premium-home .store-trust b{padding:7px 9px;font-size:9px}
+
+  .account-page .auth-card{padding:22px 18px}
+  .account-page .account-title{font-size:34px}
+  .account-page .heading p{font-size:12px}
+
+  .dashboard-page .container{width:min(calc(100% - 22px),1120px)}
+  .dashboard-page .nav-wrap{
+    min-height:60px;
+    gap:10px
+  }
+  .dashboard-page .nav-wrap .brand{font-size:12px}
+  .dashboard-page .brand-mark{width:30px;height:30px;border-radius:9px}
+  .dashboard-page #sign-out{
+    min-height:36px;
+    padding:6px 11px;
+    font-size:11px
+  }
+  .dashboard-page .dash-main{padding:28px 0 50px}
+  .dashboard-page .dash-heading{
+    display:grid;
+    gap:14px;
+    margin-bottom:15px
+  }
+  .dashboard-page .dash-heading h1{font-size:36px}
+  .dashboard-page .dash-heading>.button{
+    width:100%;min-height:48px
+  }
+  .dashboard-page .metric-grid,
+  .dashboard-page .dash-grid{grid-template-columns:1fr;gap:10px}
+  .dashboard-page .metric{
+    min-height:0;
+    padding:17px
+  }
+  .dashboard-page .metric strong{font-size:28px}
+  .dashboard-page .dash-card{padding:17px;border-radius:17px}
+  .dashboard-page .card-title-row{
+    display:grid;
+    align-items:stretch;
+    gap:12px
+  }
+  .dashboard-page .card-title-row .button{width:100%}
+  .dashboard-page .compact-store{
+    grid-template-columns:1fr;
+    gap:10px
+  }
+  .dashboard-page .account-product{
+    padding:17px
+  }
+  .dashboard-page .account-product>strong{font-size:25px}
+  .dashboard-page .table-wrap{
+    margin:0 -2px;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch
+  }
+  .dashboard-page table{min-width:540px}
+  .dashboard-page .dash-grid .dash-card:first-child table{min-width:0}
+  .dashboard-page .footer{
+    grid-template-columns:1fr;
+    text-align:left
+  }
+}
+@media(max-width:390px){
+  .dashboard-page .dash-heading h1{font-size:33px}
+  .dashboard-page .dash-card{padding:15px}
+  .account-page .auth-card{padding:20px 16px}
+}
+@media(prefers-reduced-motion:reduce){
+  .button,.account-product{transition:none!important}
+}
