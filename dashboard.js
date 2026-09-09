@@ -13,12 +13,9 @@ async function initDashboard(){try{const response=await fetch('/api/config');con
 
 async function loadData(userId){const [wallet,deposits,ledger]=await Promise.all([client.from('wallets').select('balance_usd,updated_at').eq('user_id',userId).single(),client.from('deposits').select('id,amount_usdt,network,transaction_id,status,created_at').eq('user_id',userId).order('created_at',{ascending:false}).limit(20),client.from('wallet_ledger').select('amount_usd,entry_type,description,balance_after,created_at').eq('user_id',userId).order('created_at',{ascending:false}).limit(20)]);const firstError=[wallet,deposits,ledger].find(result=>result.error)?.error;if(firstError)throw firstError;document.getElementById('balance').textContent=moneyPrecise(wallet.data?.balance_usd);document.getElementById('pending-count').textContent=deposits.data.filter(item=>item.status==='pending').length;renderRows('deposit-rows',deposits.data,item=>`<tr><td>${new Date(item.created_at).toLocaleDateString()}</td><td>${escapeHtml(item.network)}</td><td>${money(item.amount_usdt)}</td><td><span class="status ${escapeHtml(item.status)}">${escapeHtml(item.status)}</span></td></tr>`,4);renderRows('ledger-rows',ledger.data,item=>`<tr><td>${new Date(item.created_at).toLocaleDateString()}</td><td>${escapeHtml(item.entry_type)}</td><td class="${Number(item.amount_usd)>=0?'positive':'negative'}">${moneyPrecise(item.amount_usd)}</td><td>${moneyPrecise(item.balance_after)}</td></tr>`,4)}
 
-async function insertDepositWithRetry(payload){
- let result=await client.from('deposits').insert(payload);
- if(!result.error||!isJwtClockError(result.error))return result;
- setNotice('Secure session is syncing through the server…');
+async function submitDepositSecurely(payload){
  const session=await getSession();
- if(!session.refresh_token)return{error:new Error('Please sign in again.')};
+ if(!session.refresh_token)throw new Error('Please sign in again.');
  const response=await fetch('/api/store',{
   method:'POST',
   headers:{'content-type':'application/json'},
@@ -31,14 +28,14 @@ async function insertDepositWithRetry(payload){
   })
  });
  const body=await response.json().catch(()=>({}));
- if(!response.ok)return{error:new Error(body.error||'Deposit submission failed.')};
+ if(!response.ok)throw new Error(body.error||'Deposit submission failed.');
  if(body.access_token&&body.refresh_token){
   try{await client.auth.setSession({access_token:body.access_token,refresh_token:body.refresh_token})}catch{}
  }
- return{error:null,serverSubmitted:true,alreadySubmitted:Boolean(body.already_submitted),status:body.status};
+ return body;
 }
 
-document.getElementById('dashboard-deposit-form').addEventListener('submit',async event=>{event.preventDefault();const form=event.currentTarget;const button=event.submitter||form.querySelector('button[type="submit"]');const original=button?.textContent;try{if(button){button.disabled=true;button.textContent='Submitting…'}const session=await getSession();const user=session.user;const amount=Number(document.getElementById('dash-amount').value),network=document.getElementById('dash-network').value,transaction_id=document.getElementById('dash-txid').value.trim(),ownAddresses=new Set(['0x644ed89caecc120d3a3180e9f20a90d970cfa3e8','tj cfs6h dksenquguvw43krk141qlvhngbg'.replace(/ /g,'').toLowerCase()]),txValid=!ownAddresses.has(transaction_id.toLowerCase())&&((network==='BEP20'||network==='ERC20')?/^0x[a-fA-F0-9]{64}$/.test(transaction_id):/^[a-fA-F0-9]{64}$/.test(transaction_id));if(amount<10||!txValid)return setNotice('Enter at least 10 USDT and the completed payment TxID—not a wallet address.',true);const result=await insertDepositWithRetry({user_id:user.id,amount_usdt:amount,network,transaction_id});if(result.error)throw new Error(result.error.message||'Deposit submission failed.');form.reset();setNotice(result.alreadySubmitted?`This TxID is already linked to your account (${result.status||'pending'}).`:'Deposit submitted successfully. It is pending verification.');try{await loadData(user.id)}catch{setNotice('Deposit submitted successfully. Refresh later to view its status.')}}catch(error){setNotice(error.message||'Deposit submission failed.',true)}finally{if(button){button.disabled=false;button.textContent=original}}});
+document.getElementById('dashboard-deposit-form').addEventListener('submit',async event=>{event.preventDefault();const form=event.currentTarget;const button=event.submitter||form.querySelector('button[type="submit"]');const original=button?.textContent;try{if(button){button.disabled=true;button.textContent='Submitting…'}const session=await getSession();const user=session.user;const amount=Number(document.getElementById('dash-amount').value),network=document.getElementById('dash-network').value,transaction_id=document.getElementById('dash-txid').value.trim(),ownAddresses=new Set(['0x644ed89caecc120d3a3180e9f20a90d970cfa3e8','tj cfs6h dksenquguvw43krk141qlvhngbg'.replace(/ /g,'').toLowerCase()]),txValid=!ownAddresses.has(transaction_id.toLowerCase())&&((network==='BEP20'||network==='ERC20')?/^0x[a-fA-F0-9]{64}$/.test(transaction_id):/^[a-fA-F0-9]{64}$/.test(transaction_id));if(amount<10||!txValid)return setNotice('Enter at least 10 USDT and the completed payment TxID—not a wallet address.',true);const result=await submitDepositSecurely({user_id:user.id,amount_usdt:amount,network,transaction_id});form.reset();setNotice(result.already_submitted?`This TxID is already linked to your account (${result.status||'pending'}).`:'Deposit submitted successfully. It is pending verification.');try{await loadData(user.id)}catch{setNotice('Deposit submitted successfully. Refresh later to view its status.')}}catch(error){setNotice(error.message||'Deposit submission failed.',true)}finally{if(button){button.disabled=false;button.textContent=original}}});
 
 const telegramQuoteServices=[
  {name:'Telegram Premium — 3 Months',subtitle:'Official 3-month Telegram Premium gift subscription',price:20},
