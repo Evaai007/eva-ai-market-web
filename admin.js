@@ -22,6 +22,10 @@ async function adminFetch(path, options = {}, retry = true) {
     location.replace('/login.html');
     throw new Error('Session expired. Please sign in again.');
   }
+  if (response.status === 403) {
+    location.replace('/dashboard.html');
+    throw new Error('Admin access required.');
+  }
   if (!response.ok) throw new Error(body.error || 'Request failed.');
   return body;
 }
