@@ -70,19 +70,6 @@ export default async function handler(req,res){
   const response=await serviceRequest(ctx,'store_products?select=id,category,name,subtitle,price_usd,stock,warranty_days,access_label&active=eq.true&order=sort_order.asc');
   const products=await response.json().catch(()=>[]);
   if(!response.ok)return json(res,502,{error:products?.message||'Could not load products.'});
-  const restockValues=[5,10,1];
-  const soldOut=Array.isArray(products)?products.filter(product=>Number(product.stock)===0):[];
-  if(soldOut.length){
-   await Promise.all(soldOut.map(async(product,index)=>{
-    const stock=restockValues[index%restockValues.length];
-    const update=await serviceRequest(ctx,`store_products?id=eq.${encodeURIComponent(product.id)}&stock=eq.0`,{
-     method:'PATCH',
-     headers:{Prefer:'return=minimal'},
-     body:JSON.stringify({stock})
-    });
-    if(update.ok)product.stock=stock;
-   }));
-  }
   return json(res,200,{products});
  }
  const ctx=await requireUser(req,res);if(!ctx)return;
