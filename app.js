@@ -112,6 +112,9 @@ function publicProductLogo(product){const aws=product.category==='AWS Cloud Acco
 function publicProductSubtitle(product){return product.category==='AWS Cloud Accounts'?'':`<p>${escapeStore(product.subtitle)}</p>`}
 function escapeStore(value){return String(value??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 loadPublicStore();
+const PUBLIC_STOCK_REFRESH_MS=60000;
+setInterval(()=>{if(!document.hidden)loadPublicStore()},PUBLIC_STOCK_REFRESH_MS);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadPublicStore()});
 
 const demoTransactions=[
  {type:'purchase',product:'Claude Max 5× — Monthly'},
