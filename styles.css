@@ -986,3 +986,117 @@ header{position:sticky;top:0;z-index:50;background:rgba(8,5,16,.84);backdrop-fil
   background:radial-gradient(circle at 15% 10%,rgba(245,35,177,.48),transparent 40%),radial-gradient(circle at 88% 88%,rgba(49,62,201,.31),transparent 43%),linear-gradient(145deg,#64104f,#050a22 72%)!important;
   border-bottom-color:rgba(244,54,185,.42)!important
 }
+
+/* Selected premium wallet designs: 3 / 4 / 5 */
+.wallets .wallet[data-network-card]{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  padding:24px;
+  border-radius:22px;
+  box-shadow:0 22px 56px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.06);
+}
+.wallets .wallet[data-network-card]::before,
+.wallets .wallet[data-network-card]::after{
+  content:'';
+  position:absolute;
+  pointer-events:none;
+  z-index:-1;
+}
+.wallets .wallet[data-network-card] .wallet-title,
+.wallets .wallet[data-network-card] code,
+.wallets .wallet[data-network-card] .copy{position:relative;z-index:1}
+.wallets .wallet[data-network-card] .wallet-title em{
+  width:48px;height:48px;border:1px solid rgba(255,255,255,.11);
+  border-radius:15px;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 10px 25px rgba(0,0,0,.28);
+}
+.wallets .wallet[data-network-card] code{
+  margin:20px 0 14px;padding:15px 16px;
+  border:1px solid rgba(255,255,255,.09);
+  background:rgba(1,6,18,.62);
+  box-shadow:inset 0 1px 14px rgba(0,0,0,.32);
+}
+.wallets .wallet[data-network-card] .copy{
+  min-height:50px;font-size:15px;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+
+/* Design 3 — Electric Blue Circuit */
+.wallets .wallet[data-network-card="TRC20"]{
+  border-color:rgba(41,133,255,.72);
+  background:
+    linear-gradient(135deg,rgba(0,41,120,.96),rgba(2,14,43,.98) 56%,rgba(0,27,77,.98)),
+    #03112e;
+  box-shadow:0 22px 58px rgba(0,65,210,.22),inset 0 0 34px rgba(17,113,255,.13);
+}
+.wallets .wallet[data-network-card="TRC20"]::before{
+  inset:0;opacity:.42;
+  background-image:
+    linear-gradient(90deg,transparent 0 72%,rgba(31,127,255,.35) 72% 72.5%,transparent 72.5%),
+    linear-gradient(0deg,transparent 0 68%,rgba(31,127,255,.24) 68% 68.5%,transparent 68.5%),
+    radial-gradient(circle at 78% 28%,#2e8cff 0 3px,transparent 4px),
+    radial-gradient(circle at 88% 38%,#2e8cff 0 3px,transparent 4px);
+}
+.wallets .wallet[data-network-card="TRC20"]::after{
+  width:170px;height:170px;right:-70px;top:-80px;border-radius:50%;
+  background:#087dff;filter:blur(58px);opacity:.2;
+}
+.wallets .wallet[data-network-card="TRC20"] .copy{
+  color:#5fe8ff;border-color:#168dff;background:linear-gradient(135deg,rgba(11,84,211,.35),rgba(0,204,255,.14));
+  box-shadow:0 0 22px rgba(0,135,255,.15),inset 0 1px 0 rgba(255,255,255,.1);
+}
+
+/* Design 4 — Emerald Security */
+.wallets .wallet[data-network-card="BEP20"]{
+  border-color:rgba(39,212,178,.63);
+  background:
+    radial-gradient(circle at 92% 6%,rgba(17,224,182,.18),transparent 32%),
+    linear-gradient(145deg,#07191d,#061116 58%,#082126);
+  box-shadow:0 22px 58px rgba(0,121,99,.18),inset 0 0 32px rgba(34,225,185,.08);
+}
+.wallets .wallet[data-network-card="BEP20"]::before{
+  inset:0;opacity:.22;
+  background-image:linear-gradient(rgba(70,236,210,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(70,236,210,.13) 1px,transparent 1px);
+  background-size:28px 28px;
+  mask-image:linear-gradient(135deg,black,transparent 70%);-webkit-mask-image:linear-gradient(135deg,black,transparent 70%);
+}
+.wallets .wallet[data-network-card="BEP20"]::after{
+  width:150px;height:150px;right:-45px;bottom:-70px;border:1px solid rgba(43,238,199,.22);
+  border-radius:38px;transform:rotate(35deg);box-shadow:0 0 45px rgba(25,223,182,.12);
+}
+.wallets .wallet[data-network-card="BEP20"] .copy{
+  color:#66f4d6;border-color:#2fd6b4;background:linear-gradient(135deg,rgba(11,103,87,.38),rgba(24,220,181,.13));
+  box-shadow:0 0 22px rgba(31,213,176,.12),inset 0 1px 0 rgba(255,255,255,.09);
+}
+
+/* Design 5 — Purple Magenta Aurora */
+.wallets .wallet[data-network-card="ERC20"]{
+  border-color:rgba(218,52,255,.7);
+  background:
+    radial-gradient(ellipse at 15% -5%,rgba(141,45,255,.34),transparent 45%),
+    radial-gradient(ellipse at 100% 20%,rgba(255,43,196,.2),transparent 42%),
+    linear-gradient(145deg,#170930,#09091e 62%,#16072a);
+  box-shadow:0 22px 60px rgba(116,22,185,.23),inset 0 0 36px rgba(216,50,255,.09);
+}
+.wallets .wallet[data-network-card="ERC20"]::before{
+  width:125%;height:88px;left:-12%;top:-42px;border-radius:50%;
+  border:2px solid rgba(243,55,255,.34);transform:rotate(-7deg);
+  box-shadow:0 12px 32px rgba(166,52,255,.22),0 25px 46px rgba(255,47,201,.13);
+}
+.wallets .wallet[data-network-card="ERC20"]::after{
+  width:170px;height:150px;right:-65px;bottom:-75px;border-radius:50%;
+  background:#b91cff;filter:blur(62px);opacity:.17;
+}
+.wallets .wallet[data-network-card="ERC20"] .copy{
+  color:#f39cff;border-color:#d83dff;background:linear-gradient(135deg,rgba(113,24,210,.37),rgba(251,41,203,.15));
+  box-shadow:0 0 24px rgba(209,47,255,.14),inset 0 1px 0 rgba(255,255,255,.1);
+}
+
+.wallets .wallet[data-network-card].active{transform:translateY(-2px)}
+.wallets .wallet[data-network-card="TRC20"].active{border-color:#4db5ff;box-shadow:0 0 0 2px rgba(52,154,255,.14),0 24px 65px rgba(0,76,218,.28)}
+.wallets .wallet[data-network-card="BEP20"].active{border-color:#44edca;box-shadow:0 0 0 2px rgba(48,222,187,.13),0 24px 65px rgba(0,126,102,.25)}
+.wallets .wallet[data-network-card="ERC20"].active{border-color:#e75dff;box-shadow:0 0 0 2px rgba(224,64,255,.13),0 24px 65px rgba(135,20,190,.27)}
+@media(max-width:600px){
+  .wallets .wallet[data-network-card]{padding:20px;border-radius:20px}
+  .wallets .wallet[data-network-card] code{font-size:12px;padding:14px;line-height:1.55}
+}
