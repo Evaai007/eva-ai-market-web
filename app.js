@@ -11,7 +11,6 @@ if(heroButtons){const fundButton=[...heroButtons.querySelectorAll('a')].find(lin
 const depositNav=siteNav?[...siteNav.querySelectorAll('a')].find(link=>/^(Deposit|Deposit Credits)$/.test(link.textContent.trim())):null;if(depositNav){depositNav.href='#deposit'}
 
 function highlightPaymentNetwork(network){document.querySelectorAll('[data-network-card]').forEach(card=>card.classList.toggle('active',card.dataset.networkCard===network))}
-function isValidTelegram(value){return /^@[A-Za-z0-9_]{5,32}$/.test(value)}
 function isValidTransactionId(network,value){const ownAddresses=new Set(['0x644ed89caecc120d3a3180e9f20a90d970cfa3e8'.toLowerCase(),'TJCFS6hDKsEnquGuvw43krk141QLvHnGbG'.toLowerCase()]);if(ownAddresses.has(value.toLowerCase()))return false;if(network==='BEP20'||network==='ERC20')return /^0x[a-fA-F0-9]{64}$/.test(value);return /^[a-fA-F0-9]{64}$/.test(value)}
 const networkSelect=document.getElementById('network');
 if(networkSelect){networkSelect.addEventListener('change',()=>highlightPaymentNetwork(networkSelect.value));highlightPaymentNetwork(networkSelect.value)}
@@ -29,10 +28,8 @@ async function createPublicDepositClient(){await loadScript('https://cdn.jsdeliv
  form.className='payment-form panel public-deposit-form';
  form.innerHTML=`
   <h3 style="margin-top:0">Submit payment for balance</h3>
-  <p class="safe-note">You must be signed in. After admin verification, the approved amount is added to your EVA balance.</p>
-  <label>Telegram username<input id="telegram" type="text" placeholder="@username" required><small data-error="telegram"></small></label>
+  <p class="safe-note">Your signed-in EVA account is used for identification. After admin verification, the approved amount is added to your EVA balance.</p>
   <label>Amount in USDT<input id="amount" type="number" min="10" step="0.01" value="10" required><small data-error="amount"></small></label>
-  <label>Product / purpose<select id="product"><option>Wallet balance</option><option>Claude / AI subscription</option><option>AWS / Cloud service</option><option>Telegram service</option></select></label>
   <label>Network<select id="network"><option>TRC20</option><option>BEP20</option><option>ERC20</option></select></label>
   <label>Completed transaction ID<input id="txid" type="text" placeholder="Paste TxID / transaction hash" required><small data-error="txid"></small></label>
   <button class="button primary submit" type="submit">Submit for verification</button>
@@ -48,15 +45,13 @@ if(form)form.addEventListener('submit',async event=>{
  event.preventDefault();
  event.stopImmediatePropagation();
  const button=form.querySelector('button[type="submit"]');
- const telegram=document.getElementById('telegram').value.trim();
  const amount=Number(document.getElementById('amount').value);
  const network=document.getElementById('network').value;
  const txid=document.getElementById('txid').value.trim();
- const telegramOk=isValidTelegram(telegram),txidOk=isValidTransactionId(network,txid);
- setError('telegram',telegramOk?'':'Enter a valid username starting with @.');
+ const txidOk=isValidTransactionId(network,txid);
  setError('amount',amount>=10?'':'Minimum deposit is 10 USDT.');
  setError('txid',txidOk?'':'Enter the completed payment TxID—not a wallet address.');
- if(!telegramOk||amount<10||!txidOk){showToast('Please correct the payment details');return}
+ if(amount<10||!txidOk){showToast('Please correct the payment details');return}
  const original=button.textContent;button.disabled=true;button.textContent='Submitting…';
  try{
   const client=await createPublicDepositClient();
