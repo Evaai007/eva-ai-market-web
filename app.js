@@ -148,7 +148,7 @@ function mountDemoTransaction(){
   cursor++;
   popup.querySelector('.demo-user').textContent='User: '+demoUsernames[Math.floor(Math.random()*demoUsernames.length)];
   const id=randomDemoId();
-  popup.querySelector('.demo-order').textContent=(item.type==='deposit'?'Demo TxID: ':'Order No. ')+id;
+  popup.querySelector('.demo-order').textContent=(item.type==='deposit'?'TxID: ':'Order No. ')+id;
   if(item.type==='deposit'){
    popup.querySelector('.demo-heading').textContent='Deposit successful';
    popup.querySelector('.demo-detail').innerHTML='Deposited: <b class="demo-product"></b>';
