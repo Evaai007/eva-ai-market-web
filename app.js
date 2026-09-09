@@ -112,36 +112,54 @@ function escapeStore(value){return String(value??'').replace(/[&<>'"]/g,c=>({'&'
 loadPublicStore();
 
 const demoTransactions=[
- {product:'Claude Max 5× — Monthly'},
- {product:'Claude Max 20× — Monthly'},
- {product:'GPT Premium Subscription'},
- {product:'AWS Bedrock Account'},
- {product:'Gemini Ultra Service'}
+ {type:'purchase',product:'Claude Max 5× — Monthly'},
+ {type:'deposit',amount:200},
+ {type:'purchase',product:'Claude Max 20× — Monthly'},
+ {type:'deposit',amount:100},
+ {type:'purchase',product:'GPT Premium Subscription'},
+ {type:'deposit',amount:500},
+ {type:'purchase',product:'AWS Bedrock Account'},
+ {type:'deposit',amount:50},
+ {type:'purchase',product:'Gemini Ultra Service'},
+ {type:'deposit',amount:300}
 ];
 const demoUsernames=[
  '@li_wei88','@mei_lin24','@chenhao_ai','@xiaoyu_cloud','@wang_jun7','@anna_volkova','@dmitri_k92','@sofia_orlova','@nikita_dev','@elena_mir','@michael_reed','@emily_carter','@daniel_brooks','@olivia_hayes','@james_wilson','@sophia_morgan'
 ];
+function randomDemoId(){
+ const alphabet='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+ let value='TX-';
+ for(let i=0;i<12;i++)value+=alphabet[Math.floor(Math.random()*alphabet.length)];
+ return value;
+}
 function mountDemoTransaction(){
  const popup=document.createElement('aside');
  popup.className='demo-transaction';
  popup.setAttribute('role','status');
  popup.setAttribute('aria-live','polite');
- popup.setAttribute('aria-label','Recent demo transaction');
- popup.innerHTML='<div class="demo-check">✓</div><div class="demo-copy"><div><strong>Transaction completed</strong><span class="demo-time">Just now</span><span class="demo-label">Demo</span></div><small class="demo-order"></small><small class="demo-user"></small><p>Purchased: <b class="demo-product"></b></p></div><em>Delivered</em>';
+ popup.setAttribute('aria-label','Simulated demo activity');
+ popup.innerHTML='<div class="demo-check">✓</div><div class="demo-copy"><div><strong class="demo-heading">Transaction completed</strong><span class="demo-time">Just now</span><span class="demo-label">Demo</span></div><small class="demo-order"></small><small class="demo-user"></small><p class="demo-detail">Purchased: <b class="demo-product"></b></p></div><em class="demo-status">Delivered</em>';
  document.body.appendChild(popup);
  let cursor=0;
  const demoTimes=['Just now','1 min ago','2 min ago','3 min ago','5 min ago'];
  const show=()=>{
   const item=demoTransactions[cursor%demoTransactions.length];
-  popup.querySelector('.demo-time').textContent=demoTimes[cursor%demoTimes.length];cursor++;
-  const now=new Date();
-  const datePart=String(now.getFullYear()).slice(-2)+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0');
-  let randomPart;
-  do{randomPart=String(Math.floor(100000+Math.random()*900000))}while(randomPart===show.lastOrder);
-  show.lastOrder=randomPart;
-  popup.querySelector('.demo-order').textContent='Order No. '+datePart+randomPart;
+  popup.querySelector('.demo-time').textContent=demoTimes[cursor%demoTimes.length];
+  cursor++;
   popup.querySelector('.demo-user').textContent='User: '+demoUsernames[Math.floor(Math.random()*demoUsernames.length)];
-  popup.querySelector('.demo-product').textContent=item.product;
+  const id=randomDemoId();
+  popup.querySelector('.demo-order').textContent=(item.type==='deposit'?'Demo TxID: ':'Order No. ')+id;
+  if(item.type==='deposit'){
+   popup.querySelector('.demo-heading').textContent='Deposit successful';
+   popup.querySelector('.demo-detail').innerHTML='Deposited: <b class="demo-product"></b>';
+   popup.querySelector('.demo-product').textContent='$'+item.amount+'.00 USDT';
+   popup.querySelector('.demo-status').textContent='Approved';
+  }else{
+   popup.querySelector('.demo-heading').textContent='Transaction completed';
+   popup.querySelector('.demo-detail').innerHTML='Purchased: <b class="demo-product"></b>';
+   popup.querySelector('.demo-product').textContent=item.product;
+   popup.querySelector('.demo-status').textContent='Delivered';
+  }
   popup.classList.add('show');
   clearTimeout(show.hideTimer);
   show.hideTimer=setTimeout(()=>popup.classList.remove('show'),6500);
