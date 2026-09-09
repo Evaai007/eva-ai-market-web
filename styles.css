@@ -706,3 +706,38 @@ header{position:sticky;top:0;z-index:50;background:rgba(8,5,16,.84);backdrop-fil
 @media(max-width:600px){
   .brand-icon-shell.brand-photo-shell{width:82px;height:82px;border-radius:21px}
 }
+
+
+/* 2026-09-09 exact centered product-logo placement */
+#public-store-products .product-cover .brand-icon-shell{
+  left:50%!important;
+  right:auto!important;
+  top:20px!important;
+  transform:translateX(-50%)!important;
+  margin:0!important;
+}
+#public-store-products .product-cover .cover-brand{
+  display:none!important;
+}
+#public-store-products .product-cover .brand-icon-shell.brand-photo-shell{
+  width:86px!important;
+  height:86px!important;
+}
+#public-store-products .product-cover .brand-photo{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center!important;
+}
+@media(max-width:600px){
+  #public-store-products .product-cover .brand-icon-shell{
+    left:50%!important;
+    top:18px!important;
+    transform:translateX(-50%)!important;
+  }
+  #public-store-products .product-cover .brand-icon-shell.brand-photo-shell{
+    width:78px!important;
+    height:78px!important;
+    border-radius:22px!important;
+  }
+}
