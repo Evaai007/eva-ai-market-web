@@ -453,3 +453,16 @@ body.premium-home .hero-reference{margin-top:0!important}
   .hero-bottom-trust i{font-size:18px!important}
   .hero-bottom-trust b{font-size:8px!important}
 }
+
+.hero-cloud-image{
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  object-fit:contain!important;
+  filter:drop-shadow(0 18px 28px rgba(40,70,255,.30))!important;
+}
+.cloud-image-stage{
+  display:flex!important;
+  align-items:flex-end!important;
+  justify-content:center!important;
+}
