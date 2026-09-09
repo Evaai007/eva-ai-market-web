@@ -662,3 +662,20 @@ header{position:sticky;top:0;z-index:50;background:rgba(8,5,16,.84);backdrop-fil
    min-height:43px!important;
  }
 }
+
+
+/* Dedicated uploaded artwork for AWS + Kiro + GCP bundle only */
+.product-cover.bundle-image-cover{
+  display:block;
+  aspect-ratio:auto;
+  padding:0!important;
+  background:#050b15;
+}
+.product-cover.bundle-image-cover::before,
+.product-cover.bundle-image-cover::after{display:none!important}
+.product-cover.bundle-image-cover img{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+}
