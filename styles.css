@@ -783,3 +783,83 @@ header{position:sticky;top:0;z-index:50;background:rgba(8,5,16,.84);backdrop-fil
  #public-store-products .product-cover small{bottom:14px!important}
  #public-store-products .product-tag{margin:10px auto 0!important}
 }
+
+
+/* 2026-09-09 compact no-gap flex cover final */
+#public-store-products .product-cover:not(.bundle-image-cover){
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:0!important;
+  aspect-ratio:auto!important;
+  width:auto!important;
+  height:230px!important;
+  min-height:230px!important;
+  padding:18px!important;
+  text-align:center!important;
+}
+#public-store-products .product-cover:not(.bundle-image-cover) .cover-grid{
+  position:absolute!important;
+  inset:0!important;
+}
+#public-store-products .product-cover:not(.bundle-image-cover) .brand-icon-shell{
+  position:relative!important;
+  left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;
+  flex:0 0 auto!important;
+  width:80px!important;height:80px!important;
+  margin:0 0 14px!important;
+  transform:none!important;
+}
+#public-store-products .product-cover:not(.bundle-image-cover) .cover-brand{display:none!important}
+#public-store-products .product-cover:not(.bundle-image-cover) strong{
+  position:relative!important;
+  left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin:0!important;
+  text-align:center!important;
+}
+#public-store-products .product-cover:not(.bundle-image-cover) small{
+  position:relative!important;
+  left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;
+  display:flex!important;
+  width:auto!important;
+  max-width:100%!important;
+  margin:9px 0 0!important;
+  transform:none!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+#public-store-products .cover-telegram .brand-icon-shell.brand-photo-shell{
+  width:88px!important;height:88px!important;
+  overflow:visible!important;
+  background:transparent!important;
+  box-shadow:none!important
+}
+#public-store-products .cover-telegram .brand-photo{
+  position:relative!important;
+  z-index:20!important;
+  display:block!important;
+  width:88px!important;height:88px!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  clip-path:none!important;
+  opacity:1!important
+}
+@media(max-width:600px){
+ #public-store-products .product-cover:not(.bundle-image-cover){
+   height:218px!important;
+   min-height:218px!important;
+   padding:16px!important;
+ }
+ #public-store-products .product-cover:not(.bundle-image-cover) .brand-icon-shell{
+   width:76px!important;height:76px!important;margin-bottom:12px!important
+ }
+ #public-store-products .cover-telegram .brand-icon-shell.brand-photo-shell,
+ #public-store-products .cover-telegram .brand-photo{
+   width:84px!important;height:84px!important
+ }
+ #public-store-products .product-cover:not(.bundle-image-cover) small{margin-top:8px!important}
+}
