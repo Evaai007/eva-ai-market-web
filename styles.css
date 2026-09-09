@@ -863,3 +863,29 @@ header{position:sticky;top:0;z-index:50;background:rgba(8,5,16,.84);backdrop-fil
  }
  #public-store-products .product-cover:not(.bundle-image-cover) small{margin-top:8px!important}
 }
+
+
+/* 2026-09-09 edge-to-edge product cover gap fix */
+#public-store-products .account-product{
+  overflow:hidden!important;
+}
+#public-store-products .product-cover{
+  box-sizing:border-box!important;
+  width:calc(100% + 50px)!important;
+  max-width:none!important;
+  margin-left:-25px!important;
+  margin-right:-25px!important;
+  border-radius:19px 19px 0 0!important;
+}
+#public-store-products .product-cover.bundle-image-cover{
+  width:calc(100% + 50px)!important;
+}
+@media(max-width:600px){
+ #public-store-products .product-cover,
+ #public-store-products .product-cover.bundle-image-cover{
+   width:calc(100% + 30px)!important;
+   margin-left:-15px!important;
+   margin-right:-15px!important;
+   border-radius:19px 19px 0 0!important;
+ }
+}
