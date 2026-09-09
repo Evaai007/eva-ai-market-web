@@ -920,3 +920,46 @@ header{position:sticky;top:0;z-index:50;background:rgba(8,5,16,.84);backdrop-fil
 #public-store-products .aws-tone-2 .cover-aws{border-bottom-color:rgba(255,153,0,.34)!important}
 #public-store-products .aws-tone-3 .cover-aws{border-bottom-color:rgba(126,80,255,.38)!important}
 #public-store-products .aws-tone-4 .cover-aws{border-bottom-color:rgba(0,209,224,.34)!important}
+
+
+/* 2026-09-09 selected five rotating Claude colour covers */
+/* Option 3 — Burgundy Wine + Charcoal */
+#public-store-products .claude-tone-1 .cover-claude{
+  background:
+    radial-gradient(circle at 16% 12%,rgba(214,21,82,.46),transparent 40%),
+    radial-gradient(circle at 88% 88%,rgba(116,13,55,.28),transparent 43%),
+    linear-gradient(145deg,#4c0923,#10080c 72%)!important;
+  border-bottom-color:rgba(221,42,103,.38)!important;
+}
+/* Option 4 — Royal Purple + Midnight Navy */
+#public-store-products .claude-tone-2 .cover-claude{
+  background:
+    radial-gradient(circle at 16% 12%,rgba(121,49,255,.50),transparent 40%),
+    radial-gradient(circle at 88% 88%,rgba(39,52,190,.30),transparent 43%),
+    linear-gradient(145deg,#2d126d,#07091f 72%)!important;
+  border-bottom-color:rgba(132,75,255,.40)!important;
+}
+/* Option 5 — Rose Copper + Deep Plum */
+#public-store-products .claude-tone-3 .cover-claude{
+  background:
+    radial-gradient(circle at 16% 12%,rgba(238,112,128,.46),transparent 40%),
+    radial-gradient(circle at 88% 88%,rgba(122,34,77,.30),transparent 43%),
+    linear-gradient(145deg,#5b1b36,#150914 72%)!important;
+  border-bottom-color:rgba(239,119,146,.38)!important;
+}
+/* Option 6 — Emerald Teal + Black */
+#public-store-products .claude-tone-4 .cover-claude{
+  background:
+    radial-gradient(circle at 16% 12%,rgba(0,205,169,.43),transparent 40%),
+    radial-gradient(circle at 88% 88%,rgba(0,112,94,.28),transparent 43%),
+    linear-gradient(145deg,#073d36,#030b0a 72%)!important;
+  border-bottom-color:rgba(0,216,181,.38)!important;
+}
+/* Option 7 — Silver Graphite + Ice Blue */
+#public-store-products .claude-tone-5 .cover-claude{
+  background:
+    radial-gradient(circle at 16% 12%,rgba(181,218,255,.42),transparent 40%),
+    radial-gradient(circle at 88% 88%,rgba(78,126,177,.28),transparent 43%),
+    linear-gradient(145deg,#263b50,#080d13 72%)!important;
+  border-bottom-color:rgba(161,207,255,.38)!important;
+}
