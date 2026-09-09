@@ -889,3 +889,34 @@ header{position:sticky;top:0;z-index:50;background:rgba(8,5,16,.84);backdrop-fil
    border-radius:19px 19px 0 0!important;
  }
 }
+
+
+/* 2026-09-09 four rotating premium AWS colour covers */
+#public-store-products .aws-tone-1 .cover-aws{
+  background:
+    radial-gradient(circle at 18% 12%,rgba(0,119,255,.45),transparent 38%),
+    radial-gradient(circle at 88% 88%,rgba(0,76,190,.26),transparent 40%),
+    linear-gradient(145deg,#071d42,#020914 72%)!important;
+}
+#public-store-products .aws-tone-2 .cover-aws{
+  background:
+    radial-gradient(circle at 18% 12%,rgba(255,153,0,.40),transparent 38%),
+    radial-gradient(circle at 88% 88%,rgba(176,76,0,.28),transparent 42%),
+    linear-gradient(145deg,#211306,#050505 72%)!important;
+}
+#public-store-products .aws-tone-3 .cover-aws{
+  background:
+    radial-gradient(circle at 16% 12%,rgba(116,57,255,.48),transparent 39%),
+    radial-gradient(circle at 88% 88%,rgba(64,35,186,.30),transparent 42%),
+    linear-gradient(145deg,#25106a,#07061a 72%)!important;
+}
+#public-store-products .aws-tone-4 .cover-aws{
+  background:
+    radial-gradient(circle at 16% 12%,rgba(0,220,235,.38),transparent 39%),
+    radial-gradient(circle at 88% 88%,rgba(0,137,168,.28),transparent 42%),
+    linear-gradient(145deg,#06333b,#03090d 72%)!important;
+}
+#public-store-products .aws-tone-1 .cover-aws{border-bottom-color:rgba(42,137,255,.34)!important}
+#public-store-products .aws-tone-2 .cover-aws{border-bottom-color:rgba(255,153,0,.34)!important}
+#public-store-products .aws-tone-3 .cover-aws{border-bottom-color:rgba(126,80,255,.38)!important}
+#public-store-products .aws-tone-4 .cover-aws{border-bottom-color:rgba(0,209,224,.34)!important}
