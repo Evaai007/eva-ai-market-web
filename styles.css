@@ -963,3 +963,26 @@ header{position:sticky;top:0;z-index:50;background:rgba(8,5,16,.84);backdrop-fil
     linear-gradient(145deg,#263b50,#080d13 72%)!important;
   border-bottom-color:rgba(161,207,255,.38)!important;
 }
+
+
+/* 2026-09-09 selected four rotating Telegram colour covers */
+/* Selected option 1 — Sky Blue + Midnight Navy */
+#public-store-products .telegram-tone-1 .cover-telegram{
+  background:radial-gradient(circle at 15% 10%,rgba(20,174,255,.55),transparent 40%),radial-gradient(circle at 88% 88%,rgba(0,89,214,.32),transparent 43%),linear-gradient(145deg,#063a78,#030b1d 72%)!important;
+  border-bottom-color:rgba(30,175,255,.42)!important
+}
+/* Selected option 3 — Cyan Teal + Graphite */
+#public-store-products .telegram-tone-2 .cover-telegram{
+  background:radial-gradient(circle at 15% 10%,rgba(0,222,235,.46),transparent 40%),radial-gradient(circle at 88% 88%,rgba(0,126,145,.30),transparent 43%),linear-gradient(145deg,#06404a,#030a0d 72%)!important;
+  border-bottom-color:rgba(0,218,232,.40)!important
+}
+/* Selected option 4 — Royal Purple + Dark Blue */
+#public-store-products .telegram-tone-3 .cover-telegram{
+  background:radial-gradient(circle at 15% 10%,rgba(135,54,255,.52),transparent 40%),radial-gradient(circle at 88% 88%,rgba(32,73,218,.32),transparent 43%),linear-gradient(145deg,#321078,#050a24 72%)!important;
+  border-bottom-color:rgba(138,72,255,.42)!important
+}
+/* Selected option 5 — Magenta + Navy */
+#public-store-products .telegram-tone-4 .cover-telegram{
+  background:radial-gradient(circle at 15% 10%,rgba(245,35,177,.48),transparent 40%),radial-gradient(circle at 88% 88%,rgba(49,62,201,.31),transparent 43%),linear-gradient(145deg,#64104f,#050a22 72%)!important;
+  border-bottom-color:rgba(244,54,185,.42)!important
+}
