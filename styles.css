@@ -546,3 +546,60 @@ header{position:sticky;top:0;z-index:50;background:rgba(8,5,16,.84);backdrop-fil
  #public-store-products .account-product>strong{margin:9px 0!important}
  #public-store-products .stock-line{margin-bottom:10px!important}
 }
+
+
+/* 2026-09-09 soft 3D app-icon treatment from user reference */
+.product-cover .brand-icon-shell{
+  overflow:visible;
+  border:0!important;
+  border-radius:25px!important;
+  box-shadow:
+    0 16px 24px rgba(0,0,0,.38),
+    0 3px 7px rgba(0,0,0,.22),
+    inset 0 2px 2px rgba(255,255,255,.48),
+    inset 0 -5px 9px rgba(0,0,0,.17)!important;
+}
+.product-cover .brand-icon-shell::before{
+  content:"";
+  position:absolute;
+  inset:3px;
+  z-index:0;
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:22px;
+  background:linear-gradient(150deg,rgba(255,255,255,.24),transparent 42%);
+  pointer-events:none;
+}
+.product-cover .brand-icon-shell::after{
+  content:"";
+  position:absolute;
+  left:13%;right:13%;bottom:-13px;
+  z-index:-1;
+  height:18px;
+  border-radius:50%;
+  background:rgba(0,0,0,.45);
+  filter:blur(9px);
+  pointer-events:none;
+}
+.cover-aws .brand-icon-shell{background:linear-gradient(145deg,#415060,#202c38 72%)!important}
+.cover-claude .brand-icon-shell{background:linear-gradient(145deg,#efa27f,#c96546 72%)!important}
+.cover-openai .brand-icon-shell{background:linear-gradient(145deg,#66dcca,#10a37f 72%)!important}
+.cover-gemini .brand-icon-shell{background:linear-gradient(145deg,#eef3ff,#cfc7ff 58%,#a8bcff)!important}
+.cover-grok .brand-icon-shell{background:linear-gradient(145deg,#303030,#050505 72%)!important}
+.cover-capcut .brand-icon-shell{background:linear-gradient(145deg,#ffffff,#dfe7ec 72%)!important}
+.cover-telegram .brand-icon-shell{background:linear-gradient(145deg,#61c9f3,#229ed9 72%)!important}
+.cover-ai .brand-icon-shell{background:linear-gradient(145deg,#9c8cff,#5843d7 72%)!important}
+.cover-aws .brand-icon-shell .brand-logo{color:#ff9900!important}
+.cover-claude .brand-icon-shell .brand-logo{color:#fff7f1!important}
+.cover-openai .brand-icon-shell .brand-logo{color:#ffffff!important}
+.cover-grok .brand-icon-shell .brand-logo{color:#ffffff!important}
+.cover-capcut .brand-icon-shell .brand-logo{color:#080808!important}
+.cover-telegram .brand-icon-shell .brand-logo{color:#ffffff!important}
+.product-cover .brand-icon-shell .brand-logo{
+  z-index:2;
+  filter:drop-shadow(0 2px 0 rgba(255,255,255,.18)) drop-shadow(0 5px 5px rgba(0,0,0,.28))!important;
+}
+.product-cover .brand-watermark{opacity:.09!important}
+@media(max-width:600px){
+ .product-cover .brand-icon-shell{border-radius:22px!important}
+ .product-cover .brand-icon-shell::before{border-radius:19px}
+}
