@@ -401,3 +401,55 @@
   .hero-stat{min-height:115px!important}
   .hero-paid-note p{font-size:9.5px!important}
 }
+
+
+/* Final visual parity pass from live mobile screenshot */
+body.premium-home>header{display:none!important}
+body.premium-home .hero-type1-section{padding-top:6px!important}
+body.premium-home .hero-reference{margin-top:0!important}
+
+@media(max-width:480px){
+  .hero-reference{padding:20px 17px 16px!important}
+  .hero-top-grid{min-height:346px!important}
+  .hero-type1-copy .eyebrow{padding:8px 12px!important;font-size:10px!important}
+  .hero-reference h1{
+    margin:22px 0 12px!important;
+    font-size:clamp(34px,9.7vw,38px)!important;
+    line-height:1.04!important;
+  }
+  .hero-reference .subtitle{
+    max-width:68%!important;
+    font-size:13px!important;
+    line-height:1.5!important;
+  }
+  .hero-type1-visual{
+    top:138px!important;
+    right:-4px!important;
+    width:60%!important;
+  }
+  .cloud-stage{aspect-ratio:1.22!important}
+  .cloud-bubble-a{width:44%!important;height:34%!important;left:8%!important;top:43%!important;border-radius:55% 45% 50% 50%/62% 60% 40% 38%!important}
+  .cloud-bubble-b{width:50%!important;height:43%!important;left:26%!important;top:25%!important;border-radius:48% 52% 45% 55%/60% 62% 38% 40%!important}
+  .cloud-bubble-c{width:42%!important;height:33%!important;right:5%!important;top:45%!important;border-radius:52% 48% 57% 43%/64% 58% 42% 36%!important}
+  .cloud-core{font-size:46px!important;top:53%!important}
+  .cloud-ring{width:92%!important;height:24%!important;top:58%!important}
+  .cloud-ring-b{width:68%!important;height:38%!important}
+  .cloud-platform{left:10%!important;right:10%!important;bottom:5%!important;height:17%!important}
+  .hero-type1-logos{padding:7px 4px!important;border-radius:17px!important}
+  .hero-platform{min-height:68px!important;gap:5px!important}
+  .hero-svg-mark,.hero-gcp-mark{transform:scale(.92)!important}
+  .hero-type1-actions{margin-top:10px!important;gap:10px!important}
+  .hero-type1-actions .button{min-height:56px!important;border-radius:14px!important;font-size:14px!important}
+  .btn-icon{font-size:19px!important}
+  .btn-arrow{font-size:18px!important}
+  .hero-paid-note{margin-top:10px!important;padding:11px 12px!important;border-radius:14px!important}
+  .hero-paid-note p{font-size:9px!important;line-height:1.5!important}
+  .hero-type1-stats{margin-top:10px!important;gap:8px!important}
+  .hero-stat{min-height:108px!important;border-radius:15px!important}
+  .hero-stat i{width:40px!important;height:40px!important;margin-bottom:8px!important;font-size:23px!important}
+  .hero-stat b{font-size:14px!important}
+  .hero-stat small{font-size:10px!important}
+  .hero-bottom-trust{margin-top:14px!important;padding-top:12px!important}
+  .hero-bottom-trust i{font-size:18px!important}
+  .hero-bottom-trust b{font-size:8px!important}
+}
