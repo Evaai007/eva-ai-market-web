@@ -741,3 +741,45 @@ header{position:sticky;top:0;z-index:50;background:rgba(8,5,16,.84);backdrop-fil
     border-radius:22px!important;
   }
 }
+
+
+/* 2026-09-09 locked centered card composition */
+#public-store-products .product-cover{text-align:center!important}
+#public-store-products .product-cover .brand-icon-shell{
+  left:50%!important;right:auto!important;top:18px!important;
+  transform:translateX(-50%)!important
+}
+#public-store-products .product-cover strong{
+  left:18px!important;right:18px!important;bottom:42px!important;
+  max-width:none!important;text-align:center!important
+}
+#public-store-products .product-cover small{
+  left:50%!important;right:auto!important;bottom:17px!important;
+  width:max-content!important;max-width:calc(100% - 36px)!important;
+  transform:translateX(-50%)!important;justify-content:center!important;text-align:center!important
+}
+#public-store-products .product-tag{
+  display:table!important;margin:12px auto 0!important;text-align:center!important
+}
+#public-store-products .account-product h3,
+#public-store-products .account-product>p,
+#public-store-products .account-product>strong{
+  width:100%!important;text-align:center!important
+}
+#public-store-products .cover-telegram .brand-icon-shell.brand-photo-shell{
+  overflow:visible!important;background:transparent!important;
+  border-radius:50%!important;box-shadow:none!important
+}
+#public-store-products .cover-telegram .brand-icon-shell::before,
+#public-store-products .cover-telegram .brand-icon-shell::after{display:none!important}
+#public-store-products .cover-telegram .brand-photo{
+  object-fit:contain!important;filter:drop-shadow(0 10px 14px rgba(0,0,0,.42))
+}
+@media(max-width:600px){
+ #public-store-products .product-cover .brand-icon-shell{top:15px!important}
+ #public-store-products .product-cover strong{
+   left:15px!important;right:15px!important;bottom:39px!important;text-align:center!important
+ }
+ #public-store-products .product-cover small{bottom:14px!important}
+ #public-store-products .product-tag{margin:10px auto 0!important}
+}
