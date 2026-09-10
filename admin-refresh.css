@@ -1,0 +1,290 @@
+/* EVA AI MARKET — private operations workspace refresh */
+
+.dashboard-page .admin-quick-nav{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin:0 0 14px;
+}
+.dashboard-page .admin-quick-nav a{
+  position:relative;
+  overflow:hidden;
+  min-height:108px;
+  padding:20px 54px 18px 20px;
+  border:1px solid rgba(116,130,255,.23);
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 100% 0,rgba(69,144,255,.14),transparent 46%),
+    linear-gradient(145deg,rgba(12,18,44,.96),rgba(6,10,26,.98));
+  color:#f7f9ff;
+  font-size:16px;
+  font-weight:800;
+  text-decoration:none;
+  box-shadow:0 16px 45px rgba(0,0,0,.25);
+  transition:transform .2s ease,border-color .2s ease;
+}
+.dashboard-page .admin-quick-nav a::after{
+  content:"→";
+  position:absolute;
+  right:18px;top:18px;
+  width:32px;height:32px;
+  display:grid;place-items:center;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:11px;
+  background:rgba(255,255,255,.05);
+  color:#82dcff;
+}
+.dashboard-page .admin-quick-nav a:nth-child(1){
+  border-color:rgba(58,204,255,.29);
+  background:
+    radial-gradient(circle at 100% 0,rgba(51,204,255,.16),transparent 46%),
+    linear-gradient(145deg,#0b1b34,#071021);
+}
+.dashboard-page .admin-quick-nav a:nth-child(2){
+  border-color:rgba(174,83,255,.30);
+  background:
+    radial-gradient(circle at 100% 0,rgba(202,65,255,.16),transparent 46%),
+    linear-gradient(145deg,#1b1038,#0b0b21);
+}
+.dashboard-page .admin-quick-nav a:nth-child(3){
+  border-color:rgba(65,226,173,.27);
+  background:
+    radial-gradient(circle at 100% 0,rgba(65,226,173,.14),transparent 46%),
+    linear-gradient(145deg,#0a2427,#07151c);
+}
+.dashboard-page .admin-quick-nav a:hover{
+  transform:translateY(-2px);
+  border-color:rgba(112,194,255,.55);
+}
+.dashboard-page .admin-quick-nav span{
+  display:block;
+  margin-top:8px;
+  color:#919db8;
+  font-size:12px;
+  font-weight:500;
+  line-height:1.45;
+}
+.dashboard-page #admin-notice:not(:empty){
+  margin:0 0 14px;
+  padding:13px 15px;
+  border:1px solid rgba(73,211,255,.23);
+  border-radius:14px;
+  background:rgba(39,139,255,.08);
+  color:#bcecff;
+}
+.dashboard-page #admin-notice.error:not(:empty){
+  border-color:rgba(255,103,128,.26);
+  background:rgba(255,74,103,.08);
+  color:#ffb5c1;
+}
+.dashboard-page #deposits,
+.dashboard-page #orders,
+.dashboard-page #inventory,
+.dashboard-page .trial-card{
+  margin:0 0 14px;
+}
+.dashboard-page #deposits{
+  border-color:rgba(62,202,255,.25)!important;
+}
+.dashboard-page #orders{
+  border-color:rgba(163,91,255,.28)!important;
+}
+.dashboard-page #inventory{
+  border-color:rgba(69,222,175,.24)!important;
+}
+.dashboard-page .trial-card{
+  border-color:rgba(255,190,73,.25)!important;
+}
+.dashboard-page #deposits>.card-title-row,
+.dashboard-page #orders>.card-title-row,
+.dashboard-page #inventory>.card-title-row,
+.dashboard-page .trial-card>.card-title-row{
+  margin:-3px 0 18px;
+  padding:0 0 16px;
+  border-bottom:1px solid rgba(255,255,255,.065);
+}
+.dashboard-page #deposits .kicker{color:#6fe1ff!important}
+.dashboard-page #orders .kicker{color:#c79aff!important}
+.dashboard-page #inventory .kicker{color:#75edc7!important}
+.dashboard-page .trial-card .kicker{color:#ffd37e!important}
+.dashboard-page .admin-product-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+.dashboard-page .stock-editor{
+  position:relative;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 92px;
+  gap:14px;
+  align-items:end;
+  padding:18px!important;
+  border-radius:18px!important;
+  background:
+    radial-gradient(circle at 100% 0,rgba(69,221,178,.10),transparent 40%),
+    linear-gradient(145deg,rgba(11,24,38,.98),rgba(5,12,24,.99))!important;
+  box-shadow:none!important;
+}
+.dashboard-page .stock-editor::before{
+  content:"";
+  position:absolute;
+  left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(#46e3b2,#4e8dff);
+  opacity:.72;
+}
+.dashboard-page .stock-editor>div{
+  min-width:0;
+  align-self:start;
+}
+.dashboard-page .stock-editor b{
+  display:block;
+  overflow:hidden;
+  color:#f4f7ff;
+  font-size:14px;
+  line-height:1.35;
+  text-overflow:ellipsis;
+}
+.dashboard-page .stock-editor small{
+  display:block;
+  margin-top:6px;
+  color:#8996af;
+  font-size:11px;
+  line-height:1.4;
+}
+.dashboard-page .stock-editor label{
+  color:#aeb8ce;
+  font-size:11px;
+  font-weight:700;
+}
+.dashboard-page .stock-editor input{
+  width:100%;
+  min-height:44px;
+  margin-top:6px;
+  padding:0 10px;
+  border:1px solid rgba(82,211,174,.24);
+  border-radius:11px;
+  background:rgba(2,8,16,.74);
+  color:#fff;
+  font:700 14px Inter,sans-serif;
+}
+.dashboard-page .stock-editor .save-stock{
+  grid-column:1/-1;
+  width:100%;
+  min-height:42px;
+  border-color:rgba(71,217,177,.25);
+  background:rgba(50,174,143,.09);
+  color:#8af1cf;
+}
+.dashboard-page .approve-button,
+.dashboard-page .repair-button{
+  min-height:38px;
+  padding:8px 12px;
+  border-radius:11px;
+  border:1px solid rgba(70,221,174,.28);
+  background:linear-gradient(135deg,rgba(32,184,137,.22),rgba(45,122,255,.16));
+  color:#8cf0ce;
+  font-weight:800;
+  cursor:pointer;
+}
+.dashboard-page .repair-button{
+  border-color:rgba(106,155,255,.28)!important;
+  color:#a7c8ff!important;
+}
+.dashboard-page .approve-button:disabled,
+.dashboard-page .button:disabled{
+  cursor:not-allowed;
+  opacity:.56;
+}
+.dashboard-page #orders .table-wrap{
+  max-height:660px;
+}
+.dashboard-page .order-status,
+.dashboard-page .order-delivery{
+  width:100%;
+  border:1px solid rgba(116,130,255,.22);
+  border-radius:11px;
+  background:#070c1e;
+  color:#eef2ff;
+  font:500 12px/1.45 Inter,sans-serif;
+}
+.dashboard-page .order-status{
+  min-width:112px;
+  min-height:42px;
+  padding:0 10px;
+}
+.dashboard-page .order-delivery{
+  min-width:230px;
+  min-height:72px;
+  padding:10px;
+  resize:vertical;
+}
+.dashboard-page .save-order{
+  min-width:86px;
+  min-height:42px;
+}
+.dashboard-page table code{
+  display:inline-block;
+  max-width:160px;
+  overflow:hidden;
+  color:#9be8ff;
+  text-overflow:ellipsis;
+  vertical-align:middle;
+}
+.dashboard-page .trial-form{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:end;
+  gap:12px;
+}
+.dashboard-page .trial-form .button{
+  min-width:180px;
+  min-height:54px;
+}
+.dashboard-page .empty{
+  padding:32px!important;
+  color:#8490aa!important;
+  text-align:center;
+}
+@media(max-width:1020px){
+  .dashboard-page .admin-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:760px){
+  .dashboard-page .admin-quick-nav{
+    grid-template-columns:1fr;
+    gap:9px;
+  }
+  .dashboard-page .admin-quick-nav a{
+    min-height:88px;
+    padding:17px 52px 16px 17px;
+    border-radius:17px;
+  }
+  .dashboard-page .admin-quick-nav a::after{
+    right:15px;top:15px;
+  }
+  .dashboard-page .admin-product-grid{grid-template-columns:1fr}
+  .dashboard-page .stock-editor{
+    grid-template-columns:minmax(0,1fr) 84px;
+    padding:16px!important;
+  }
+  .dashboard-page #deposits,
+  .dashboard-page #orders,
+  .dashboard-page #inventory,
+  .dashboard-page .trial-card{margin-bottom:10px}
+  .dashboard-page #deposits .table-wrap,
+  .dashboard-page #orders .table-wrap{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .dashboard-page #deposits table{min-width:780px}
+  .dashboard-page #orders table{min-width:980px}
+  .dashboard-page .trial-form{grid-template-columns:1fr}
+  .dashboard-page .trial-form .button{width:100%}
+}
+@media(max-width:390px){
+  .dashboard-page .stock-editor{grid-template-columns:1fr}
+  .dashboard-page .stock-editor .save-stock{grid-column:auto}
+}
+@media(prefers-reduced-motion:reduce){
+  .dashboard-page .admin-quick-nav a{transition:none}
+}
