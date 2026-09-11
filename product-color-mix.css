@@ -129,17 +129,18 @@
 #public-store-products .product-price{display:block;margin-top:5px}
 #public-store-products .plan-reference{color:#8ee9d4;font-weight:700}
 
-#public-store-products .tone-emerald{--card-a:rgba(0,222,174,.34);--card-b:rgba(0,108,101,.29);--card-border:rgba(37,242,194,.68);--card-glow:rgba(0,221,177,.25);--button-a:#00cfa5;--button-b:#00a486}
-#public-store-products .tone-cyan{--card-a:rgba(0,207,244,.34);--card-b:rgba(24,113,192,.31);--card-border:rgba(61,220,255,.67);--card-glow:rgba(0,192,234,.24);--button-a:#11c8e8;--button-b:#168acb}
-#public-store-products .tone-blue{--card-a:rgba(44,126,255,.37);--card-b:rgba(17,66,174,.32);--card-border:rgba(79,150,255,.70);--card-glow:rgba(45,116,255,.26);--button-a:#438af5;--button-b:#2563d9}
-#public-store-products .tone-violet{--card-a:rgba(132,74,255,.38);--card-b:rgba(68,35,167,.34);--card-border:rgba(157,105,255,.70);--card-glow:rgba(126,68,255,.26);--button-a:#8b5cf6;--button-b:#6536d8}
-#public-store-products .tone-gold{--card-a:rgba(255,177,44,.34);--card-b:rgba(129,77,17,.28);--card-border:rgba(255,194,77,.68);--card-glow:rgba(255,166,32,.22);--button-a:#f5b83f;--button-b:#d98918}
-#public-store-products .tone-rose{--card-a:rgba(255,71,132,.35);--card-b:rgba(130,35,92,.29);--card-border:rgba(255,104,158,.69);--card-glow:rgba(255,67,134,.24);--button-a:#f04f88;--button-b:#c52f69}
-#public-store-products .tone-sky{--card-a:rgba(52,178,255,.34);--card-b:rgba(28,99,174,.29);--card-border:rgba(91,194,255,.69);--card-glow:rgba(49,172,255,.24);--button-a:#42baf5;--button-b:#2485cf}
-#public-store-products .tone-indigo{--card-a:rgba(70,91,255,.39);--card-b:rgba(83,50,190,.33);--card-border:rgba(103,119,255,.72);--card-glow:rgba(72,88,255,.27);--button-a:#526dff;--button-b:#7046df}
-#public-store-products .tone-magenta{--card-a:rgba(209,57,255,.36);--card-b:rgba(86,45,193,.34);--card-border:rgba(217,91,255,.71);--card-glow:rgba(196,58,255,.25);--button-a:#cc4ff1;--button-b:#7447e8}
+#public-store-products .account-product.tone-emerald{--card-a:rgba(0,222,174,.34);--card-b:rgba(0,108,101,.29);--card-border:rgba(37,242,194,.68);--card-glow:rgba(0,221,177,.25);--button-a:#00cfa5;--button-b:#00a486}
+#public-store-products .account-product.tone-cyan{--card-a:rgba(0,207,244,.34);--card-b:rgba(24,113,192,.31);--card-border:rgba(61,220,255,.67);--card-glow:rgba(0,192,234,.24);--button-a:#11c8e8;--button-b:#168acb}
+#public-store-products .account-product.tone-blue{--card-a:rgba(44,126,255,.37);--card-b:rgba(17,66,174,.32);--card-border:rgba(79,150,255,.70);--card-glow:rgba(45,116,255,.26);--button-a:#438af5;--button-b:#2563d9}
+#public-store-products .account-product.tone-violet{--card-a:rgba(132,74,255,.38);--card-b:rgba(68,35,167,.34);--card-border:rgba(157,105,255,.70);--card-glow:rgba(126,68,255,.26);--button-a:#8b5cf6;--button-b:#6536d8}
+#public-store-products .account-product.tone-gold{--card-a:rgba(255,177,44,.34);--card-b:rgba(129,77,17,.28);--card-border:rgba(255,194,77,.68);--card-glow:rgba(255,166,32,.22);--button-a:#f5b83f;--button-b:#d98918}
+#public-store-products .account-product.tone-rose{--card-a:rgba(255,71,132,.35);--card-b:rgba(130,35,92,.29);--card-border:rgba(255,104,158,.69);--card-glow:rgba(255,67,134,.24);--button-a:#f04f88;--button-b:#c52f69}
+#public-store-products .account-product.tone-sky{--card-a:rgba(52,178,255,.34);--card-b:rgba(28,99,174,.29);--card-border:rgba(91,194,255,.69);--card-glow:rgba(49,172,255,.24);--button-a:#42baf5;--button-b:#2485cf}
+#public-store-products .account-product.tone-indigo{--card-a:rgba(70,91,255,.39);--card-b:rgba(83,50,190,.33);--card-border:rgba(103,119,255,.72);--card-glow:rgba(72,88,255,.27);--button-a:#526dff;--button-b:#7046df}
+#public-store-products .account-product.tone-magenta{--card-a:rgba(209,57,255,.36);--card-b:rgba(86,45,193,.34);--card-border:rgba(217,91,255,.71);--card-glow:rgba(196,58,255,.25);--button-a:#cc4ff1;--button-b:#7447e8}
 
 #public-store-products .account-product[class*="tone-"]{
+  border-color:var(--card-border)!important;
   background:
     radial-gradient(circle at 12% 0%,var(--card-a),transparent 48%),
     radial-gradient(circle at 100% 100%,var(--card-b),transparent 52%),
