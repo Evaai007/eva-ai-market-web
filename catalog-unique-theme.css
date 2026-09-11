@@ -119,3 +119,73 @@
  #public-store-products .account-product h3{font-size:23px!important;margin-right:76px!important}
  #public-store-products .account-product>p{font-size:15px!important;margin-right:0!important}
 }
+
+
+/* Mobile alignment corrections: bundle + long Telegram names */
+#public-store-products .account-product{
+  height:auto!important;
+  max-height:none!important;
+}
+#public-store-products .account-product>p{
+  display:block!important;
+  max-height:none!important;
+  overflow:visible!important;
+  white-space:normal!important;
+  -webkit-line-clamp:unset!important;
+  line-clamp:unset!important;
+}
+#public-store-products .account-product h3{
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  overflow-wrap:anywhere!important;
+}
+#public-store-products .product-cover.bundle-image-cover{
+  position:relative!important;
+  inset:auto!important;
+  order:-4!important;
+  width:calc(100% + 56px)!important;
+  height:150px!important;
+  min-height:150px!important;
+  margin:-28px -28px 22px!important;
+  border-radius:26px 26px 0 0!important;
+  overflow:hidden!important;
+  box-shadow:none!important;
+}
+#public-store-products .product-cover.bundle-image-cover img{
+  width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;
+}
+#public-store-products .account-product:has(.bundle-image-cover) .product-serial{
+  position:absolute!important;z-index:5!important;top:18px!important;left:18px!important;
+  background:rgba(20,34,70,.9)!important;backdrop-filter:blur(10px)!important;
+}
+#public-store-products .account-product:has(.bundle-image-cover) .product-tag{order:-3!important}
+#public-store-products .account-product:has(.bundle-image-cover) h3{
+  margin-right:0!important;font-size:26px!important;
+}
+#public-store-products .telegram-service h3{
+  max-width:calc(100% - 76px)!important;
+  margin-right:76px!important;
+  line-height:1.22!important;
+}
+@media(max-width:760px){
+ #public-store-products .product-cover.bundle-image-cover{
+   width:calc(100% + 48px)!important;height:132px!important;min-height:132px!important;
+   margin:-24px -24px 20px!important;border-radius:22px 22px 0 0!important;
+ }
+ #public-store-products .account-product:has(.bundle-image-cover) h3{
+   font-size:23px!important;line-height:1.22!important;
+ }
+ #public-store-products .account-product:has(.bundle-image-cover)>p{
+   margin-right:0!important;font-size:15px!important;line-height:1.48!important;
+ }
+ #public-store-products .telegram-service h3{
+   max-width:calc(100% - 72px)!important;
+   margin-right:72px!important;
+   font-size:21px!important;
+   line-height:1.25!important;
+ }
+ #public-store-products .telegram-service>p{
+   margin-right:0!important;padding-right:0!important;
+ }
+}
