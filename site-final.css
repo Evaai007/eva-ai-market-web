@@ -442,3 +442,58 @@ body{background:
 @media(prefers-reduced-motion:reduce){
   .button,.account-product{transition:none!important}
 }
+
+
+/* Official AI catalog hero — approved multi-color direction */
+.hero-type1.hero-ai-refresh{
+  border-color:rgba(67,219,210,.48)!important;
+  background:
+    radial-gradient(circle at 8% 8%,rgba(0,214,171,.18),transparent 34%),
+    radial-gradient(circle at 92% 36%,rgba(75,127,255,.24),transparent 38%),
+    radial-gradient(circle at 35% 100%,rgba(170,62,255,.20),transparent 42%),
+    linear-gradient(145deg,rgba(7,24,45,.99),rgba(10,10,42,.99))!important;
+  box-shadow:0 24px 80px rgba(0,0,0,.42),0 0 42px rgba(69,153,255,.15),inset 0 1px 0 rgba(255,255,255,.07)!important
+}
+.hero-ai-refresh .eyebrow{
+  color:#f6fbff!important;
+  border-color:rgba(67,232,206,.62)!important;
+  background:linear-gradient(100deg,rgba(0,205,161,.20),rgba(91,93,255,.19),rgba(204,61,240,.18))!important;
+  box-shadow:0 10px 30px rgba(16,175,190,.13)!important
+}
+.hero-ai-refresh h1 span{
+  background:linear-gradient(95deg,#35edbe 0%,#44c7ff 34%,#8d7aff 67%,#ef65d7 100%)!important;
+  -webkit-background-clip:text!important;background-clip:text!important;color:transparent!important
+}
+.hero-ai-refresh .hero-cloud-image{
+  filter:hue-rotate(34deg) saturate(1.12) drop-shadow(0 18px 28px rgba(35,187,231,.26))!important
+}
+.hero-ai-refresh .hero-type1-logos{
+  border-color:rgba(87,153,255,.38)!important;
+  background:linear-gradient(110deg,rgba(0,178,150,.10),rgba(56,94,210,.12),rgba(170,55,213,.11))!important
+}
+.hero-ai-refresh .hero-platform:nth-child(1){color:#48e0bd!important}
+.hero-ai-refresh .hero-platform:nth-child(2){color:#ffbb4e!important}
+.hero-ai-refresh .hero-platform:nth-child(3){color:#61b7ff!important}
+.hero-ai-refresh .hero-platform:nth-child(4){color:#a983ff!important}
+.hero-ai-refresh .hero-type1-actions .button.primary{
+  background:linear-gradient(100deg,#00c99c 0%,#338cff 48%,#a44df0 100%)!important;
+  border-color:rgba(93,211,255,.44)!important;
+  box-shadow:0 14px 34px rgba(39,119,242,.27)!important
+}
+.hero-ai-refresh .hero-type1-actions .button.secondary{
+  border-color:rgba(126,111,255,.50)!important;
+  background:linear-gradient(110deg,rgba(31,122,176,.14),rgba(106,54,185,.15))!important
+}
+.hero-ai-refresh .hero-paid-note{
+  border-color:rgba(75,201,220,.33)!important;
+  background:linear-gradient(110deg,rgba(0,170,148,.09),rgba(94,61,199,.10))!important
+}
+@media(max-width:760px){
+  .hero-type1.hero-ai-refresh{background:
+    radial-gradient(circle at 12% 3%,rgba(0,214,171,.18),transparent 30%),
+    radial-gradient(circle at 94% 38%,rgba(70,120,255,.24),transparent 36%),
+    radial-gradient(circle at 30% 100%,rgba(174,59,255,.18),transparent 38%),
+    linear-gradient(160deg,rgba(6,22,42,.99),rgba(11,10,42,.99))!important}
+  .hero-ai-refresh h1{font-size:clamp(2.45rem,11vw,3.4rem)!important;line-height:1.02!important}
+  .hero-ai-refresh .subtitle{font-size:1rem!important;line-height:1.55!important}
+}
