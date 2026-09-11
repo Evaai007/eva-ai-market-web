@@ -497,3 +497,13 @@ body{background:
   .hero-ai-refresh h1{font-size:clamp(2.45rem,11vw,3.4rem)!important;line-height:1.02!important}
   .hero-ai-refresh .subtitle{font-size:1rem!important;line-height:1.55!important}
 }
+
+
+/* Final per-card product button palettes */
+body #public-store-products .account-product:nth-child(6n+1) a.button.secondary{background:linear-gradient(105deg,#ec4fae,#397df4)!important;border-color:#f06bc7!important;box-shadow:0 10px 28px rgba(229,66,175,.24)!important}
+body #public-store-products .account-product:nth-child(6n+2) a.button.secondary{background:linear-gradient(105deg,#8d5cf6,#29bfe2)!important;border-color:#9270ff!important;box-shadow:0 10px 28px rgba(111,80,236,.24)!important}
+body #public-store-products .account-product:nth-child(6n+3) a.button.secondary{background:linear-gradient(105deg,#3575f0,#19bda5)!important;border-color:#4a99ff!important;box-shadow:0 10px 28px rgba(40,120,232,.24)!important}
+body #public-store-products .account-product:nth-child(6n+4) a.button.secondary{background:linear-gradient(105deg,#e13d91,#9748ed)!important;border-color:#ea5db4!important;box-shadow:0 10px 28px rgba(205,60,157,.23)!important}
+body #public-store-products .account-product:nth-child(6n+5) a.button.secondary{background:linear-gradient(105deg,#08bca0,#357cf1)!important;border-color:#34d2c3!important;box-shadow:0 10px 28px rgba(18,184,176,.23)!important}
+body #public-store-products .account-product:nth-child(6n) a.button.secondary{background:linear-gradient(105deg,#e5a72d,#8050e8)!important;border-color:#eeb749!important;box-shadow:0 10px 28px rgba(209,146,38,.23)!important}
+body #public-store-products .account-product[class*="tone-"] a.button.secondary{background:linear-gradient(105deg,var(--button-a),var(--button-b))!important;border-color:rgba(255,255,255,.22)!important;box-shadow:0 10px 28px var(--card-glow)!important}
