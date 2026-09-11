@@ -17,6 +17,6 @@ function arrange(){
  [...ORDER,...[...groups.keys()].filter(k=>!ORDER.includes(k))].forEach(cat=>{const list=groups.get(cat);if(!list?.length)return;const [title,desc]=META[cat]||[cat,'Current products and availability'];const head=document.createElement('div');head.className='clean-category-head';head.innerHTML=`<div><span class="clean-category-dot"></span><div><h3>${title} <b>${list.length}</b></h3><p>${desc}</p></div></div>`;store.appendChild(head);list.forEach(card=>store.appendChild(card))});
  updateCount(cards.length);return true;
 }
-function boot(){ensureCleanCss();updateCount(35);const store=document.getElementById('public-store-products');let tries=0;const t=setInterval(()=>{tries++;if(arrange()||tries>80)clearInterval(t)},200);if(store)new MutationObserver(()=>{if(!store.querySelector('.store-loading'))arrange()}).observe(store,{childList:true,subtree:false})}
+function boot(){ensureCleanCss();updateCount(38);let tries=0;const t=setInterval(()=>{tries++;if(arrange()||tries>80)clearInterval(t)},200)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })();
