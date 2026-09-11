@@ -197,7 +197,7 @@ mountDemoTransaction();
  function open(button){
   kind=button.dataset.calcKind;name=button.dataset.calcName;
   const enterprise=kind.includes('enterprise'),gemini=kind==='gemini-enterprise';
-  q('eva-calc-product').textContent=name;q('eva-calc-quote-wrap').hidden=!enterprise;q('eva-calc-usage-wrap').hidden=kind!=='claude-enterprise';q('eva-calc-seats-wrap').hidden=gemini;q('eva-calc-billing').closest('label').hidden=gemini;q('eva-calc-payment').hidden=true;q('eva-calc-order').hidden=false;modal.hidden=false;document.body.classList.add('eva-calc-open');updateWallet();calculate()
+  q('eva-calc-product').textContent=name;q('eva-calc-quote-wrap').hidden=!enterprise;q('eva-calc-usage-wrap').hidden=kind!=='claude-enterprise';q('eva-calc-seats-wrap').hidden=enterprise;q('eva-calc-billing').closest('label').hidden=enterprise;q('eva-calc-payment').hidden=true;q('eva-calc-order').hidden=false;modal.hidden=false;document.body.classList.add('eva-calc-open');updateWallet();calculate()
  }
  q('eva-calc-order').addEventListener('click',()=>{q('eva-calc-payment').hidden=false;q('eva-calc-order').hidden=true;q('eva-calc-payment').scrollIntoView({behavior:'smooth',block:'nearest'})});
  q('eva-calc-network').addEventListener('change',updateWallet);
