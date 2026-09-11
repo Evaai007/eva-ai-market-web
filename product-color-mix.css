@@ -154,3 +154,42 @@
 @media(max-width:760px){
   #public-store-products .product-serial{top:10px;left:10px;min-width:38px;height:28px}
 }
+
+
+/* Match every legacy product button to its card palette */
+#public-store-products .account-product:nth-child(6n+1) .button.secondary{
+  background:linear-gradient(105deg,#ec4fae,#397df4)!important;
+  border-color:rgba(255,106,202,.52)!important;
+  box-shadow:0 10px 28px rgba(229,66,175,.22)!important
+}
+#public-store-products .account-product:nth-child(6n+2) .button.secondary{
+  background:linear-gradient(105deg,#8d5cf6,#29bfe2)!important;
+  border-color:rgba(146,112,255,.55)!important;
+  box-shadow:0 10px 28px rgba(111,80,236,.23)!important
+}
+#public-store-products .account-product:nth-child(6n+3) .button.secondary{
+  background:linear-gradient(105deg,#3575f0,#19bda5)!important;
+  border-color:rgba(74,153,255,.54)!important;
+  box-shadow:0 10px 28px rgba(40,120,232,.23)!important
+}
+#public-store-products .account-product:nth-child(6n+4) .button.secondary{
+  background:linear-gradient(105deg,#e13d91,#9748ed)!important;
+  border-color:rgba(234,93,180,.53)!important;
+  box-shadow:0 10px 28px rgba(205,60,157,.22)!important
+}
+#public-store-products .account-product:nth-child(6n+5) .button.secondary{
+  background:linear-gradient(105deg,#08bca0,#357cf1)!important;
+  border-color:rgba(52,210,195,.52)!important;
+  box-shadow:0 10px 28px rgba(18,184,176,.21)!important
+}
+#public-store-products .account-product:nth-child(6n) .button.secondary{
+  background:linear-gradient(105deg,#e5a72d,#8050e8)!important;
+  border-color:rgba(238,183,73,.54)!important;
+  box-shadow:0 10px 28px rgba(209,146,38,.21)!important
+}
+/* New AI tier buttons retain their explicit nine-color themes */
+#public-store-products .account-product[class*="tone-"] .button.secondary{
+  background:linear-gradient(105deg,var(--button-a),var(--button-b))!important;
+  border-color:rgba(255,255,255,.18)!important;
+  box-shadow:0 10px 28px var(--card-glow)!important
+}
