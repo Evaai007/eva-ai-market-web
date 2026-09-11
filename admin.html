@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#07111f">
+<title>Private Admin — EVA AI MARKET</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="dashboard-premium.css?v=20260902"><link rel="stylesheet" href="admin-profit.css?v=20260911">
+</head>
+<body class="dashboard-page eva-admin-page">
+<header><div class="container nav-wrap"><a class="brand" href="/"><span class="brand-mark">E</span><span>EVA AI MARKET</span></a><button id="admin-refresh" class="button secondary small-button" type="button">Refresh</button></div></header>
+<main class="container dash-main">
+<div class="dash-heading"><div><span class="kicker">PRIVATE ADMIN</span><h1>Store management</h1><p>Deposits, orders, inventory and private profit estimates.</p></div><a class="button secondary" href="/">Public Store</a></div>
+<p id="admin-notice" class="dash-notice" role="status"></p>
+
+<section class="panel dash-card admin-profit-card">
+<div class="card-title-row"><div><span class="kicker">PRIVATE · ADMIN ONLY</span><h2>Profit calculator</h2></div><span class="profit-lock">🔒 Hidden from customers</span></div>
+<div class="profit-fields">
+<label>Plan<select id="profit-plan"><option value="standard">Business / Team Standard</option><option value="premium">Business / Team Premium</option><option value="enterprise">Enterprise custom quote</option></select></label>
+<label>Billing<select id="profit-billing"><option value="monthly">Monthly</option><option value="annual">Annual</option></select></label>
+<label>Seats<input id="profit-seats" type="number" min="2" max="200" value="5"></label>
+<label>Supplier / official cost<input id="profit-cost" type="number" min="0" step="0.01" value="125"></label>
+<label>EVA service fee (%)<input id="profit-fee" type="number" min="0" max="100" step="1" value="10"></label>
+<label>Payment & support expense<input id="profit-expense" type="number" min="0" step="0.01" value="2"></label>
+</div>
+<div class="profit-results" aria-live="polite">
+<article><span>Customer pays</span><strong id="profit-customer">$137.50</strong></article>
+<article><span>Gross service fee</span><strong id="profit-gross">$12.50</strong></article>
+<article class="net"><span>Your net profit</span><strong id="profit-net">$10.50</strong></article>
+</div>
+<p id="profit-formula" class="safe-note">$125.00 official cost + $12.50 EVA fee − $2.00 expenses = $10.50 net profit</p>
+</section>
+
+<section class="panel dash-card"><div class="card-title-row"><div><span class="kicker">WALLET</span><h2>Deposit approvals</h2></div></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Customer</th><th>Network</th><th>Amount</th><th>TxID</th><th>Status</th><th>Action</th></tr></thead><tbody id="admin-deposit-rows"><tr><td colspan="7">Loading…</td></tr></tbody></table></div></section>
+<section class="panel dash-card"><h2>Grant trial credit</h2><form id="trial-credit-form" class="admin-inline-form"><label>Customer email<input id="trial-email" type="email" required></label><button class="button primary" type="submit">Grant $0.10</button></form></section>
+<section class="panel dash-card"><div class="card-title-row"><div><span class="kicker">INVENTORY</span><h2>Product stock</h2></div></div><div id="admin-product-grid" class="admin-product-grid"></div></section>
+<section class="panel dash-card"><div class="card-title-row"><div><span class="kicker">FULFILMENT</span><h2>Customer orders</h2></div></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Customer</th><th>Product</th><th>Price</th><th>Status</th><th>Delivery</th><th>Action</th></tr></thead><tbody id="admin-order-rows"><tr><td colspan="7">Loading…</td></tr></tbody></table></div></section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="admin.js?v=20260911-profit"></script><script src="admin-profit.js?v=20260911"></script>
+</body></html>
