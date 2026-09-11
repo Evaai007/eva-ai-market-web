@@ -189,3 +189,32 @@
    margin-right:0!important;padding-right:0!important;
  }
 }
+
+
+/* Enterprise price calculator */
+.eva-calc-open{overflow:hidden!important}
+.eva-calc-modal[hidden]{display:none!important}
+.eva-calc-modal{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:20px}
+.eva-calc-backdrop{position:absolute;inset:0;background:rgba(1,5,18,.78);backdrop-filter:blur(10px)}
+.eva-calc-panel{position:relative;z-index:1;width:min(680px,100%);max-height:calc(100vh - 40px);overflow:auto;padding:30px;border:1px solid rgba(103,123,255,.55);border-radius:28px;background:linear-gradient(145deg,#111a3c,#070b1d 72%);box-shadow:0 30px 90px rgba(0,0,0,.55);color:#fff}
+.eva-calc-panel h2{margin:8px 0 6px;font-size:28px}
+.eva-calc-panel>p{color:#aebbd5}
+.eva-calc-close{position:absolute;top:16px;right:16px;width:44px;height:44px;border:1px solid rgba(255,255,255,.14);border-radius:50%;background:#192344;color:#fff;font-size:28px}
+.eva-calc-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:22px 0}
+.eva-calc-fields label{display:grid;gap:7px;color:#c7d2e8;font-size:14px;font-weight:700}
+.eva-calc-fields input,.eva-calc-fields select{width:100%;min-height:50px;padding:0 14px;border:1px solid rgba(125,145,218,.32);border-radius:14px;background:#0b1330;color:#fff;font:inherit}
+.eva-calc-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.eva-calc-results span{padding:15px;border:1px solid rgba(126,145,230,.22);border-radius:15px;background:rgba(20,31,71,.65)}
+.eva-calc-results small,.eva-calc-results b{display:block}
+.eva-calc-results small{color:#9faccc;font-size:12px}
+.eva-calc-results b{margin-top:7px;color:#78e9ff;font-size:20px}
+.eva-calc-formula{padding:14px;border-radius:14px;background:rgba(74,95,190,.13);color:#dbe5ff!important;text-align:center}
+.eva-calc-panel>.button{width:100%;min-height:52px}
+@media(max-width:600px){
+ .eva-calc-modal{padding:12px}
+ .eva-calc-panel{padding:24px 18px;border-radius:22px;max-height:calc(100vh - 24px)}
+ .eva-calc-panel h2{font-size:23px;padding-right:42px}
+ .eva-calc-fields,.eva-calc-results{grid-template-columns:1fr}
+ .eva-calc-results{gap:8px}
+ .eva-calc-results span{padding:12px}
+}
