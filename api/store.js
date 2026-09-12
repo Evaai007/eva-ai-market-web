@@ -133,9 +133,15 @@ async function submitDepositWithRefresh(req,res){
   }
   return json(res,400,{error:insertBody?.message||'Deposit submission failed.'});
  }
+
+ const email=String(tokenBody.user?.email||'Unknown customer');
+ const txShort=transactionId.length>22?`${transactionId.slice(0,12)}…${transactionId.slice(-8)}`:transactionId;
+ const telegram=await sendTelegramAlert(`💰 EVA AI MARKET — New Deposit Submitted\n\nCustomer: ${email}\nAmount: ${amount.toFixed(2)} USDT\nNetwork: ${network}\nTxID: ${txShort}\nStatus: Pending verification\nTime: ${new Date().toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)\n\nAdmin: https://eva-ai-market.vercel.app/eva-ops-93k7m2`);
+
  return json(res,200,{
   submitted:true,
   already_submitted:false,
+  telegram:telegram.sent,
   access_token:tokenBody.access_token,
   refresh_token:tokenBody.refresh_token
  });
