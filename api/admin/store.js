@@ -31,7 +31,13 @@ export default async function handler(req,res){
     return json(res,200,{
      signups:{total:totalUsers,recent:recentUsers},
      deposits:{total:deposits.length,pending:pendingDeposits,approved:approvedDeposits,approvedAmount},
-     visits:{total:Number(visitRow?.total_visits||0),unique:Number(visitRow?.unique_visitors||0),today:Number(visitRow?.visits_today||0)}
+     visits:{
+      total:Number(visitRow?.total_visits||0),
+      unique:Number(visitRow?.unique_visitors||0),
+      today:Number(visitRow?.visits_today||0),
+      uniqueToday:Number(visitRow?.unique_today||0),
+      onlineNow:Number(visitRow?.online_now||0)
+     }
     });
    }catch(_error){return json(res,500,{error:'Could not load admin statistics.'});}
   }
