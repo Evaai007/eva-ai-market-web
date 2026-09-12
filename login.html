@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="auth-premium.css?v=20260902">
   <link rel="stylesheet" href="site-final.css?v=20260909-final-ui2">
-  <link rel="stylesheet" href="login-refresh.css?v=20260913-email-code">
+  <link rel="stylesheet" href="login-refresh.css?v=20260913-email-code2">
 </head>
 <body class="account-page login-refresh">
   <div class="glow glow-a"></div><div class="glow glow-b"></div>
@@ -50,14 +50,16 @@
       <form id="verify-form" class="auth-form" hidden>
         <div class="verify-heading">
           <strong>Check your email</strong>
-          <small>Enter the 6-digit verification code we sent to <span id="verify-email-label"></span>.</small>
+          <small>Enter the 6-digit verification code sent to <span id="verify-email-label"></span>.</small>
+          <small class="verify-warning">Do not share this code with anyone.</small>
+          <small class="verify-timer">Code expires in <strong id="verify-countdown">01:00</strong></small>
         </div>
         <label>Verification code
           <input id="verify-code" class="otp-input" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000" required>
         </label>
-        <button class="button primary" type="submit">Verify & create account</button>
+        <button id="verify-submit" class="button primary" type="submit">Verify & create account</button>
         <div class="verify-actions">
-          <button id="resend-code" type="button">Resend code</button>
+          <button id="resend-code" type="button">Request new code</button>
           <button id="change-signup-email" type="button">Change email</button>
         </div>
       </form>
@@ -67,6 +69,6 @@
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="auth.js?v=20260913-email-code"></script>
+  <script src="auth.js?v=20260913-email-code2"></script>
 </body>
 </html>
