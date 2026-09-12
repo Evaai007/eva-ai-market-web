@@ -23,4 +23,49 @@ function calculate(){
 [plan,billing,seats].forEach(el=>el.addEventListener('input',setOfficialCost));
 [cost,fee,expense].forEach(el=>el.addEventListener('input',calculate));
 setOfficialCost();
+
+function mountRealtimeEnhancements(){
+ const live=document.getElementById('admin-live-stats');
+ if(!live||live.dataset.realtimeEnhanced==='1')return;
+ live.dataset.realtimeEnhanced='1';
+ const row=live.querySelector('.card-title-row');
+ const badge=live.querySelector('.eva-live-badge');
+ if(badge)badge.textContent='● LIVE · refreshes every 5 sec';
+ if(row&&!document.getElementById('stats-refresh-now')){
+  const btn=document.createElement('button');
+  btn.id='stats-refresh-now';
+  btn.type='button';
+  btn.className='button secondary small-button';
+  btn.textContent='Refresh Live Data';
+  btn.style.cssText='pointer-events:auto;position:relative;z-index:10;touch-action:manipulation';
+  btn.addEventListener('click',async()=>{
+   const old=btn.textContent;btn.disabled=true;btn.textContent='Refreshing…';
+   try{if(typeof loadAdminStats==='function')await loadAdminStats(false);}finally{btn.disabled=false;btn.textContent=old;}
+  });
+  row.appendChild(btn);
+ }
+ const grid=live.querySelector('.eva-stat-grid');
+ if(grid&&!document.getElementById('stat-visitors-today')){
+  grid.insertAdjacentHTML('beforeend','<article><span>Visitors today</span><strong id="stat-visitors-today">—</strong><small>Unique visitors today</small></article><article><span>Online now</span><strong id="stat-online-now">—</strong><small>Active in last 5 minutes</small></article>');
+ }
+ live.querySelectorAll('button,a,select,input,textarea').forEach(el=>{el.style.pointerEvents='auto';el.style.touchAction='manipulation';});
+}
+
+async function refreshRealtimeExtras(){
+ if(typeof adminFetch!=='function'||typeof adminClient==='undefined'||!adminClient)return;
+ mountRealtimeEnhancements();
+ try{
+  const data=await adminFetch(`/api/admin/stats?refresh=${Date.now()}`,{cache:'no-store',headers:{'cache-control':'no-cache'}});
+  const today=document.getElementById('stat-visitors-today');
+  const online=document.getElementById('stat-online-now');
+  if(today)today.textContent=Number(data.visits?.uniqueToday||0).toLocaleString();
+  if(online)online.textContent=Number(data.visits?.onlineNow||0).toLocaleString();
+ }catch(_error){}
+}
+
+setTimeout(()=>{mountRealtimeEnhancements();refreshRealtimeExtras();},1800);
+setInterval(()=>{
+ if(typeof loadAdminStats==='function')loadAdminStats(false);
+ setTimeout(refreshRealtimeExtras,250);
+},5000);
 })();
