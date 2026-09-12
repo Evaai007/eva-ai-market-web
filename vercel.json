@@ -9,6 +9,10 @@
     {
       "source": "/v1/models",
       "destination": "/models.json"
+    },
+    {
+      "source": "/api/admin/stats",
+      "destination": "/api/admin/store?view=stats"
     }
   ],
   "headers": [
