@@ -1,9 +1,14 @@
 let evaClient;
+let pendingSignupEmail='';
 const statusEl = document.getElementById('auth-status');
 const showStatus = (message, error = false) => {
   statusEl.textContent = message;
   statusEl.className = error ? 'auth-status error' : 'auth-status success';
 };
+
+function showAuthForm(id){
+  document.querySelectorAll('.auth-form').forEach(form=>{form.hidden=form.id!==id;});
+}
 
 async function init() {
   try {
@@ -32,23 +37,69 @@ document.getElementById('login-form').addEventListener('submit', async (event) =
 document.getElementById('signup-form').addEventListener('submit', async (event) => {
   event.preventDefault();
   if (!evaClient) return;
-  const email = document.getElementById('signup-email').value.trim();
+  const email = document.getElementById('signup-email').value.trim().toLowerCase();
   const password = document.getElementById('signup-password').value;
   if (password.length < 8) return showStatus('Password must be at least 8 characters.', true);
-  showStatus('Creating your account…');
+  showStatus('Sending verification code…');
   const { data, error } = await evaClient.auth.signUp({
     email,
     password,
     options: { emailRedirectTo: `${location.origin}/dashboard.html` }
   });
   if (error) return showStatus(error.message, true);
-  fetch('/api/store',{
-    method:'POST',
-    headers:{'content-type':'application/json'},
-    body:JSON.stringify({action:'notify_signup',email})
-  }).catch(()=>{});
-  if (data.session) location.replace('/dashboard.html');
-  else showStatus('Account created. Check your email and confirm the address, then sign in.');
+  if (data.session) {
+    fetch('/api/store',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'notify_signup',email})}).catch(()=>{});
+    return location.replace('/dashboard.html');
+  }
+  pendingSignupEmail=email;
+  document.getElementById('verify-email-label').textContent=email;
+  document.getElementById('verify-code').value='';
+  showAuthForm('verify-form');
+  document.querySelectorAll('[data-auth-tab]').forEach(item=>item.classList.remove('active'));
+  showStatus('Verification code sent. Enter the 6-digit code from your email.');
+  setTimeout(()=>document.getElementById('verify-code').focus(),50);
+});
+
+document.getElementById('verify-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  if (!evaClient || !pendingSignupEmail) return showStatus('Start account creation again.', true);
+  const token=document.getElementById('verify-code').value.replace(/\D/g,'').slice(0,6);
+  if(token.length!==6)return showStatus('Enter the 6-digit verification code.',true);
+  showStatus('Verifying code…');
+  const { data, error } = await evaClient.auth.verifyOtp({
+    email: pendingSignupEmail,
+    token,
+    type: 'email'
+  });
+  if(error)return showStatus(error.message,true);
+  if(!data?.session)return showStatus('Code verified, but no session was created. Please sign in.',true);
+  fetch('/api/store',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'notify_signup',email:pendingSignupEmail})}).catch(()=>{});
+  showStatus('Email verified. Opening your account…');
+  location.replace('/dashboard.html');
+});
+
+document.getElementById('resend-code').addEventListener('click',async()=>{
+  if(!evaClient||!pendingSignupEmail)return;
+  showStatus('Sending a new code…');
+  const { error }=await evaClient.auth.resend({type:'signup',email:pendingSignupEmail,options:{emailRedirectTo:`${location.origin}/dashboard.html`}});
+  if(error)return showStatus(error.message,true);
+  showStatus('A new verification code was sent.');
+});
+
+document.getElementById('change-signup-email').addEventListener('click',()=>{
+  pendingSignupEmail='';
+  showAuthForm('signup-form');
+  const signupTab=document.querySelector('[data-auth-tab="signup"]');
+  document.querySelectorAll('[data-auth-tab]').forEach(item=>{
+    const active=item===signupTab;
+    item.classList.toggle('active',active);
+    item.setAttribute('aria-selected',String(active));
+  });
+  showStatus('Enter the email address you want to use.');
+});
+
+document.getElementById('verify-code').addEventListener('input',event=>{
+  event.currentTarget.value=event.currentTarget.value.replace(/\D/g,'').slice(0,6);
 });
 
 document.getElementById('forgot-password').addEventListener('click', async () => {
@@ -72,14 +123,13 @@ document.querySelectorAll('[data-toggle-password]').forEach((button) => button.a
 }));
 
 document.querySelectorAll('[data-auth-tab]').forEach(button => button.addEventListener('click', () => {
+  pendingSignupEmail='';
   document.querySelectorAll('[data-auth-tab]').forEach(item => {
     const active = item === button;
     item.classList.toggle('active', active);
     item.setAttribute('aria-selected', String(active));
   });
-  document.querySelectorAll('.auth-form').forEach(form => {
-    form.hidden = form.id !== `${button.dataset.authTab}-form`;
-  });
+  showAuthForm(`${button.dataset.authTab}-form`);
   statusEl.textContent = '';
   statusEl.className = 'auth-status';
 }));
