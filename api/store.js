@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import { json, requireUser, serviceRequest } from './_supabase.js';
 
 const serviceContext=()=>({
@@ -12,6 +13,30 @@ const validTx=(network,value)=>{
  if(own.has(tx.toLowerCase()))return false;
  return network==='BEP20'||network==='ERC20'?/^0x[a-fA-F0-9]{64}$/.test(tx):/^[a-fA-F0-9]{64}$/.test(tx);
 };
+
+const readCookie=(req,name)=>{
+ const raw=String(req.headers?.cookie||'');
+ const match=raw.match(new RegExp(`(?:^|;\\s*)${name}=([^;]+)`));
+ return match?decodeURIComponent(match[1]):'';
+};
+
+async function trackVisit(req,res,ctx){
+ try{
+  let visitorId=readCookie(req,'eva_vid');
+  if(!/^[a-zA-Z0-9-]{16,80}$/.test(visitorId)){
+   visitorId=randomUUID();
+   res.setHeader('Set-Cookie',`eva_vid=${encodeURIComponent(visitorId)}; Path=/; Max-Age=31536000; SameSite=Lax; Secure`);
+  }
+  const path=String(req.headers?.referer||'/').slice(0,500);
+  await serviceRequest(ctx,'site_visit_events',{
+   method:'POST',
+   headers:{Prefer:'return=minimal'},
+   body:JSON.stringify({visitor_id:visitorId,path})
+  });
+ }catch(_error){
+  // Analytics must never block the storefront.
+ }
+}
 
 async function submitDepositWithRefresh(req,res){
  const ctx=serviceContext();
@@ -70,6 +95,7 @@ export default async function handler(req,res){
   const response=await serviceRequest(ctx,'store_products?select=id,category,name,subtitle,price_usd,stock,warranty_days,access_label,sort_order,official_price_label,purchase_mode,card_tone&active=eq.true&order=sort_order.asc');
   const products=await response.json().catch(()=>[]);
   if(!response.ok)return json(res,502,{error:products?.message||'Could not load products.'});
+  await trackVisit(req,res,ctx);
   return json(res,200,{products});
  }
  const ctx=await requireUser(req,res);if(!ctx)return;
