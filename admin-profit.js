@@ -53,6 +53,22 @@ async function enableAlerts(button){
  }catch(_error){}
 }
 
+async function testTelegram(button){
+ const old=button.textContent;
+ button.disabled=true;
+ button.textContent='Testing Telegram…';
+ try{
+  await adminFetch('/api/admin/store',{method:'POST',body:JSON.stringify({action:'telegram_test'})});
+  button.textContent='Telegram Connected ✓';
+  if(typeof adminNotice==='function')adminNotice('✅ Telegram test sent. Check your bot chat now.');
+ }catch(error){
+  button.textContent='Test Telegram Alert';
+  if(typeof adminNotice==='function')adminNotice(`Telegram test failed: ${error.message}`,true);
+ }finally{
+  setTimeout(()=>{button.disabled=false;if(button.textContent==='Testing Telegram…')button.textContent=old;},600);
+ }
+}
+
 function mountRealtimeEnhancements(){
  const live=document.getElementById('admin-live-stats');
  if(!live||live.dataset.realtimeEnhanced==='1')return;
@@ -73,19 +89,29 @@ function mountRealtimeEnhancements(){
   });
   row.appendChild(btn);
  }
+ if(row&&!document.getElementById('telegram-test-alert')){
+  const tg=document.createElement('button');
+  tg.id='telegram-test-alert';
+  tg.type='button';
+  tg.className='button primary small-button';
+  tg.textContent='Test Telegram Alert';
+  tg.style.cssText='pointer-events:auto;position:relative;z-index:10;touch-action:manipulation';
+  tg.addEventListener('click',()=>testTelegram(tg));
+  row.appendChild(tg);
+ }
  if(row&&!document.getElementById('enable-admin-alerts')){
   const alertBtn=document.createElement('button');
   alertBtn.id='enable-admin-alerts';
   alertBtn.type='button';
-  alertBtn.className='button primary small-button';
-  alertBtn.textContent=('Notification' in window&&Notification.permission==='granted')?'Alerts Enabled ✓':'Enable Visit & Signup Alerts';
+  alertBtn.className='button secondary small-button';
+  alertBtn.textContent=('Notification' in window&&Notification.permission==='granted')?'Browser Alerts Enabled ✓':'Enable Browser Alerts';
   alertBtn.style.cssText='pointer-events:auto;position:relative;z-index:10;touch-action:manipulation';
   alertBtn.addEventListener('click',()=>enableAlerts(alertBtn));
   row.appendChild(alertBtn);
  }
  const grid=live.querySelector('.eva-stat-grid');
  if(grid&&!document.getElementById('stat-visitors-today')){
-  grid.insertAdjacentHTML('beforeend','<article><span>Visitors today</span><strong id="stat-visitors-today">—</strong><small>Unique visitors today</small></article><article><span>Online now</span><strong id="stat-online-now">—</strong><small>Active in last 5 minutes</small></article>');
+  grid.insertAdjacentHTML('beforeend','<article><span>Visitors today</span><strong id="stat-visitors-today">—</strong><small>Unique visitors today</small></article><article><span>Online now</span><strong id="stat-online-now">—</strong><small>Active in last 5 minutes</small></article><article><span>Telegram alerts</span><strong id="stat-telegram">—</strong><small>Server notification status</small></article>');
  }
  live.querySelectorAll('button,a,select,input,textarea').forEach(el=>{el.style.pointerEvents='auto';el.style.touchAction='manipulation';});
 }
@@ -97,8 +123,10 @@ async function refreshRealtimeExtras(){
   const data=await adminFetch(`/api/admin/stats?refresh=${Date.now()}`,{cache:'no-store',headers:{'cache-control':'no-cache'}});
   const today=document.getElementById('stat-visitors-today');
   const online=document.getElementById('stat-online-now');
+  const telegram=document.getElementById('stat-telegram');
   if(today)today.textContent=Number(data.visits?.uniqueToday||0).toLocaleString();
   if(online)online.textContent=Number(data.visits?.onlineNow||0).toLocaleString();
+  if(telegram)telegram.textContent=data.telegram?.configured?'Configured ✓':'Missing';
   const visitTotal=Number(data.visits?.total||0);
   const signupTotal=Number(data.signups?.total||0);
   if(lastVisitTotal!==null&&visitTotal>lastVisitTotal){
