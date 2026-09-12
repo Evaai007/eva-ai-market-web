@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 import { json, requireUser, serviceRequest } from './_supabase.js';
+import { sendTelegramAlert } from './_telegram.js';
 
 const serviceContext=()=>({
  url:process.env.SUPABASE_URL||process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -22,19 +23,34 @@ const readCookie=(req,name)=>{
 
 async function trackVisit(req,res,ctx){
  try{
+  const referer=String(req.headers?.referer||'');
+  let pathname='/';
+  try{pathname=referer?new URL(referer).pathname:'/';}catch{}
+  if(/^\/(dashboard(?:\.html)?|eva-ops-93k7m2|admin(?:\.html)?)/i.test(pathname))return;
+
   let visitorId=readCookie(req,'eva_vid');
+  const cookies=[];
   if(!/^[a-zA-Z0-9-]{16,80}$/.test(visitorId)){
    visitorId=randomUUID();
-   res.setHeader('Set-Cookie',`eva_vid=${encodeURIComponent(visitorId)}; Path=/; Max-Age=31536000; SameSite=Lax; Secure`);
+   cookies.push(`eva_vid=${encodeURIComponent(visitorId)}; Path=/; Max-Age=31536000; SameSite=Lax; Secure`);
   }
-  const path=String(req.headers?.referer||'/').slice(0,500);
+  const recentPing=readCookie(req,'eva_vping');
+  if(!recentPing)cookies.push(`eva_vping=1; Path=/; Max-Age=1800; SameSite=Lax; Secure`);
+  if(cookies.length)res.setHeader('Set-Cookie',cookies);
+
+  const path=(referer||pathname||'/').slice(0,500);
   await serviceRequest(ctx,'site_visit_events',{
    method:'POST',
    headers:{Prefer:'return=minimal'},
    body:JSON.stringify({visitor_id:visitorId,path})
   });
+
+  if(!recentPing){
+   const ua=String(req.headers?.['user-agent']||'Unknown device').slice(0,180);
+   await sendTelegramAlert(`👀 EVA AI MARKET — New Visit\n\nPage: ${pathname}\nVisitor: ${visitorId.slice(0,8)}…\nDevice: ${ua}\nTime: ${new Date().toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)\n\nhttps://eva-ai-market.vercel.app/`);
+  }
  }catch(_error){
-  // Analytics must never block the storefront.
+  // Analytics and alerts must never block the storefront.
  }
 }
 
