@@ -1,12 +1,28 @@
 import { randomUUID } from 'crypto';
 import { json, requireUser, serviceRequest } from './_supabase.js';
-import { sendTelegramAlert } from './_telegram.js';
 
 const serviceContext=()=>({
  url:process.env.SUPABASE_URL||process.env.NEXT_PUBLIC_SUPABASE_URL,
  anon:process.env.SUPABASE_ANON_KEY||process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY||process.env.SUPABASE_PUBLISHABLE_KEY,
  service:process.env.SUPABASE_SERVICE_ROLE_KEY||process.env.SUPABASE_SECRET_KEY
 });
+
+async function sendTelegramAlert(text){
+ const token=process.env.TELEGRAM_BOT_TOKEN;
+ const chatId=process.env.TELEGRAM_CHAT_ID;
+ if(!token||!chatId)return {sent:false,reason:'not_configured'};
+ try{
+  const response=await fetch(`https://api.telegram.org/bot${token}/sendMessage`,{
+   method:'POST',
+   headers:{'content-type':'application/json'},
+   body:JSON.stringify({chat_id:chatId,text:String(text||'').slice(0,3900),disable_web_page_preview:true})
+  });
+  const body=await response.json().catch(()=>({}));
+  return response.ok&&body?.ok?{sent:true}:{sent:false,reason:body?.description||'telegram_error'};
+ }catch(_error){
+  return {sent:false,reason:'network_error'};
+ }
+}
 
 const validTx=(network,value)=>{
  const own=new Set(['0x644ed89caecc120d3a3180e9f20a90d970cfa3e8','tjcfs6hdksenquguvw43krk141qlvhngbg']);
@@ -51,6 +67,28 @@ async function trackVisit(req,res,ctx){
   }
  }catch(_error){
   // Analytics and alerts must never block the storefront.
+ }
+}
+
+async function notifySignup(req,res){
+ const email=String(req.body?.email||'').trim().toLowerCase();
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return json(res,400,{error:'Invalid email.'});
+ const ctx=serviceContext();
+ if(!ctx.url||!ctx.service)return json(res,503,{error:'Notification service unavailable.'});
+ try{
+  const response=await fetch(`${ctx.url}/auth/v1/admin/users?page=1&per_page=1000`,{
+   headers:{apikey:ctx.service,authorization:`Bearer ${ctx.service}`}
+  });
+  const body=await response.json().catch(()=>({users:[]}));
+  if(!response.ok)return json(res,502,{error:'Could not verify signup.'});
+  const user=(body.users||[]).find(item=>String(item.email||'').toLowerCase()===email);
+  if(!user)return json(res,404,{error:'Signup not found.'});
+  const created=new Date(user.created_at||0).getTime();
+  if(!created||Date.now()-created>10*60*1000)return json(res,409,{error:'Signup is not recent.'});
+  const result=await sendTelegramAlert(`✅ EVA AI MARKET — New Signup\n\nEmail: ${email}\nTime: ${new Date(user.created_at).toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)\n\nAdmin: https://eva-ai-market.vercel.app/eva-ops-93k7m2`);
+  return json(res,200,{ok:true,telegram:result.sent});
+ }catch(_error){
+  return json(res,500,{error:'Could not send signup notification.'});
  }
 }
 
@@ -104,6 +142,7 @@ async function submitDepositWithRefresh(req,res){
 }
 
 export default async function handler(req,res){
+ if(req.method==='POST'&&req.body?.action==='notify_signup')return notifySignup(req,res);
  if(req.method==='POST'&&req.body?.action==='submit_deposit')return submitDepositWithRefresh(req,res);
  if(req.method==='GET'&&req.query?.view!=='orders'){
   const ctx=serviceContext();
