@@ -1,5 +1,8 @@
 let evaClient;
 let pendingSignupEmail='';
+let verifyExpiresAt=0;
+let verifyTimer=null;
+let codeMustBeReissued=false;
 const statusEl = document.getElementById('auth-status');
 const showStatus = (message, error = false) => {
   statusEl.textContent = message;
@@ -8,6 +11,43 @@ const showStatus = (message, error = false) => {
 
 function showAuthForm(id){
   document.querySelectorAll('.auth-form').forEach(form=>{form.hidden=form.id!==id;});
+}
+
+function setVerifyEnabled(enabled){
+  const input=document.getElementById('verify-code');
+  const button=document.getElementById('verify-submit');
+  if(input)input.disabled=!enabled;
+  if(button)button.disabled=!enabled;
+}
+
+function stopVerifyTimer(){
+  if(verifyTimer){clearInterval(verifyTimer);verifyTimer=null;}
+}
+
+function expireVerification(){
+  stopVerifyTimer();
+  verifyExpiresAt=0;
+  codeMustBeReissued=true;
+  const countdown=document.getElementById('verify-countdown');
+  if(countdown)countdown.textContent='00:00';
+  setVerifyEnabled(false);
+  showStatus('This verification code expired. Request a new code to continue.',true);
+}
+
+function startVerifyTimer(){
+  stopVerifyTimer();
+  verifyExpiresAt=Date.now()+60000;
+  codeMustBeReissued=false;
+  setVerifyEnabled(true);
+  const countdown=document.getElementById('verify-countdown');
+  const update=()=>{
+    const remaining=Math.max(0,verifyExpiresAt-Date.now());
+    const seconds=Math.ceil(remaining/1000);
+    if(countdown)countdown.textContent=`00:${String(seconds).padStart(2,'0')}`;
+    if(remaining<=0)expireVerification();
+  };
+  update();
+  verifyTimer=setInterval(update,250);
 }
 
 async function init() {
@@ -56,13 +96,15 @@ document.getElementById('signup-form').addEventListener('submit', async (event) 
   document.getElementById('verify-code').value='';
   showAuthForm('verify-form');
   document.querySelectorAll('[data-auth-tab]').forEach(item=>item.classList.remove('active'));
-  showStatus('Verification code sent. Enter the 6-digit code from your email.');
+  startVerifyTimer();
+  showStatus('Verification code sent. It is valid for 1 minute.');
   setTimeout(()=>document.getElementById('verify-code').focus(),50);
 });
 
 document.getElementById('verify-form').addEventListener('submit', async (event) => {
   event.preventDefault();
   if (!evaClient || !pendingSignupEmail) return showStatus('Start account creation again.', true);
+  if(codeMustBeReissued||!verifyExpiresAt||Date.now()>verifyExpiresAt)return expireVerification();
   const token=document.getElementById('verify-code').value.replace(/\D/g,'').slice(0,6);
   if(token.length!==6)return showStatus('Enter the 6-digit verification code.',true);
   showStatus('Verifying code…');
@@ -71,8 +113,17 @@ document.getElementById('verify-form').addEventListener('submit', async (event) 
     token,
     type: 'email'
   });
-  if(error)return showStatus(error.message,true);
+  if(error){
+    codeMustBeReissued=true;
+    stopVerifyTimer();
+    verifyExpiresAt=0;
+    setVerifyEnabled(false);
+    const countdown=document.getElementById('verify-countdown');
+    if(countdown)countdown.textContent='00:00';
+    return showStatus('Incorrect or expired code. Request a new code to try again.',true);
+  }
   if(!data?.session)return showStatus('Code verified, but no session was created. Please sign in.',true);
+  stopVerifyTimer();
   fetch('/api/store',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'notify_signup',email:pendingSignupEmail})}).catch(()=>{});
   showStatus('Email verified. Opening your account…');
   location.replace('/dashboard.html');
@@ -80,14 +131,23 @@ document.getElementById('verify-form').addEventListener('submit', async (event) 
 
 document.getElementById('resend-code').addEventListener('click',async()=>{
   if(!evaClient||!pendingSignupEmail)return;
-  showStatus('Sending a new code…');
+  const button=document.getElementById('resend-code');
+  button.disabled=true;
+  showStatus('Requesting a new verification code…');
   const { error }=await evaClient.auth.resend({type:'signup',email:pendingSignupEmail,options:{emailRedirectTo:`${location.origin}/dashboard.html`}});
+  button.disabled=false;
   if(error)return showStatus(error.message,true);
-  showStatus('A new verification code was sent.');
+  document.getElementById('verify-code').value='';
+  startVerifyTimer();
+  showStatus('New verification code sent. It is valid for 1 minute.');
+  setTimeout(()=>document.getElementById('verify-code').focus(),50);
 });
 
 document.getElementById('change-signup-email').addEventListener('click',()=>{
+  stopVerifyTimer();
   pendingSignupEmail='';
+  verifyExpiresAt=0;
+  codeMustBeReissued=false;
   showAuthForm('signup-form');
   const signupTab=document.querySelector('[data-auth-tab="signup"]');
   document.querySelectorAll('[data-auth-tab]').forEach(item=>{
@@ -123,7 +183,10 @@ document.querySelectorAll('[data-toggle-password]').forEach((button) => button.a
 }));
 
 document.querySelectorAll('[data-auth-tab]').forEach(button => button.addEventListener('click', () => {
+  stopVerifyTimer();
   pendingSignupEmail='';
+  verifyExpiresAt=0;
+  codeMustBeReissued=false;
   document.querySelectorAll('[data-auth-tab]').forEach(item => {
     const active = item === button;
     item.classList.toggle('active', active);
