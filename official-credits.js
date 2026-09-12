@@ -4,9 +4,9 @@
  const cards=[...document.querySelectorAll('[data-credit-card]')];
  const money=value=>Number(value).toLocaleString('en-US',{minimumFractionDigits:Number(value)%1?2:0,maximumFractionDigits:2});
  function syncCounters(){
-  document.querySelectorAll('[data-total-products]').forEach(el=>{if(el.textContent.trim()!==String(TARGET_TOTAL))el.textContent=String(TARGET_TOTAL)});
-  document.querySelectorAll('[data-total-products-parenthesized]').forEach(el=>{const value='('+TARGET_TOTAL+')';if(el.textContent.trim()!==value)el.textContent=value});
-  document.querySelectorAll('[data-total-products-label]').forEach(el=>{const value='Browse '+TARGET_TOTAL+' Products →';if(el.textContent.trim()!==value)el.textContent=value});
+  document.querySelectorAll('[data-total-products]').forEach(el=>el.textContent=String(TARGET_TOTAL));
+  document.querySelectorAll('[data-total-products-parenthesized]').forEach(el=>el.textContent='('+TARGET_TOTAL+')');
+  document.querySelectorAll('[data-total-products-label]').forEach(el=>el.textContent='Browse '+TARGET_TOTAL+' Products →');
  }
  function updateCard(card){
   const select=card.querySelector('[data-credit-select]');
@@ -25,18 +25,38 @@
    const message=`Hello, I want ${service}. Selected official amount: ${official}. EVA price with 5% service margin: $${money(sell)} USDT. Please help me complete the top-up.`;
    order.href='https://t.me/eva007_8?text='+encodeURIComponent(message);
   }
+  card.querySelectorAll('[data-credit-option]').forEach(button=>button.classList.toggle('active',button.dataset.creditOption===select.value));
+ }
+ function mountChoices(card){
+  const select=card.querySelector('[data-credit-select]');
+  const field=select?.closest('.credit-field');
+  if(!select||!field||field.querySelector('.credit-choice-grid'))return;
+  const grid=document.createElement('div');
+  grid.className='credit-choice-grid';
+  [...select.options].forEach(option=>{
+   const button=document.createElement('button');
+   button.type='button';
+   button.className='credit-choice';
+   button.dataset.creditOption=option.value;
+   const base=Number(option.value);
+   const sell=Number((base*margin).toFixed(2));
+   const title=option.textContent.replace(/\s+official$/i,'').trim();
+   button.innerHTML=`<span>${title}</span><small>EVA $${money(sell)}</small>`;
+   button.addEventListener('click',()=>{select.value=option.value;updateCard(card)});
+   grid.appendChild(button);
+  });
+  select.classList.add('credit-native-select');
+  field.appendChild(grid);
+  updateCard(card);
  }
  cards.forEach(card=>{
   const select=card.querySelector('[data-credit-select]');
   if(select)select.addEventListener('change',()=>updateCard(card));
+  mountChoices(card);
   updateCard(card);
  });
  syncCounters();
  const store=document.getElementById('public-store-products');
- if(store){
-  const observer=new MutationObserver(()=>syncCounters());
-  observer.observe(store,{childList:true,subtree:true});
- }
- setTimeout(syncCounters,700);
- setTimeout(syncCounters,1800);
+ if(store){const observer=new MutationObserver(()=>syncCounters());observer.observe(store,{childList:true,subtree:true})}
+ setTimeout(syncCounters,700);setTimeout(syncCounters,1800);
 })();
