@@ -42,10 +42,10 @@ document.getElementById('signup-form').addEventListener('submit', async (event) 
     options: { emailRedirectTo: `${location.origin}/dashboard.html` }
   });
   if (error) return showStatus(error.message, true);
-  fetch('/api/notify',{
+  fetch('/api/store',{
     method:'POST',
     headers:{'content-type':'application/json'},
-    body:JSON.stringify({type:'signup',email})
+    body:JSON.stringify({action:'notify_signup',email})
   }).catch(()=>{});
   if (data.session) location.replace('/dashboard.html');
   else showStatus('Account created. Check your email and confirm the address, then sign in.');
