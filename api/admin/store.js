@@ -2,6 +2,28 @@ import { json, requireAdmin, serviceRequest } from '../_supabase.js';
 
 const allowedStatuses = new Set(['approved','processing','delivered','cancelled','refunded']);
 
+async function sendTelegramTest(){
+ const token=String(process.env.TELEGRAM_BOT_TOKEN||'').trim();
+ const chatId=String(process.env.TELEGRAM_CHAT_ID||'').trim();
+ if(!token||!chatId)return {sent:false,configured:false,error:'Telegram environment variables are missing.'};
+ try{
+  const response=await fetch(`https://api.telegram.org/bot${token}/sendMessage`,{
+   method:'POST',
+   headers:{'content-type':'application/json'},
+   body:JSON.stringify({
+    chat_id:chatId,
+    text:`✅ EVA AI MARKET — Telegram Test\n\nYour website notification system is connected.\nTime: ${new Date().toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)`,
+    disable_web_page_preview:true
+   })
+  });
+  const body=await response.json().catch(()=>({}));
+  if(!response.ok||!body?.ok)return {sent:false,configured:true,error:String(body?.description||`Telegram HTTP ${response.status}`)};
+  return {sent:true,configured:true};
+ }catch(error){
+  return {sent:false,configured:true,error:error?.message||'Telegram network error.'};
+ }
+}
+
 export default async function handler(req,res){
  const ctx=await requireAdmin(req,res);if(!ctx)return;
  if(req.method==='GET'){
@@ -37,7 +59,8 @@ export default async function handler(req,res){
       today:Number(visitRow?.visits_today||0),
       uniqueToday:Number(visitRow?.unique_today||0),
       onlineNow:Number(visitRow?.online_now||0)
-     }
+     },
+     telegram:{configured:Boolean(String(process.env.TELEGRAM_BOT_TOKEN||'').trim()&&String(process.env.TELEGRAM_CHAT_ID||'').trim())}
     });
    }catch(_error){return json(res,500,{error:'Could not load admin statistics.'});}
   }
@@ -63,6 +86,11 @@ export default async function handler(req,res){
  }
  if(req.method==='POST'){
   const action=String(req.body?.action||'');
+  if(action==='telegram_test'){
+   const result=await sendTelegramTest();
+   if(!result.sent)return json(res,400,{error:result.error||'Telegram test failed.',telegram:result});
+   return json(res,200,{ok:true,telegram:result});
+  }
   if(action==='stock'){
    const productId=String(req.body?.productId||''),stock=Number(req.body?.stock);
    if(!/^[a-z0-9-]{2,60}$/.test(productId)||!Number.isInteger(stock)||stock<0||stock>10000){
