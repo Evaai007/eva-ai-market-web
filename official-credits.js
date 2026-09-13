@@ -1,12 +1,19 @@
 (()=>{
- const TARGET_TOTAL=45;
  const margin=1.05;
  const cards=[...document.querySelectorAll('[data-credit-card]')];
  const money=value=>Number(value).toLocaleString('en-US',{minimumFractionDigits:Number(value)%1?2:0,maximumFractionDigits:2});
+ function actualTotal(){
+  const store=document.getElementById('public-store-products');
+  const rendered=store?[...store.querySelectorAll('.account-product')].length:0;
+  const credits=document.querySelectorAll('[data-credit-card]').length;
+  return rendered+credits;
+ }
  function syncCounters(){
-  document.querySelectorAll('[data-total-products]').forEach(el=>el.textContent=String(TARGET_TOTAL));
-  document.querySelectorAll('[data-total-products-parenthesized]').forEach(el=>el.textContent='('+TARGET_TOTAL+')');
-  document.querySelectorAll('[data-total-products-label]').forEach(el=>el.textContent='Browse '+TARGET_TOTAL+' Products →');
+  const total=actualTotal();
+  if(!total)return;
+  document.querySelectorAll('[data-total-products]').forEach(el=>el.textContent=String(total));
+  document.querySelectorAll('[data-total-products-parenthesized]').forEach(el=>el.textContent='('+total+')');
+  document.querySelectorAll('[data-total-products-label]').forEach(el=>el.textContent='Browse '+total+' Products →');
  }
  function updateCard(card){
   const select=card.querySelector('[data-credit-select]');
@@ -55,10 +62,8 @@
   mountChoices(card);
   updateCard(card);
  });
- syncCounters();
- document.addEventListener('DOMContentLoaded',syncCounters,{once:true});
- window.addEventListener('load',syncCounters,{once:true});
  const store=document.getElementById('public-store-products');
- if(store){const observer=new MutationObserver(syncCounters);observer.observe(store,{childList:true,subtree:true,characterData:true})}
- setInterval(syncCounters,250);
+ if(store){new MutationObserver(syncCounters).observe(store,{childList:true,subtree:true});}
+ syncCounters();
+ window.addEventListener('load',syncCounters,{once:true});
 })();
