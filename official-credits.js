@@ -59,8 +59,6 @@
  document.addEventListener('DOMContentLoaded',syncCounters,{once:true});
  window.addEventListener('load',syncCounters,{once:true});
  const store=document.getElementById('public-store-products');
- if(store){const observer=new MutationObserver(()=>syncCounters());observer.observe(store,{childList:true,subtree:true})}
- [100,300,700,1200,1800,3000,5000].forEach(ms=>setTimeout(syncCounters,ms));
- setInterval(syncCounters,1000);
- document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncCounters()});
+ if(store){const observer=new MutationObserver(syncCounters);observer.observe(store,{childList:true,subtree:true,characterData:true})}
+ setInterval(syncCounters,250);
 })();
