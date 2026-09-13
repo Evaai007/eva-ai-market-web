@@ -56,7 +56,9 @@
   updateCard(card);
  });
  syncCounters();
+ document.addEventListener('DOMContentLoaded',syncCounters,{once:true});
+ window.addEventListener('load',syncCounters,{once:true});
  const store=document.getElementById('public-store-products');
  if(store){const observer=new MutationObserver(()=>syncCounters());observer.observe(store,{childList:true,subtree:true})}
- setTimeout(syncCounters,700);setTimeout(syncCounters,1800);
+ [100,300,700,1200,1800,3000,5000].forEach(ms=>setTimeout(syncCounters,ms));
 })();
