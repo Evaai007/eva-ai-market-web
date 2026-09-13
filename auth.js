@@ -78,16 +78,13 @@ document.getElementById('signup-form').addEventListener('submit', async (event) 
   }
 });
 
-document.getElementById('forgot-password').addEventListener('click', async () => {
-  if (!evaClient) return showStatus('Authentication is still loading. Please try again.', true);
+document.getElementById('forgot-password').addEventListener('click', () => {
   const email = document.getElementById('login-email').value.trim();
-  if (!email) return showStatus('Enter your email address first.', true);
-  showStatus('Sending a secure reset link…');
-  const { error } = await evaClient.auth.resetPasswordForEmail(email, {
-    redirectTo: `${location.origin}/reset-password.html`
-  });
-  if (error) return showStatus(error.message, true);
-  showStatus('Password reset link requested. Check your inbox if email delivery is available.');
+  const message = email
+    ? `Hello, I need help recovering my EVA AI MARKET account. Account email: ${email}`
+    : 'Hello, I need help recovering my EVA AI MARKET account.';
+  showStatus('Password recovery is handled securely by support for now. Opening Telegram support…');
+  window.open(`https://t.me/eva007_8?text=${encodeURIComponent(message)}`,'_blank','noopener,noreferrer');
 });
 
 document.querySelectorAll('[data-toggle-password]').forEach((button) => button.addEventListener('click', () => {
