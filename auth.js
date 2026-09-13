@@ -53,7 +53,7 @@ document.getElementById('signup-form').addEventListener('submit', async (event) 
   showStatus('Creating your account…');
 
   try{
-    const response=await fetch('/api/signup',{
+    const response=await fetch('https://yewvkwfynipdsewcnypp.supabase.co/functions/v1/direct-signup',{
       method:'POST',
       headers:{'content-type':'application/json'},
       body:JSON.stringify({email,password})
