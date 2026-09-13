@@ -1,5 +1,4 @@
 let evaClient;
-let pendingSignupEmail='';
 const statusEl = document.getElementById('auth-status');
 const showStatus = (message, error = false) => {
   statusEl.textContent = message;
@@ -48,59 +47,35 @@ document.getElementById('signup-form').addEventListener('submit', async (event) 
   const email = document.getElementById('signup-email').value.trim().toLowerCase();
   const password = document.getElementById('signup-password').value;
   if (password.length < 8) return showStatus('Password must be at least 8 characters.', true);
-  showStatus('Creating your account…');
-  const { data, error } = await evaClient.auth.signUp({
-    email,
-    password,
-    options: { emailRedirectTo: `${location.origin}/dashboard.html` }
-  });
-  if (error) return showStatus(error.message, true);
 
-  fetch('/api/store',{
-    method:'POST',
-    headers:{'content-type':'application/json'},
-    body:JSON.stringify({action:'notify_signup',email})
-  }).catch(()=>{});
-
-  if (data.session) return location.replace('/dashboard.html');
-
-  pendingSignupEmail=email;
-  document.getElementById('confirm-email-label').textContent=email;
-  showAuthForm('confirm-email-panel');
-  document.querySelectorAll('[data-auth-tab]').forEach(item=>{
-    item.classList.remove('active');
-    item.setAttribute('aria-selected','false');
-  });
-  showStatus('Verification email sent. Open your inbox and confirm your email address.');
-});
-
-document.getElementById('resend-confirmation').addEventListener('click', async () => {
-  if (!evaClient || !pendingSignupEmail) return showStatus('Create your account again to resend the email.', true);
-  const button=document.getElementById('resend-confirmation');
+  const button=event.currentTarget.querySelector('button[type="submit"]');
   button.disabled=true;
-  showStatus('Resending verification email…');
-  const { error }=await evaClient.auth.resend({
-    type:'signup',
-    email:pendingSignupEmail,
-    options:{emailRedirectTo:`${location.origin}/dashboard.html`}
-  });
-  button.disabled=false;
-  if(error)return showStatus(error.message,true);
-  showStatus('Verification email sent again. Check your inbox and spam folder.');
-});
+  showStatus('Creating your account…');
 
-document.getElementById('change-confirm-email').addEventListener('click',()=>{
-  pendingSignupEmail='';
-  setActiveTab('signup');
-  showAuthForm('signup-form');
-  showStatus('Enter the email address you want to use.');
-});
+  try{
+    const response=await fetch('/api/signup',{
+      method:'POST',
+      headers:{'content-type':'application/json'},
+      body:JSON.stringify({email,password})
+    });
+    const result=await response.json().catch(()=>({}));
+    if(!response.ok) throw new Error(result.error||'Account creation failed.');
 
-document.getElementById('back-to-signin').addEventListener('click',()=>{
-  pendingSignupEmail='';
-  setActiveTab('login');
-  showAuthForm('login-form');
-  showStatus('Sign in after you confirm your email address.');
+    showStatus('Account created. Signing you in…');
+    const { error }=await evaClient.auth.signInWithPassword({email,password});
+    if(error) throw error;
+
+    fetch('/api/store',{
+      method:'POST',
+      headers:{'content-type':'application/json'},
+      body:JSON.stringify({action:'notify_signup',email})
+    }).catch(()=>{});
+
+    location.replace('/dashboard.html');
+  }catch(error){
+    showStatus(error.message||'Could not create the account.',true);
+    button.disabled=false;
+  }
 });
 
 document.getElementById('forgot-password').addEventListener('click', async () => {
@@ -112,7 +87,7 @@ document.getElementById('forgot-password').addEventListener('click', async () =>
     redirectTo: `${location.origin}/reset-password.html`
   });
   if (error) return showStatus(error.message, true);
-  showStatus('Password reset link sent. Check your email inbox.');
+  showStatus('Password reset link requested. Check your inbox if email delivery is available.');
 });
 
 document.querySelectorAll('[data-toggle-password]').forEach((button) => button.addEventListener('click', () => {
@@ -124,7 +99,6 @@ document.querySelectorAll('[data-toggle-password]').forEach((button) => button.a
 }));
 
 document.querySelectorAll('[data-auth-tab]').forEach(button => button.addEventListener('click', () => {
-  pendingSignupEmail='';
   setActiveTab(button.dataset.authTab);
   showAuthForm(`${button.dataset.authTab}-form`);
   statusEl.textContent = '';
