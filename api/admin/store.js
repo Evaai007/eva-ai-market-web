@@ -2,7 +2,7 @@ import { json, requireAdmin, serviceRequest } from '../_supabase.js';
 
 const allowedStatuses = new Set(['approved','processing','delivered','cancelled','refunded']);
 
-async function sendTelegramTest(){
+async function sendTelegramAlert(text){
  const token=String(process.env.TELEGRAM_BOT_TOKEN||'').trim();
  const chatId=String(process.env.TELEGRAM_CHAT_ID||'').trim();
  if(!token||!chatId)return {sent:false,configured:false,error:'Telegram environment variables are missing.'};
@@ -10,11 +10,7 @@ async function sendTelegramTest(){
   const response=await fetch(`https://api.telegram.org/bot${token}/sendMessage`,{
    method:'POST',
    headers:{'content-type':'application/json'},
-   body:JSON.stringify({
-    chat_id:chatId,
-    text:`✅ EVA AI MARKET — Telegram Test\n\nYour website notification system is connected.\nTime: ${new Date().toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)`,
-    disable_web_page_preview:true
-   })
+   body:JSON.stringify({chat_id:chatId,text:String(text||'').slice(0,3900),disable_web_page_preview:true})
   });
   const body=await response.json().catch(()=>({}));
   if(!response.ok||!body?.ok)return {sent:false,configured:true,error:String(body?.description||`Telegram HTTP ${response.status}`)};
@@ -22,6 +18,10 @@ async function sendTelegramTest(){
  }catch(error){
   return {sent:false,configured:true,error:error?.message||'Telegram network error.'};
  }
+}
+
+async function sendTelegramTest(){
+ return sendTelegramAlert(`✅ EVA AI MARKET — Telegram Test\n\nYour website notification system is connected.\nTime: ${new Date().toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)`);
 }
 
 export default async function handler(req,res){
@@ -111,6 +111,11 @@ export default async function handler(req,res){
    if(!/^[0-9a-f-]{36}$/i.test(orderId))return json(res,400,{error:'Invalid order.'});
    if(!allowedStatuses.has(status))return json(res,400,{error:'Invalid order status.'});
    if(status==='delivered'&&!deliveryDetails)return json(res,400,{error:'Delivery details are required before marking Delivered.'});
+
+   const beforeResponse=await serviceRequest(ctx,`store_orders?select=id,user_id,product_name,price_usd,status&id=eq.${encodeURIComponent(orderId)}&limit=1`);
+   const beforeBody=await beforeResponse.json().catch(()=>[]);
+   const before=Array.isArray(beforeBody)?beforeBody[0]:null;
+
    const response=await serviceRequest(ctx,'rpc/admin_update_store_order',{
     method:'POST',
     body:JSON.stringify({
@@ -122,7 +127,16 @@ export default async function handler(req,res){
    });
    const result=await response.json().catch(()=>({}));
    if(!response.ok)return json(res,400,{error:result.message||'Order update failed.'});
-   return json(res,200,{updated:true,result});
+
+   let email='Unknown customer';
+   if(before?.user_id){
+    const userResponse=await fetch(`${ctx.url}/auth/v1/admin/users/${encodeURIComponent(before.user_id)}`,{headers:{apikey:ctx.service,authorization:`Bearer ${ctx.service}`}});
+    const userBody=await userResponse.json().catch(()=>({}));
+    if(userResponse.ok&&userBody?.email)email=userBody.email;
+   }
+   const statusIcon={approved:'✅',processing:'🔄',delivered:'📦',cancelled:'❌',refunded:'💸'}[status]||'ℹ️';
+   const telegram=await sendTelegramAlert(`${statusIcon} EVA AI MARKET — Order ${status.charAt(0).toUpperCase()+status.slice(1)}\n\nCustomer: ${email}\nProduct: ${before?.product_name||orderId}\nPrice: $${Number(before?.price_usd||0).toFixed(2)}\nPrevious: ${before?.status||'unknown'}\nNew status: ${status}\nOrder: ${orderId}\nTime: ${new Date().toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)\n\nAdmin: https://eva-ai-market.vercel.app/eva-ops-93k7m2`);
+   return json(res,200,{updated:true,result,telegram:telegram.sent});
   }
   return json(res,400,{error:'Invalid store action.'});
  }
