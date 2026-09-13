@@ -1,8 +1,5 @@
 let evaClient;
 let pendingSignupEmail='';
-let verifyExpiresAt=0;
-let verifyTimer=null;
-let codeMustBeReissued=false;
 const statusEl = document.getElementById('auth-status');
 const showStatus = (message, error = false) => {
   statusEl.textContent = message;
@@ -13,41 +10,12 @@ function showAuthForm(id){
   document.querySelectorAll('.auth-form').forEach(form=>{form.hidden=form.id!==id;});
 }
 
-function setVerifyEnabled(enabled){
-  const input=document.getElementById('verify-code');
-  const button=document.getElementById('verify-submit');
-  if(input)input.disabled=!enabled;
-  if(button)button.disabled=!enabled;
-}
-
-function stopVerifyTimer(){
-  if(verifyTimer){clearInterval(verifyTimer);verifyTimer=null;}
-}
-
-function expireVerification(){
-  stopVerifyTimer();
-  verifyExpiresAt=0;
-  codeMustBeReissued=true;
-  const countdown=document.getElementById('verify-countdown');
-  if(countdown)countdown.textContent='00:00';
-  setVerifyEnabled(false);
-  showStatus('This verification code expired. Request a new code to continue.',true);
-}
-
-function startVerifyTimer(){
-  stopVerifyTimer();
-  verifyExpiresAt=Date.now()+60000;
-  codeMustBeReissued=false;
-  setVerifyEnabled(true);
-  const countdown=document.getElementById('verify-countdown');
-  const update=()=>{
-    const remaining=Math.max(0,verifyExpiresAt-Date.now());
-    const seconds=Math.ceil(remaining/1000);
-    if(countdown)countdown.textContent=`00:${String(seconds).padStart(2,'0')}`;
-    if(remaining<=0)expireVerification();
-  };
-  update();
-  verifyTimer=setInterval(update,250);
+function setActiveTab(name){
+  document.querySelectorAll('[data-auth-tab]').forEach(item=>{
+    const active=item.dataset.authTab===name;
+    item.classList.toggle('active',active);
+    item.setAttribute('aria-selected',String(active));
+  });
 }
 
 async function init() {
@@ -80,86 +48,59 @@ document.getElementById('signup-form').addEventListener('submit', async (event) 
   const email = document.getElementById('signup-email').value.trim().toLowerCase();
   const password = document.getElementById('signup-password').value;
   if (password.length < 8) return showStatus('Password must be at least 8 characters.', true);
-  showStatus('Sending verification code…');
+  showStatus('Creating your account…');
   const { data, error } = await evaClient.auth.signUp({
     email,
     password,
     options: { emailRedirectTo: `${location.origin}/dashboard.html` }
   });
   if (error) return showStatus(error.message, true);
-  if (data.session) {
-    fetch('/api/store',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'notify_signup',email})}).catch(()=>{});
-    return location.replace('/dashboard.html');
-  }
+
+  fetch('/api/store',{
+    method:'POST',
+    headers:{'content-type':'application/json'},
+    body:JSON.stringify({action:'notify_signup',email})
+  }).catch(()=>{});
+
+  if (data.session) return location.replace('/dashboard.html');
+
   pendingSignupEmail=email;
-  document.getElementById('verify-email-label').textContent=email;
-  document.getElementById('verify-code').value='';
-  showAuthForm('verify-form');
-  document.querySelectorAll('[data-auth-tab]').forEach(item=>item.classList.remove('active'));
-  startVerifyTimer();
-  showStatus('Verification code sent. It is valid for 1 minute.');
-  setTimeout(()=>document.getElementById('verify-code').focus(),50);
-});
-
-document.getElementById('verify-form').addEventListener('submit', async (event) => {
-  event.preventDefault();
-  if (!evaClient || !pendingSignupEmail) return showStatus('Start account creation again.', true);
-  if(codeMustBeReissued||!verifyExpiresAt||Date.now()>verifyExpiresAt)return expireVerification();
-  const token=document.getElementById('verify-code').value.replace(/\D/g,'').slice(0,6);
-  if(token.length!==6)return showStatus('Enter the 6-digit verification code.',true);
-  showStatus('Verifying code…');
-  const { data, error } = await evaClient.auth.verifyOtp({
-    email: pendingSignupEmail,
-    token,
-    type: 'email'
+  document.getElementById('confirm-email-label').textContent=email;
+  showAuthForm('confirm-email-panel');
+  document.querySelectorAll('[data-auth-tab]').forEach(item=>{
+    item.classList.remove('active');
+    item.setAttribute('aria-selected','false');
   });
-  if(error){
-    codeMustBeReissued=true;
-    stopVerifyTimer();
-    verifyExpiresAt=0;
-    setVerifyEnabled(false);
-    const countdown=document.getElementById('verify-countdown');
-    if(countdown)countdown.textContent='00:00';
-    return showStatus('Incorrect or expired code. Request a new code to try again.',true);
-  }
-  if(!data?.session)return showStatus('Code verified, but no session was created. Please sign in.',true);
-  stopVerifyTimer();
-  fetch('/api/store',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'notify_signup',email:pendingSignupEmail})}).catch(()=>{});
-  showStatus('Email verified. Opening your account…');
-  location.replace('/dashboard.html');
+  showStatus('Verification email sent. Open your inbox and confirm your email address.');
 });
 
-document.getElementById('resend-code').addEventListener('click',async()=>{
-  if(!evaClient||!pendingSignupEmail)return;
-  const button=document.getElementById('resend-code');
+document.getElementById('resend-confirmation').addEventListener('click', async () => {
+  if (!evaClient || !pendingSignupEmail) return showStatus('Create your account again to resend the email.', true);
+  const button=document.getElementById('resend-confirmation');
   button.disabled=true;
-  showStatus('Requesting a new verification code…');
-  const { error }=await evaClient.auth.resend({type:'signup',email:pendingSignupEmail,options:{emailRedirectTo:`${location.origin}/dashboard.html`}});
+  showStatus('Resending verification email…');
+  const { error }=await evaClient.auth.resend({
+    type:'signup',
+    email:pendingSignupEmail,
+    options:{emailRedirectTo:`${location.origin}/dashboard.html`}
+  });
   button.disabled=false;
   if(error)return showStatus(error.message,true);
-  document.getElementById('verify-code').value='';
-  startVerifyTimer();
-  showStatus('New verification code sent. It is valid for 1 minute.');
-  setTimeout(()=>document.getElementById('verify-code').focus(),50);
+  showStatus('Verification email sent again. Check your inbox and spam folder.');
 });
 
-document.getElementById('change-signup-email').addEventListener('click',()=>{
-  stopVerifyTimer();
+document.getElementById('change-confirm-email').addEventListener('click',()=>{
   pendingSignupEmail='';
-  verifyExpiresAt=0;
-  codeMustBeReissued=false;
+  setActiveTab('signup');
   showAuthForm('signup-form');
-  const signupTab=document.querySelector('[data-auth-tab="signup"]');
-  document.querySelectorAll('[data-auth-tab]').forEach(item=>{
-    const active=item===signupTab;
-    item.classList.toggle('active',active);
-    item.setAttribute('aria-selected',String(active));
-  });
   showStatus('Enter the email address you want to use.');
 });
 
-document.getElementById('verify-code').addEventListener('input',event=>{
-  event.currentTarget.value=event.currentTarget.value.replace(/\D/g,'').slice(0,6);
+document.getElementById('back-to-signin').addEventListener('click',()=>{
+  pendingSignupEmail='';
+  setActiveTab('login');
+  showAuthForm('login-form');
+  showStatus('Sign in after you confirm your email address.');
 });
 
 document.getElementById('forgot-password').addEventListener('click', async () => {
@@ -183,15 +124,8 @@ document.querySelectorAll('[data-toggle-password]').forEach((button) => button.a
 }));
 
 document.querySelectorAll('[data-auth-tab]').forEach(button => button.addEventListener('click', () => {
-  stopVerifyTimer();
   pendingSignupEmail='';
-  verifyExpiresAt=0;
-  codeMustBeReissued=false;
-  document.querySelectorAll('[data-auth-tab]').forEach(item => {
-    const active = item === button;
-    item.classList.toggle('active', active);
-    item.setAttribute('aria-selected', String(active));
-  });
+  setActiveTab(button.dataset.authTab);
   showAuthForm(`${button.dataset.authTab}-form`);
   statusEl.textContent = '';
   statusEl.className = 'auth-status';
