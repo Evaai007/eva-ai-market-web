@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="auth-premium.css?v=20260902">
   <link rel="stylesheet" href="site-final.css?v=20260909-final-ui2">
-  <link rel="stylesheet" href="login-refresh.css?v=20260913-link-confirm">
+  <link rel="stylesheet" href="login-refresh.css?v=20260913-direct-signup">
 </head>
 <body class="account-page login-refresh">
   <div class="glow glow-a"></div><div class="glow glow-b"></div>
@@ -44,27 +44,15 @@
         <label>Create password
           <div class="password-field"><input id="signup-password" type="password" autocomplete="new-password" placeholder="Minimum 8 characters" minlength="8" required><button class="password-toggle" type="button" data-toggle-password="signup-password" aria-pressed="false">Show</button></div>
         </label>
-        <small>Use at least 8 characters. Never share or reuse your password.</small>
-        <button class="button primary" type="submit">Create customer account</button>
+        <small>Use at least 8 characters. Your account opens immediately after signup.</small>
+        <button class="button primary" type="submit">Create account & continue</button>
       </form>
-      <div id="confirm-email-panel" class="auth-form" hidden>
-        <div class="verify-heading">
-          <strong>Check your email 📩</strong>
-          <small>We sent a verification link to <span id="confirm-email-label"></span>.</small>
-          <small>Open the email and tap <strong>Confirm email address</strong> to activate your EVA AI MARKET account.</small>
-        </div>
-        <button id="resend-confirmation" class="button primary" type="button">Resend verification email</button>
-        <div class="verify-actions">
-          <button id="change-confirm-email" type="button">Change email</button>
-          <button id="back-to-signin" type="button">Back to sign in</button>
-        </div>
-      </div>
       <p id="auth-status" class="auth-status" role="status" aria-live="polite"></p>
-      <div class="login-security"><i></i><span>Secure email verification</span></div>
+      <div class="login-security"><i></i><span>Secure customer account</span></div>
       <a class="back-link" href="/">← Back to marketplace</a>
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="auth.js?v=20260913-link-confirm"></script>
+  <script src="auth.js?v=20260913-direct-signup"></script>
 </body>
 </html>
