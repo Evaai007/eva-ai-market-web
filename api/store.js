@@ -42,6 +42,29 @@ const readCookie=(req,name)=>{
  return match?decodeURIComponent(match[1]):'';
 };
 
+const visitorGeo=req=>{
+ const headers=req.headers||{};
+ const countryCode=String(headers['x-vercel-ip-country']||'').trim().toUpperCase();
+ const region=decodeURIComponent(String(headers['x-vercel-ip-country-region']||'').trim());
+ const city=decodeURIComponent(String(headers['x-vercel-ip-city']||'').trim());
+ const timeZone=decodeURIComponent(String(headers['x-vercel-ip-timezone']||'').trim())||'UTC';
+ let country=countryCode||'Unknown';
+ try{
+  if(countryCode&&typeof Intl.DisplayNames==='function'){
+   country=new Intl.DisplayNames(['en'],{type:'region'}).of(countryCode)||countryCode;
+  }
+ }catch{}
+ return {countryCode,country,region,city,timeZone};
+};
+
+const formatVisitorTime=timeZone=>{
+ try{
+  return new Date().toLocaleString('en-GB',{timeZone:timeZone||'UTC'});
+ }catch{
+  return new Date().toLocaleString('en-GB',{timeZone:'UTC'});
+ }
+};
+
 async function trackVisit(req,res,ctx){
  try{
   const referer=String(req.headers?.referer||'');
@@ -68,7 +91,10 @@ async function trackVisit(req,res,ctx){
 
   if(!recentPing){
    const ua=String(req.headers?.['user-agent']||'Unknown device').slice(0,180);
-   await sendTelegramAlert(`👀 EVA AI MARKET — New Visit\n\nPage: ${pathname}\nVisitor: ${visitorId.slice(0,8)}…\nDevice: ${ua}\nTime: ${new Date().toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)\n\nhttps://eva-ai-market.vercel.app/`);
+   const geo=visitorGeo(req);
+   const location=[geo.city,geo.region,geo.country].filter(Boolean).join(', ')||'Unknown';
+   const zoneLabel=geo.timeZone==='UTC'?'UTC':geo.timeZone;
+   await sendTelegramAlert(`👀 EVA AI MARKET — New Visit\n\nPage: ${pathname}\nVisitor: ${visitorId.slice(0,8)}…\nCountry: ${geo.country}${geo.countryCode?` (${geo.countryCode})`:''}\nLocation: ${location}\nDevice: ${ua}\nTime: ${formatVisitorTime(geo.timeZone)} (${zoneLabel})\n\nhttps://eva-ai-market.vercel.app/`);
   }
  }catch(error){
   console.error('Visit tracking/notification failed:',error?.message||error);
