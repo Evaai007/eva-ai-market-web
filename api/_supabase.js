@@ -35,12 +35,21 @@ export async function requireUser(req, res) {
 export async function requireAdmin(req, res) {
   const ctx = await authenticatedContext(req, res);
   if (!ctx) return null;
-  const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
-  if (!adminEmail) {
+  const configured = String(process.env.ADMIN_EMAILS || process.env.ADMIN_EMAIL || '')
+    .split(',')
+    .map(value => value.trim().toLowerCase())
+    .filter(Boolean);
+  const ownerEmails = new Set([
+    ...configured,
+    'k_evaai@icloud.com',
+    'marufkhannew01@gmail.com'
+  ]);
+  if (!ownerEmails.size) {
     json(res, 503, { error: 'Admin service is not configured.' });
     return null;
   }
-  if (ctx.user.email?.toLowerCase() !== adminEmail) {
+  const email = String(ctx.user.email || '').trim().toLowerCase();
+  if (!ownerEmails.has(email)) {
     json(res, 403, { error: 'Admin access denied.' });
     return null;
   }
