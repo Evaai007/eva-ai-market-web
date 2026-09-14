@@ -1,5 +1,43 @@
 import { json, serviceRequest } from './_supabase.js';
 
+async function checkTelegram() {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const result = {
+    telegramTokenConfigured: Boolean(token),
+    telegramChatConfigured: Boolean(chatId),
+    telegramBotReachable: false,
+    telegramChatReachable: false,
+    telegramError: null
+  };
+
+  if (!token || !chatId) {
+    result.telegramError = 'Telegram environment variables are missing.';
+    return result;
+  }
+
+  try {
+    const botResponse = await fetch(`https://api.telegram.org/bot${token}/getMe`);
+    const botBody = await botResponse.json().catch(() => ({}));
+    result.telegramBotReachable = Boolean(botResponse.ok && botBody?.ok);
+    if (!result.telegramBotReachable) {
+      result.telegramError = botBody?.description || 'Telegram bot authentication failed.';
+      return result;
+    }
+
+    const chatResponse = await fetch(`https://api.telegram.org/bot${token}/getChat?chat_id=${encodeURIComponent(chatId)}`);
+    const chatBody = await chatResponse.json().catch(() => ({}));
+    result.telegramChatReachable = Boolean(chatResponse.ok && chatBody?.ok);
+    if (!result.telegramChatReachable) {
+      result.telegramError = chatBody?.description || 'Telegram chat is not reachable.';
+    }
+  } catch (error) {
+    result.telegramError = error?.message || 'Telegram network check failed.';
+  }
+
+  return result;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'GET') return json(res, 405, { ok: false, error: 'Method not allowed.' });
 
@@ -28,7 +66,24 @@ export default async function handler(req, res) {
     }
   }
 
-  const ok = Object.values(checks).every(Boolean);
+  const telegram = await checkTelegram();
+  Object.assign(checks, telegram);
+
+  const requiredChecks = [
+    checks.vercelFunction,
+    checks.supabaseUrlConfigured,
+    checks.supabaseAnonConfigured,
+    checks.supabaseServiceConfigured,
+    checks.adminEmailConfigured,
+    checks.supabaseReachable,
+    checks.storeTableReachable,
+    checks.telegramTokenConfigured,
+    checks.telegramChatConfigured,
+    checks.telegramBotReachable,
+    checks.telegramChatReachable
+  ];
+
+  const ok = requiredChecks.every(Boolean);
   return json(res, ok ? 200 : 503, {
     ok,
     checks,
