@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="auth-premium.css?v=20260902">
   <link rel="stylesheet" href="site-final.css?v=20260909-final-ui2">
-  <link rel="stylesheet" href="login-refresh.css?v=20260913-direct-signup">
+  <link rel="stylesheet" href="login-refresh.css?v=20260915-email-otp">
 </head>
 <body class="account-page login-refresh">
   <div class="glow glow-a"></div><div class="glow glow-b"></div>
@@ -20,39 +20,39 @@
       <a class="brand" href="/"><span class="brand-mark">E</span><span>EVA AI MARKET</span></a>
       <h1>Secure access to your <span>AI marketplace.</span></h1>
       <p>Manage your EVA balance, deposits, purchases and delivery history from one protected customer account.</p>
-      <div class="login-trust">
-        <span>◈ Secure wallet</span><span>✓ Private delivery</span><span>↗ Order tracking</span>
-      </div>
+      <div class="login-trust"><span>◈ Secure wallet</span><span>✓ Email verified</span><span>↗ Order tracking</span></div>
     </section>
     <section class="auth-card panel">
       <h2>Customer access</h2>
-      <p>Sign in to continue, or create a new customer account.</p>
+      <p>Sign in to continue, or create a verified customer account.</p>
       <div class="auth-tabs" role="tablist" aria-label="Customer account">
         <button class="active" data-auth-tab="login" type="button" role="tab" aria-selected="true">Sign in</button>
         <button data-auth-tab="signup" type="button" role="tab" aria-selected="false">Create account</button>
       </div>
       <form id="login-form" class="auth-form">
         <label>Email address<input id="login-email" type="email" autocomplete="email" inputmode="email" placeholder="name@example.com" required></label>
-        <label>Password
-          <div class="password-field"><input id="login-password" type="password" autocomplete="current-password" placeholder="Enter your password" minlength="8" required><button class="password-toggle" type="button" data-toggle-password="login-password" aria-pressed="false">Show</button></div>
-        </label>
+        <label>Password<div class="password-field"><input id="login-password" type="password" autocomplete="current-password" placeholder="Enter your password" minlength="8" required><button class="password-toggle" type="button" data-toggle-password="login-password" aria-pressed="false">Show</button></div></label>
         <div class="auth-helper"><button id="forgot-password" type="button">Forgot password?</button></div>
         <button class="button primary" type="submit">Sign in securely</button>
       </form>
       <form id="signup-form" class="auth-form" hidden>
         <label>Email address<input id="signup-email" type="email" autocomplete="email" inputmode="email" placeholder="name@example.com" required></label>
-        <label>Create password
-          <div class="password-field"><input id="signup-password" type="password" autocomplete="new-password" placeholder="Minimum 8 characters" minlength="8" required><button class="password-toggle" type="button" data-toggle-password="signup-password" aria-pressed="false">Show</button></div>
-        </label>
-        <small>Use at least 8 characters. Your account opens immediately after signup.</small>
-        <button class="button primary" type="submit">Create account & continue</button>
+        <label>Create password<div class="password-field"><input id="signup-password" type="password" autocomplete="new-password" placeholder="Minimum 8 characters" minlength="8" required><button class="password-toggle" type="button" data-toggle-password="signup-password" aria-pressed="false">Show</button></div></label>
+        <small>We will send a 6-digit verification code to your email.</small>
+        <button class="button primary" type="submit">Send verification code</button>
+      </form>
+      <form id="verify-form" class="auth-form" hidden>
+        <label>Verification code<input id="verify-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000" required style="text-align:center;font-size:1.45rem;letter-spacing:.45rem;font-weight:800"></label>
+        <small>Enter the 6-digit code sent to <strong id="verify-email"></strong>.</small>
+        <button class="button primary" type="submit">Verify & create account</button>
+        <div class="auth-helper"><button id="resend-code" type="button">Resend code</button></div>
       </form>
       <p id="auth-status" class="auth-status" role="status" aria-live="polite"></p>
-      <div class="login-security"><i></i><span>Secure customer account</span></div>
+      <div class="login-security"><i></i><span>Secure • Email verified customer account</span></div>
       <a class="back-link" href="/">← Back to marketplace</a>
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="auth.js?v=20260913-direct-signup"></script>
+  <script src="auth.js?v=20260915-email-otp"></script>
 </body>
 </html>
