@@ -1,7 +1,9 @@
-import { randomUUID } from 'crypto';
+import { randomUUID, createHash } from 'crypto';
 import { json, requireUser, serviceRequest } from './_supabase.js';
 
 const VERIFIED_TELEGRAM_CHAT_ID='5461634710';
+const PUBLIC_SITE_URL='https://aicloudmarket.shop/';
+const ADMIN_URL='https://aicloudmarket.shop/eva-ops-93k7m2';
 
 const serviceContext=()=>({
  url:process.env.SUPABASE_URL||process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -50,19 +52,37 @@ const visitorGeo=req=>{
  const timeZone=decodeURIComponent(String(headers['x-vercel-ip-timezone']||'').trim())||'UTC';
  let country=countryCode||'Unknown';
  try{
-  if(countryCode&&typeof Intl.DisplayNames==='function'){
-   country=new Intl.DisplayNames(['en'],{type:'region'}).of(countryCode)||countryCode;
-  }
+  if(countryCode&&typeof Intl.DisplayNames==='function')country=new Intl.DisplayNames(['en'],{type:'region'}).of(countryCode)||countryCode;
  }catch{}
  return {countryCode,country,region,city,timeZone};
 };
 
 const formatVisitorTime=timeZone=>{
- try{
-  return new Date().toLocaleString('en-GB',{timeZone:timeZone||'UTC'});
- }catch{
-  return new Date().toLocaleString('en-GB',{timeZone:'UTC'});
- }
+ try{return new Date().toLocaleString('en-GB',{timeZone:timeZone||'UTC'});}
+ catch{return new Date().toLocaleString('en-GB',{timeZone:'UTC'});}
+};
+
+const requestIp=req=>{
+ const forwarded=String(req.headers?.['x-forwarded-for']||'').split(',')[0].trim();
+ return forwarded||String(req.headers?.['x-real-ip']||req.socket?.remoteAddress||'').trim();
+};
+
+const hashedVisitorFingerprint=req=>{
+ const ip=requestIp(req);
+ const ua=String(req.headers?.['user-agent']||'');
+ const lang=String(req.headers?.['accept-language']||'');
+ const seed=`${ip}|${ua}|${lang}`;
+ return createHash('sha256').update(seed).digest('hex').slice(0,16);
+};
+
+const classifyVisitor=req=>{
+ const ua=String(req.headers?.['user-agent']||'');
+ const lower=ua.toLowerCase();
+ const knownBot=/(bot|crawler|spider|slurp|bingpreview|facebookexternalhit|whatsapp|telegrambot|discordbot|twitterbot|linkedinbot|headlesschrome|lighthouse|pagespeed|vercel-screenshot|uptimerobot|pingdom|curl|wget|python-requests|go-http-client|axios)/i.test(ua);
+ const browser=/(safari|chrome|crios|firefox|fxios|edg|opr|opera)/i.test(ua);
+ const mobile=/(iphone|ipad|android|mobile)/i.test(ua);
+ const suspicious=!ua||ua.length<12||(!browser&&!mobile&&/(http|client|library|monitor)/i.test(lower));
+ return {isBot:knownBot||suspicious,label:knownBot?'Known bot/crawler':suspicious?'Likely automated':'Likely human'};
 };
 
 async function trackVisit(req,res,ctx){
@@ -72,10 +92,12 @@ async function trackVisit(req,res,ctx){
   try{pathname=referer?new URL(referer).pathname:'/';}catch{}
   if(/^\/(dashboard(?:\.html)?|eva-ops-93k7m2|admin(?:\.html)?)/i.test(pathname))return;
 
-  let visitorId=readCookie(req,'eva_vid');
+  const existingVisitorId=readCookie(req,'eva_vid');
+  let visitorId=existingVisitorId;
+  const isReturning=/^[a-zA-Z0-9-]{16,80}$/.test(existingVisitorId);
   const cookies=[];
-  if(!/^[a-zA-Z0-9-]{16,80}$/.test(visitorId)){
-   visitorId=randomUUID();
+  if(!isReturning){
+   visitorId=`${hashedVisitorFingerprint(req)}-${randomUUID().slice(0,8)}`;
    cookies.push(`eva_vid=${encodeURIComponent(visitorId)}; Path=/; Max-Age=31536000; SameSite=Lax; Secure`);
   }
   const recentPing=readCookie(req,'eva_vping');
@@ -84,8 +106,7 @@ async function trackVisit(req,res,ctx){
 
   const path=(referer||pathname||'/').slice(0,500);
   await serviceRequest(ctx,'site_visit_events',{
-   method:'POST',
-   headers:{Prefer:'return=minimal'},
+   method:'POST',headers:{Prefer:'return=minimal'},
    body:JSON.stringify({visitor_id:visitorId,path})
   });
 
@@ -94,11 +115,12 @@ async function trackVisit(req,res,ctx){
    const geo=visitorGeo(req);
    const location=[geo.city,geo.region,geo.country].filter(Boolean).join(', ')||'Unknown';
    const zoneLabel=geo.timeZone==='UTC'?'UTC':geo.timeZone;
-   await sendTelegramAlert(`👀 EVA AI MARKET — New Visit\n\nPage: ${pathname}\nVisitor: ${visitorId.slice(0,8)}…\nCountry: ${geo.country}${geo.countryCode?` (${geo.countryCode})`:''}\nLocation: ${location}\nDevice: ${ua}\nTime: ${formatVisitorTime(geo.timeZone)} (${zoneLabel})\n\nhttps://eva-ai-market.vercel.app/`);
+   const traffic=classifyVisitor(req);
+   const visitorType=isReturning?'Returning visitor':'New visitor';
+   const fingerprint=hashedVisitorFingerprint(req);
+   await sendTelegramAlert(`👀 EVA AI MARKET — New Visit\n\nPage: ${pathname}\nVisitor: ${visitorId.slice(0,12)}…\nVisitor Type: ${visitorType}\nTraffic: ${traffic.label}${traffic.isBot?' 🤖':' 👤'}\nFingerprint: ${fingerprint}\nCountry: ${geo.country}${geo.countryCode?` (${geo.countryCode})`:''}\nLocation: ${location}\nDevice: ${ua}\nTime: ${formatVisitorTime(geo.timeZone)} (${zoneLabel})\n\n${PUBLIC_SITE_URL}`);
   }
- }catch(error){
-  console.error('Visit tracking/notification failed:',error?.message||error);
- }
+ }catch(error){console.error('Visit tracking/notification failed:',error?.message||error);}
 }
 
 async function notifySignup(req,res){
@@ -107,21 +129,16 @@ async function notifySignup(req,res){
  const ctx=serviceContext();
  if(!ctx.url||!ctx.service)return json(res,503,{error:'Notification service unavailable.'});
  try{
-  const response=await fetch(`${ctx.url}/auth/v1/admin/users?page=1&per_page=1000`,{
-   headers:{apikey:ctx.service,authorization:`Bearer ${ctx.service}`}
-  });
+  const response=await fetch(`${ctx.url}/auth/v1/admin/users?page=1&per_page=1000`,{headers:{apikey:ctx.service,authorization:`Bearer ${ctx.service}`}});
   const body=await response.json().catch(()=>({users:[]}));
   if(!response.ok)return json(res,502,{error:'Could not verify signup.'});
   const user=(body.users||[]).find(item=>String(item.email||'').toLowerCase()===email);
   if(!user)return json(res,404,{error:'Signup not found.'});
   const created=new Date(user.created_at||0).getTime();
   if(!created||Date.now()-created>10*60*1000)return json(res,409,{error:'Signup is not recent.'});
-  const result=await sendTelegramAlert(`✅ EVA AI MARKET — New Signup\n\nEmail: ${email}\nTime: ${new Date(user.created_at).toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)\n\nAdmin: https://eva-ai-market.vercel.app/eva-ops-93k7m2`);
+  const result=await sendTelegramAlert(`✅ EVA AI MARKET — New Signup\n\nEmail: ${email}\nTime: ${new Date(user.created_at).toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)\n\nAdmin: ${ADMIN_URL}`);
   return json(res,200,{ok:true,telegram:result.sent,telegramError:result.sent?null:result.reason});
- }catch(error){
-  console.error('Signup notification failed:',error?.message||error);
-  return json(res,500,{error:'Could not send signup notification.'});
- }
+ }catch(error){console.error('Signup notification failed:',error?.message||error);return json(res,500,{error:'Could not send signup notification.'});}
 }
 
 async function submitDepositWithRefresh(req,res){
@@ -133,51 +150,25 @@ async function submitDepositWithRefresh(req,res){
  const transactionId=String(req.body?.transaction_id||'').trim();
  if(!refreshToken)return json(res,401,{error:'Please sign in again.'});
  if(amount<10||!['TRC20','BEP20','ERC20'].includes(network)||!validTx(network,transactionId))return json(res,400,{error:'Enter at least 10 USDT and a valid completed payment transaction ID.'});
- const tokenResponse=await fetch(`${ctx.url}/auth/v1/token?grant_type=refresh_token`,{
-  method:'POST',
-  headers:{apikey:ctx.anon,'content-type':'application/json'},
-  body:JSON.stringify({refresh_token:refreshToken})
- });
+ const tokenResponse=await fetch(`${ctx.url}/auth/v1/token?grant_type=refresh_token`,{method:'POST',headers:{apikey:ctx.anon,'content-type':'application/json'},body:JSON.stringify({refresh_token:refreshToken})});
  const tokenBody=await tokenResponse.json().catch(()=>({}));
  if(!tokenResponse.ok||!tokenBody?.user?.id)return json(res,401,{error:'Your secure session expired. Please sign in again.'});
- const insertResponse=await serviceRequest(ctx,'deposits',{
-  method:'POST',
-  headers:{Prefer:'return=minimal'},
-  body:JSON.stringify({user_id:tokenBody.user.id,amount_usdt:amount,network,transaction_id:transactionId})
- });
+ const insertResponse=await serviceRequest(ctx,'deposits',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify({user_id:tokenBody.user.id,amount_usdt:amount,network,transaction_id:transactionId})});
  const insertBody=await insertResponse.json().catch(()=>({}));
  if(!insertResponse.ok){
   if(insertBody?.code==='23505'){
    const existingResponse=await serviceRequest(ctx,`deposits?select=id,user_id,status,amount_usdt,network&transaction_id=eq.${encodeURIComponent(transactionId)}&limit=1`);
    const existingBody=await existingResponse.json().catch(()=>[]);
    const existing=Array.isArray(existingBody)?existingBody[0]:null;
-   if(existingResponse.ok&&existing?.user_id===tokenBody.user.id){
-    return json(res,200,{
-     submitted:true,
-     already_submitted:true,
-     status:existing.status,
-     amount:existing.amount_usdt,
-     access_token:tokenBody.access_token,
-     refresh_token:tokenBody.refresh_token
-    });
-   }
+   if(existingResponse.ok&&existing?.user_id===tokenBody.user.id)return json(res,200,{submitted:true,already_submitted:true,status:existing.status,amount:existing.amount_usdt,access_token:tokenBody.access_token,refresh_token:tokenBody.refresh_token});
    return json(res,409,{error:'This transaction ID was already used by another account. Contact support with the TxID.'});
   }
   return json(res,400,{error:insertBody?.message||'Deposit submission failed.'});
  }
-
  const email=String(tokenBody.user?.email||'Unknown customer');
  const txShort=transactionId.length>22?`${transactionId.slice(0,12)}…${transactionId.slice(-8)}`:transactionId;
- const telegram=await sendTelegramAlert(`💰 EVA AI MARKET — New Deposit Submitted\n\nCustomer: ${email}\nAmount: ${amount.toFixed(2)} USDT\nNetwork: ${network}\nTxID: ${txShort}\nStatus: Pending verification\nTime: ${new Date().toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)\n\nAdmin: https://eva-ai-market.vercel.app/eva-ops-93k7m2`);
-
- return json(res,200,{
-  submitted:true,
-  already_submitted:false,
-  telegram:telegram.sent,
-  telegramError:telegram.sent?null:telegram.reason,
-  access_token:tokenBody.access_token,
-  refresh_token:tokenBody.refresh_token
- });
+ const telegram=await sendTelegramAlert(`💰 EVA AI MARKET — New Deposit Submitted\n\nCustomer: ${email}\nAmount: ${amount.toFixed(2)} USDT\nNetwork: ${network}\nTxID: ${txShort}\nStatus: Pending verification\nTime: ${new Date().toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)\n\nAdmin: ${ADMIN_URL}`);
+ return json(res,200,{submitted:true,already_submitted:false,telegram:telegram.sent,telegramError:telegram.sent?null:telegram.reason,access_token:tokenBody.access_token,refresh_token:tokenBody.refresh_token});
 }
 
 export default async function handler(req,res){
@@ -219,7 +210,7 @@ export default async function handler(req,res){
   }
   const productName=String(order?.product_name||result?.product_name||productId);
   const price=Number(order?.price_usd??result?.price_usd??0);
-  const telegram=await sendTelegramAlert(`🛒 EVA AI MARKET — New Order\n\nCustomer: ${ctx.user.email||ctx.user.id}\nProduct: ${productName}\nPrice: $${price.toFixed(2)}\nStatus: ${status}\nOrder: ${orderId||'Created'}\nTime: ${new Date().toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)\n\nAdmin: https://eva-ai-market.vercel.app/eva-ops-93k7m2`);
+  const telegram=await sendTelegramAlert(`🛒 EVA AI MARKET — New Order\n\nCustomer: ${ctx.user.email||ctx.user.id}\nProduct: ${productName}\nPrice: $${price.toFixed(2)}\nStatus: ${status}\nOrder: ${orderId||'Created'}\nTime: ${new Date().toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)\n\nAdmin: ${ADMIN_URL}`);
   return json(res,200,{purchased:true,status,result,telegram:telegram.sent,telegramError:telegram.sent?null:telegram.reason});
  }
  return json(res,405,{error:'Method not allowed.'});
