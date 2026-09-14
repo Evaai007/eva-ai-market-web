@@ -1,6 +1,8 @@
 import { randomUUID } from 'crypto';
 import { json, requireUser, serviceRequest } from './_supabase.js';
 
+const VERIFIED_TELEGRAM_CHAT_ID='5461634710';
+
 const serviceContext=()=>({
  url:process.env.SUPABASE_URL||process.env.NEXT_PUBLIC_SUPABASE_URL,
  anon:process.env.SUPABASE_ANON_KEY||process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY||process.env.SUPABASE_PUBLISHABLE_KEY,
@@ -9,8 +11,8 @@ const serviceContext=()=>({
 
 async function sendTelegramAlert(text){
  const token=process.env.TELEGRAM_BOT_TOKEN;
- const chatId=process.env.TELEGRAM_CHAT_ID;
- if(!token||!chatId)return {sent:false,reason:'not_configured'};
+ const chatId=VERIFIED_TELEGRAM_CHAT_ID;
+ if(!token)return {sent:false,reason:'bot_token_not_configured'};
  try{
   const response=await fetch(`https://api.telegram.org/bot${token}/sendMessage`,{
    method:'POST',
@@ -18,8 +20,11 @@ async function sendTelegramAlert(text){
    body:JSON.stringify({chat_id:chatId,text:String(text||'').slice(0,3900),disable_web_page_preview:true})
   });
   const body=await response.json().catch(()=>({}));
-  return response.ok&&body?.ok?{sent:true}:{sent:false,reason:body?.description||'telegram_error'};
- }catch(_error){
+  const result=response.ok&&body?.ok?{sent:true}:{sent:false,reason:body?.description||'telegram_error'};
+  if(!result.sent)console.error('Telegram alert failed:',result.reason);
+  return result;
+ }catch(error){
+  console.error('Telegram alert network error:',error?.message||error);
   return {sent:false,reason:'network_error'};
  }
 }
@@ -65,8 +70,8 @@ async function trackVisit(req,res,ctx){
    const ua=String(req.headers?.['user-agent']||'Unknown device').slice(0,180);
    await sendTelegramAlert(`👀 EVA AI MARKET — New Visit\n\nPage: ${pathname}\nVisitor: ${visitorId.slice(0,8)}…\nDevice: ${ua}\nTime: ${new Date().toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)\n\nhttps://eva-ai-market.vercel.app/`);
   }
- }catch(_error){
-  // Analytics and alerts must never block the storefront.
+ }catch(error){
+  console.error('Visit tracking/notification failed:',error?.message||error);
  }
 }
 
@@ -86,8 +91,9 @@ async function notifySignup(req,res){
   const created=new Date(user.created_at||0).getTime();
   if(!created||Date.now()-created>10*60*1000)return json(res,409,{error:'Signup is not recent.'});
   const result=await sendTelegramAlert(`✅ EVA AI MARKET — New Signup\n\nEmail: ${email}\nTime: ${new Date(user.created_at).toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)\n\nAdmin: https://eva-ai-market.vercel.app/eva-ops-93k7m2`);
-  return json(res,200,{ok:true,telegram:result.sent});
- }catch(_error){
+  return json(res,200,{ok:true,telegram:result.sent,telegramError:result.sent?null:result.reason});
+ }catch(error){
+  console.error('Signup notification failed:',error?.message||error);
   return json(res,500,{error:'Could not send signup notification.'});
  }
 }
@@ -142,6 +148,7 @@ async function submitDepositWithRefresh(req,res){
   submitted:true,
   already_submitted:false,
   telegram:telegram.sent,
+  telegramError:telegram.sent?null:telegram.reason,
   access_token:tokenBody.access_token,
   refresh_token:tokenBody.refresh_token
  });
@@ -187,7 +194,7 @@ export default async function handler(req,res){
   const productName=String(order?.product_name||result?.product_name||productId);
   const price=Number(order?.price_usd??result?.price_usd??0);
   const telegram=await sendTelegramAlert(`🛒 EVA AI MARKET — New Order\n\nCustomer: ${ctx.user.email||ctx.user.id}\nProduct: ${productName}\nPrice: $${price.toFixed(2)}\nStatus: ${status}\nOrder: ${orderId||'Created'}\nTime: ${new Date().toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)\n\nAdmin: https://eva-ai-market.vercel.app/eva-ops-93k7m2`);
-  return json(res,200,{purchased:true,status,result,telegram:telegram.sent});
+  return json(res,200,{purchased:true,status,result,telegram:telegram.sent,telegramError:telegram.sent?null:telegram.reason});
  }
  return json(res,405,{error:'Method not allowed.'});
 }
