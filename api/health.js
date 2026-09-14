@@ -1,18 +1,20 @@
 import { json, serviceRequest } from './_supabase.js';
 
+const VERIFIED_TELEGRAM_CHAT_ID='5461634710';
+
 async function checkTelegram() {
   const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const chatId = VERIFIED_TELEGRAM_CHAT_ID;
   const result = {
     telegramTokenConfigured: Boolean(token),
-    telegramChatConfigured: Boolean(chatId),
+    telegramChatConfigured: true,
     telegramBotReachable: false,
     telegramChatReachable: false,
     telegramError: null
   };
 
-  if (!token || !chatId) {
-    result.telegramError = 'Telegram environment variables are missing.';
+  if (!token) {
+    result.telegramError = 'Telegram bot token is missing.';
     return result;
   }
 
