@@ -7,21 +7,31 @@ export default async function handler(req,res){
  const token=process.env.TELEGRAM_BOT_TOKEN;
  if(!token)return res.status(503).json({ok:false,error:'Telegram bot token is not configured'});
  try{
-  const response=await fetch(`https://api.telegram.org/bot${token}/getUpdates?limit=100&timeout=0`,{cache:'no-store'});
-  const body=await response.json().catch(()=>({}));
-  if(!response.ok||!body?.ok)return res.status(502).json({ok:false,error:body?.description||'Telegram getUpdates failed'});
-  const updates=Array.isArray(body.result)?body.result:[];
-  const chats=[];
-  for(const update of updates){
-   const message=update.message||update.edited_message||update.channel_post||update.callback_query?.message;
-   const chat=message?.chat;
-   const from=message?.from||update.callback_query?.from;
-   if(!chat)continue;
-   chats.push({id:chat.id,type:chat.type,username:chat.username||from?.username||null,first_name:chat.first_name||from?.first_name||null,last_name:chat.last_name||from?.last_name||null,date:message?.date||null});
-  }
-  const target=[...chats].reverse().find(item=>String(item.username||'').toLowerCase()==='eva007_8');
-  return res.status(200).json({ok:true,found:Boolean(target),target:target||null,updateCount:updates.length});
+  const [meResponse,webhookResponse]=await Promise.all([
+   fetch(`https://api.telegram.org/bot${token}/getMe`,{cache:'no-store'}),
+   fetch(`https://api.telegram.org/bot${token}/getWebhookInfo`,{cache:'no-store'})
+  ]);
+  const me=await meResponse.json().catch(()=>({}));
+  const webhook=await webhookResponse.json().catch(()=>({}));
+  if(!meResponse.ok||!me?.ok)return res.status(502).json({ok:false,error:me?.description||'Telegram getMe failed'});
+  if(!webhookResponse.ok||!webhook?.ok)return res.status(502).json({ok:false,error:webhook?.description||'Telegram getWebhookInfo failed'});
+  const info=webhook.result||{};
+  return res.status(200).json({
+   ok:true,
+   bot:{id:me.result?.id||null,username:me.result?.username||null,first_name:me.result?.first_name||null},
+   webhook:{
+    active:Boolean(info.url),
+    url:info.url||null,
+    pending_update_count:Number(info.pending_update_count||0),
+    last_error_date:info.last_error_date||null,
+    last_error_message:info.last_error_message||null,
+    max_connections:info.max_connections||null,
+    allowed_updates:info.allowed_updates||null,
+    has_custom_certificate:Boolean(info.has_custom_certificate)
+   },
+   note:'Webhook was inspected only. It was not deleted or changed.'
+  });
  }catch(error){
-  return res.status(500).json({ok:false,error:'Telegram discovery failed'});
+  return res.status(500).json({ok:false,error:'Telegram webhook inspection failed'});
  }
 }
