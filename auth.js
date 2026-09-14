@@ -32,6 +32,31 @@ async function init() {
   }
 }
 
+async function sendSignupNotification(email){
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),5000);
+  try{
+    const response=await fetch('/api/store',{
+      method:'POST',
+      headers:{'content-type':'application/json'},
+      body:JSON.stringify({action:'notify_signup',email}),
+      signal:controller.signal,
+      keepalive:true
+    });
+    const body=await response.json().catch(()=>({}));
+    if(!response.ok||body.telegram===false){
+      console.warn('Signup Telegram notification was not confirmed.',body);
+      return false;
+    }
+    return true;
+  }catch(error){
+    console.warn('Signup Telegram notification request failed.',error?.message||error);
+    return false;
+  }finally{
+    clearTimeout(timer);
+  }
+}
+
 document.getElementById('login-form').addEventListener('submit', async (event) => {
   event.preventDefault();
   if (!evaClient) return;
@@ -67,12 +92,8 @@ document.getElementById('signup-form').addEventListener('submit', async (event) 
     const { error }=await evaClient.auth.signInWithPassword({email,password});
     if(error) throw error;
 
-    fetch('/api/store',{
-      method:'POST',
-      headers:{'content-type':'application/json'},
-      body:JSON.stringify({action:'notify_signup',email})
-    }).catch(()=>{});
-
+    showStatus('Account created. Finalizing…');
+    await sendSignupNotification(email);
     location.replace('/dashboard.html');
   }catch(error){
     showStatus(error.message||'Could not create the account.',true);
