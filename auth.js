@@ -65,6 +65,8 @@ document.getElementById('login-form').addEventListener('submit', async (event) =
   showStatus('Signing in securely…');
   const { error } = await evaClient.auth.signInWithPassword({ email, password });
   if (error) return showStatus(error.message, true);
+  const target=sessionStorage.getItem('eva-return-to');
+  if(target){sessionStorage.removeItem('eva-return-to');location.replace(target);return;}
   location.replace('/dashboard.html');
 });
 
@@ -94,6 +96,8 @@ document.getElementById('signup-form').addEventListener('submit', async (event) 
 
     showStatus('Account created. Finalizing…');
     await sendSignupNotification(email);
+    const target=sessionStorage.getItem('eva-return-to');
+    if(target){sessionStorage.removeItem('eva-return-to');location.replace(target);return;}
     location.replace('/dashboard.html');
   }catch(error){
     showStatus(error.message||'Could not create the account.',true);
@@ -101,13 +105,27 @@ document.getElementById('signup-form').addEventListener('submit', async (event) 
   }
 });
 
-document.getElementById('forgot-password').addEventListener('click', () => {
-  const email = document.getElementById('login-email').value.trim();
-  const message = email
-    ? `Hello, I need help recovering my EVA AI MARKET account. Account email: ${email}`
-    : 'Hello, I need help recovering my EVA AI MARKET account.';
-  showStatus('Password recovery is handled securely by support for now. Opening Telegram support…');
-  window.open(`https://t.me/eva007_8?text=${encodeURIComponent(message)}`,'_blank','noopener,noreferrer');
+document.getElementById('forgot-password').addEventListener('click', async () => {
+  if(!evaClient)return showStatus('Account service is still loading. Please try again.',true);
+  const email = document.getElementById('login-email').value.trim().toLowerCase();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    document.getElementById('login-email').focus();
+    return showStatus('Enter your account email first, then tap Forgot password.',true);
+  }
+  const button=document.getElementById('forgot-password');
+  const original=button.textContent;
+  button.disabled=true;button.textContent='Sending reset link…';
+  showStatus('Sending a secure password reset email…');
+  try{
+    const redirectTo=`${location.origin}/reset-password.html`;
+    const {error}=await evaClient.auth.resetPasswordForEmail(email,{redirectTo});
+    if(error)throw error;
+    showStatus('Password reset email sent. Open the link in your email to choose a new password.');
+  }catch(error){
+    showStatus(error.message||'Could not send the password reset email.',true);
+  }finally{
+    button.disabled=false;button.textContent=original;
+  }
 });
 
 document.querySelectorAll('[data-toggle-password]').forEach((button) => button.addEventListener('click', () => {
