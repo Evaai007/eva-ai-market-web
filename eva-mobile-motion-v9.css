@@ -1,0 +1,51 @@
+@import url("eva-mobile-motion-v8.css?v=20260915-reference-base");
+
+/* Pixel-matched to the original mobile reference. */
+@media (max-width: 620px) {
+  .hero-visual {
+    width: min(88vw, 420px) !important;
+    aspect-ratio: 4 / 5 !important;
+    margin-top: 22px !important;
+    border-radius: 26px !important;
+  }
+
+  .hero-visual > img {
+    border-radius: 26px !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+  }
+
+  .badge {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 11px !important;
+    font-size: 12px !important;
+  }
+
+  .b1 { left: -3% !important; top: 18% !important; }
+  .b2 { right: -3% !important; top: 13% !important; }
+  .b3 { left: 14% !important; top: 5% !important; }
+  .b4 { right: -4% !important; top: 40% !important; }
+  .b5 { left: -4% !important; top: 53% !important; }
+  .b6 { right: -4% !important; top: 61% !important; }
+  .b7 { left: 15% !important; top: 70% !important; }
+  .b8 { right: 16% !important; top: 76% !important; }
+
+  .verified-card {
+    left: -4% !important;
+    bottom: 4% !important;
+    width: 69% !important;
+    max-width: 290px !important;
+    padding: 13px 14px !important;
+    border-radius: 17px !important;
+    gap: 12px !important;
+  }
+
+  .verified-card .check {
+    width: 38px !important;
+    height: 38px !important;
+    flex-basis: 38px !important;
+  }
+
+  .verified-card strong { font-size: 14px !important; }
+}
