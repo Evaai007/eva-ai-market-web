@@ -1,6 +1,6 @@
 @import url('/eva-mobile-orb-reference-base.css?v=20260916-image-base1');
 
-/* Exact image-based hero orb. The approved reference artwork is rendered as-is on mobile. */
+/* Approved image-based hero orb with 3D presentation. Backend/store behavior untouched. */
 @media (max-width:760px){
   body.premium-home .ref-visual{
     height:430px!important;
@@ -10,14 +10,74 @@
     margin:4px auto 2px!important;
     padding:0!important;
     overflow:visible!important;
-    background-image:url('/assets/eva-orb-reference.jpg?v=20260916-image1')!important;
+    position:relative!important;
+    isolation:isolate!important;
+    background-image:url('/assets/eva-orb-reference.jpg?v=20260916-image3d1')!important;
     background-repeat:no-repeat!important;
     background-position:center center!important;
     background-size:contain!important;
+    transform-origin:50% 52%!important;
+    transform-style:preserve-3d!important;
+    perspective:1100px!important;
+    filter:drop-shadow(0 24px 34px rgba(0,0,0,.46)) drop-shadow(0 0 24px rgba(25,135,255,.18))!important;
+    animation:evaApprovedOrb3D 6.8s ease-in-out infinite!important;
+    will-change:transform,filter!important;
   }
-  body.premium-home .ref-visual:before{display:none!important;content:none!important}
-  body.premium-home .ref-cyber-head{visibility:hidden!important;opacity:0!important;pointer-events:none!important;animation:none!important}
+  body.premium-home .ref-visual:before{
+    display:block!important;
+    content:""!important;
+    position:absolute!important;
+    left:50%!important;
+    bottom:28px!important;
+    width:66%!important;
+    height:34px!important;
+    transform:translateX(-50%) translateZ(-20px)!important;
+    border-radius:50%!important;
+    background:radial-gradient(ellipse,rgba(35,118,255,.34) 0%,rgba(90,54,180,.22) 42%,rgba(0,0,0,0) 74%)!important;
+    filter:blur(14px)!important;
+    opacity:.82!important;
+    pointer-events:none!important;
+    z-index:-1!important;
+    animation:evaApprovedOrbShadow 6.8s ease-in-out infinite!important;
+  }
+  body.premium-home .ref-visual:after{
+    content:""!important;
+    position:absolute!important;
+    inset:9% 8% 12%!important;
+    border-radius:34px!important;
+    background:linear-gradient(118deg,rgba(255,255,255,.13) 0%,rgba(255,255,255,.025) 24%,transparent 46%,rgba(89,213,255,.035) 70%,transparent 100%)!important;
+    mix-blend-mode:screen!important;
+    opacity:.72!important;
+    pointer-events:none!important;
+    transform:translateZ(24px)!important;
+    animation:evaApprovedOrbGloss 5.6s ease-in-out infinite!important;
+  }
+  body.premium-home .ref-cyber-head{
+    visibility:hidden!important;
+    opacity:0!important;
+    pointer-events:none!important;
+    animation:none!important;
+  }
 }
+
+@keyframes evaApprovedOrb3D{
+  0%,100%{transform:perspective(1100px) rotateX(1.2deg) rotateY(-1.6deg) translateY(0) scale(.995);filter:drop-shadow(0 24px 34px rgba(0,0,0,.46)) drop-shadow(0 0 24px rgba(25,135,255,.18))}
+  25%{transform:perspective(1100px) rotateX(-.6deg) rotateY(1.8deg) translateY(-4px) scale(1.004);filter:drop-shadow(0 27px 38px rgba(0,0,0,.48)) drop-shadow(0 0 28px rgba(168,85,247,.22))}
+  50%{transform:perspective(1100px) rotateX(-1deg) rotateY(0deg) translateY(-7px) scale(1.008);filter:drop-shadow(0 29px 40px rgba(0,0,0,.50)) drop-shadow(0 0 32px rgba(34,211,238,.20))}
+  75%{transform:perspective(1100px) rotateX(.4deg) rotateY(-1.2deg) translateY(-3px) scale(1.002);filter:drop-shadow(0 26px 36px rgba(0,0,0,.47)) drop-shadow(0 0 27px rgba(236,72,153,.18))}
+}
+@keyframes evaApprovedOrbShadow{
+  0%,100%{transform:translateX(-50%) scaleX(.95);opacity:.68}
+  50%{transform:translateX(-50%) scaleX(1.08);opacity:.88}
+}
+@keyframes evaApprovedOrbGloss{
+  0%,100%{opacity:.46;transform:translate3d(-2px,0,24px)}
+  50%{opacity:.78;transform:translate3d(3px,-2px,24px)}
+}
+
 @media (max-width:390px){
   body.premium-home .ref-visual{height:400px!important;min-height:400px!important;background-size:contain!important}
+}
+@media (prefers-reduced-motion:reduce){
+  body.premium-home .ref-visual,body.premium-home .ref-visual:before,body.premium-home .ref-visual:after{animation:none!important}
 }
