@@ -14,6 +14,28 @@
   let liveOrders = [];
   let liveOrderIndex = 0;
   let liveTimer = null;
+  let usingDemoFallback = false;
+
+  const demoProducts = [
+    'ChatGPT Plus', 'ChatGPT Pro — 5× Usage', 'ChatGPT Pro — 20× Usage',
+    'Claude Pro', 'Claude Max 5x', 'Claude Max 20x',
+    'Google AI Pro', 'Google AI Ultra 5×', 'Google AI Ultra 20×',
+    'AWS Cloud — 8 vCPU', 'AWS Cloud — 64 vCPU', 'AWS + Kiro + GCP AI Bundle'
+  ];
+  const demoCountries = [
+    'Bangladesh','United States','United Kingdom','Canada','Australia','Germany','France','Italy','Spain','Netherlands','Sweden','Norway','Denmark','Finland','Switzerland','Austria','Belgium','Ireland','Portugal','Poland','Czech Republic','Romania','Hungary','Greece','Turkey','Ukraine','United Arab Emirates','Saudi Arabia','Qatar','Kuwait','Oman','Bahrain','India','Pakistan','Nepal','Sri Lanka','Japan','South Korea','Singapore','Malaysia','Thailand','Indonesia','Philippines','Vietnam','China','Hong Kong','Brazil','Mexico','Argentina','Chile','South Africa','Nigeria','Kenya','Egypt','Panama'
+  ];
+  const demoNames = ['emely','noah','liam','emma','oliver','sofia','lucas','mason','elena','alex','mia','james','david','ethan','harper','daniel','sam','jack','nora','leo','ava'];
+  const demoProviders = ['gmail.com','icloud.com','outlook.com','yahoo.com','proton.me'];
+
+  const pick = (list) => list[Math.floor(Math.random() * list.length)];
+  const makeDemoEvent = () => ({
+    type: 'demo',
+    product: pick(demoProducts),
+    customer: `${pick(demoNames)}*****@${pick(demoProviders)}`,
+    country: pick(demoCountries),
+    age_seconds: Math.floor(3 + Math.random() * 90)
+  });
 
   const formatAge = (seconds) => {
     const value = Math.max(0, Number(seconds || 0));
@@ -30,14 +52,22 @@
   function render(events) {
     if (!tbody) return;
     const orders = Array.isArray(events) ? events.filter((event) => event?.type === 'order').slice(0, 6) : [];
-    liveOrders = orders;
+    usingDemoFallback = orders.length === 0;
 
-    if (!orders.length) {
-      tbody.innerHTML = '<tr><td class="eva-live-empty" colspan="5">No recent verified deliveries are available right now.</td></tr>';
-      if (status) status.textContent = 'Waiting for verified deliveries';
+    if (usingDemoFallback) {
+      liveOrders = Array.from({ length: 6 }, makeDemoEvent);
+      tbody.innerHTML = liveOrders.map((event) => `<tr>
+        <td><span class="eva-live-private">${escapeHtml(event.customer)}</span></td>
+        <td><span class="eva-live-product">${escapeHtml(event.product)}</span></td>
+        <td><span class="eva-live-amount">${escapeHtml(event.country)}</span></td>
+        <td><span class="eva-live-status">Demo</span></td>
+        <td><span class="eva-live-time">${formatAge(event.age_seconds)}</span></td>
+      </tr>`).join('');
+      if (status) status.textContent = 'Live demo activity · real deliveries appear automatically';
       return;
     }
 
+    liveOrders = orders;
     tbody.innerHTML = orders.map((event) => {
       const amount = Number(event?.amount || 0);
       const product = escapeHtml(String(event?.product || 'EVA product').slice(0, 90));
@@ -61,9 +91,9 @@
       if (!response.ok || !body?.ok || !Array.isArray(body.events)) throw new Error('Activity feed unavailable');
       render(body.events);
     } catch (error) {
-      tbody.innerHTML = '<tr><td class="eva-live-empty" colspan="5">Live delivery feed is temporarily unavailable.</td></tr>';
-      if (status) status.textContent = 'Feed unavailable';
-      liveOrders = [];
+      usingDemoFallback = true;
+      liveOrders = Array.from({ length: 6 }, makeDemoEvent);
+      render([]);
     }
   }
 
@@ -82,6 +112,7 @@
       #eva-live-order-popup .eva-live-top{display:flex;align-items:center;gap:5px;margin-bottom:1px}
       #eva-live-order-popup .eva-live-label{font:800 8px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;color:#34d399;text-transform:uppercase}
       #eva-live-order-popup .eva-live-label:before{content:'●';font-size:6px;margin-right:4px;color:#34d399}
+      #eva-live-order-popup .eva-live-demo{font:800 7px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#94a3b8;border:1px solid rgba(148,163,184,.3);border-radius:999px;padding:2px 5px;text-transform:uppercase;letter-spacing:.08em}
       #eva-live-order-popup .eva-live-customer{font:800 10px/1.25 Inter,system-ui,sans-serif;color:#f8fafc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
       #eva-live-order-popup .eva-live-meta{font:600 8px/1.3 Inter,system-ui,sans-serif;color:#94a3b8;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
       #eva-live-order-popup .eva-live-product{color:#67e8f9}
@@ -99,19 +130,26 @@
           <b>E</b>
         </div>
         <div class="eva-live-copy">
-          <div class="eva-live-top"><span class="eva-live-label">Live</span></div>
-          <div class="eva-live-customer">Private customer</div>
-          <div class="eva-live-meta"><span class="eva-live-product" data-live-product>Verified delivery</span> · <span data-live-time>Just now</span></div>
+          <div class="eva-live-top"><span class="eva-live-label">Live</span><span class="eva-live-demo" data-live-demo hidden>Demo</span></div>
+          <div class="eva-live-customer" data-live-customer>Private customer</div>
+          <div class="eva-live-meta"><span data-live-country></span><span class="eva-live-product" data-live-product>Verified delivery</span> · <span data-live-time>Just now</span></div>
         </div>
       </div>`;
     document.body.appendChild(popup);
 
     const showNext = () => {
       if (document.hidden || !liveOrders.length) return;
-      const event = liveOrders[liveOrderIndex % liveOrders.length];
+      let event = liveOrders[liveOrderIndex % liveOrders.length];
       liveOrderIndex += 1;
+      if (usingDemoFallback) {
+        event = makeDemoEvent();
+        liveOrders[liveOrderIndex % liveOrders.length] = event;
+      }
+      popup.querySelector('[data-live-customer]').textContent = usingDemoFallback ? event.customer : 'Private customer';
+      popup.querySelector('[data-live-country]').textContent = usingDemoFallback ? `${event.country} · ` : '';
       popup.querySelector('[data-live-product]').textContent = String(event?.product || 'EVA product').slice(0, 80);
       popup.querySelector('[data-live-time]').textContent = formatAge(event?.age_seconds);
+      popup.querySelector('[data-live-demo]').hidden = !usingDemoFallback;
       popup.classList.add('show');
       window.setTimeout(() => popup.classList.remove('show'), 3200);
     };
