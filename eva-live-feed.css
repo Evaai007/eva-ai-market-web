@@ -24,5 +24,7 @@
   body.premium-home .eva-live-privacy{padding:11px 13px!important;gap:7px!important;font-size:9px!important;line-height:1.45!important}
   body.premium-home .eva-live-privacy b{font-size:9px!important;line-height:1.45!important}
   body.premium-home .eva-live-privacy a{font-size:10px!important}
+  body.premium-home .account-product .bundle-image-cover{position:relative!important;width:100%!important;min-height:205px!important;height:205px!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;padding:0!important}
+  body.premium-home .account-product .bundle-image-cover>img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;display:block!important;object-fit:cover!important;object-position:center center!important;margin:0!important;transform:none!important;border-radius:0!important}
 }
 @media(prefers-reduced-motion:reduce){.eva-live-title i{animation:none}}
