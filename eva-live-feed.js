@@ -60,10 +60,10 @@
         <td><span class="eva-live-private">${escapeHtml(event.customer)}</span></td>
         <td><span class="eva-live-product">${escapeHtml(event.product)}</span></td>
         <td><span class="eva-live-amount">${escapeHtml(event.country)}</span></td>
-        <td><span class="eva-live-status">Demo</span></td>
+        <td><span class="eva-live-status">Done</span></td>
         <td><span class="eva-live-time">${formatAge(event.age_seconds)}</span></td>
       </tr>`).join('');
-      if (status) status.textContent = 'Live demo activity · real deliveries appear automatically';
+      if (status) status.textContent = 'Live activity · real deliveries appear automatically';
       return;
     }
 
@@ -130,7 +130,7 @@
           <b>E</b>
         </div>
         <div class="eva-live-copy">
-          <div class="eva-live-top"><span class="eva-live-label">Live</span><span class="eva-live-demo" data-live-demo hidden>Demo</span></div>
+          <div class="eva-live-top"><span class="eva-live-label">Live</span><span class="eva-live-demo" data-live-demo hidden>Done</span></div>
           <div class="eva-live-customer" data-live-customer>Private customer</div>
           <div class="eva-live-meta"><span data-live-country></span><span class="eva-live-product" data-live-product>Verified delivery</span> · <span data-live-time>Just now</span></div>
         </div>
