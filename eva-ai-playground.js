@@ -10,6 +10,29 @@
 
   const $ = (id) => document.getElementById(id);
 
+  function disableLegacyDemoTransaction() {
+    const styleId = 'eva-disable-legacy-demo-transaction';
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '.demo-transaction{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}';
+      (document.head || document.documentElement).appendChild(style);
+    }
+    document.querySelectorAll('.demo-transaction').forEach((el) => el.remove());
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        for (const node of mutation.addedNodes) {
+          if (!(node instanceof Element)) continue;
+          if (node.matches?.('.demo-transaction')) node.remove();
+          node.querySelectorAll?.('.demo-transaction').forEach((el) => el.remove());
+        }
+      }
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+  }
+
+  disableLegacyDemoTransaction();
+
   function setText(el, text) {
     if (el) el.textContent = text;
   }
@@ -314,6 +337,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
+    disableLegacyDemoTransaction();
     getCatalog();
     wireKeyboardClose();
     startLiveActivity();
