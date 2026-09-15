@@ -58,21 +58,22 @@
 
     const style = document.createElement('style');
     style.textContent = `
-      #eva-sample-activity{position:fixed;left:16px;bottom:18px;z-index:46;width:min(380px,calc(100vw - 32px));opacity:0;transform:translateY(22px) scale(.97);pointer-events:none;transition:opacity .32s ease,transform .32s ease}
+      #eva-sample-activity{position:fixed;left:14px;bottom:16px;z-index:46;width:min(320px,calc(100vw - 28px));opacity:0;transform:translateY(18px) scale(.97);pointer-events:none;transition:opacity .3s ease,transform .3s ease}
       #eva-sample-activity.show{opacity:1;transform:translateY(0) scale(1)}
-      #eva-sample-activity .eva-sample-card{background:linear-gradient(145deg,rgba(7,16,31,.97),rgba(10,22,43,.97));border:1px solid rgba(34,211,238,.32);border-radius:18px;box-shadow:0 18px 45px rgba(0,0,0,.4),0 0 26px rgba(34,211,238,.1);padding:13px 14px;display:flex;gap:12px;align-items:center;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-      #eva-sample-activity .eva-sample-icon{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;position:relative;background:linear-gradient(145deg,#07111f,#0b1b31);border:1px solid rgba(245,158,11,.52);box-shadow:inset 0 0 18px rgba(245,158,11,.06),0 0 14px rgba(245,158,11,.12);flex:0 0 auto;overflow:hidden}
-      #eva-sample-activity .eva-sample-icon svg{position:absolute;top:5px;width:18px;height:18px;fill:#fbbf24;filter:drop-shadow(0 0 5px rgba(251,191,36,.45))}
-      #eva-sample-activity .eva-sample-icon b{position:absolute;bottom:4px;font:900 16px/1 Inter,system-ui,sans-serif;color:#f8fafc;letter-spacing:-.04em}
+      #eva-sample-activity .eva-sample-card{background:linear-gradient(145deg,rgba(7,16,31,.97),rgba(10,22,43,.97));border:1px solid rgba(34,211,238,.32);border-radius:15px;box-shadow:0 14px 34px rgba(0,0,0,.38),0 0 20px rgba(34,211,238,.09);padding:10px 11px;display:flex;gap:9px;align-items:center;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+      #eva-sample-activity .eva-sample-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;position:relative;background:linear-gradient(145deg,#07111f,#0b1b31);border:1px solid rgba(245,158,11,.52);box-shadow:inset 0 0 14px rgba(245,158,11,.06),0 0 10px rgba(245,158,11,.1);flex:0 0 auto;overflow:hidden}
+      #eva-sample-activity .eva-sample-icon svg{position:absolute;top:3px;width:14px;height:14px;fill:#fbbf24;filter:drop-shadow(0 0 4px rgba(251,191,36,.4))}
+      #eva-sample-activity .eva-sample-icon b{position:absolute;bottom:3px;font:900 12px/1 Inter,system-ui,sans-serif;color:#f8fafc;letter-spacing:-.04em}
       #eva-sample-activity .eva-sample-copy{min-width:0;flex:1}
-      #eva-sample-activity .eva-sample-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:3px}
-      #eva-sample-activity .eva-sample-label{font:800 10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;color:#67e8f9;text-transform:uppercase}
-      #eva-sample-activity .eva-sample-badge{font:800 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#cbd5e1;border:1px solid rgba(148,163,184,.28);border-radius:999px;padding:4px 7px;background:rgba(15,23,42,.8)}
-      #eva-sample-activity .eva-sample-email{font:800 13px/1.35 Inter,system-ui,sans-serif;color:#f8fafc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-      #eva-sample-activity .eva-sample-meta{font:600 11px/1.35 Inter,system-ui,sans-serif;color:#94a3b8;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      #eva-sample-activity .eva-sample-top{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:2px}
+      #eva-sample-activity .eva-sample-label{font:800 9px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.09em;color:#34d399;text-transform:uppercase}
+      #eva-sample-activity .eva-sample-label:before{content:'●';font-size:8px;margin-right:5px;color:#34d399}
+      #eva-sample-activity .eva-sample-badge{font:800 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#cbd5e1;border:1px solid rgba(148,163,184,.28);border-radius:999px;padding:3px 6px;background:rgba(15,23,42,.8)}
+      #eva-sample-activity .eva-sample-email{font:800 12px/1.3 Inter,system-ui,sans-serif;color:#f8fafc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      #eva-sample-activity .eva-sample-meta{font:600 10px/1.3 Inter,system-ui,sans-serif;color:#94a3b8;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
       #eva-sample-activity .eva-sample-country{color:#cbd5e1}
       #eva-sample-activity .eva-sample-product{color:#67e8f9}
-      @media (max-width:620px){#eva-sample-activity{left:12px;bottom:12px;width:calc(100vw - 24px)}#eva-sample-activity .eva-sample-card{padding:11px 12px;border-radius:16px}#eva-sample-activity .eva-sample-icon{width:42px;height:42px}}
+      @media (max-width:620px){#eva-sample-activity{left:10px;bottom:10px;width:min(300px,calc(100vw - 20px))}#eva-sample-activity .eva-sample-card{padding:9px 10px;border-radius:14px}#eva-sample-activity .eva-sample-icon{width:32px;height:32px}}
       @media (prefers-reduced-motion:reduce){#eva-sample-activity{transition:none!important}}
     `;
     document.head.appendChild(style);
@@ -87,7 +88,7 @@
           <b>E</b>
         </div>
         <div class="eva-sample-copy">
-          <div class="eva-sample-top"><span class="eva-sample-label">Sample activity</span><span class="eva-sample-badge">SAMPLE</span></div>
+          <div class="eva-sample-top"><span class="eva-sample-label">Live</span><span class="eva-sample-badge">SAMPLE</span></div>
           <div class="eva-sample-email" data-sample-email>emely*****@gmail.com</div>
           <div class="eva-sample-meta"><span class="eva-sample-country" data-sample-country>Bangladesh</span> · <span class="eva-sample-product" data-sample-product>Browsing Claude Pro</span></div>
         </div>
