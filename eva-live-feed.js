@@ -4,7 +4,7 @@
   if (!document.querySelector('link[data-eva-mobile-ref]')) {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = '/eva-mobile-orb-reference.css?v=20260916-mobile-ref1';
+    link.href = '/eva-mobile-orb-reference.css?v=20260916-mobile-ref2';
     link.dataset.evaMobileRef = 'true';
     document.head.appendChild(link);
   }
