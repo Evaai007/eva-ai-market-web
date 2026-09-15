@@ -126,4 +126,5 @@ document.getElementById('forgot-password').addEventListener('click', async () =>
 
 document.querySelectorAll('[data-toggle-password]').forEach((button)=>button.addEventListener('click',()=>{const input=document.getElementById(button.dataset.togglePassword);const showing=input.type==='text';input.type=showing?'password':'text';button.textContent=showing?'Show':'Hide';button.setAttribute('aria-pressed',String(!showing));}));
 document.querySelectorAll('[data-auth-tab]').forEach(button=>button.addEventListener('click',()=>{setActiveTab(button.dataset.authTab);showAuthForm(`${button.dataset.authTab}-form`);statusEl.textContent='';statusEl.className='auth-status';}));
-if(location.hash==='#signup'){setActiveTab('signup');showAuthForm('signup-form');}\ninit();
+if(location.hash==='#signup'){setActiveTab('signup');showAuthForm('signup-form');}
+init();
