@@ -13,6 +13,10 @@
     {
       "source": "/api/admin/stats",
       "destination": "/api/admin/store?view=stats"
+    },
+    {
+      "source": "/api/public-activity",
+      "destination": "/api/health?view=activity"
     }
   ],
   "headers": [
