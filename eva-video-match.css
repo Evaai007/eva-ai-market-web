@@ -131,3 +131,12 @@ body.premium-home:before{content:'';position:fixed;inset:0;pointer-events:none;z
   .pro-mobile-brand{max-width:170px!important;flex-basis:170px!important;font-size:13px!important;gap:7px!important}.pro-mobile-brand .brand-mark{flex-basis:37px!important;width:37px!important;height:37px!important}.pro-topbar nav{gap:7px!important}.pro-topbar nav .nav-account{font-size:11px!important}.pro-topbar nav .video-get-started{width:88px!important;height:38px!important;font-size:11px!important}
   .ref-hero-copy h1{font-size:44px!important}.ref-hero-copy p{font-size:15px!important}.ref-kicker{font-size:10px!important}.ref-mini-trust{font-size:12px!important;gap:15px 18px!important}.ref-hero-actions{gap:10px!important}.ref-hero-actions a{height:52px!important;min-height:52px!important;font-size:13px!important}.ref-cyber-head{width:215px!important;height:215px!important}
 }
+
+/* Mobile header logo cleanup: remove legacy empty decorative box and keep one centered crown mark. */
+@media(max-width:760px){
+  body.premium-home .pro-topbar .nav-wrap>a.pro-mobile-brand::before,
+  body.premium-home .pro-topbar .nav-wrap>a.pro-mobile-brand::after{content:none!important;display:none!important;width:0!important;height:0!important;margin:0!important;padding:0!important;border:0!important;box-shadow:none!important}
+  body.premium-home .pro-topbar .nav-wrap>a.pro-mobile-brand .brand-mark{position:relative!important;display:grid!important;place-items:center!important;overflow:hidden!important;font-size:0!important;line-height:1!important;background:#0a0d12!important;border:2px solid #ff9a22!important;color:#ffc23f!important}
+  body.premium-home .pro-topbar .nav-wrap>a.pro-mobile-brand .brand-mark::before{content:'♛'!important;position:static!important;display:block!important;width:auto!important;height:auto!important;inset:auto!important;transform:none!important;margin:0!important;padding:0!important;background:none!important;border:0!important;box-shadow:none!important;color:#ffc23f!important;font-size:24px!important;line-height:1!important}
+  body.premium-home .pro-topbar .nav-wrap>a.pro-mobile-brand .brand-mark::after{content:none!important;display:none!important}
+}
