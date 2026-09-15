@@ -1,0 +1,119 @@
+@import url("eva-mobile-motion-v7.css?v=20260915-motion-base");
+
+/* Reference-fit hero: large 4:5 portrait, floating badges outside the frame. */
+@media (max-width: 620px) {
+  .hero-visual {
+    width: min(86vw, 390px) !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    aspect-ratio: 4 / 5 !important;
+    margin: 24px auto 0 !important;
+    overflow: visible !important;
+    border-radius: 38px !important;
+    background: transparent !important;
+    isolation: isolate;
+  }
+
+  .hero-visual > img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    border-radius: 38px !important;
+    overflow: hidden;
+  }
+
+  .halo {
+    width: 112% !important;
+    height: 82% !important;
+    left: -6% !important;
+    top: 9% !important;
+  }
+
+  .badge {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 15px !important;
+    font-size: 15px !important;
+    z-index: 6 !important;
+  }
+
+  .b1 { left: -4% !important; top: 18% !important; }
+  .b2 { right: -4% !important; top: 12% !important; }
+  .b3 { left: 13% !important; top: 5% !important; }
+  .b4 { right: -5% !important; top: 40% !important; }
+  .b5 { left: -6% !important; top: 52% !important; }
+  .b6 { right: -5% !important; top: 61% !important; }
+  .b7 { left: 14% !important; top: 70% !important; }
+  .b8 { right: 15% !important; top: 76% !important; }
+
+  .verified-card {
+    left: -4% !important;
+    right: auto !important;
+    bottom: 5% !important;
+    width: 72% !important;
+    max-width: 330px !important;
+    padding: 15px 16px !important;
+    border-radius: 22px !important;
+  }
+
+  .verified-card .check {
+    width: 48px !important;
+    height: 48px !important;
+    flex: 0 0 48px;
+  }
+
+  .verified-card strong { font-size: 16px !important; }
+  .stats { margin-top: 0 !important; }
+}
+
+/* Keep the 3D movement visible on every browser and device. */
+.hero-visual .badge {
+  -webkit-animation: evaReferenceBadgeFloat 3.1s ease-in-out infinite !important;
+  animation: evaReferenceBadgeFloat 3.1s ease-in-out infinite !important;
+  -webkit-transform-style: preserve-3d !important;
+  transform-style: preserve-3d !important;
+  will-change: transform;
+}
+
+.product-icon,
+.compact-store .brand-icon-shell,
+.compact-store .product-logo,
+.compact-store .brand-photo-shell {
+  -webkit-animation: evaReferenceProductFloat 3.5s ease-in-out infinite !important;
+  animation: evaReferenceProductFloat 3.5s ease-in-out infinite !important;
+  -webkit-transform-style: preserve-3d !important;
+  transform-style: preserve-3d !important;
+  will-change: transform;
+}
+
+@-webkit-keyframes evaReferenceBadgeFloat {
+  0%, 100% { -webkit-transform: translate3d(0, 5px, 0) rotateY(-15deg) rotateZ(-3deg); }
+  50% { -webkit-transform: translate3d(0, -13px, 22px) rotateY(24deg) rotateZ(4deg); }
+}
+@keyframes evaReferenceBadgeFloat {
+  0%, 100% { transform: translate3d(0, 5px, 0) rotateY(-15deg) rotateZ(-3deg); }
+  50% { transform: translate3d(0, -13px, 22px) rotateY(24deg) rotateZ(4deg); }
+}
+@-webkit-keyframes evaReferenceProductFloat {
+  0%, 100% { -webkit-transform: translate3d(0, 4px, 0) rotateX(-4deg) rotateY(-14deg); }
+  50% { -webkit-transform: translate3d(0, -11px, 18px) rotateX(6deg) rotateY(20deg); }
+}
+@keyframes evaReferenceProductFloat {
+  0%, 100% { transform: translate3d(0, 4px, 0) rotateX(-4deg) rotateY(-14deg); }
+  50% { transform: translate3d(0, -11px, 18px) rotateX(6deg) rotateY(20deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-visual .badge,
+  .product-icon,
+  .compact-store .brand-icon-shell,
+  .compact-store .product-logo,
+  .compact-store .brand-photo-shell {
+    -webkit-animation-play-state: running !important;
+    animation-play-state: running !important;
+  }
+}
