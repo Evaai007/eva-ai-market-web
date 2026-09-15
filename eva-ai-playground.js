@@ -4,6 +4,9 @@
   let mode = 'coding';
   let cachedCatalog = '';
   let cachedProducts = [];
+  let liveEvents = [];
+  let liveIndex = 0;
+  let liveHideTimer = null;
 
   const $ = (id) => document.getElementById(id);
 
@@ -42,7 +45,7 @@
     const a = $('evaCompareA');
     const b = $('evaCompareB');
     if (!a || !b || a.dataset.loaded === '1') return;
-    const products = cachedProducts.filter(p => p && (p.name || p.title)).slice(0, 45);
+    const products = cachedProducts.filter((p) => p && (p.name || p.title)).slice(0, 45);
     const html = products.map((p) => {
       const name = String(p.name || p.title).replace(/[<>&"]/g, '');
       const value = `${name} (${productPrice(p)} USDT)`;
@@ -212,6 +215,104 @@
     }
   };
 
+  function formatLiveAge(seconds) {
+    const value = Math.max(0, Number(seconds || 0));
+    if (value < 60) return 'Just now';
+    if (value < 3600) return `${Math.floor(value / 60)}m ago`;
+    if (value < 86400) return `${Math.floor(value / 3600)}h ago`;
+    return `${Math.floor(value / 86400)}d ago`;
+  }
+
+  function ensureLiveToast() {
+    let toast = $('evaLiveProof');
+    if (toast) return toast;
+    toast = document.createElement('aside');
+    toast.id = 'evaLiveProof';
+    toast.className = 'eva-live-proof';
+    toast.setAttribute('aria-live', 'polite');
+    toast.innerHTML = `
+      <div class="eva-live-icon" id="evaLiveIcon">✓</div>
+      <div class="eva-live-copy">
+        <div class="eva-live-top"><strong id="evaLiveBadge">Verified activity</strong><span id="evaLiveTime">Just now</span></div>
+        <div class="eva-live-main" id="evaLiveMain"></div>
+        <div class="eva-live-extra" id="evaLiveExtra"></div>
+      </div>
+      <button class="eva-live-close" type="button" aria-label="Dismiss recent activity">×</button>`;
+    toast.querySelector('.eva-live-close')?.addEventListener('click', () => {
+      toast.classList.remove('show');
+      toast.classList.add('hide');
+      setTimeout(() => toast.classList.remove('hide'), 320);
+    });
+    document.body.appendChild(toast);
+    return toast;
+  }
+
+  function showLiveEvent(event) {
+    const toast = ensureLiveToast();
+    const badge = $('evaLiveBadge');
+    const time = $('evaLiveTime');
+    const main = $('evaLiveMain');
+    const extra = $('evaLiveExtra');
+    const icon = $('evaLiveIcon');
+    if (!toast || !badge || !time || !main || !extra || !icon) return;
+
+    const amount = Number(event?.amount || 0);
+    time.textContent = formatLiveAge(event?.age_seconds);
+
+    if (event?.type === 'order') {
+      badge.textContent = 'Verified delivery';
+      icon.textContent = '✓';
+      icon.className = 'eva-live-icon order';
+      main.textContent = `${String(event.product || 'EVA product').slice(0, 90)} was delivered`;
+      extra.textContent = amount > 0 ? `$${amount.toFixed(2)} USDT • completed order` : 'Completed order';
+    } else {
+      badge.textContent = 'Deposit verified';
+      icon.textContent = '◆';
+      icon.className = 'eva-live-icon deposit';
+      main.textContent = 'A customer deposit was verified';
+      extra.textContent = `${amount > 0 ? `$${amount.toFixed(2)} USDT` : 'USDT'} • ${String(event.network || 'USDT')}`;
+    }
+
+    toast.classList.remove('hide');
+    requestAnimationFrame(() => toast.classList.add('show'));
+    clearTimeout(liveHideTimer);
+    liveHideTimer = setTimeout(() => {
+      toast.classList.remove('show');
+      toast.classList.add('hide');
+      setTimeout(() => toast.classList.remove('hide'), 320);
+    }, 4800);
+  }
+
+  async function refreshLiveEvents() {
+    try {
+      const response = await fetch('/api/public-activity', { cache: 'no-store' });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok || !body?.ok || !Array.isArray(body.events)) return;
+      liveEvents = body.events.filter((event) => event && ['order', 'deposit'].includes(event.type));
+      liveIndex = 0;
+    } catch (error) {
+      console.warn('Live activity unavailable', error?.message);
+    }
+  }
+
+  function startLiveActivity() {
+    refreshLiveEvents().then(() => {
+      if (liveEvents.length) setTimeout(() => showLiveEvent(liveEvents[liveIndex++ % liveEvents.length]), 1800);
+    });
+
+    setInterval(() => {
+      if (!liveEvents.length) return;
+      if (liveIndex >= liveEvents.length) return;
+      showLiveEvent(liveEvents[liveIndex++]);
+    }, 8500);
+
+    setInterval(async () => {
+      const previousLength = liveEvents.length;
+      await refreshLiveEvents();
+      if (!previousLength && liveEvents.length) showLiveEvent(liveEvents[liveIndex++ % liveEvents.length]);
+    }, 120000);
+  }
+
   function wireKeyboardClose() {
     document.addEventListener('keydown', (event) => {
       if (event.key !== 'Escape') return;
@@ -223,6 +324,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     getCatalog();
     wireKeyboardClose();
+    startLiveActivity();
     const form = $('evaAdvisorForm');
     if (form) form.addEventListener('submit', (event) => {
       event.preventDefault();
