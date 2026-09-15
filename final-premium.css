@@ -52,3 +52,31 @@ footer{border-top:1px solid rgba(90,130,220,.14);background:rgba(1,5,15,.85)!imp
   body.premium-home .ref-stat{min-height:82px!important;padding:13px!important;border-radius:16px!important;background:rgba(15,23,42,.62)!important;border:1px solid #1e293b!important;backdrop-filter:blur(10px)!important;-webkit-backdrop-filter:blur(10px)!important}
 }
 @media(max-width:390px){body.premium-home .ref-visual{height:380px!important;min-height:380px!important;padding:0 24px!important}body.premium-home .ref-cyber-head{width:264px!important;height:264px!important;max-width:calc(100vw - 76px)!important;max-height:calc(100vw - 76px)!important}body.premium-home .ref-orbit-card{font-size:9px!important;padding:6px 10px!important;gap:5px!important}body.premium-home .ref-orbit-card.c2{left:-26px!important}body.premium-home .ref-orbit-card.c5{right:-26px!important}body.premium-home .ref-orbit-card.c3{left:-26px!important}body.premium-home .ref-orbit-card.c6{right:-26px!important}}
+
+/* Match the supplied reference image: all 8 pills visible around a layered silk orb. */
+@media(max-width:760px){
+  body.premium-home .ref-visual{height:420px!important;min-height:420px!important;padding:0 36px!important;overflow:visible!important}
+  body.premium-home .ref-cyber-head{width:300px!important;height:300px!important;max-width:calc(100vw - 78px)!important;max-height:calc(100vw - 78px)!important;overflow:visible!important;border:2px solid rgba(20,184,220,.22)!important;background:radial-gradient(circle at 48% 24%,rgba(255,255,255,.92) 0 7%,rgba(236,225,255,.92) 18%,transparent 32%),radial-gradient(ellipse at 31% 42%,rgba(245,238,255,.98) 0 20%,rgba(212,188,244,.9) 38%,transparent 58%),radial-gradient(ellipse at 70% 44%,rgba(145,93,211,.92) 0 25%,rgba(88,47,140,.88) 49%,transparent 66%),radial-gradient(ellipse at 16% 70%,rgba(69,193,221,.95) 0 26%,rgba(42,112,178,.9) 49%,transparent 66%),radial-gradient(ellipse at 56% 74%,rgba(91,44,145,.98) 0 29%,rgba(35,20,70,.98) 58%,transparent 76%),linear-gradient(155deg,#f7f3ff 0 22%,#cdaee8 35%,#8e53d4 58%,#382261 78%,#111827 100%)!important;box-shadow:0 0 0 5px rgba(8,145,178,.10),0 0 44px rgba(41,121,255,.36),0 0 26px rgba(168,85,247,.24),inset 0 0 26px rgba(255,255,255,.12)!important}
+  body.premium-home .ref-cyber-head:after{background:linear-gradient(180deg,rgba(255,255,255,.10),transparent 52%,rgba(5,10,24,.78) 100%)!important;box-shadow:inset 0 -42px 60px rgba(4,8,20,.35)!important}
+  body.premium-home .ref-cyber-head:before{top:-28px!important;width:48px!important;height:48px!important;border-radius:15px!important;font-size:24px!important;line-height:48px!important;background:linear-gradient(180deg,#ffd34d,#f59e0b)!important;box-shadow:0 0 30px rgba(245,158,11,.72),0 10px 24px rgba(0,0,0,.45)!important}
+  body.premium-home .ref-head-label{bottom:38px!important;font-size:12px!important;color:#67e8f9!important;letter-spacing:.11em!important}
+  body.premium-home .ref-head-label:after{font-size:6.4px!important;letter-spacing:.13em!important;color:#d5dbe7!important}
+  body.premium-home .ref-orbit-card{padding:8px 13px!important;font-size:11px!important;gap:8px!important;box-shadow:0 8px 26px rgba(0,0,0,.72),0 0 18px rgba(59,130,246,.05),inset 0 1px 1px rgba(255,255,255,.10)!important}
+  body.premium-home .ref-orbit-card b{width:22px!important;height:22px!important;border-radius:50%!important;font-size:9px!important}
+  body.premium-home .ref-orbit-card.c1{top:-8px!important;left:-32px!important;border-color:rgba(16,185,129,.48)!important}
+  body.premium-home .ref-orbit-card.c4{top:4px!important;right:-36px!important;border-color:rgba(245,158,11,.48)!important}
+  body.premium-home .ref-orbit-card.c2{top:92px!important;left:-56px!important;border-color:rgba(249,115,22,.48)!important}
+  body.premium-home .ref-orbit-card.c5{top:80px!important;right:-56px!important;border-color:rgba(34,211,238,.48)!important}
+  body.premium-home .ref-orbit-card.c3{bottom:100px!important;left:-48px!important;border-color:rgba(59,130,246,.48)!important}
+  body.premium-home .ref-orbit-card.c6{bottom:98px!important;right:-50px!important;border-color:rgba(236,72,153,.48)!important}
+  body.premium-home .ref-orbit-card.c8{bottom:-20px!important;left:-12px!important;border-color:rgba(71,85,105,.72)!important}
+  body.premium-home .ref-orbit-card.c7{bottom:-20px!important;right:-8px!important;border-color:rgba(168,85,247,.52)!important}
+}
+@media(max-width:390px){
+  body.premium-home .ref-visual{height:400px!important;min-height:400px!important;padding:0 32px!important}
+  body.premium-home .ref-cyber-head{width:278px!important;height:278px!important;max-width:calc(100vw - 86px)!important;max-height:calc(100vw - 86px)!important}
+  body.premium-home .ref-orbit-card{font-size:10px!important;padding:7px 11px!important}
+  body.premium-home .ref-orbit-card.c1{left:-26px!important} body.premium-home .ref-orbit-card.c4{right:-28px!important}
+  body.premium-home .ref-orbit-card.c2{left:-42px!important} body.premium-home .ref-orbit-card.c5{right:-42px!important}
+  body.premium-home .ref-orbit-card.c3{left:-38px!important} body.premium-home .ref-orbit-card.c6{right:-40px!important}
+}
