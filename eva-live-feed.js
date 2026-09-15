@@ -24,10 +24,22 @@
     'Google AI Pro', 'Google AI Ultra 5×', 'Google AI Ultra 20×',
     'AWS Cloud — 8 vCPU', 'AWS Cloud — 64 vCPU', 'AWS + Kiro + GCP AI Bundle'
   ];
+
   const demoCountries = [
-    'Bangladesh','United States','United Kingdom','Canada','Australia','Germany','France','Italy','Spain','Netherlands','Sweden','Norway','Denmark','Finland','Switzerland','Austria','Belgium','Ireland','Portugal','Poland','Czech Republic','Romania','Hungary','Greece','Turkey','Ukraine','United Arab Emirates','Saudi Arabia','Qatar','Kuwait','Oman','Bahrain','India','Pakistan','Nepal','Sri Lanka','Japan','South Korea','Singapore','Malaysia','Thailand','Indonesia','Philippines','Vietnam','China','Hong Kong','Brazil','Mexico','Argentina','Chile','South Africa','Nigeria','Kenya','Egypt','Panama'
+    'Afghanistan','Albania','Algeria','Andorra','Angola','Antigua and Barbuda','Argentina','Armenia','Australia','Austria','Azerbaijan',
+    'Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize','Benin','Bhutan','Bolivia','Bosnia and Herzegovina','Botswana','Brazil','Brunei','Bulgaria','Burkina Faso','Burundi',
+    'Cabo Verde','Cambodia','Cameroon','Canada','Central African Republic','Chad','Chile','China','Colombia','Comoros','Congo','Costa Rica','Croatia','Cuba','Cyprus','Czech Republic',
+    'Democratic Republic of the Congo','Denmark','Djibouti','Dominica','Dominican Republic','Ecuador','Egypt','El Salvador','Equatorial Guinea','Eritrea','Estonia','Eswatini','Ethiopia',
+    'Fiji','Finland','France','Gabon','Gambia','Georgia','Germany','Ghana','Greece','Grenada','Guatemala','Guinea','Guinea-Bissau','Guyana','Haiti','Honduras','Hungary',
+    'Iceland','India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Ivory Coast','Jamaica','Japan','Jordan','Kazakhstan','Kenya','Kiribati','Kuwait','Kyrgyzstan',
+    'Laos','Latvia','Lebanon','Lesotho','Liberia','Libya','Liechtenstein','Lithuania','Luxembourg','Madagascar','Malawi','Malaysia','Maldives','Mali','Malta','Marshall Islands','Mauritania','Mauritius','Mexico','Micronesia','Moldova','Monaco','Mongolia','Montenegro','Morocco','Mozambique','Myanmar',
+    'Namibia','Nauru','Nepal','Netherlands','New Zealand','Nicaragua','Niger','Nigeria','North Korea','North Macedonia','Norway','Oman','Pakistan','Palau','Palestine','Panama','Papua New Guinea','Paraguay','Peru','Philippines','Poland','Portugal',
+    'Qatar','Romania','Russia','Rwanda','Saint Kitts and Nevis','Saint Lucia','Saint Vincent and the Grenadines','Samoa','San Marino','Sao Tome and Principe','Saudi Arabia','Senegal','Serbia','Seychelles','Sierra Leone','Singapore','Slovakia','Slovenia','Solomon Islands','Somalia','South Africa','South Korea','South Sudan','Spain','Sri Lanka','Sudan','Suriname','Sweden','Switzerland','Syria',
+    'Taiwan','Tajikistan','Tanzania','Thailand','Timor-Leste','Togo','Tonga','Trinidad and Tobago','Tunisia','Turkey','Turkmenistan','Tuvalu','Uganda','Ukraine','United Arab Emirates','United Kingdom','United States','Uruguay','Uzbekistan','Vanuatu','Vatican City','Venezuela','Vietnam','Yemen','Zambia','Zimbabwe',
+    'Hong Kong','Macau','Puerto Rico','Greenland','Faroe Islands','Bermuda','Cayman Islands','British Virgin Islands','U.S. Virgin Islands','Guam','American Samoa','Northern Mariana Islands','Aruba','Curacao','Sint Maarten','New Caledonia','French Polynesia','Reunion','Martinique','Guadeloupe','Mayotte','Isle of Man','Jersey','Guernsey','Gibraltar'
   ];
-  const demoNames = ['emely','noah','liam','emma','oliver','sofia','lucas','mason','elena','alex','mia','james','david','ethan','harper','daniel','sam','jack','nora','leo','ava'];
+
+  const demoNames = ['emely','noah','liam','emma','oliver','sofia','lucas','mason','elena','alex','mia','james','david','ethan','harper','daniel','sam','jack','nora','leo','ava','adam','anna','ben','chloe','diego','ella','fahim','grace','henry','isla','jacob','kai','luna','marco','nina','omar','peter','rayan','sara','theo','victor','yara','zane'];
   const demoProviders = ['gmail.com','icloud.com','outlook.com','yahoo.com','proton.me'];
   const demoNetworks = ['TRC20','BEP20','ERC20'];
   const demoAmounts = [15,20,21,25,30,35,50,80,100,150,200,300,500];
