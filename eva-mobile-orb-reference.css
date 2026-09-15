@@ -81,6 +81,13 @@
   .pro-category-strip,.store-showcase,.eva-ai-playground{position:relative!important;z-index:1!important}
   .store-showcase>.container,.api-support>.container,.tinted>.container,.section>.container,.ref-footer>.container{padding-left:14px!important;padding-right:14px!important;max-width:430px!important;margin-left:auto!important;margin-right:auto!important}
   .eva-ai-float,.eva-ai-floating{right:12px!important;bottom:10px!important;max-width:190px!important;height:38px!important;padding:0 14px!important;font-size:10px!important;border-radius:999px!important;background:linear-gradient(90deg,#0ea5e9,#2563eb)!important}
+
+  /* Keep the floating deposit popup centered with equal left/right margins. */
+  #eva-live-order-popup{left:50%!important;right:auto!important;bottom:max(12px,env(safe-area-inset-bottom))!important;width:calc(100vw - 24px)!important;max-width:420px!important;box-sizing:border-box!important;transform:translate(-50%,16px) scale(.98)!important}
+  #eva-live-order-popup.show{transform:translate(-50%,0) scale(1)!important}
+  #eva-live-order-popup .eva-live-card{width:100%!important;max-width:100%!important;box-sizing:border-box!important;padding:9px 11px!important;border-radius:16px!important}
+  #eva-live-order-popup .eva-live-copy{min-width:0!important;overflow:hidden!important}
+  #eva-live-order-popup .eva-live-customer,#eva-live-order-popup .eva-live-meta{max-width:100%!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
 }
 @media (max-width:390px){
   .ref-hero>.container{padding:0 12px!important}.ref-hero-copy h1{font-size:33px!important}.ref-cyber-head{width:238px!important;height:238px!important}.ref-visual{height:345px!important;min-height:345px!important;padding:0 28px!important}.ref-orbit-card.c2{left:-24px!important}.ref-orbit-card.c5{right:-24px!important}.ref-orbit-card.c3{left:-20px!important}.ref-orbit-card.c6{right:-20px!important}
