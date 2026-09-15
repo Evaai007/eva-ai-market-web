@@ -1,75 +1,94 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#05070e">
-  <title>Sign In & Sign Up — EVA AI MARKET</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#080b14">
+  <title>Sign In — EVA AI MARKET</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script>
-    tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{outfit:['Outfit','sans-serif'],sans:['Plus Jakarta Sans','sans-serif']},colors:{eva:{dark:'#05070e',cyan:'#06b6d4',blue:'#3b82f6',violet:'#8b5cf6',gold:'#f59e0b'}},boxShadow:{'glow-cyan':'0 0 25px -4px rgba(6,182,212,.45)','glow-gold':'0 0 20px -3px rgba(245,158,11,.4)'}}}};
-  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body{background:#05070e;color:#f1f5f9;font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;overflow-x:hidden}.glass-card{background:linear-gradient(135deg,rgba(16,24,45,.82),rgba(9,14,28,.92));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.09)}.glass-input{background:rgba(8,12,24,.78);border:1px solid rgba(255,255,255,.12);transition:.25s}.glass-input:focus{border-color:rgba(6,182,212,.8);box-shadow:0 0 15px -2px rgba(6,182,212,.35);background:rgba(10,16,32,.96);outline:0}.bg-cyber-mesh{background-image:radial-gradient(at 15% 20%,rgba(37,99,235,.18) 0,transparent 50%),radial-gradient(at 85% 80%,rgba(139,92,246,.16) 0,transparent 50%),radial-gradient(at 50% 50%,rgba(6,182,212,.1) 0,transparent 65%)}.grid-lines{background-size:40px 40px;background-image:linear-gradient(to right,rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.02) 1px,transparent 1px)}.auth-form[hidden]{display:none!important}.auth-tabs button.active{background:linear-gradient(90deg,#06b6d4,#2563eb);color:#fff;box-shadow:0 0 25px -4px rgba(6,182,212,.45);font-weight:700}.auth-status{min-height:20px;margin-top:12px;font-size:12px;text-align:center;color:#94a3b8}.auth-status.success{color:#34d399}.auth-status.error{color:#fb7185}.password-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;color:#67e8f9}.password-toggle:hover{color:#fff}@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}.floaty{animation:floaty 6s ease-in-out infinite}.floaty2{animation:floaty 7s ease-in-out 1.5s infinite}@media(max-width:640px){header .brand-sub{font-size:7px;letter-spacing:.18em}.mobile-tight{padding-left:14px!important;padding-right:14px!important}}
+    body{background:#080b14;color:#e2e8f0;font-family:'Segoe UI',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;min-height:100vh;overflow-x:hidden}
+    .glass{background:rgba(15,23,42,.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08)}
+    .glow-cyan{box-shadow:0 0 25px rgba(0,242,254,.32)}
+    .auth-form[hidden]{display:none!important}
+    .auth-tab.active{background:linear-gradient(90deg,#06b6d4,#2563eb);color:#fff;box-shadow:0 0 20px rgba(6,182,212,.24)}
+    .auth-status{min-height:20px;margin-top:14px;font-size:12px;text-align:center;color:#94a3b8}
+    .auth-status.success{color:#34d399}.auth-status.error{color:#fb7185}
+    .password-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:#67e8f9}
+    .password-toggle:hover{color:#fff}
   </style>
 </head>
-<body class="selection:bg-cyan-500 selection:text-black flex flex-col justify-between relative min-h-screen">
-  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden"><div class="absolute -top-32 -left-32 w-96 h-96 bg-blue-600/20 rounded-full blur-[130px]"></div><div class="absolute top-1/2 -right-40 w-[500px] h-[500px] bg-indigo-600/15 rounded-full blur-[160px]"></div><div class="absolute -bottom-20 left-1/3 w-96 h-96 bg-cyan-500/15 rounded-full blur-[140px]"></div><div class="absolute inset-0 grid-lines opacity-60"></div></div>
+<body class="min-h-screen flex items-center justify-center p-4 relative selection:bg-cyan-500 selection:text-black">
+  <div class="fixed top-10 left-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="fixed bottom-0 right-0 w-[420px] h-[420px] bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
-  <header class="relative z-30 w-full border-b border-white/5 bg-[#070a14]/75 backdrop-blur-xl">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between mobile-tight">
-      <a href="/" class="flex items-center gap-3 group"><div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-400 via-orange-500 to-amber-600 p-[1.5px] shadow-glow-gold flex items-center justify-center"><div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center"><svg class="w-6 h-6 text-amber-400" viewBox="0 0 24 24" fill="currentColor"><path d="M5 16L3 5L8.5 10L12 4L15.5 10L21 5L19 16H5M19 19C19 19.6 18.6 20 18 20H6C5.4 20 5 19.6 5 19V18H19V19Z"/></svg></div></div><div><div class="font-outfit font-extrabold tracking-wide text-lg text-white">EVA <span class="text-cyan-300">AI</span> MARKET</div><p class="brand-sub text-[9px] font-semibold tracking-[.28em] text-cyan-400 -mt-1 uppercase">Premium AI Tools & Cloud</p></div></a>
-      <div class="flex items-center gap-2 sm:gap-4"><a href="/" class="text-xs sm:text-sm font-medium text-slate-300 hover:text-white flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-slate-800/60 transition"><i data-lucide="arrow-left" class="w-4 h-4"></i><span class="hidden sm:inline">Back to Marketplace</span><span class="sm:hidden">Store</span></a><a href="https://t.me/eva007_8" target="_blank" rel="noopener" class="px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 hover:bg-sky-500/20 text-xs font-semibold flex items-center gap-1.5 transition"><i data-lucide="send" class="w-3.5 h-3.5"></i><span>Support</span></a></div>
-    </div>
-  </header>
-
-  <main class="relative z-10 flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 md:py-12 bg-cyber-mesh">
-    <div class="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-      <section class="lg:col-span-6 space-y-7 order-2 lg:order-1">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/70 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-wider"><span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>SECURE CLIENT PORTAL • V2.4</div>
-        <div><h1 class="text-3xl sm:text-5xl font-outfit font-black tracking-tight text-white leading-tight">Manage All Your <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400">AI Subscriptions</span></h1><p class="text-slate-300 text-sm sm:text-base mt-3 leading-relaxed max-w-lg">Manage balances, deposits, purchases, cloud services and delivery history from one protected EVA customer account.</p></div>
-        <div class="relative w-full max-w-md p-5 rounded-3xl glass-card overflow-hidden"><div class="absolute -right-16 -top-16 w-48 h-48 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 rounded-full blur-2xl"></div><div class="flex items-center justify-between pb-4 border-b border-white/10"><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-amber-400"><i data-lucide="shield-check" class="w-5 h-5"></i></div><div><p class="text-xs font-bold text-white uppercase tracking-wider">Secure Customer Access</p><p class="text-[10px] text-slate-400">Protected EVA account portal</p></div></div><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">ONLINE</span></div>
-          <div class="grid grid-cols-3 gap-2 pt-4"><div class="p-2.5 rounded-xl bg-slate-900/80 border border-emerald-500/30 flex items-center gap-2 floaty"><i data-lucide="bot" class="w-4 h-4 text-emerald-400"></i><span class="text-[11px] font-bold">ChatGPT</span></div><div class="p-2.5 rounded-xl bg-slate-900/80 border border-orange-500/30 flex items-center gap-2 floaty2"><i data-lucide="sparkles" class="w-4 h-4 text-orange-400"></i><span class="text-[11px] font-bold">Claude</span></div><div class="p-2.5 rounded-xl bg-slate-900/80 border border-blue-500/30 flex items-center gap-2 floaty"><i data-lucide="flame" class="w-4 h-4 text-blue-400"></i><span class="text-[11px] font-bold">Gemini</span></div><div class="p-2.5 rounded-xl bg-slate-900/80 border border-amber-500/30 flex items-center gap-2 floaty2"><i data-lucide="cloud" class="w-4 h-4 text-amber-400"></i><span class="text-[11px] font-bold">AWS</span></div><div class="p-2.5 rounded-xl bg-slate-900/80 border border-pink-500/30 flex items-center gap-2 floaty"><i data-lucide="scissors" class="w-4 h-4 text-pink-400"></i><span class="text-[11px] font-bold">CapCut</span></div><div class="p-2.5 rounded-xl bg-slate-900/80 border border-purple-500/30 flex items-center gap-2 floaty2"><i data-lucide="video" class="w-4 h-4 text-purple-400"></i><span class="text-[11px] font-bold">Kling AI</span></div></div>
+  <div class="glass w-full max-w-md rounded-3xl p-6 sm:p-8 border border-slate-800 relative z-10 shadow-2xl">
+    <div class="text-center mb-6">
+      <a href="/" class="inline-flex items-center gap-2 mb-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white text-lg glow-cyan">
+          <i class="fa-solid fa-crown text-amber-300"></i>
         </div>
-        <div class="grid grid-cols-2 gap-3 text-xs text-slate-300 max-w-md"><div class="flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4 text-cyan-400"></i><span>Fast order handling</span></div><div class="flex items-center gap-2"><i data-lucide="lock" class="w-4 h-4 text-emerald-400"></i><span>Protected account access</span></div><div class="flex items-center gap-2"><i data-lucide="wallet" class="w-4 h-4 text-indigo-400"></i><span>Deposit & balance history</span></div><div class="flex items-center gap-2"><i data-lucide="headphones" class="w-4 h-4 text-pink-400"></i><span>24/7 support</span></div></div>
-      </section>
-
-      <section class="lg:col-span-6 order-1 lg:order-2">
-        <div class="w-full max-w-md mx-auto glass-card rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl relative"><div class="absolute inset-0 rounded-3xl border border-cyan-500/20 pointer-events-none"></div>
-          <div class="auth-tabs flex p-1 bg-slate-950/80 rounded-2xl border border-white/10 mb-6" role="tablist" aria-label="Customer account"><button data-auth-tab="login" type="button" role="tab" aria-selected="true" class="active flex-1 py-2.5 text-xs sm:text-sm rounded-xl transition-all flex items-center justify-center gap-2"><i data-lucide="log-in" class="w-4 h-4"></i>Sign In</button><button data-auth-tab="signup" type="button" role="tab" aria-selected="false" class="flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-xl transition-all text-slate-400 hover:text-white flex items-center justify-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i>Create Account</button></div>
-
-          <form id="login-form" class="auth-form space-y-4">
-            <div><label class="block text-xs font-semibold text-slate-300 mb-1.5">Email Address</label><div class="relative"><i data-lucide="mail" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i><input id="login-email" type="email" autocomplete="email" inputmode="email" required placeholder="name@example.com" class="glass-input w-full text-xs text-white pl-10 pr-3.5 py-3 rounded-xl"></div></div>
-            <div><div class="flex items-center justify-between mb-1.5"><label class="text-xs font-semibold text-slate-300">Password</label><button id="forgot-password" type="button" class="text-[11px] text-cyan-400 hover:text-cyan-300 hover:underline">Forgot Password?</button></div><div class="relative"><i data-lucide="lock" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i><input id="login-password" type="password" autocomplete="current-password" minlength="8" required placeholder="••••••••••••" class="glass-input w-full text-xs text-white pl-10 pr-14 py-3 rounded-xl"><button class="password-toggle" type="button" data-toggle-password="login-password" aria-pressed="false">Show</button></div></div>
-            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 text-white font-bold text-xs sm:text-sm shadow-glow-cyan flex items-center justify-center gap-2 transition hover:scale-[1.01]"><i data-lucide="log-in" class="w-4 h-4"></i><span>Sign In to EVA Market</span></button>
-          </form>
-
-          <form id="signup-form" class="auth-form space-y-4" hidden>
-            <div><label class="block text-xs font-semibold text-slate-300 mb-1.5">Email Address</label><div class="relative"><i data-lucide="mail" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i><input id="signup-email" type="email" autocomplete="email" inputmode="email" required placeholder="alex@example.com" class="glass-input w-full text-xs text-white pl-10 pr-3.5 py-3 rounded-xl"></div></div>
-            <div><label class="block text-xs font-semibold text-slate-300 mb-1.5">Create Password</label><div class="relative"><i data-lucide="lock" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i><input id="signup-password" type="password" autocomplete="new-password" minlength="8" required placeholder="Minimum 8 characters" class="glass-input w-full text-xs text-white pl-10 pr-14 py-3 rounded-xl"><button class="password-toggle" type="button" data-toggle-password="signup-password" aria-pressed="false">Show</button></div></div>
-            <p class="text-[11px] text-slate-400">We will send a 6-digit verification code to your email.</p>
-            <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2"><i data-lucide="check" class="w-4 h-4"></i><span>Send Verification Code</span></button>
-          </form>
-
-          <form id="verify-form" class="auth-form space-y-4" hidden>
-            <div class="text-center"><h3 class="text-base font-outfit font-bold text-white">Verify Your Email</h3><p class="text-xs text-slate-400 mt-1">Enter the 6-digit code sent to <strong id="verify-email" class="text-cyan-300"></strong>.</p></div><input id="verify-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000" required class="glass-input w-full text-center text-xl tracking-[.45em] font-extrabold py-3 rounded-xl"><button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm">Verify & Create Account</button><div class="text-center"><button id="resend-code" type="button" class="text-xs text-cyan-400 hover:underline">Resend code</button></div>
-          </form>
-
-          <p id="auth-status" class="auth-status" role="status" aria-live="polite"></p>
-          <div class="mt-5 pt-4 border-t border-white/10 flex items-center justify-between gap-3 text-[10px] text-slate-400"><div class="flex items-center gap-1.5"><i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-400"></i><span>Secure session</span></div><div class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-cyan-400"></i><span>Email verification enabled</span></div></div>
-        </div>
-      </section>
+        <span class="font-extrabold text-xl tracking-wider text-white">EVA AI MARKET</span>
+      </a>
+      <h2 class="text-xl font-bold text-white">Welcome Back</h2>
+      <p class="text-xs text-slate-400">Access your subscriptions and licenses</p>
     </div>
-  </main>
 
-  <footer class="relative z-10 py-5 border-t border-white/5 bg-[#060810]/80 text-slate-400 text-xs text-center"><div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px]"><div>© 2026 EVA AI MARKET. All rights reserved. <span class="mx-2 text-white/20">•</span> AI Today, A Better Tomorrow.</div><div class="flex items-center gap-4"><a href="/" class="hover:text-cyan-400">Marketplace</a><a href="https://t.me/eva007_8" target="_blank" rel="noopener" class="hover:text-cyan-400">Support</a></div></div></footer>
+    <div class="flex p-1 bg-slate-950/80 rounded-2xl border border-white/10 mb-6">
+      <button data-auth-tab="login" type="button" class="auth-tab active flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition">Sign In</button>
+      <button data-auth-tab="signup" type="button" class="auth-tab flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 transition">Create Account</button>
+    </div>
+
+    <form id="login-form" class="auth-form space-y-4">
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
+        <input type="email" id="login-email" autocomplete="email" inputmode="email" required placeholder="you@example.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-200 focus:border-cyan-400 outline-none">
+      </div>
+      <div>
+        <div class="flex items-center justify-between mb-1"><label class="block text-xs font-semibold text-slate-300">Password</label><button id="forgot-password" type="button" class="text-[11px] text-cyan-400 hover:underline">Forgot Password?</button></div>
+        <div class="relative">
+          <input type="password" id="login-password" autocomplete="current-password" minlength="8" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 pr-14 text-sm text-slate-200 focus:border-cyan-400 outline-none">
+          <button class="password-toggle" type="button" data-toggle-password="login-password" aria-pressed="false">Show</button>
+        </div>
+      </div>
+      <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm glow-cyan hover:opacity-90 transition">Sign In to Dashboard</button>
+    </form>
+
+    <form id="signup-form" class="auth-form space-y-4" hidden>
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
+        <input type="email" id="signup-email" autocomplete="email" inputmode="email" required placeholder="you@example.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-200 focus:border-cyan-400 outline-none">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Create Password</label>
+        <div class="relative">
+          <input type="password" id="signup-password" autocomplete="new-password" minlength="8" required placeholder="Minimum 8 characters" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 pr-14 text-sm text-slate-200 focus:border-cyan-400 outline-none">
+          <button class="password-toggle" type="button" data-toggle-password="signup-password" aria-pressed="false">Show</button>
+        </div>
+      </div>
+      <p class="text-[11px] text-slate-400">A verification email will be sent to confirm your account.</p>
+      <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-black text-sm">Create Account</button>
+    </form>
+
+    <form id="verify-form" class="auth-form space-y-4" hidden>
+      <div class="text-center">
+        <h3 class="text-base font-bold text-white">Verify Your Email</h3>
+        <p class="text-xs text-slate-400 mt-1">If your email contains a 6-digit verification code, enter it below for <strong id="verify-email" class="text-cyan-300"></strong>.</p>
+      </div>
+      <input id="verify-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-center text-xl tracking-[.45em] font-extrabold text-white focus:border-cyan-400 outline-none">
+      <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm">Verify & Continue</button>
+      <div class="text-center"><button id="resend-code" type="button" class="text-xs text-cyan-400 hover:underline">Resend verification email</button></div>
+    </form>
+
+    <p id="auth-status" class="auth-status" role="status" aria-live="polite"></p>
+
+    <div class="mt-6 text-center">
+      <a href="/" class="text-xs text-cyan-400 hover:underline"><i class="fa-solid fa-arrow-left mr-1"></i> Back to Marketplace</a>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="auth.js?v=20260916-portal-v24"></script>
-  <script>window.addEventListener('DOMContentLoaded',()=>{if(window.lucide)lucide.createIcons();});</script>
+  <script src="auth.js?v=20260916-auth-simple"></script>
 </body>
 </html>
