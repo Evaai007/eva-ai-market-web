@@ -72,9 +72,9 @@ document.getElementById('signup-form').addEventListener('submit', async (event) 
   const password=document.getElementById('signup-password').value;
   if(password.length<8) return showStatus('Password must be at least 8 characters.',true);
   const button=event.currentTarget.querySelector('button[type="submit"]'); button.disabled=true;
-  showStatus('Sending verification code to your email…');
+  showStatus('Sending verification email…');
   try{
-    const {data,error}=await evaClient.auth.signUp({email,password});
+    const {data,error}=await evaClient.auth.signUp({email,password,options:{emailRedirectTo:`${location.origin}/login.html`}});
     if(error) throw error;
     pendingSignupEmail=email;
     sessionStorage.setItem('eva-pending-signup-email',email);
@@ -82,8 +82,8 @@ document.getElementById('signup-form').addEventListener('submit', async (event) 
     if(data.session){ await sendSignupNotification(email); location.replace('/dashboard.html'); return; }
     document.getElementById('verify-email').textContent=email;
     showAuthForm('verify-form');
-    showStatus('Verification code sent. Check your email and enter the 6-digit code.');
-  }catch(error){showStatus(error.message||'Could not send verification code.',true);button.disabled=false;}
+    showStatus('Verification email sent. Enter the 6-digit code from the email.');
+  }catch(error){showStatus(error.message||'Could not send verification email.',true);button.disabled=false;}
 });
 
 document.getElementById('verify-form').addEventListener('submit',async(event)=>{
@@ -95,11 +95,12 @@ document.getElementById('verify-form').addEventListener('submit',async(event)=>{
   const button=event.currentTarget.querySelector('button[type="submit"]');button.disabled=true;
   showStatus('Verifying your email…');
   try{
-    const {data,error}=await evaClient.auth.verifyOtp({email,token,type:'signup'});
-    if(error)throw error;
+    let result=await evaClient.auth.verifyOtp({email,token,type:'email'});
+    if(result.error) result=await evaClient.auth.verifyOtp({email,token,type:'signup'});
+    if(result.error)throw result.error;
     sessionStorage.removeItem('eva-pending-signup-email');sessionStorage.removeItem('eva-pending-signup-password');
     await sendSignupNotification(email);
-    if(data.session){location.replace('/dashboard.html');return;}
+    if(result.data.session){location.replace('/dashboard.html');return;}
     await finishLogin(email,password);
   }catch(error){showStatus(error.message||'Invalid or expired verification code.',true);button.disabled=false;}
 });
@@ -108,10 +109,10 @@ document.getElementById('resend-code').addEventListener('click',async()=>{
   if(!evaClient)return;
   const email=pendingSignupEmail||sessionStorage.getItem('eva-pending-signup-email')||'';
   if(!email)return showStatus('Please start signup again.',true);
-  showStatus('Sending a new verification code…');
-  const {error}=await evaClient.auth.resend({type:'signup',email});
+  showStatus('Sending a new verification email…');
+  const {error}=await evaClient.auth.resend({type:'signup',email,options:{emailRedirectTo:`${location.origin}/login.html`}});
   if(error)return showStatus(error.message,true);
-  showStatus('A new verification code was sent to your email.');
+  showStatus('A new verification email was sent to your email.');
 });
 
 document.getElementById('forgot-password').addEventListener('click', async () => {
