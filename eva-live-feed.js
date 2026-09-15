@@ -12,9 +12,11 @@
   const tbody = document.getElementById('eva-live-feed-body');
   const status = document.getElementById('eva-live-feed-status');
   let liveOrders = [];
-  let liveOrderIndex = 0;
+  let popupDeposits = [];
+  let popupDepositIndex = 0;
   let liveTimer = null;
   let usingDemoFallback = false;
+  let usingDemoDepositFallback = false;
 
   const demoProducts = [
     'ChatGPT Plus', 'ChatGPT Pro — 5× Usage', 'ChatGPT Pro — 20× Usage',
@@ -27,6 +29,8 @@
   ];
   const demoNames = ['emely','noah','liam','emma','oliver','sofia','lucas','mason','elena','alex','mia','james','david','ethan','harper','daniel','sam','jack','nora','leo','ava'];
   const demoProviders = ['gmail.com','icloud.com','outlook.com','yahoo.com','proton.me'];
+  const demoNetworks = ['TRC20','BEP20','ERC20'];
+  const demoAmounts = [15,20,21,25,30,35,50,80,100,150,200,300,500];
 
   const pick = (list) => list[Math.floor(Math.random() * list.length)];
   const makeDemoEvent = () => ({
@@ -34,6 +38,14 @@
     product: pick(demoProducts),
     customer: `${pick(demoNames)}*****@${pick(demoProviders)}`,
     country: pick(demoCountries),
+    age_seconds: Math.floor(3 + Math.random() * 90)
+  });
+  const makeDemoDeposit = () => ({
+    type: 'demo-deposit',
+    customer: `${pick(demoNames)}*****@${pick(demoProviders)}`,
+    country: pick(demoCountries),
+    amount: pick(demoAmounts),
+    network: pick(demoNetworks),
     age_seconds: Math.floor(3 + Math.random() * 90)
   });
 
@@ -83,6 +95,12 @@
     if (status) status.textContent = `${orders.length} recent verified deliver${orders.length === 1 ? 'y' : 'ies'}`;
   }
 
+  function setPopupDeposits(events) {
+    const deposits = Array.isArray(events) ? events.filter((event) => event?.type === 'deposit').slice(0, 12) : [];
+    usingDemoDepositFallback = deposits.length === 0;
+    popupDeposits = usingDemoDepositFallback ? Array.from({ length: 8 }, makeDemoDeposit) : deposits;
+  }
+
   async function refresh() {
     if (!tbody) return;
     try {
@@ -90,10 +108,12 @@
       const body = await response.json().catch(() => ({}));
       if (!response.ok || !body?.ok || !Array.isArray(body.events)) throw new Error('Activity feed unavailable');
       render(body.events);
+      setPopupDeposits(body.events);
     } catch (error) {
       usingDemoFallback = true;
       liveOrders = Array.from({ length: 6 }, makeDemoEvent);
       render([]);
+      setPopupDeposits([]);
     }
   }
 
@@ -130,26 +150,28 @@
           <b>E</b>
         </div>
         <div class="eva-live-copy">
-          <div class="eva-live-top"><span class="eva-live-label">Live</span><span class="eva-live-demo" data-live-demo hidden>Done</span></div>
+          <div class="eva-live-top"><span class="eva-live-label">Live Deposit</span><span class="eva-live-demo" data-live-demo hidden>Done</span></div>
           <div class="eva-live-customer" data-live-customer>Private customer</div>
-          <div class="eva-live-meta"><span data-live-country></span><span class="eva-live-product" data-live-product>Verified delivery</span> · <span data-live-time>Just now</span></div>
+          <div class="eva-live-meta"><span data-live-country></span><span class="eva-live-product" data-live-product>Deposit received</span> · <span data-live-time>Just now</span></div>
         </div>
       </div>`;
     document.body.appendChild(popup);
 
     const showNext = () => {
-      if (document.hidden || !liveOrders.length) return;
-      let event = liveOrders[liveOrderIndex % liveOrders.length];
-      liveOrderIndex += 1;
-      if (usingDemoFallback) {
-        event = makeDemoEvent();
-        liveOrders[liveOrderIndex % liveOrders.length] = event;
+      if (document.hidden || !popupDeposits.length) return;
+      let event = popupDeposits[popupDepositIndex % popupDeposits.length];
+      popupDepositIndex += 1;
+      if (usingDemoDepositFallback) {
+        event = makeDemoDeposit();
+        popupDeposits[popupDepositIndex % popupDeposits.length] = event;
       }
-      popup.querySelector('[data-live-customer]').textContent = usingDemoFallback ? event.customer : 'Private customer';
-      popup.querySelector('[data-live-country]').textContent = usingDemoFallback ? `${event.country} · ` : '';
-      popup.querySelector('[data-live-product]').textContent = String(event?.product || 'EVA product').slice(0, 80);
+      const amount = Number(event?.amount || 0);
+      const network = String(event?.network || 'USDT');
+      popup.querySelector('[data-live-customer]').textContent = usingDemoDepositFallback ? event.customer : 'Private customer';
+      popup.querySelector('[data-live-country]').textContent = usingDemoDepositFallback ? `${event.country} · ` : '';
+      popup.querySelector('[data-live-product]').textContent = `${amount > 0 ? '$' + amount.toFixed(2) + ' USDT' : 'USDT'} Deposit (${network})`;
       popup.querySelector('[data-live-time]').textContent = formatAge(event?.age_seconds);
-      popup.querySelector('[data-live-demo]').hidden = !usingDemoFallback;
+      popup.querySelector('[data-live-demo]').hidden = !usingDemoDepositFallback;
       popup.classList.add('show');
       window.setTimeout(() => popup.classList.remove('show'), 3200);
     };
