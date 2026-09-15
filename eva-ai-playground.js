@@ -233,7 +233,7 @@
     toast.innerHTML = `
       <div class="eva-live-icon" id="evaLiveIcon">✓</div>
       <div class="eva-live-copy">
-        <div class="eva-live-top"><strong id="evaLiveBadge">Verified activity</strong><span id="evaLiveTime">Just now</span></div>
+        <div class="eva-live-top"><strong id="evaLiveBadge">Verified delivery</strong><span id="evaLiveTime">Just now</span></div>
         <div class="eva-live-main" id="evaLiveMain"></div>
         <div class="eva-live-extra" id="evaLiveExtra"></div>
       </div>
@@ -248,6 +248,7 @@
   }
 
   function showLiveEvent(event) {
+    if (event?.type !== 'order') return;
     const toast = ensureLiveToast();
     const badge = $('evaLiveBadge');
     const time = $('evaLiveTime');
@@ -258,20 +259,11 @@
 
     const amount = Number(event?.amount || 0);
     time.textContent = formatLiveAge(event?.age_seconds);
-
-    if (event?.type === 'order') {
-      badge.textContent = 'Verified delivery';
-      icon.textContent = '✓';
-      icon.className = 'eva-live-icon order';
-      main.textContent = `${String(event.product || 'EVA product').slice(0, 90)} was delivered`;
-      extra.textContent = amount > 0 ? `$${amount.toFixed(2)} USDT • completed order` : 'Completed order';
-    } else {
-      badge.textContent = 'Deposit verified';
-      icon.textContent = '◆';
-      icon.className = 'eva-live-icon deposit';
-      main.textContent = 'A customer deposit was verified';
-      extra.textContent = `${amount > 0 ? `$${amount.toFixed(2)} USDT` : 'USDT'} • ${String(event.network || 'USDT')}`;
-    }
+    badge.textContent = 'Verified delivery';
+    icon.textContent = '✓';
+    icon.className = 'eva-live-icon order';
+    main.textContent = `${String(event.product || 'EVA product').slice(0, 90)} was delivered`;
+    extra.textContent = amount > 0 ? `$${amount.toFixed(2)} USDT • completed order` : 'Completed order';
 
     toast.classList.remove('hide');
     requestAnimationFrame(() => toast.classList.add('show'));
@@ -288,7 +280,7 @@
       const response = await fetch('/api/public-activity', { cache: 'no-store' });
       const body = await response.json().catch(() => ({}));
       if (!response.ok || !body?.ok || !Array.isArray(body.events)) return;
-      liveEvents = body.events.filter((event) => event && ['order', 'deposit'].includes(event.type));
+      liveEvents = body.events.filter((event) => event?.type === 'order');
       liveIndex = 0;
     } catch (error) {
       console.warn('Live activity unavailable', error?.message);
