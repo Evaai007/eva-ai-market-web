@@ -16,7 +16,6 @@
   let popupDepositIndex = 0;
   let liveTimer = null;
   let usingDemoFallback = false;
-  let usingDemoDepositFallback = false;
 
   const demoProducts = [
     'ChatGPT Plus', 'ChatGPT Pro — 5× Usage', 'ChatGPT Pro — 20× Usage',
@@ -108,13 +107,18 @@
   }
 
   function setPopupDeposits(events) {
-    const deposits = Array.isArray(events) ? events.filter((event) => event?.type === 'deposit').slice(0, 12) : [];
-    usingDemoDepositFallback = deposits.length === 0;
-    popupDeposits = usingDemoDepositFallback ? Array.from({ length: 8 }, makeDemoDeposit) : deposits;
+    const realDeposits = Array.isArray(events) ? events.filter((event) => event?.type === 'deposit').slice(0, 8) : [];
+    const demoDeposits = Array.from({ length: 8 }, makeDemoDeposit);
+    popupDeposits = [];
+    const total = Math.max(realDeposits.length, demoDeposits.length);
+    for (let i = 0; i < total; i += 1) {
+      if (realDeposits[i]) popupDeposits.push(realDeposits[i]);
+      if (demoDeposits[i]) popupDeposits.push(demoDeposits[i]);
+    }
+    if (!popupDeposits.length) popupDeposits = demoDeposits;
   }
 
   async function refresh() {
-    if (!tbody) return;
     try {
       const response = await fetch('/api/public-activity', { cache: 'no-store' });
       const body = await response.json().catch(() => ({}));
@@ -122,8 +126,6 @@
       render(body.events);
       setPopupDeposits(body.events);
     } catch (error) {
-      usingDemoFallback = true;
-      liveOrders = Array.from({ length: 6 }, makeDemoEvent);
       render([]);
       setPopupDeposits([]);
     }
@@ -141,13 +143,13 @@
       #eva-live-order-popup .eva-live-icon svg{position:absolute;top:2px;width:11px;height:11px;fill:#fbbf24}
       #eva-live-order-popup .eva-live-icon b{position:absolute;bottom:2px;font:900 10px/1 Inter,system-ui,sans-serif;color:#f8fafc}
       #eva-live-order-popup .eva-live-copy{min-width:0;flex:1}
-      #eva-live-order-popup .eva-live-top{display:flex;align-items:center;gap:5px;margin-bottom:1px}
-      #eva-live-order-popup .eva-live-label{font:800 8px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;color:#34d399;text-transform:uppercase}
+      #eva-live-order-popup .eva-live-top{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-bottom:3px}
+      #eva-live-order-popup .eva-live-label{font:900 9px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.11em;color:#34d399;text-transform:uppercase}
       #eva-live-order-popup .eva-live-label:before{content:'●';font-size:6px;margin-right:4px;color:#34d399}
-      #eva-live-order-popup .eva-live-demo{font:800 7px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#94a3b8;border:1px solid rgba(148,163,184,.3);border-radius:999px;padding:2px 5px;text-transform:uppercase;letter-spacing:.08em}
-      #eva-live-order-popup .eva-live-customer{font:800 10px/1.25 Inter,system-ui,sans-serif;color:#f8fafc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-      #eva-live-order-popup .eva-live-meta{font:600 8px/1.3 Inter,system-ui,sans-serif;color:#94a3b8;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-      #eva-live-order-popup .eva-live-product{color:#67e8f9}
+      #eva-live-order-popup .eva-live-demo{font:800 7px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#a7f3d0;border:1px solid rgba(52,211,153,.36);border-radius:999px;padding:3px 6px;text-transform:uppercase;letter-spacing:.08em}
+      #eva-live-order-popup .eva-live-customer{font:800 12px/1.25 Inter,system-ui,sans-serif;color:#f8fafc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      #eva-live-order-popup .eva-live-meta{font:700 10px/1.35 Inter,system-ui,sans-serif;color:#94a3b8;margin-top:2px;white-space:normal;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+      #eva-live-order-popup .eva-live-product{color:#67e8f9;font-weight:800}
       @media (prefers-reduced-motion:reduce){#eva-live-order-popup{transition:none!important}}
     `;
     document.head.appendChild(style);
@@ -173,25 +175,23 @@
       if (document.hidden || !popupDeposits.length) return;
       let event = popupDeposits[popupDepositIndex % popupDeposits.length];
       popupDepositIndex += 1;
-      if (usingDemoDepositFallback) {
-        event = makeDemoDeposit();
-        popupDeposits[popupDepositIndex % popupDeposits.length] = event;
-      }
+      const isDemo = event?.type === 'demo-deposit';
+      if (isDemo) event = makeDemoDeposit();
       const amount = Number(event?.amount || 0);
       const network = String(event?.network || 'USDT');
-      popup.querySelector('[data-live-customer]').textContent = usingDemoDepositFallback ? event.customer : 'Private customer';
-      popup.querySelector('[data-live-country]').textContent = usingDemoDepositFallback ? `${event.country} · ` : '';
+      popup.querySelector('[data-live-customer]').textContent = isDemo ? event.customer : 'Private customer';
+      popup.querySelector('[data-live-country]').textContent = isDemo ? `${event.country} · ` : '';
       popup.querySelector('[data-live-product]').textContent = `${amount > 0 ? '$' + amount.toFixed(2) + ' USDT' : 'USDT'} Deposit (${network})`;
       popup.querySelector('[data-live-time]').textContent = formatAge(event?.age_seconds);
-      popup.querySelector('[data-live-demo]').hidden = !usingDemoDepositFallback;
+      popup.querySelector('[data-live-demo]').hidden = !isDemo;
       popup.classList.add('show');
-      window.setTimeout(() => popup.classList.remove('show'), 3200);
+      window.setTimeout(() => popup.classList.remove('show'), 3400);
     };
 
     window.setTimeout(() => {
       showNext();
-      liveTimer = window.setInterval(showNext, 5200);
-    }, 1800);
+      liveTimer = window.setInterval(showNext, 5000);
+    }, 1200);
 
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) popup.classList.remove('show');
