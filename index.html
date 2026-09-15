@@ -12,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="eva-storefront-v5.css">
   <link rel="stylesheet" href="eva-account-flow.css">
+  <link rel="stylesheet" href="eva-quote.css">
 </head>
 <body>
   <header class="nav shell">
@@ -78,6 +79,7 @@
 
   <footer><div class="shell"><div class="brand"><span class="brand-mark">♛</span><span>EVA <b>AI MARKET</b></span></div><p>Premium access. Human support.</p><span>© 2026 EVA AI MARKET</span></div></footer>
 
+  <dialog id="quoteDialog" aria-labelledby="quoteTitle"><form method="dialog" class="modal" id="quoteForm"><button class="close" value="cancel" aria-label="Close quote">×</button><span class="kicker">ENTERPRISE QUOTE</span><h2 id="quoteTitle">Calculate your plan</h2><div class="order-product"><span>◆</span><div><strong id="quoteName"></strong><small id="quoteOfficial"></small></div></div><label>Seats / quantity<input id="quoteSeats" type="number" min="1" max="500" value="5" required></label><label>Official subtotal (USDT)<input id="quoteBase" type="number" min="0" step="1" value="100" required></label><div class="pay-box"><div><small>EVA SERVICE FEE</small><strong>5%</strong></div><div><small>ESTIMATED TOTAL</small><strong id="quoteTotal">$105.00</strong></div></div><a id="quoteContact" class="pay quote-contact" href="https://t.me/eva007_8" target="_blank" rel="noopener">Contact for final quote</a></form></dialog>
   <dialog id="checkoutDialog" aria-labelledby="dialogTitle">
     <form method="dialog" class="modal" id="checkoutForm">
       <button class="close" value="cancel" aria-label="Close checkout">×</button>
