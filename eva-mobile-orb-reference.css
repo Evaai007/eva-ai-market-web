@@ -85,3 +85,22 @@
   body.premium-home .ref-cyber-head{animation:evaCleanOrbFloat 8s ease-in-out infinite!important}
   body.premium-home .ref-orbit-card{animation-duration:8s!important}
 }
+
+/* Visible color cycling for the central orb and its halo. */
+@media (max-width:760px){
+  body.premium-home .ref-cyber-head:after{animation:evaOrbColorWash 7.5s ease-in-out infinite!important;opacity:.82!important;mix-blend-mode:screen!important}
+  body.premium-home .ref-visual:before{animation:evaOrbHaloColor 7.5s ease-in-out infinite!important}
+}
+
+@keyframes evaOrbColorWash{
+  0%,100%{background:radial-gradient(circle at 34% 28%,rgba(34,211,238,.48),transparent 34%),radial-gradient(circle at 68% 72%,rgba(59,130,246,.40),transparent 42%),linear-gradient(150deg,rgba(255,255,255,.14),transparent 36%,rgba(2,6,23,.16) 72%)}
+  25%{background:radial-gradient(circle at 34% 28%,rgba(168,85,247,.50),transparent 34%),radial-gradient(circle at 68% 72%,rgba(236,72,153,.38),transparent 42%),linear-gradient(150deg,rgba(255,255,255,.12),transparent 36%,rgba(2,6,23,.16) 72%)}
+  50%{background:radial-gradient(circle at 34% 28%,rgba(16,185,129,.48),transparent 34%),radial-gradient(circle at 68% 72%,rgba(34,211,238,.40),transparent 42%),linear-gradient(150deg,rgba(255,255,255,.13),transparent 36%,rgba(2,6,23,.16) 72%)}
+  75%{background:radial-gradient(circle at 34% 28%,rgba(245,158,11,.48),transparent 34%),radial-gradient(circle at 68% 72%,rgba(249,115,22,.38),transparent 42%),linear-gradient(150deg,rgba(255,255,255,.13),transparent 36%,rgba(2,6,23,.16) 72%)}
+}
+@keyframes evaOrbHaloColor{
+  0%,100%{background:radial-gradient(circle,rgba(34,211,238,.22),rgba(59,130,246,.09) 46%,transparent 72%)}
+  25%{background:radial-gradient(circle,rgba(168,85,247,.22),rgba(236,72,153,.08) 46%,transparent 72%)}
+  50%{background:radial-gradient(circle,rgba(16,185,129,.22),rgba(34,211,238,.09) 46%,transparent 72%)}
+  75%{background:radial-gradient(circle,rgba(245,158,11,.22),rgba(249,115,22,.08) 46%,transparent 72%)}
+}
