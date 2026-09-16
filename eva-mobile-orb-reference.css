@@ -128,3 +128,21 @@
   body.premium-home .pro-topbar nav .nav-account{font-size:10px!important;padding:0 3px!important}
   body.premium-home .pro-topbar nav .video-get-started{height:34px!important;padding:0 10px!important;font-size:10px!important}
 }
+
+/* Hard override for iPhone/in-app browsers: keep account actions inside the viewport. */
+@media (max-width:760px){
+  body.premium-home .pro-topbar .nav-wrap{position:relative!important;padding-right:172px!important}
+  body.premium-home .pro-topbar .pro-mobile-brand{max-width:190px!important;flex:0 1 190px!important;overflow:visible!important}
+  body.premium-home .pro-topbar #site-nav{display:flex!important;visibility:visible!important;opacity:1!important;position:absolute!important;right:10px!important;top:50%!important;left:auto!important;bottom:auto!important;transform:translateY(-50%)!important;width:auto!important;max-width:none!important;height:42px!important;min-height:42px!important;overflow:visible!important;z-index:999!important;margin:0!important;padding:0!important;gap:7px!important;pointer-events:auto!important}
+  body.premium-home .pro-topbar #site-nav>a{display:none!important}
+  body.premium-home .pro-topbar #site-nav>a.nav-account,body.premium-home .pro-topbar #site-nav>a.video-get-started{display:flex!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important}
+  body.premium-home .pro-topbar #site-nav>a.nav-account{height:38px!important;padding:0 5px!important;font-size:12px!important;color:#f1f5f9!important}
+  body.premium-home .pro-topbar #site-nav>a.video-get-started{height:40px!important;padding:0 14px!important;font-size:12px!important;border-radius:999px!important}
+}
+@media (max-width:390px){
+  body.premium-home .pro-topbar .nav-wrap{padding-right:158px!important}
+  body.premium-home .pro-topbar .pro-mobile-brand{max-width:174px!important;flex-basis:174px!important;font-size:9.8px!important}
+  body.premium-home .pro-topbar #site-nav{right:7px!important;gap:4px!important}
+  body.premium-home .pro-topbar #site-nav>a.nav-account{font-size:10px!important;padding:0 2px!important}
+  body.premium-home .pro-topbar #site-nav>a.video-get-started{height:36px!important;padding:0 9px!important;font-size:10px!important}
+}
