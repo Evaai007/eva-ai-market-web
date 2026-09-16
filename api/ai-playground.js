@@ -1,5 +1,5 @@
-const RATE_WINDOW_MS = 10 * 60 * 1000;
-const RATE_LIMIT = 6;
+const RATE_WINDOW_MS = 60 * 60 * 1000;
+const RATE_LIMIT = 1;
 const buckets = globalThis.__evaAiBuckets || new Map();
 globalThis.__evaAiBuckets = buckets;
 
@@ -23,19 +23,25 @@ function rateAllowed(req) {
   const ip = getIp(req);
   const now = Date.now();
   const old = buckets.get(ip);
-  const bucket = !old || now - old.startedAt > RATE_WINDOW_MS
+  const bucket = !old || now - old.startedAt >= RATE_WINDOW_MS
     ? { startedAt: now, count: 0 }
     : old;
+
+  if (bucket.count >= RATE_LIMIT) {
+    const retryAfterSeconds = Math.max(1, Math.ceil((RATE_WINDOW_MS - (now - bucket.startedAt)) / 1000));
+    return { allowed: false, retryAfterSeconds };
+  }
+
   bucket.count += 1;
   buckets.set(ip, bucket);
 
   if (buckets.size > 1500) {
     for (const [key, value] of buckets.entries()) {
-      if (now - value.startedAt > RATE_WINDOW_MS) buckets.delete(key);
+      if (now - value.startedAt >= RATE_WINDOW_MS) buckets.delete(key);
     }
   }
 
-  return bucket.count <= RATE_LIMIT;
+  return { allowed: true, retryAfterSeconds: 0 };
 }
 
 function systemPrompt(kind, mode, catalog) {
@@ -56,14 +62,63 @@ function systemPrompt(kind, mode, catalog) {
   return `${base}\n${modes[mode] || modes.coding}`;
 }
 
+function normalizeModelName(value) {
+  return cleanText(value, 120).replace(/^models\//, '');
+}
+
+async function generateWithModel({ apiKey, model, prompt, system, temperature, signal }) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+  const upstream = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    signal,
+    body: JSON.stringify({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      systemInstruction: { parts: [{ text: system }] },
+      generationConfig: {
+        temperature,
+        maxOutputTokens: 700
+      }
+    })
+  });
+  const data = await upstream.json().catch(() => ({}));
+  return { upstream, data };
+}
+
+async function discoverGeminiModel(apiKey, signal) {
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(apiKey)}`;
+    const response = await fetch(url, { method: 'GET', signal });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || !Array.isArray(data?.models)) return null;
+
+    const candidates = data.models.filter((item) =>
+      Array.isArray(item?.supportedGenerationMethods) &&
+      item.supportedGenerationMethods.includes('generateContent')
+    );
+
+    const preferred = candidates.find((item) => /flash/i.test(item?.name || '')) || candidates[0];
+    return preferred?.name ? normalizeModelName(preferred.name) : null;
+  } catch {
+    return null;
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return send(res, 405, { ok: false, error: 'Method not allowed.' });
   }
 
-  if (!rateAllowed(req)) {
-    return send(res, 429, { ok: false, error: 'Demo limit reached. Please try again in a few minutes.' });
+  const limit = rateAllowed(req);
+  if (!limit.allowed) {
+    res.setHeader('Retry-After', String(limit.retryAfterSeconds));
+    return send(res, 429, {
+      ok: false,
+      code: 'HOURLY_LIMIT',
+      error: 'AI Playground limit reached. You can send one test prompt per hour.',
+      retry_after_seconds: limit.retryAfterSeconds
+    });
   }
 
   const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY;
@@ -79,34 +134,48 @@ export default async function handler(req, res) {
 
   if (!prompt) return send(res, 400, { ok: false, error: 'Prompt is required.' });
 
-  const model = cleanText(process.env.GEMINI_MODEL || 'gemini-2.5-flash', 80);
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+  const configuredModel = normalizeModelName(process.env.GEMINI_MODEL || 'gemini-2.5-flash');
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 15000);
+  const timeout = setTimeout(() => controller.abort(), 20000);
   const started = Date.now();
+  const system = systemPrompt(kind, mode, catalog);
+  const temperature = kind === 'creative' ? 0.8 : 0.35;
 
   try {
-    const upstream = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      signal: controller.signal,
-      body: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        systemInstruction: { parts: [{ text: systemPrompt(kind, mode, catalog) }] },
-        generationConfig: {
-          temperature: kind === 'creative' ? 0.8 : 0.35,
-          maxOutputTokens: 700
-        }
-      })
+    let model = configuredModel;
+    let result = await generateWithModel({
+      apiKey,
+      model,
+      prompt,
+      system,
+      temperature,
+      signal: controller.signal
     });
 
-    const data = await upstream.json().catch(() => ({}));
-    if (!upstream.ok) {
-      console.error('Gemini playground upstream error', upstream.status, data?.error?.status || data?.error?.message || 'unknown');
-      return send(res, 502, { ok: false, error: 'Gemini request failed. Please try again shortly.' });
+    if (result.upstream.status === 404) {
+      const discovered = await discoverGeminiModel(apiKey, controller.signal);
+      if (discovered && discovered !== model) {
+        model = discovered;
+        result = await generateWithModel({
+          apiKey,
+          model,
+          prompt,
+          system,
+          temperature,
+          signal: controller.signal
+        });
+      }
     }
 
-    const text = (data.candidates?.[0]?.content?.parts || [])
+    if (!result.upstream.ok) {
+      console.error('Gemini playground upstream error', result.upstream.status, result.data?.error?.status || result.data?.error?.message || 'unknown');
+      return send(res, 502, {
+        ok: false,
+        error: 'Gemini request failed. Please try again later.'
+      });
+    }
+
+    const text = (result.data.candidates?.[0]?.content?.parts || [])
       .map(part => typeof part?.text === 'string' ? part.text : '')
       .join('\n')
       .trim();
@@ -117,12 +186,13 @@ export default async function handler(req, res) {
       ok: true,
       text,
       model,
-      latency_ms: Date.now() - started
+      latency_ms: Date.now() - started,
+      hourly_limit: 1
     });
   } catch (error) {
     const timedOut = error?.name === 'AbortError';
     console.error('Gemini playground error', timedOut ? 'timeout' : error?.message);
-    return send(res, timedOut ? 504 : 500, { ok: false, error: timedOut ? 'AI request timed out. Please retry.' : 'AI Playground is temporarily unavailable.' });
+    return send(res, timedOut ? 504 : 500, { ok: false, error: timedOut ? 'AI request timed out. Please retry later.' : 'AI Playground is temporarily unavailable.' });
   } finally {
     clearTimeout(timeout);
   }
