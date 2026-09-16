@@ -163,7 +163,7 @@
     if (title) title.textContent = 'Sample Activity Feed';
     if (!tbody) return;
     tbody.innerHTML = demoRow(makeDemoEvent());
-    if (status) status.textContent = `Sample activity · ${demoCountries.length} countries rotate one by one`;
+    if (status) status.textContent = 'EVA Activity · 221 Countries · Clients Welcome';
   }
 
   function setPopupDeposits() {
