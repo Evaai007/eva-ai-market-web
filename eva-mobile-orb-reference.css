@@ -1,6 +1,6 @@
 @import url('/eva-mobile-orb-reference-base.css?v=20260916-image-base1');
 
-/* Approved image-based hero orb: direct element background + foreground fallback for iOS/in-app browsers. */
+/* Approved image-based hero orb rendered on a real DOM element for iOS/in-app reliability. */
 @media (max-width:760px){
   body.premium-home .ref-visual{
     height:430px!important;
@@ -12,69 +12,57 @@
     overflow:visible!important;
     position:relative!important;
     isolation:isolate!important;
-    background-color:transparent!important;
-    background-image:url('/assets/eva-orb-reference.jpg?v=20260916-directorb3')!important;
-    background-repeat:no-repeat!important;
-    background-position:center center!important;
-    background-size:contain!important;
+    background:none!important;
     transform:none!important;
-    filter:drop-shadow(0 22px 30px rgba(0,0,0,.42)) drop-shadow(0 0 22px rgba(25,135,255,.16))!important;
-    animation:evaApprovedOrb3D 6.8s ease-in-out infinite!important;
-    transform-origin:50% 52%!important;
+    filter:none!important;
+    animation:none!important;
   }
-  body.premium-home .ref-visual:before{
-    display:block!important;
-    content:""!important;
-    position:absolute!important;
-    left:50%!important;
-    bottom:25px!important;
-    width:68%!important;
-    height:36px!important;
-    transform:translateX(-50%)!important;
-    border-radius:50%!important;
-    background:radial-gradient(ellipse,rgba(35,118,255,.36) 0%,rgba(90,54,180,.22) 45%,rgba(0,0,0,0) 76%)!important;
-    filter:blur(14px)!important;
-    opacity:.82!important;
-    pointer-events:none!important;
-    z-index:-1!important;
-    animation:evaApprovedOrbShadow 6.8s ease-in-out infinite!important;
-  }
+  body.premium-home .ref-visual:before,
   body.premium-home .ref-visual:after{
-    display:block!important;
-    content:""!important;
-    position:absolute!important;
-    inset:0!important;
-    z-index:2!important;
-    pointer-events:none!important;
-    background-image:url('/assets/eva-orb-reference.jpg?v=20260916-directorb3')!important;
-    background-repeat:no-repeat!important;
-    background-position:center center!important;
-    background-size:contain!important;
-    opacity:1!important;
+    display:none!important;
+    content:none!important;
   }
   body.premium-home .ref-cyber-head{
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+    pointer-events:none!important;
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    margin:0!important;
+    padding:0!important;
+    border:0!important;
+    border-radius:0!important;
+    background-color:transparent!important;
+    background-image:url('/assets/eva-orb-reference.jpg?v=20260916-realnode1')!important;
+    background-repeat:no-repeat!important;
+    background-position:center center!important;
+    background-size:contain!important;
+    box-shadow:none!important;
+    transform-origin:50% 52%!important;
+    filter:drop-shadow(0 24px 34px rgba(0,0,0,.46)) drop-shadow(0 0 24px rgba(25,135,255,.18))!important;
+    animation:evaApprovedOrb3D 6.8s ease-in-out infinite!important;
+    z-index:2!important;
+  }
+  body.premium-home .ref-cyber-head > *{
     display:none!important;
     visibility:hidden!important;
     opacity:0!important;
-    pointer-events:none!important;
-    animation:none!important;
   }
 }
 
 @keyframes evaApprovedOrb3D{
-  0%,100%{transform:perspective(1100px) rotateX(.7deg) rotateY(-1deg) translateY(0) scale(.995)}
-  25%{transform:perspective(1100px) rotateX(-.4deg) rotateY(1deg) translateY(-3px) scale(1.002)}
-  50%{transform:perspective(1100px) rotateX(-.6deg) rotateY(0deg) translateY(-6px) scale(1.006)}
-  75%{transform:perspective(1100px) rotateX(.3deg) rotateY(-.8deg) translateY(-3px) scale(1.001)}
-}
-@keyframes evaApprovedOrbShadow{
-  0%,100%{transform:translateX(-50%) scaleX(.95);opacity:.68}
-  50%{transform:translateX(-50%) scaleX(1.08);opacity:.88}
+  0%,100%{transform:perspective(1100px) rotateX(.5deg) rotateY(-.8deg) translateY(0) scale(.995)}
+  25%{transform:perspective(1100px) rotateX(-.3deg) rotateY(.8deg) translateY(-3px) scale(1.002)}
+  50%{transform:perspective(1100px) rotateX(-.5deg) rotateY(0deg) translateY(-6px) scale(1.006)}
+  75%{transform:perspective(1100px) rotateX(.2deg) rotateY(-.6deg) translateY(-3px) scale(1.001)}
 }
 
 @media (max-width:390px){
   body.premium-home .ref-visual{height:400px!important;min-height:400px!important}
 }
 @media (prefers-reduced-motion:reduce){
-  body.premium-home .ref-visual,body.premium-home .ref-visual:before{animation:none!important}
+  body.premium-home .ref-cyber-head{animation:none!important}
 }
