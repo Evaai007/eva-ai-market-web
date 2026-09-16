@@ -1,127 +1,324 @@
-@import url('/dimension-card-base.css?v=20260916-buyfix1');
+@import url('/dimension-card-base.css?v=20260916-exactvisibility3');
 
-/* EVA DimensionCard final visibility fix — single logo + visible CTA on all breakpoints */
+/* =========================================================
+   EVA DIMENSIONCARD — MOBILE / DESKTOP FINAL VISIBILITY FIX
+   Fixes:
+   1. Buy button always visible
+   2. Duplicate legacy logos removed
+   3. Mobile card content fits safely
+   4. Activity popup no longer hides CTA
+   ========================================================= */
+
+/* Keep only the DimensionCard generated logo */
 .eva-dimension-card .product-cover,
-.eva-dimension-card>.product-cover,
 .eva-dimension-card .credit-cover,
 .eva-dimension-card .brand-icon-shell,
 .eva-dimension-card .brand-photo-shell,
 .eva-dimension-card .brand-photo,
 .eva-dimension-card .cover-brand,
 .eva-dimension-card .cover-grid,
-.eva-dimension-card .credit-logo{display:none!important}
-.eva-dimension-card .eva-product-logo{display:grid!important;visibility:visible!important;opacity:1!important}
-#public-store-products .eva-dimension-card,#official-credits .eva-dimension-card,#dashboard-store-products .eva-dimension-card{position:relative!important;overflow:visible!important;isolation:isolate}
-.eva-dimension-card .eva-card-front{display:flex!important;flex-direction:column!important;align-items:stretch!important;overflow:hidden!important}
-.eva-dimension-card .eva-product-head,.eva-dimension-card .product-tag,.eva-dimension-card .eva-card-front>h3,.eva-dimension-card .eva-card-front>p,.eva-dimension-card .official-price,.eva-dimension-card .eva-price-display,.eva-dimension-card .eva-spec-preview,.eva-dimension-card .stock-line{flex:0 0 auto}
-.eva-dimension-card .eva-card-front>p{display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden!important}
-.eva-dimension-card .eva-card-front>a.button,.eva-dimension-card .eva-card-front>button.button,.eva-dimension-card .price-calculator-trigger,.eva-dimension-card .credit-actions{position:relative!important;z-index:10!important;flex:0 0 auto!important}
-.eva-dimension-card .eva-card-front>a.button,.eva-dimension-card .eva-card-front>button.button,.eva-dimension-card .price-calculator-trigger,.eva-dimension-card .credit-actions .button{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:54px!important;margin-top:14px!important;padding:0 16px!important;border-radius:16px!important;font-size:14px!important;font-weight:900!important;line-height:1!important;text-align:center!important;visibility:visible!important;opacity:1!important;overflow:hidden!important;white-space:nowrap!important}
-.eva-dimension-card .eva-card-front>a.button.secondary:not(.disabled),.eva-dimension-card .eva-card-front>button.button.secondary:not(.disabled){color:#06111c!important;background:linear-gradient(90deg,#54e8ff 0%,#27c4f4 40%,#5e78ff 72%,#9560ff 100%)!important;border:0!important;box-shadow:0 14px 32px rgba(31,181,255,.20),0 0 24px rgba(108,91,255,.16)!important}
-.eva-dimension-card .stock-line{margin-top:14px!important;padding-top:13px!important}
-.eva-dimension-card .eva-flip-trigger{flex:0 0 auto!important;position:relative!important;z-index:8!important;margin-top:10px!important}
-@media(max-width:760px){
- body.premium-home{padding-bottom:calc(170px + env(safe-area-inset-bottom))!important}
- #public-store-products,#official-credits,#dashboard-store-products{overflow:visible!important}
- #public-store-products .eva-dimension-card{--eva-card-height:790px!important;height:790px!important;min-height:790px!important;margin-bottom:28px!important}
- #official-credits .eva-dimension-card{--eva-card-height:820px!important;height:820px!important;min-height:820px!important}
- #dashboard-store-products .eva-dimension-card{--eva-card-height:760px!important;height:760px!important;min-height:760px!important}
- .eva-dimension-card .eva-card-front{padding:18px 18px 16px!important}
- .eva-dimension-card .eva-product-head{grid-template-columns:auto 1fr auto!important;gap:9px!important;margin-bottom:19px!important}
- .eva-dimension-card .eva-product-number{min-width:58px!important;padding:10px 14px!important;font-size:17px!important}
- .eva-dimension-card .eva-product-delivery{gap:7px!important;font-size:10px!important;letter-spacing:.08em!important;white-space:nowrap!important}
- .eva-dimension-card .eva-product-delivery:before{width:8px!important;height:8px!important}
- .eva-dimension-card .eva-product-logo{width:66px!important;height:66px!important;flex:0 0 66px!important}
- .eva-dimension-card .eva-product-logo span{width:40px!important;height:40px!important;font-size:15px!important}
- .eva-dimension-card .product-tag{margin-top:0!important;margin-bottom:9px!important;font-size:10px!important}
- .eva-dimension-card .eva-card-front>h3{margin:0 0 12px!important;font-size:clamp(27px,8vw,36px)!important;line-height:1.05!important}
- .eva-dimension-card .official-price{margin:0 0 14px!important;padding:10px 12px!important;min-height:50px!important}
- .eva-dimension-card .eva-card-front>p{margin:0 0 15px!important;font-size:14px!important;line-height:1.45!important;-webkit-line-clamp:2!important}
- .eva-dimension-card .eva-price-display{margin:2px 0 13px!important}
- .eva-dimension-card .eva-spec-preview{margin:0 0 12px!important;gap:8px!important}
- .eva-dimension-card .eva-spec-preview>div{padding:11px!important;min-height:82px!important}
- .eva-dimension-card .stock-line{margin-top:0!important;padding-top:11px!important;padding-bottom:0!important}
- .eva-dimension-card .eva-card-front>a.button,.eva-dimension-card .eva-card-front>button.button,.eva-dimension-card .price-calculator-trigger,.eva-dimension-card .credit-actions{margin-top:auto!important}
- .eva-dimension-card .eva-card-front>a.button,.eva-dimension-card .eva-card-front>button.button,.eva-dimension-card .price-calculator-trigger,.eva-dimension-card .credit-actions .button{min-height:52px!important;font-size:13px!important;border-radius:15px!important}
- .eva-dimension-card .eva-flip-trigger{min-height:40px!important;margin-top:8px!important;font-size:11px!important}
+.eva-dimension-card .credit-logo {
+  display: none !important;
 }
-@media(max-width:390px){#public-store-products .eva-dimension-card{--eva-card-height:780px!important;height:780px!important;min-height:780px!important}.eva-dimension-card .eva-card-front{padding:16px 15px 14px!important}.eva-dimension-card .eva-product-logo{width:58px!important;height:58px!important}.eva-dimension-card .eva-product-logo span{width:36px!important;height:36px!important}.eva-dimension-card .eva-product-number{min-width:52px!important;padding:9px 11px!important}.eva-dimension-card .eva-product-delivery{font-size:9px!important}}
-@media(min-width:761px) and (max-width:1024px){#public-store-products .eva-dimension-card{--eva-card-height:740px!important}.eva-dimension-card .eva-card-front{padding:22px!important}.eva-dimension-card .eva-product-head{margin-bottom:24px!important}.eva-dimension-card .eva-card-front>a.button,.eva-dimension-card .eva-card-front>button.button{min-height:54px!important}}
-@media(min-width:1025px){#public-store-products .eva-dimension-card{--eva-card-height:760px!important}.eva-dimension-card .eva-card-front>a.button,.eva-dimension-card .eva-card-front>button.button{min-height:56px!important}}
 
-/* Final 3D depth + true single-logo correction */
+/* Generated DimensionCard logo remains visible */
+.eva-dimension-card .eva-product-logo {
+  display: grid !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Card itself */
 #public-store-products .eva-dimension-card,
 #official-credits .eva-dimension-card,
-#dashboard-store-products .eva-dimension-card{
-  perspective:1400px!important;
-  transform:perspective(1400px) rotateX(var(--eva-rx,0deg)) rotateY(var(--eva-ry,0deg)) translateZ(0)!important;
-  transform-style:preserve-3d!important;
-  -webkit-transform-style:preserve-3d!important;
-  will-change:transform;
-  touch-action:pan-y;
+#dashboard-store-products .eva-dimension-card {
+  position: relative !important;
+  overflow: visible !important;
+  isolation: isolate;
 }
-.eva-dimension-card>.eva-card-inner{
-  transform-style:preserve-3d!important;
-  -webkit-transform-style:preserve-3d!important;
+
+/* Front face must be a real vertical flex layout */
+.eva-dimension-card .eva-card-front {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  overflow: hidden !important;
 }
-.eva-dimension-card .eva-card-face{
-  transform-style:preserve-3d!important;
-  -webkit-transform-style:preserve-3d!important;
-  box-shadow:0 28px 60px rgba(0,0,0,.42),0 10px 22px rgba(65,73,255,.18),inset 0 1px 0 rgba(255,255,255,.11)!important;
-}
-.eva-dimension-card .eva-card-front:after{
-  content:"";
-  position:absolute;
-  inset:8px -8px -10px 8px;
-  border-radius:26px;
-  border-right:8px solid rgba(34,49,93,.44);
-  border-bottom:10px solid rgba(12,19,42,.72);
-  pointer-events:none;
-  z-index:0;
-  transform:translateZ(-22px);
-}
-.eva-dimension-card .eva-product-head,
+
+/* Product content spacing */
+.eva-dimension-card .eva-product-head { flex: 0 0 auto; }
+
+.eva-dimension-card .product-tag,
+.eva-dimension-card .eva-card-front > h3,
+.eva-dimension-card .eva-card-front > p,
+.eva-dimension-card .official-price,
 .eva-dimension-card .eva-price-display,
 .eva-dimension-card .eva-spec-preview,
-.eva-dimension-card .stock-line,
-.eva-dimension-card .eva-card-front>h3,
-.eva-dimension-card .eva-card-front>p,
-.eva-dimension-card .product-tag,
-.eva-dimension-card .official-price,
-.eva-dimension-card .eva-card-front>a.button,
-.eva-dimension-card .eva-card-front>button.button,
-.eva-dimension-card .eva-flip-trigger{transform:translateZ(18px)}
-
-/* One logo only: remove the nested second badge/circle. */
-.eva-dimension-card .eva-product-logo{
-  position:relative!important;
-  overflow:hidden!important;
-  border:1px solid rgba(255,255,255,.18)!important;
-  box-shadow:0 14px 34px rgba(0,0,0,.28),0 0 24px color-mix(in srgb,hsl(var(--h,220) 92% 60%) 22%,transparent)!important;
-  transform:translateZ(34px)!important;
+.eva-dimension-card .stock-line {
+  flex: 0 0 auto;
 }
-.eva-dimension-card .eva-product-logo>span{
-  width:100%!important;
-  height:100%!important;
-  border-radius:inherit!important;
-  background:transparent!important;
-  box-shadow:none!important;
-  color:#fff!important;
-  font-size:18px!important;
-  text-shadow:0 1px 8px rgba(0,0,0,.48);
-}
-.eva-dimension-card .eva-product-logo.theme-openai>span{color:#fff!important}
-.eva-dimension-card .eva-product-logo.theme-aws>span{color:#fff!important}
-.eva-dimension-card .eva-product-logo.theme-claude>span{color:#fff!important}
-.eva-dimension-card .eva-product-logo.theme-gemini>span{color:#fff!important}
 
-@media(max-width:760px){
-  #public-store-products .eva-dimension-card,
-  #official-credits .eva-dimension-card,
-  #dashboard-store-products .eva-dimension-card{
-    perspective:1100px!important;
-    transform:perspective(1100px) rotateX(var(--eva-rx,0deg)) rotateY(var(--eva-ry,0deg)) translateZ(0)!important;
+/* Prevent large descriptions from pushing CTA outside */
+.eva-dimension-card .eva-card-front > p {
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden !important;
+}
+
+/* ==========================================
+   ACTION / BUY BUTTON AREA
+   ========================================== */
+
+.eva-dimension-card .eva-card-front > a.button,
+.eva-dimension-card .eva-card-front > button.button,
+.eva-dimension-card .price-calculator-trigger,
+.eva-dimension-card .credit-actions {
+  position: relative !important;
+  z-index: 10 !important;
+  flex: 0 0 auto !important;
+}
+
+.eva-dimension-card .eva-card-front > a.button,
+.eva-dimension-card .eva-card-front > button.button,
+.eva-dimension-card .price-calculator-trigger,
+.eva-dimension-card .credit-actions .button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 54px !important;
+  margin-top: 14px !important;
+  padding: 0 16px !important;
+  border-radius: 16px !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+}
+
+.eva-dimension-card .eva-card-front > a.button.secondary:not(.disabled),
+.eva-dimension-card .eva-card-front > button.button.secondary:not(.disabled) {
+  color: #06111c !important;
+  background: linear-gradient(90deg,#54e8ff 0%,#27c4f4 40%,#5e78ff 72%,#9560ff 100%) !important;
+  border: 0 !important;
+  box-shadow: 0 14px 32px rgba(31,181,255,.20),0 0 24px rgba(108,91,255,.16) !important;
+}
+
+.eva-dimension-card .stock-line {
+  margin-top: 14px !important;
+  padding-top: 13px !important;
+}
+
+.eva-dimension-card .eva-flip-trigger {
+  flex: 0 0 auto !important;
+  position: relative !important;
+  z-index: 8 !important;
+  margin-top: 10px !important;
+}
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+@media (max-width: 760px) {
+  body.premium-home {
+    padding-bottom: calc(170px + env(safe-area-inset-bottom)) !important;
   }
-  .eva-dimension-card .eva-card-face{box-shadow:0 24px 46px rgba(0,0,0,.46),0 8px 18px rgba(83,62,255,.2),inset 0 1px 0 rgba(255,255,255,.10)!important}
-  .eva-dimension-card .eva-product-logo>span{font-size:16px!important}
+
+  #public-store-products,
+  #official-credits,
+  #dashboard-store-products {
+    overflow: visible !important;
+  }
+
+  #public-store-products .eva-dimension-card {
+    --eva-card-height: 690px !important;
+    height: 690px !important;
+    min-height: 690px !important;
+    margin-bottom: 26px !important;
+  }
+
+  #official-credits .eva-dimension-card {
+    --eva-card-height: 735px !important;
+    height: 735px !important;
+    min-height: 735px !important;
+  }
+
+  #dashboard-store-products .eva-dimension-card {
+    --eva-card-height: 670px !important;
+    height: 670px !important;
+    min-height: 670px !important;
+  }
+
+  .eva-dimension-card .eva-card-front {
+    padding: 18px 18px 16px !important;
+  }
+
+  .eva-dimension-card .eva-product-head {
+    grid-template-columns: auto 1fr auto !important;
+    gap: 9px !important;
+    margin-bottom: 19px !important;
+  }
+
+  .eva-dimension-card .eva-product-number {
+    min-width: 58px !important;
+    padding: 10px 14px !important;
+    font-size: 17px !important;
+  }
+
+  .eva-dimension-card .eva-product-delivery {
+    gap: 7px !important;
+    font-size: 10px !important;
+    letter-spacing: .08em !important;
+    white-space: nowrap !important;
+  }
+
+  .eva-dimension-card .eva-product-delivery::before {
+    width: 8px !important;
+    height: 8px !important;
+  }
+
+  .eva-dimension-card .eva-product-logo {
+    width: 66px !important;
+    height: 66px !important;
+    flex: 0 0 66px !important;
+  }
+
+  .eva-dimension-card .eva-product-logo span {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 15px !important;
+  }
+
+  .eva-dimension-card .product-tag {
+    margin-top: 0 !important;
+    margin-bottom: 9px !important;
+    font-size: 10px !important;
+  }
+
+  .eva-dimension-card .eva-card-front > h3 {
+    margin: 0 0 12px !important;
+    font-size: clamp(27px, 8vw, 36px) !important;
+    line-height: 1.05 !important;
+  }
+
+  .eva-dimension-card .official-price {
+    margin: 0 0 14px !important;
+    padding: 10px 12px !important;
+    min-height: 50px !important;
+  }
+
+  .eva-dimension-card .eva-card-front > p {
+    margin: 0 0 15px !important;
+    font-size: 14px !important;
+    line-height: 1.45 !important;
+    -webkit-line-clamp: 2 !important;
+  }
+
+  .eva-dimension-card .eva-price-display {
+    margin: 2px 0 13px !important;
+  }
+
+  .eva-dimension-card .eva-spec-preview {
+    margin: 0 0 12px !important;
+    gap: 8px !important;
+  }
+
+  .eva-dimension-card .eva-spec-preview > div {
+    padding: 11px !important;
+    min-height: 82px !important;
+  }
+
+  .eva-dimension-card .stock-line {
+    margin-top: 0 !important;
+    padding-top: 11px !important;
+    padding-bottom: 0 !important;
+  }
+
+  .eva-dimension-card .eva-card-front > a.button,
+  .eva-dimension-card .eva-card-front > button.button,
+  .eva-dimension-card .price-calculator-trigger,
+  .eva-dimension-card .credit-actions {
+    margin-top: auto !important;
+  }
+
+  .eva-dimension-card .eva-card-front > a.button,
+  .eva-dimension-card .eva-card-front > button.button,
+  .eva-dimension-card .price-calculator-trigger,
+  .eva-dimension-card .credit-actions .button {
+    min-height: 52px !important;
+    font-size: 13px !important;
+    border-radius: 15px !important;
+  }
+
+  .eva-dimension-card .eva-flip-trigger {
+    min-height: 40px !important;
+    margin-top: 8px !important;
+    font-size: 11px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  #public-store-products .eva-dimension-card {
+    --eva-card-height: 680px !important;
+    height: 680px !important;
+    min-height: 680px !important;
+  }
+
+  .eva-dimension-card .eva-card-front {
+    padding: 16px 15px 14px !important;
+  }
+
+  .eva-dimension-card .eva-product-logo {
+    width: 58px !important;
+    height: 58px !important;
+  }
+
+  .eva-dimension-card .eva-product-logo span {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .eva-dimension-card .eva-product-number {
+    min-width: 52px !important;
+    padding: 9px 11px !important;
+  }
+
+  .eva-dimension-card .eva-product-delivery {
+    font-size: 9px !important;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1024px) {
+  #public-store-products .eva-dimension-card {
+    --eva-card-height: 720px !important;
+  }
+
+  .eva-dimension-card .eva-card-front {
+    padding: 22px !important;
+  }
+
+  .eva-dimension-card .eva-product-head {
+    margin-bottom: 24px !important;
+  }
+
+  .eva-dimension-card .eva-card-front > a.button,
+  .eva-dimension-card .eva-card-front > button.button {
+    min-height: 54px !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  #public-store-products .eva-dimension-card {
+    --eva-card-height: 760px !important;
+  }
+
+  .eva-dimension-card .eva-card-front > a.button,
+  .eva-dimension-card .eva-card-front > button.button {
+    min-height: 56px !important;
+  }
 }
