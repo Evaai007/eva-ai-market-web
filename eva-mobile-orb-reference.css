@@ -1,6 +1,6 @@
 @import url('/eva-mobile-orb-reference-base.css?v=20260916-image-base2');
 
-/* iPhone-safe approved hero artwork. Uses an existing real child DOM node, not a pseudo/background fallback. */
+/* iPhone-safe approved hero artwork. Render as replaced image content, not CSS background. */
 @media (max-width:760px){
   body.premium-home .ref-visual{
     height:430px!important;
@@ -21,7 +21,6 @@
     animation:none!important;
   }
 
-  /* neutralize every older generated-art layer */
   body.premium-home .ref-visual:before,
   body.premium-home .ref-visual:after,
   body.premium-home .ref-cyber-head:before,
@@ -33,7 +32,7 @@
   }
 
   body.premium-home .ref-cyber-head{
-    display:block!important;
+    display:flex!important;
     visibility:visible!important;
     opacity:1!important;
     pointer-events:none!important;
@@ -58,18 +57,25 @@
     filter:none!important;
     animation:none!important;
     z-index:2!important;
+    align-items:center!important;
+    justify-content:center!important;
   }
 
-  /* real DOM child renders the approved JPG directly */
+  /* Existing real DOM span becomes an actual replaced image element in WebKit. */
   body.premium-home .ref-cyber-head .ref-eye{
+    content:url('/assets/eva-orb-reference.jpg?v=20260916-replaced-img1')!important;
     display:block!important;
     visibility:visible!important;
     opacity:1!important;
-    position:absolute!important;
-    inset:0!important;
+    position:relative!important;
+    inset:auto!important;
     width:100%!important;
-    height:100%!important;
-    margin:0!important;
+    height:auto!important;
+    max-width:430px!important;
+    max-height:430px!important;
+    object-fit:contain!important;
+    object-position:center!important;
+    margin:0 auto!important;
     padding:0!important;
     border:0!important;
     border-radius:0!important;
@@ -77,11 +83,7 @@
     -webkit-clip-path:none!important;
     mask:none!important;
     -webkit-mask:none!important;
-    background-color:transparent!important;
-    background-image:url('/assets/eva-orb-reference.jpg?v=20260916-domimg4')!important;
-    background-repeat:no-repeat!important;
-    background-position:center center!important;
-    background-size:contain!important;
+    background:none!important;
     box-shadow:none!important;
     transform-origin:50% 52%!important;
     filter:drop-shadow(0 24px 34px rgba(0,0,0,.46)) drop-shadow(0 0 24px rgba(25,135,255,.18))!important;
@@ -106,6 +108,7 @@
 
 @media (max-width:390px){
   body.premium-home .ref-visual{height:400px!important;min-height:400px!important}
+  body.premium-home .ref-cyber-head .ref-eye{max-width:400px!important;max-height:400px!important}
 }
 @media (prefers-reduced-motion:reduce){
   body.premium-home .ref-cyber-head .ref-eye{animation:none!important}
