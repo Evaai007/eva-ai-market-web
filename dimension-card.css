@@ -48,3 +48,80 @@
 @media(max-width:390px){#public-store-products .eva-dimension-card{--eva-card-height:780px!important;height:780px!important;min-height:780px!important}.eva-dimension-card .eva-card-front{padding:16px 15px 14px!important}.eva-dimension-card .eva-product-logo{width:58px!important;height:58px!important}.eva-dimension-card .eva-product-logo span{width:36px!important;height:36px!important}.eva-dimension-card .eva-product-number{min-width:52px!important;padding:9px 11px!important}.eva-dimension-card .eva-product-delivery{font-size:9px!important}}
 @media(min-width:761px) and (max-width:1024px){#public-store-products .eva-dimension-card{--eva-card-height:740px!important}.eva-dimension-card .eva-card-front{padding:22px!important}.eva-dimension-card .eva-product-head{margin-bottom:24px!important}.eva-dimension-card .eva-card-front>a.button,.eva-dimension-card .eva-card-front>button.button{min-height:54px!important}}
 @media(min-width:1025px){#public-store-products .eva-dimension-card{--eva-card-height:760px!important}.eva-dimension-card .eva-card-front>a.button,.eva-dimension-card .eva-card-front>button.button{min-height:56px!important}}
+
+/* Final 3D depth + true single-logo correction */
+#public-store-products .eva-dimension-card,
+#official-credits .eva-dimension-card,
+#dashboard-store-products .eva-dimension-card{
+  perspective:1400px!important;
+  transform:perspective(1400px) rotateX(var(--eva-rx,0deg)) rotateY(var(--eva-ry,0deg)) translateZ(0)!important;
+  transform-style:preserve-3d!important;
+  -webkit-transform-style:preserve-3d!important;
+  will-change:transform;
+  touch-action:pan-y;
+}
+.eva-dimension-card>.eva-card-inner{
+  transform-style:preserve-3d!important;
+  -webkit-transform-style:preserve-3d!important;
+}
+.eva-dimension-card .eva-card-face{
+  transform-style:preserve-3d!important;
+  -webkit-transform-style:preserve-3d!important;
+  box-shadow:0 28px 60px rgba(0,0,0,.42),0 10px 22px rgba(65,73,255,.18),inset 0 1px 0 rgba(255,255,255,.11)!important;
+}
+.eva-dimension-card .eva-card-front:after{
+  content:"";
+  position:absolute;
+  inset:8px -8px -10px 8px;
+  border-radius:26px;
+  border-right:8px solid rgba(34,49,93,.44);
+  border-bottom:10px solid rgba(12,19,42,.72);
+  pointer-events:none;
+  z-index:0;
+  transform:translateZ(-22px);
+}
+.eva-dimension-card .eva-product-head,
+.eva-dimension-card .eva-price-display,
+.eva-dimension-card .eva-spec-preview,
+.eva-dimension-card .stock-line,
+.eva-dimension-card .eva-card-front>h3,
+.eva-dimension-card .eva-card-front>p,
+.eva-dimension-card .product-tag,
+.eva-dimension-card .official-price,
+.eva-dimension-card .eva-card-front>a.button,
+.eva-dimension-card .eva-card-front>button.button,
+.eva-dimension-card .eva-flip-trigger{transform:translateZ(18px)}
+
+/* One logo only: remove the nested second badge/circle. */
+.eva-dimension-card .eva-product-logo{
+  position:relative!important;
+  overflow:hidden!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.28),0 0 24px color-mix(in srgb,hsl(var(--h,220) 92% 60%) 22%,transparent)!important;
+  transform:translateZ(34px)!important;
+}
+.eva-dimension-card .eva-product-logo>span{
+  width:100%!important;
+  height:100%!important;
+  border-radius:inherit!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#fff!important;
+  font-size:18px!important;
+  text-shadow:0 1px 8px rgba(0,0,0,.48);
+}
+.eva-dimension-card .eva-product-logo.theme-openai>span{color:#fff!important}
+.eva-dimension-card .eva-product-logo.theme-aws>span{color:#fff!important}
+.eva-dimension-card .eva-product-logo.theme-claude>span{color:#fff!important}
+.eva-dimension-card .eva-product-logo.theme-gemini>span{color:#fff!important}
+
+@media(max-width:760px){
+  #public-store-products .eva-dimension-card,
+  #official-credits .eva-dimension-card,
+  #dashboard-store-products .eva-dimension-card{
+    perspective:1100px!important;
+    transform:perspective(1100px) rotateX(var(--eva-rx,0deg)) rotateY(var(--eva-ry,0deg)) translateZ(0)!important;
+  }
+  .eva-dimension-card .eva-card-face{box-shadow:0 24px 46px rgba(0,0,0,.46),0 8px 18px rgba(83,62,255,.2),inset 0 1px 0 rgba(255,255,255,.10)!important}
+  .eva-dimension-card .eva-product-logo>span{font-size:16px!important}
+}
