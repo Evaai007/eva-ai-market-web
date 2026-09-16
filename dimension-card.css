@@ -359,3 +359,47 @@
     min-height: 56px !important;
   }
 }
+
+/* =========================================================
+   SINGLE LOGO LOCK — beats later legacy card CSS
+   The screenshot showed two visual layers: the intended
+   DimensionCard header plus a legacy serial/orb decoration.
+   Keep exactly one generated DimensionCard header/logo.
+   ========================================================= */
+html body.premium-home #public-store-products .eva-dimension-card.account-product::before,
+html body.premium-home #public-store-products .eva-dimension-card.account-product::after,
+html body.premium-home #official-credits .eva-dimension-card.account-product::before,
+html body.premium-home #official-credits .eva-dimension-card.account-product::after,
+html body.premium-home #dashboard-store-products .eva-dimension-card.account-product::before,
+html body.premium-home #dashboard-store-products .eva-dimension-card.account-product::after {
+  content: none !important;
+  display: none !important;
+}
+
+html body.premium-home #public-store-products .eva-dimension-card .eva-card-front > .product-serial,
+html body.premium-home #official-credits .eva-dimension-card .eva-card-front > .product-serial,
+html body.premium-home #dashboard-store-products .eva-dimension-card .eva-card-front > .product-serial,
+html body.premium-home .eva-dimension-card .eva-card-front > .product-cover,
+html body.premium-home .eva-dimension-card .eva-card-front > .credit-cover,
+html body.premium-home .eva-dimension-card .eva-card-front > .product-logo,
+html body.premium-home .eva-dimension-card .eva-card-front > .brand-icon-shell,
+html body.premium-home .eva-dimension-card .eva-card-front > .brand-photo-shell,
+html body.premium-home .eva-dimension-card .eva-card-front > .brand-photo,
+html body.premium-home .eva-dimension-card .eva-card-front > .cover-brand,
+html body.premium-home .eva-dimension-card .eva-card-front > .cover-grid,
+html body.premium-home .eva-dimension-card .eva-card-front > .credit-logo {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+html body.premium-home .eva-dimension-card .eva-product-head {
+  display: grid !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+html body.premium-home .eva-dimension-card .eva-product-head > .eva-product-logo {
+  display: grid !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
