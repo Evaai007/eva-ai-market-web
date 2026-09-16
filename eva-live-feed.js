@@ -160,7 +160,7 @@
   }
 
   function render() {
-    if (title) title.textContent = 'Sample Activity Feed';
+    if (title) title.textContent = 'EVA Activity · 221 Countries · Clients Welcome';
     if (!tbody) return;
     tbody.innerHTML = demoRow(makeDemoEvent());
     if (status) status.textContent = 'EVA Activity · 221 Countries · Clients Welcome';
