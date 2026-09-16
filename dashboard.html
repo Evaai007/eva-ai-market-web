@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="dashboard-storefront.css?v=20260911-final">
 <link rel="stylesheet" href="official-credits.css?v=20260912-dashboard">
 <link rel="stylesheet" href="dashboard-eva-v5.css?v=20260916-ios-fix1">
-<link rel="stylesheet" href="dashboard-customer-control.css?v=20260916-premium-control1">
+<link rel="stylesheet" href="dashboard-customer-control.css?v=20260916-premium-control1">\n<link rel="stylesheet" href="dimension-card.css?v=20260916-all-products">
 </head>
 <body class="dashboard-page dashboard-storefront">
 <div class="glow glow-a"></div><div class="side-scrim" id="side-scrim" hidden></div>
@@ -79,7 +79,7 @@
 <footer><div class="container footer"><a class="brand" href="/"><span class="brand-mark">E</span><span>EVA AI MARKET</span></a><p>Independent digital-products marketplace.</p><small>© 2026 EVA AI MARKET — All Rights Reserved</small></div></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="dashboard.js?v=20260911-storefront-final"></script>
-<script src="dashboard-credits.js?v=20260912-customer-credit"></script>
+<script src="dashboard-credits.js?v=20260912-customer-credit"></script>\n<script src="dimension-card.js?v=20260916-all-products"></script>
 <script>
 (()=>{const addresses={TRC20:'TJCFS6hDKsEnquGuvw43krk141QLvHnGbG',BEP20:'0x644ed89caecc120d3a3180e9f20a90d970cfa3e8',ERC20:'0x644ed89caecc120d3a3180e9f20a90d970cfa3e8'};const network=document.getElementById('dash-network'),name=document.getElementById('deposit-network-name'),address=document.getElementById('deposit-wallet-address'),copy=document.getElementById('copy-deposit-address'),menu=document.getElementById('mobile-menu'),scrim=document.getElementById('side-scrim');const update=()=>{name.textContent=network.value;address.textContent=addresses[network.value]||''};const closeMenu=()=>{document.body.classList.remove('side-open');menu.setAttribute('aria-expanded','false');scrim.hidden=true};network.addEventListener('change',update);copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(address.textContent)}catch{const area=document.createElement('textarea');area.value=address.textContent;document.body.appendChild(area);area.select();document.execCommand('copy');area.remove()}const old=copy.textContent;copy.textContent='Copied ✓';setTimeout(()=>copy.textContent=old,1500)});menu.addEventListener('click',()=>{const open=document.body.classList.toggle('side-open');menu.setAttribute('aria-expanded',String(open));scrim.hidden=!open});scrim.addEventListener('click',closeMenu);document.querySelectorAll('.customer-nav a').forEach(a=>a.addEventListener('click',closeMenu));update()})()
 </script>
