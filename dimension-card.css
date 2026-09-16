@@ -109,6 +109,31 @@
   box-shadow: 0 14px 32px rgba(31,181,255,.20),0 0 24px rgba(108,91,255,.16) !important;
 }
 
+/* Restore the old CALCULATE PRICE action as a first-class DimensionCard CTA. */
+.eva-dimension-card .price-calculator-trigger {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 54px !important;
+  margin-top: auto !important;
+  padding: 0 16px !important;
+  color: #06111c !important;
+  background: linear-gradient(90deg,#54e8ff 0%,#27c4f4 40%,#5e78ff 72%,#9560ff 100%) !important;
+  border: 0 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 14px 32px rgba(31,181,255,.20),0 0 24px rgba(108,91,255,.16) !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  letter-spacing: .06em !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+  text-align: center !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  cursor: pointer !important;
+}
+
 .eva-dimension-card .stock-line {
   margin-top: 14px !important;
   padding-top: 13px !important;
@@ -317,7 +342,8 @@
   }
 
   .eva-dimension-card .eva-card-front > a.button,
-  .eva-dimension-card .eva-card-front > button.button {
+  .eva-dimension-card .eva-card-front > button.button,
+  .eva-dimension-card .price-calculator-trigger {
     min-height: 54px !important;
   }
 }
@@ -328,7 +354,8 @@
   }
 
   .eva-dimension-card .eva-card-front > a.button,
-  .eva-dimension-card .eva-card-front > button.button {
+  .eva-dimension-card .eva-card-front > button.button,
+  .eva-dimension-card .price-calculator-trigger {
     min-height: 56px !important;
   }
 }
