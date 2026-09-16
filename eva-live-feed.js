@@ -3,12 +3,10 @@
 
   const tbody = document.getElementById('eva-live-feed-body');
   const status = document.getElementById('eva-live-feed-status');
-  let liveOrders = [];
   let popupDeposits = [];
   let popupDepositIndex = 0;
   let liveTimer = null;
   let tableTimer = null;
-  let lastEvents = [];
   let demoTableCountryIndex = 0;
   let demoPopupCountryIndex = 0;
 
@@ -82,70 +80,31 @@
       <td><span class="eva-live-private">${escapeHtml(event.customer)}</span></td>
       <td><span class="eva-live-product">${escapeHtml(event.product)}</span></td>
       <td><span class="eva-live-amount">${escapeHtml(event.country)}</span></td>
-      <td><span class="eva-live-status">Demo</span></td>
+      <td><span class="eva-live-status">Done</span></td>
       <td><span class="eva-live-time">${formatAge(event.age_seconds)}</span></td>
     </tr>`;
   }
 
-  function realOrderRow(event) {
-    const amount = Number(event?.amount || 0);
-    const product = escapeHtml(String(event?.product || 'EVA product').slice(0, 90));
-    return `<tr>
-      <td><span class="eva-live-private">Private customer</span></td>
-      <td><span class="eva-live-product">${product}</span></td>
-      <td><span class="eva-live-amount">${amount > 0 ? '$' + amount.toFixed(2) + ' USDT' : 'Completed'}</span></td>
-      <td><span class="eva-live-status">Delivered</span></td>
-      <td><span class="eva-live-time">${formatAge(event?.age_seconds)}</span></td>
-    </tr>`;
-  }
-
-  function render(events) {
+  function render() {
     if (!tbody) return;
-    lastEvents = Array.isArray(events) ? events : [];
-    const orders = lastEvents.filter((event) => event?.type === 'order').slice(0, 6);
-    const rotatingDemo = makeDemoEvent();
-    liveOrders = orders;
-
-    tbody.innerHTML = `${orders.map(realOrderRow).join('')}${demoRow(rotatingDemo)}`;
-
-    if (status) {
-      if (orders.length) {
-        status.textContent = `${orders.length} verified deliver${orders.length === 1 ? 'y' : 'ies'} · demo countries rotate one by one`;
-      } else {
-        status.textContent = `Demo activity · ${demoCountries.length} countries rotate one by one`;
-      }
-    }
+    tbody.innerHTML = demoRow(makeDemoEvent());
+    if (status) status.textContent = `Sample activity · ${demoCountries.length} countries rotate one by one`;
   }
 
-  function setPopupDeposits(events) {
-    const realDeposits = Array.isArray(events) ? events.filter((event) => event?.type === 'deposit').slice(0, 8) : [];
-    const demoDeposits = Array.from({ length: Math.max(8, realDeposits.length) }, makeDemoDeposit);
-    popupDeposits = [];
-    const total = Math.max(realDeposits.length, demoDeposits.length);
-    for (let i = 0; i < total; i += 1) {
-      if (realDeposits[i]) popupDeposits.push(realDeposits[i]);
-      if (demoDeposits[i]) popupDeposits.push(demoDeposits[i]);
-    }
-    if (!popupDeposits.length) popupDeposits = demoDeposits;
+  function setPopupDeposits() {
+    popupDeposits = [{ type: 'demo-deposit' }];
   }
 
-  async function refresh() {
-    try {
-      const response = await fetch('/api/public-activity', { cache: 'no-store' });
-      const body = await response.json().catch(() => ({}));
-      if (!response.ok || !body?.ok || !Array.isArray(body.events)) throw new Error('Activity feed unavailable');
-      render(body.events);
-      setPopupDeposits(body.events);
-    } catch (error) {
-      render([]);
-      setPopupDeposits([]);
-    }
+  function refresh() {
+    render();
+    setPopupDeposits();
+    return Promise.resolve();
   }
 
   function startTableCountryRotation() {
     if (tableTimer) window.clearInterval(tableTimer);
     tableTimer = window.setInterval(() => {
-      if (!document.hidden) render(lastEvents);
+      if (!document.hidden) render();
     }, 5000);
   }
 
@@ -182,26 +141,23 @@
           <b>E</b>
         </div>
         <div class="eva-live-copy">
-          <div class="eva-live-top"><span class="eva-live-label">Live Deposit</span><span class="eva-live-demo" data-live-demo hidden>Demo</span></div>
-          <div class="eva-live-customer" data-live-customer>Private customer</div>
-          <div class="eva-live-meta"><span data-live-country></span><span class="eva-live-product" data-live-product>Deposit received</span> · <span data-live-time>Just now</span></div>
+          <div class="eva-live-top"><span class="eva-live-label">Sample Deposit</span><span class="eva-live-demo" data-live-demo>Done</span></div>
+          <div class="eva-live-customer" data-live-customer>Sample activity</div>
+          <div class="eva-live-meta"><span data-live-country></span><span class="eva-live-product" data-live-product>Deposit sample</span> · <span data-live-time>Just now</span></div>
         </div>
       </div>`;
     document.body.appendChild(popup);
 
     const showNext = () => {
       if (document.hidden || !popupDeposits.length) return;
-      let event = popupDeposits[popupDepositIndex % popupDeposits.length];
+      const event = makeDemoDeposit();
+      const amount = Number(event.amount || 0);
+      const network = String(event.network || 'USDT');
       popupDepositIndex += 1;
-      const isDemo = event?.type === 'demo-deposit';
-      if (isDemo) event = makeDemoDeposit();
-      const amount = Number(event?.amount || 0);
-      const network = String(event?.network || 'USDT');
-      popup.querySelector('[data-live-customer]').textContent = isDemo ? event.customer : 'Private customer';
-      popup.querySelector('[data-live-country]').textContent = isDemo ? `${event.country} · ` : '';
+      popup.querySelector('[data-live-customer]').textContent = event.customer;
+      popup.querySelector('[data-live-country]').textContent = `${event.country} · `;
       popup.querySelector('[data-live-product]').textContent = `${amount > 0 ? '$' + amount.toFixed(2) + ' USDT' : 'USDT'} Deposit (${network})`;
-      popup.querySelector('[data-live-time]').textContent = formatAge(event?.age_seconds);
-      popup.querySelector('[data-live-demo]').hidden = !isDemo;
+      popup.querySelector('[data-live-time]').textContent = formatAge(event.age_seconds);
       popup.classList.add('show');
       window.setTimeout(() => popup.classList.remove('show'), 3400);
     };
@@ -233,6 +189,4 @@
       mountLiveOrderPopup();
     });
   }
-
-  setInterval(() => { if (!document.hidden) refresh(); }, 60000);
 })();
