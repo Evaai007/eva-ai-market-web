@@ -33,6 +33,36 @@
       ]
     },
     {
+      "source": "/",
+      "headers": [
+        {"key":"Cache-Control","value":"no-store, max-age=0, must-revalidate"}
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {"key":"Cache-Control","value":"no-store, max-age=0, must-revalidate"}
+      ]
+    },
+    {
+      "source": "/eva-mobile-orb-reference.css",
+      "headers": [
+        {"key":"Cache-Control","value":"no-store, max-age=0, must-revalidate"}
+      ]
+    },
+    {
+      "source": "/eva-mobile-orb-reference-base.css",
+      "headers": [
+        {"key":"Cache-Control","value":"no-store, max-age=0, must-revalidate"}
+      ]
+    },
+    {
+      "source": "/assets/eva-orb-reference.jpg",
+      "headers": [
+        {"key":"Cache-Control","value":"no-store, max-age=0, must-revalidate"}
+      ]
+    },
+    {
       "source": "/eva-ops-93k7m2",
       "headers": [
         {"key":"Cache-Control","value":"no-store, max-age=0"},
