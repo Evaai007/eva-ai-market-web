@@ -193,3 +193,12 @@
   border-color:rgba(255,255,255,.18)!important;
   box-shadow:0 10px 28px var(--card-glow)!important
 }
+
+/* Restore the top announcement wording across desktop and mobile. */
+@media(max-width:760px){
+  html body.premium-home div.pro-app::before{content:'●  Instant Automated Delivery active\A    No withdrawal fee'!important;white-space:pre-line!important}
+  html body.premium-home div.pro-app header.pro-topbar::before{content:'•  Use USDT / Crypto for secure payment'!important;white-space:normal!important}
+}
+@media(min-width:761px){
+  html body.premium-home div.pro-app::before{content:'●  Instant Automated Delivery active  •  No withdrawal fee  •  Use USDT / Crypto for secure payment'!important}
+}
