@@ -3,6 +3,7 @@
 
   const tbody = document.getElementById('eva-live-feed-body');
   const status = document.getElementById('eva-live-feed-status');
+  const title = document.getElementById('eva-live-feed-title');
   let popupDeposits = [];
   let popupDepositIndex = 0;
   let liveTimer = null;
@@ -75,6 +76,37 @@
     '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '\"': '&quot;'
   }[ch]));
 
+  function mountFinalMobileHeaderStyles() {
+    if (document.getElementById('eva-mobile-header-final')) return;
+    const style = document.createElement('style');
+    style.id = 'eva-mobile-header-final';
+    style.textContent = `
+      @media (max-width:760px){
+        body.premium-home .pro-topbar{position:sticky!important;top:0!important;z-index:200!important;height:64px!important;min-height:64px!important;max-height:64px!important;overflow:hidden!important;background:#070b12!important;border-bottom:1px solid rgba(59,130,246,.16)!important;backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important}
+        body.premium-home .pro-topbar .nav-wrap{position:relative!important;width:100%!important;max-width:430px!important;height:64px!important;min-height:64px!important;max-height:64px!important;margin:0 auto!important;padding:0 8px!important;display:flex!important;flex-flow:row nowrap!important;align-items:center!important;justify-content:flex-start!important;gap:0!important;overflow:hidden!important;box-sizing:border-box!important}
+        body.premium-home .pro-topbar .pro-search,body.premium-home .pro-topbar .menu-button{display:none!important}
+        body.premium-home .pro-topbar .pro-mobile-brand{display:flex!important;align-items:center!important;gap:5px!important;width:136px!important;max-width:136px!important;min-width:0!important;flex:0 0 136px!important;margin:0!important;overflow:hidden!important;text-decoration:none!important;color:#f8fafc!important;font-size:8.8px!important;font-weight:900!important;line-height:1!important;letter-spacing:.04em!important}
+        body.premium-home .pro-topbar .pro-mobile-brand .brand-mark{position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;width:34px!important;height:34px!important;flex:0 0 34px!important;border-radius:11px!important;font-size:0!important;color:transparent!important;background:#090f1d!important;border:2px solid transparent!important;background-image:linear-gradient(#090f1d,#090f1d),linear-gradient(145deg,#f59e0b,#f97316)!important;background-origin:border-box!important;background-clip:padding-box,border-box!important;box-shadow:0 0 16px rgba(245,158,11,.22)!important}
+        body.premium-home .pro-topbar .pro-mobile-brand .brand-mark:after{content:'♛'!important;color:#fbbf24!important;font-size:18px!important;line-height:1!important}
+        body.premium-home .pro-topbar .pro-mobile-brand>span:last-child{display:block!important;position:relative!important;padding-bottom:8px!important;white-space:nowrap!important}
+        body.premium-home .pro-topbar .pro-mobile-brand>span:last-child:after{content:'PREMIUM AI TOOLS'!important;position:absolute!important;left:0!important;bottom:0!important;color:#22d3ee!important;font-size:5.2px!important;font-weight:800!important;letter-spacing:.08em!important;white-space:nowrap!important}
+        body.premium-home .pro-topbar #site-nav{display:flex!important;visibility:visible!important;opacity:1!important;position:absolute!important;right:6px!important;top:0!important;bottom:0!important;left:auto!important;transform:none!important;width:calc(100% - 146px)!important;max-width:none!important;height:64px!important;min-height:64px!important;margin:0!important;padding:0!important;flex-flow:row nowrap!important;align-items:center!important;justify-content:flex-end!important;gap:3px!important;overflow:hidden!important;z-index:999!important;background:transparent!important;border:0!important;box-shadow:none!important}
+        body.premium-home .pro-topbar #site-nav>a{display:none!important;position:static!important;inset:auto!important;float:none!important;transform:none!important;margin:0!important;width:auto!important;max-width:none!important;min-width:0!important;flex:none!important}
+        body.premium-home .pro-topbar #site-nav>a.nav-account,body.premium-home .pro-topbar #site-nav>a.video-get-started{display:inline-flex!important;visibility:visible!important;opacity:1!important;align-items:center!important;justify-content:center!important;white-space:nowrap!important;text-decoration:none!important;pointer-events:auto!important}
+        body.premium-home .pro-topbar #site-nav>a.nav-account{height:32px!important;padding:0 4px!important;font-size:9px!important;font-weight:600!important;color:#f1f5f9!important;background:transparent!important;border:0!important}
+        body.premium-home .pro-topbar #site-nav>a.video-get-started{height:34px!important;padding:0 7px!important;font-size:9px!important;font-weight:700!important;color:#fff!important;border-radius:999px!important;border:2px solid transparent!important;background-image:linear-gradient(#08101f,#08101f),linear-gradient(90deg,#22d3ee,#2563eb,#4f46e5)!important;background-origin:border-box!important;background-clip:padding-box,border-box!important;box-shadow:0 0 14px rgba(37,99,235,.18)!important}
+      }
+      @media (min-width:391px) and (max-width:760px){
+        body.premium-home .pro-topbar .pro-mobile-brand{width:145px!important;max-width:145px!important;flex-basis:145px!important;font-size:9.6px!important;gap:6px!important}
+        body.premium-home .pro-topbar .pro-mobile-brand .brand-mark{width:36px!important;height:36px!important;flex-basis:36px!important}
+        body.premium-home .pro-topbar #site-nav{right:8px!important;width:calc(100% - 158px)!important;gap:5px!important}
+        body.premium-home .pro-topbar #site-nav>a.nav-account{height:34px!important;padding:0 7px!important;font-size:10px!important}
+        body.premium-home .pro-topbar #site-nav>a.video-get-started{height:36px!important;padding:0 10px!important;font-size:10px!important}
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   function demoRow(event) {
     return `<tr data-eva-demo-row="true">
       <td><span class="eva-live-private">${escapeHtml(event.customer)}</span></td>
@@ -86,6 +118,7 @@
   }
 
   function render() {
+    if (title) title.textContent = 'Sample Activity Feed';
     if (!tbody) return;
     tbody.innerHTML = demoRow(makeDemoEvent());
     if (status) status.textContent = `Sample activity · ${demoCountries.length} countries rotate one by one`;
@@ -141,7 +174,7 @@
           <b>E</b>
         </div>
         <div class="eva-live-copy">
-          <div class="eva-live-top"><span class="eva-live-label">Sample Deposit</span><span class="eva-live-demo" data-live-demo>Done</span></div>
+          <div class="eva-live-top"><span class="eva-live-label">Sample Activity</span><span class="eva-live-demo" data-live-demo>Done</span></div>
           <div class="eva-live-customer" data-live-customer>Sample activity</div>
           <div class="eva-live-meta"><span data-live-country></span><span class="eva-live-product" data-live-product>Deposit sample</span> · <span data-live-time>Just now</span></div>
         </div>
@@ -177,16 +210,14 @@
     }, { once: true });
   }
 
-  document.addEventListener('DOMContentLoaded', async () => {
+  const boot = async () => {
+    mountFinalMobileHeaderStyles();
     await refresh();
     startTableCountryRotation();
     mountLiveOrderPopup();
-  }, { once: true });
+  };
 
-  if (document.readyState !== 'loading') {
-    refresh().then(() => {
-      startTableCountryRotation();
-      mountLiveOrderPopup();
-    });
-  }
+  document.addEventListener('DOMContentLoaded', boot, { once: true });
+
+  if (document.readyState !== 'loading') boot();
 })();
