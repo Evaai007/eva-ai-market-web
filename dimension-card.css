@@ -125,3 +125,5 @@
   #public-store-products .eva-dimension-card .eva-card-front>h3,#dashboard-store-products .eva-dimension-card .eva-card-front>h3,#official-credits .eva-dimension-card .eva-card-front>h3{font-size:24px!important}
   #public-store-products .eva-dimension-card .eva-price-display>.product-price,#dashboard-store-products .eva-dimension-card .eva-price-display>strong,#official-credits .eva-dimension-card .eva-price-display .credit-price{font-size:36px!important}
 }
+
+/* deployment marker: exact-reference-v2 */
