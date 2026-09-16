@@ -168,3 +168,21 @@
   body.premium-home .pro-topbar #site-nav>a.nav-account{height:30px!important;padding:0 3px!important;font-size:9px!important}
   body.premium-home .pro-topbar #site-nav>a.video-get-started{height:32px!important;padding:0 8px!important;font-size:9px!important}
 }
+
+/* Final mobile header lock: both account actions stay horizontally inside the black header. */
+@media (max-width:760px){
+  body.premium-home .pro-topbar{height:64px!important;min-height:64px!important;max-height:64px!important;overflow:hidden!important;background:#070b12!important}
+  body.premium-home .pro-topbar .nav-wrap{position:relative!important;height:64px!important;min-height:64px!important;max-height:64px!important;padding:0 8px!important;display:flex!important;flex-flow:row nowrap!important;align-items:center!important;justify-content:flex-start!important;overflow:hidden!important}
+  body.premium-home .pro-topbar .pro-mobile-brand{width:145px!important;max-width:145px!important;min-width:0!important;flex:0 0 145px!important;margin:0!important}
+  body.premium-home .pro-topbar #site-nav{display:flex!important;flex-flow:row nowrap!important;align-items:center!important;justify-content:flex-end!important;position:absolute!important;right:8px!important;top:0!important;bottom:0!important;left:auto!important;transform:none!important;width:calc(100% - 158px)!important;max-width:none!important;height:64px!important;min-height:64px!important;margin:0!important;padding:0!important;gap:5px!important;overflow:hidden!important;z-index:999!important;background:transparent!important;border:0!important;box-shadow:none!important}
+  body.premium-home .pro-topbar #site-nav>a{display:none!important;float:none!important;position:static!important;inset:auto!important;margin:0!important;transform:none!important;flex:none!important;width:auto!important;max-width:none!important;min-width:0!important}
+  body.premium-home .pro-topbar #site-nav>a.nav-account,body.premium-home .pro-topbar #site-nav>a.video-get-started{display:inline-flex!important;visibility:visible!important;opacity:1!important;align-items:center!important;justify-content:center!important;white-space:nowrap!important;vertical-align:middle!important}
+  body.premium-home .pro-topbar #site-nav>a.nav-account{height:34px!important;padding:0 7px!important;font-size:10px!important}
+  body.premium-home .pro-topbar #site-nav>a.video-get-started{height:36px!important;padding:0 10px!important;font-size:10px!important;border-radius:999px!important}
+}
+@media (max-width:390px){
+  body.premium-home .pro-topbar .pro-mobile-brand{width:136px!important;max-width:136px!important;flex-basis:136px!important;font-size:8.8px!important}
+  body.premium-home .pro-topbar #site-nav{width:calc(100% - 146px)!important;right:6px!important;gap:3px!important}
+  body.premium-home .pro-topbar #site-nav>a.nav-account{height:32px!important;padding:0 4px!important;font-size:9px!important}
+  body.premium-home .pro-topbar #site-nav>a.video-get-started{height:34px!important;padding:0 7px!important;font-size:9px!important}
+}
