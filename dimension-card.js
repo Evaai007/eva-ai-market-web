@@ -21,11 +21,6 @@
     ['Access & delivery',data.cloud?'Private account dashboard / assisted delivery':'Secure authenticated dashboard delivery'],
     ['Verification','EVA inventory and order audit enabled']
   ];
-  function syncHeight(card,front,back){
-    const run=()=>{const h=Math.max(front.scrollHeight,back.scrollHeight,440);card.style.setProperty('--eva-card-height',`${h}px`)};
-    requestAnimationFrame(run);
-    if('ResizeObserver'in window){const ro=new ResizeObserver(run);ro.observe(front);ro.observe(back)}
-  }
   function flip(card,on){card.classList.toggle('eva-is-flipped',on);card.setAttribute('aria-expanded',String(on))}
   function upgrade(card){
     if(card.dataset.evaDimensionReady||!card.closest(scopeSelector))return;
@@ -38,8 +33,8 @@
     const back=document.createElement('div');back.className='eva-card-face eva-card-back';
     const fallback=`0x${hash(data.name)}${hash(data.category)}${hash(data.price)}${hash(data.name+data.stock)}`;
     back.innerHTML=`<div class="eva-back-kicker"><span>Architecture Blueprint</span><b>Technical Verification</b></div><h3>${escapeHtml(data.name)}</h3><p>${escapeHtml(data.description)}</p><div class="eva-spec-list">${specs(data).map(([a,b])=>`<div class="eva-spec"><small>${escapeHtml(a)}</small><strong>${escapeHtml(b)}</strong></div>`).join('')}</div><div class="eva-audit"><small>Cryptographic Card Hash</small><code>${fallback}</code></div><button class="eva-gyro-button" type="button" aria-pressed="false">Enable Device Gyroscope for Motion Tilt</button><button class="eva-flip-trigger eva-return" type="button">Return to Product View</button>`;
-    inner.append(front,back);card.append(inner);syncHeight(card,front,back);
-    if(crypto?.subtle){crypto.subtle.digest('SHA-256',new TextEncoder().encode(`${data.name}|${data.category}|${data.price}|${data.stock}`)).then(buffer=>{back.querySelector('.eva-audit code').textContent='0x'+[...new Uint8Array(buffer)].map(x=>x.toString(16).padStart(2,'0')).join('')}).catch(()=>{})}
+    inner.append(front,back);card.append(inner);
+    if(window.crypto?.subtle){window.crypto.subtle.digest('SHA-256',new TextEncoder().encode(`${data.name}|${data.category}|${data.price}|${data.stock}`)).then(buffer=>{back.querySelector('.eva-audit code').textContent='0x'+[...new Uint8Array(buffer)].map(x=>x.toString(16).padStart(2,'0')).join('')}).catch(()=>{})}
     trigger.addEventListener('click',()=>flip(card,true));back.querySelector('.eva-return').addEventListener('click',()=>flip(card,false));
     back.querySelector('.eva-gyro-button').addEventListener('click',event=>enableGyro(event.currentTarget));
     card.addEventListener('pointermove',event=>{if(event.pointerType==='touch'||state.gyro||card.classList.contains('eva-is-flipped'))return;const r=card.getBoundingClientRect(),x=(event.clientX-r.left)/r.width-.5,y=(event.clientY-r.top)/r.height-.5;card.style.setProperty('--eva-rx',`${(-y*8).toFixed(2)}deg`);card.style.setProperty('--eva-ry',`${(x*10).toFixed(2)}deg`)});
