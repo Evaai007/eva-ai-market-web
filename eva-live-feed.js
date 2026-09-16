@@ -216,7 +216,7 @@
           <b>E</b>
         </div>
         <div class="eva-live-copy">
-          <div class="eva-live-top"><span class="eva-live-label">Sample Activity</span><span class="eva-live-demo" data-live-demo>Done</span></div>
+          <div class="eva-live-top"><span class="eva-live-label">EVA Market Activity</span><span class="eva-live-demo" data-live-demo>Done</span></div>
           <div class="eva-live-customer" data-live-customer>Sample activity</div>
           <div class="eva-live-meta"><span data-live-country></span><span class="eva-live-product" data-live-product>Deposit sample</span> · <span data-live-time>Just now</span></div>
         </div>
