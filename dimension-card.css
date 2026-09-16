@@ -403,3 +403,10 @@ html body.premium-home .eva-dimension-card .eva-product-head > .eva-product-logo
   visibility: visible !important;
   opacity: 1 !important;
 }
+
+/* Remove EVA Pay discount badge from every DimensionCard product. */
+html body.premium-home .eva-dimension-card .eva-pay-badge {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
