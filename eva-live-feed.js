@@ -7,7 +7,10 @@
   let popupDeposits = [];
   let popupDepositIndex = 0;
   let liveTimer = null;
-  let usingDemoFallback = false;
+  let tableTimer = null;
+  let lastEvents = [];
+  let demoTableCountryIndex = 0;
+  let demoPopupCountryIndex = 0;
 
   const demoProducts = [
     'ChatGPT Plus', 'ChatGPT Pro — 5× Usage', 'ChatGPT Pro — 20× Usage',
@@ -36,17 +39,27 @@
   const demoAmounts = [15,20,21,25,30,35,50,80,100,150,200,300,500];
 
   const pick = (list) => list[Math.floor(Math.random() * list.length)];
+  const nextTableCountry = () => {
+    const country = demoCountries[demoTableCountryIndex % demoCountries.length];
+    demoTableCountryIndex += 1;
+    return country;
+  };
+  const nextPopupCountry = () => {
+    const country = demoCountries[demoPopupCountryIndex % demoCountries.length];
+    demoPopupCountryIndex += 1;
+    return country;
+  };
   const makeDemoEvent = () => ({
     type: 'demo',
     product: pick(demoProducts),
     customer: `${pick(demoNames)}*****@${pick(demoProviders)}`,
-    country: pick(demoCountries),
+    country: nextTableCountry(),
     age_seconds: Math.floor(3 + Math.random() * 90)
   });
   const makeDemoDeposit = () => ({
     type: 'demo-deposit',
     customer: `${pick(demoNames)}*****@${pick(demoProviders)}`,
-    country: pick(demoCountries),
+    country: nextPopupCountry(),
     amount: pick(demoAmounts),
     network: pick(demoNetworks),
     age_seconds: Math.floor(3 + Math.random() * 90)
@@ -64,43 +77,49 @@
     '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '\"': '&quot;'
   }[ch]));
 
+  function demoRow(event) {
+    return `<tr data-eva-demo-row="true">
+      <td><span class="eva-live-private">${escapeHtml(event.customer)}</span></td>
+      <td><span class="eva-live-product">${escapeHtml(event.product)}</span></td>
+      <td><span class="eva-live-amount">${escapeHtml(event.country)}</span></td>
+      <td><span class="eva-live-status">Demo</span></td>
+      <td><span class="eva-live-time">${formatAge(event.age_seconds)}</span></td>
+    </tr>`;
+  }
+
+  function realOrderRow(event) {
+    const amount = Number(event?.amount || 0);
+    const product = escapeHtml(String(event?.product || 'EVA product').slice(0, 90));
+    return `<tr>
+      <td><span class="eva-live-private">Private customer</span></td>
+      <td><span class="eva-live-product">${product}</span></td>
+      <td><span class="eva-live-amount">${amount > 0 ? '$' + amount.toFixed(2) + ' USDT' : 'Completed'}</span></td>
+      <td><span class="eva-live-status">Delivered</span></td>
+      <td><span class="eva-live-time">${formatAge(event?.age_seconds)}</span></td>
+    </tr>`;
+  }
+
   function render(events) {
     if (!tbody) return;
-    const orders = Array.isArray(events) ? events.filter((event) => event?.type === 'order').slice(0, 6) : [];
-    usingDemoFallback = orders.length === 0;
-
-    if (usingDemoFallback) {
-      liveOrders = Array.from({ length: 6 }, makeDemoEvent);
-      tbody.innerHTML = liveOrders.map((event) => `<tr>
-        <td><span class="eva-live-private">${escapeHtml(event.customer)}</span></td>
-        <td><span class="eva-live-product">${escapeHtml(event.product)}</span></td>
-        <td><span class="eva-live-amount">${escapeHtml(event.country)}</span></td>
-        <td><span class="eva-live-status">Done</span></td>
-        <td><span class="eva-live-time">${formatAge(event.age_seconds)}</span></td>
-      </tr>`).join('');
-      if (status) status.textContent = 'Live activity · real deliveries appear automatically';
-      return;
-    }
-
+    lastEvents = Array.isArray(events) ? events : [];
+    const orders = lastEvents.filter((event) => event?.type === 'order').slice(0, 6);
+    const rotatingDemo = makeDemoEvent();
     liveOrders = orders;
-    tbody.innerHTML = orders.map((event) => {
-      const amount = Number(event?.amount || 0);
-      const product = escapeHtml(String(event?.product || 'EVA product').slice(0, 90));
-      return `<tr>
-        <td><span class="eva-live-private">Private customer</span></td>
-        <td><span class="eva-live-product">${product}</span></td>
-        <td><span class="eva-live-amount">${amount > 0 ? '$' + amount.toFixed(2) + ' USDT' : 'Completed'}</span></td>
-        <td><span class="eva-live-status">Delivered</span></td>
-        <td><span class="eva-live-time">${formatAge(event?.age_seconds)}</span></td>
-      </tr>`;
-    }).join('');
 
-    if (status) status.textContent = `${orders.length} recent verified deliver${orders.length === 1 ? 'y' : 'ies'}`;
+    tbody.innerHTML = `${orders.map(realOrderRow).join('')}${demoRow(rotatingDemo)}`;
+
+    if (status) {
+      if (orders.length) {
+        status.textContent = `${orders.length} verified deliver${orders.length === 1 ? 'y' : 'ies'} · demo countries rotate one by one`;
+      } else {
+        status.textContent = `Demo activity · ${demoCountries.length} countries rotate one by one`;
+      }
+    }
   }
 
   function setPopupDeposits(events) {
     const realDeposits = Array.isArray(events) ? events.filter((event) => event?.type === 'deposit').slice(0, 8) : [];
-    const demoDeposits = Array.from({ length: 8 }, makeDemoDeposit);
+    const demoDeposits = Array.from({ length: Math.max(8, realDeposits.length) }, makeDemoDeposit);
     popupDeposits = [];
     const total = Math.max(realDeposits.length, demoDeposits.length);
     for (let i = 0; i < total; i += 1) {
@@ -121,6 +140,13 @@
       render([]);
       setPopupDeposits([]);
     }
+  }
+
+  function startTableCountryRotation() {
+    if (tableTimer) window.clearInterval(tableTimer);
+    tableTimer = window.setInterval(() => {
+      if (!document.hidden) render(lastEvents);
+    }, 5000);
   }
 
   function mountLiveOrderPopup() {
@@ -156,7 +182,7 @@
           <b>E</b>
         </div>
         <div class="eva-live-copy">
-          <div class="eva-live-top"><span class="eva-live-label">Live Deposit</span><span class="eva-live-demo" data-live-demo hidden>Done</span></div>
+          <div class="eva-live-top"><span class="eva-live-label">Live Deposit</span><span class="eva-live-demo" data-live-demo hidden>Demo</span></div>
           <div class="eva-live-customer" data-live-customer>Private customer</div>
           <div class="eva-live-meta"><span data-live-country></span><span class="eva-live-product" data-live-product>Deposit received</span> · <span data-live-time>Just now</span></div>
         </div>
@@ -191,16 +217,21 @@
 
     window.addEventListener('beforeunload', () => {
       if (liveTimer) window.clearInterval(liveTimer);
+      if (tableTimer) window.clearInterval(tableTimer);
     }, { once: true });
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
     await refresh();
+    startTableCountryRotation();
     mountLiveOrderPopup();
   }, { once: true });
 
   if (document.readyState !== 'loading') {
-    refresh().then(mountLiveOrderPopup);
+    refresh().then(() => {
+      startTableCountryRotation();
+      mountLiveOrderPopup();
+    });
   }
 
   setInterval(() => { if (!document.hidden) refresh(); }, 60000);
