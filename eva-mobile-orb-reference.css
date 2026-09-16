@@ -146,3 +146,25 @@
   body.premium-home .pro-topbar #site-nav>a.nav-account{font-size:10px!important;padding:0 2px!important}
   body.premium-home .pro-topbar #site-nav>a.video-get-started{height:36px!important;padding:0 9px!important;font-size:10px!important}
 }
+
+/* Compact reference row: brand + Sign In + Get Started stay side-by-side without making the header tall. */
+@media (max-width:760px){
+  body.premium-home .pro-topbar{height:64px!important;min-height:64px!important}
+  body.premium-home .pro-topbar .nav-wrap{height:64px!important;min-height:64px!important;padding:0 10px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:6px!important}
+  body.premium-home .pro-topbar .pro-mobile-brand{max-width:156px!important;flex:0 1 156px!important;gap:6px!important;font-size:10px!important;line-height:1!important;overflow:hidden!important}
+  body.premium-home .pro-topbar .pro-mobile-brand .brand-mark{width:36px!important;height:36px!important;flex:0 0 36px!important;border-radius:11px!important}
+  body.premium-home .pro-topbar .pro-mobile-brand .brand-mark:after{font-size:18px!important}
+  body.premium-home .pro-topbar .pro-mobile-brand>span:last-child{padding-bottom:9px!important}
+  body.premium-home .pro-topbar .pro-mobile-brand>span:last-child:after{font-size:5.4px!important;letter-spacing:.09em!important}
+  body.premium-home .pro-topbar #site-nav{position:static!important;transform:none!important;right:auto!important;top:auto!important;left:auto!important;width:auto!important;height:auto!important;min-height:0!important;display:flex!important;flex:0 0 auto!important;align-items:center!important;gap:5px!important;margin:0!important;padding:0!important}
+  body.premium-home .pro-topbar #site-nav>a.nav-account{height:32px!important;padding:0 5px!important;font-size:10px!important;line-height:1!important}
+  body.premium-home .pro-topbar #site-nav>a.video-get-started{height:34px!important;padding:0 10px!important;font-size:10px!important;line-height:1!important;border-radius:999px!important}
+}
+@media (max-width:390px){
+  body.premium-home .pro-topbar .nav-wrap{padding:0 8px!important;gap:4px!important}
+  body.premium-home .pro-topbar .pro-mobile-brand{max-width:145px!important;flex-basis:145px!important;font-size:9.2px!important;gap:5px!important}
+  body.premium-home .pro-topbar .pro-mobile-brand .brand-mark{width:34px!important;height:34px!important;flex-basis:34px!important}
+  body.premium-home .pro-topbar #site-nav{gap:3px!important}
+  body.premium-home .pro-topbar #site-nav>a.nav-account{height:30px!important;padding:0 3px!important;font-size:9px!important}
+  body.premium-home .pro-topbar #site-nav>a.video-get-started{height:32px!important;padding:0 8px!important;font-size:9px!important}
+}
