@@ -1,6 +1,6 @@
-@import url('/eva-mobile-orb-reference-base.css?v=20260916-image-base1');
+@import url('/eva-mobile-orb-reference-base.css?v=20260916-image-base2');
 
-/* Approved image-based hero orb rendered on a real DOM element for iOS/in-app reliability. */
+/* iPhone-safe approved hero artwork. Uses an existing real child DOM node, not a pseudo/background fallback. */
 @media (max-width:760px){
   body.premium-home .ref-visual{
     height:430px!important;
@@ -11,22 +11,60 @@
     padding:0!important;
     overflow:visible!important;
     position:relative!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
     isolation:isolate!important;
     background:none!important;
     transform:none!important;
     filter:none!important;
     animation:none!important;
   }
+
+  /* neutralize every older generated-art layer */
   body.premium-home .ref-visual:before,
-  body.premium-home .ref-visual:after{
+  body.premium-home .ref-visual:after,
+  body.premium-home .ref-cyber-head:before,
+  body.premium-home .ref-cyber-head:after{
     display:none!important;
     content:none!important;
+    background:none!important;
+    box-shadow:none!important;
   }
+
   body.premium-home .ref-cyber-head{
     display:block!important;
     visibility:visible!important;
     opacity:1!important;
     pointer-events:none!important;
+    position:relative!important;
+    inset:auto!important;
+    width:100%!important;
+    height:100%!important;
+    max-width:430px!important;
+    max-height:none!important;
+    margin:0 auto!important;
+    padding:0!important;
+    border:0!important;
+    border-radius:0!important;
+    clip-path:none!important;
+    -webkit-clip-path:none!important;
+    mask:none!important;
+    -webkit-mask:none!important;
+    overflow:visible!important;
+    background:none!important;
+    box-shadow:none!important;
+    transform:none!important;
+    filter:none!important;
+    animation:none!important;
+    z-index:2!important;
+  }
+
+  /* real DOM child renders the approved JPG directly */
+  body.premium-home .ref-cyber-head .ref-eye{
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
     position:absolute!important;
     inset:0!important;
     width:100%!important;
@@ -35,8 +73,12 @@
     padding:0!important;
     border:0!important;
     border-radius:0!important;
+    clip-path:none!important;
+    -webkit-clip-path:none!important;
+    mask:none!important;
+    -webkit-mask:none!important;
     background-color:transparent!important;
-    background-image:url('/assets/eva-orb-reference.jpg?v=20260916-realnode1')!important;
+    background-image:url('/assets/eva-orb-reference.jpg?v=20260916-domimg4')!important;
     background-repeat:no-repeat!important;
     background-position:center center!important;
     background-size:contain!important;
@@ -44,9 +86,11 @@
     transform-origin:50% 52%!important;
     filter:drop-shadow(0 24px 34px rgba(0,0,0,.46)) drop-shadow(0 0 24px rgba(25,135,255,.18))!important;
     animation:evaApprovedOrb3D 6.8s ease-in-out infinite!important;
-    z-index:2!important;
+    z-index:5!important;
   }
-  body.premium-home .ref-cyber-head > *{
+
+  body.premium-home .ref-cyber-head .ref-head-label,
+  body.premium-home .ref-cyber-head .ref-orbit-card{
     display:none!important;
     visibility:hidden!important;
     opacity:0!important;
@@ -54,15 +98,15 @@
 }
 
 @keyframes evaApprovedOrb3D{
-  0%,100%{transform:perspective(1100px) rotateX(.5deg) rotateY(-.8deg) translateY(0) scale(.995)}
-  25%{transform:perspective(1100px) rotateX(-.3deg) rotateY(.8deg) translateY(-3px) scale(1.002)}
-  50%{transform:perspective(1100px) rotateX(-.5deg) rotateY(0deg) translateY(-6px) scale(1.006)}
-  75%{transform:perspective(1100px) rotateX(.2deg) rotateY(-.6deg) translateY(-3px) scale(1.001)}
+  0%,100%{transform:perspective(1100px) rotateX(.45deg) rotateY(-.7deg) translateY(0) scale(.995)}
+  25%{transform:perspective(1100px) rotateX(-.25deg) rotateY(.7deg) translateY(-3px) scale(1.002)}
+  50%{transform:perspective(1100px) rotateX(-.45deg) rotateY(0deg) translateY(-6px) scale(1.006)}
+  75%{transform:perspective(1100px) rotateX(.2deg) rotateY(-.5deg) translateY(-3px) scale(1.001)}
 }
 
 @media (max-width:390px){
   body.premium-home .ref-visual{height:400px!important;min-height:400px!important}
 }
 @media (prefers-reduced-motion:reduce){
-  body.premium-home .ref-cyber-head{animation:none!important}
+  body.premium-home .ref-cyber-head .ref-eye{animation:none!important}
 }
