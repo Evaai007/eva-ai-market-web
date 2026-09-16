@@ -410,3 +410,9 @@ html body.premium-home .eva-dimension-card .eva-pay-badge {
   visibility: hidden !important;
   opacity: 0 !important;
 }
+
+/* Remove the storefront intro block and DimensionCard demo console only. */
+html body.premium-home #products .pro-section-title,
+html body.premium-home .eva-dimension-console {
+  display: none !important;
+}
