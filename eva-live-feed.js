@@ -1,35 +1,6 @@
 (() => {
   'use strict';
 
-  if (!document.querySelector('link[data-eva-mobile-ref]')) {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = '/eva-mobile-orb-reference.css?v=20260916-mobile-ref5';
-    link.dataset.evaMobileRef = 'true';
-    document.head.appendChild(link);
-  }
-
-  function mountDirectOrbImage() {
-    const visual = document.querySelector('.ref-visual');
-    const head = document.querySelector('.ref-cyber-head');
-    if (!visual || !head || document.querySelector('.eva-orb-direct-img')) return;
-
-    const img = document.createElement('img');
-    img.className = 'eva-orb-direct-img';
-    img.src = '/assets/eva-orb-reference.jpg?v=20260916-directimg1';
-    img.alt = 'EVA AI MARKET';
-    img.decoding = 'async';
-    img.fetchPriority = 'high';
-    img.draggable = false;
-    img.style.cssText = 'display:block!important;visibility:visible!important;opacity:1!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:contain!important;object-position:center!important;margin:0!important;padding:0!important;border:0!important;z-index:50!important;pointer-events:none!important;transform:none!important;filter:drop-shadow(0 24px 34px rgba(0,0,0,.46)) drop-shadow(0 0 24px rgba(25,135,255,.18))!important;';
-    visual.style.position = 'relative';
-    visual.style.overflow = 'visible';
-    visual.appendChild(img);
-
-    head.style.visibility = 'hidden';
-    head.style.opacity = '0';
-  }
-
   const tbody = document.getElementById('eva-live-feed-body');
   const status = document.getElementById('eva-live-feed-status');
   let liveOrders = [];
@@ -224,13 +195,11 @@
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
-    mountDirectOrbImage();
     await refresh();
     mountLiveOrderPopup();
   }, { once: true });
 
   if (document.readyState !== 'loading') {
-    mountDirectOrbImage();
     refresh().then(mountLiveOrderPopup);
   }
 
