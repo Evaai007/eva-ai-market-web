@@ -260,6 +260,16 @@
     margin-top: 8px !important;
     font-size: 11px !important;
   }
+
+  /* iOS WebKit stability: keep tilt/flip interaction but remove continuous decorative GPU work. */
+  .eva-dimension-card .eva-card-face::before {
+    animation: none !important;
+    display: none !important;
+  }
+
+  .eva-dimension-card {
+    will-change: auto !important;
+  }
 }
 
 @media (max-width: 390px) {
