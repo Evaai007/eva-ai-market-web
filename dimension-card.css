@@ -4,12 +4,14 @@
 #public-store-products .eva-dimension-card,
 #official-credits .eva-dimension-card,
 #dashboard-store-products .eva-dimension-card{
-  --eva-rx:0deg;--eva-ry:0deg;--eva-card-height:560px;
+  --eva-rx:0deg;--eva-ry:0deg;--eva-card-height:680px;
   height:var(--eva-card-height)!important;min-height:0!important;padding:0!important;
   overflow:visible!important;background:transparent!important;border:0!important;
   box-shadow:none!important;perspective:1200px;transform:rotateX(var(--eva-rx)) rotateY(var(--eva-ry)) translateZ(0)!important;
   transform-style:preserve-3d;transition:transform .16s ease,filter .25s ease!important;contain:layout style;
 }
+#official-credits .eva-dimension-card{--eva-card-height:750px}
+#dashboard-store-products .eva-dimension-card{--eva-card-height:580px}
 .eva-dimension-card:before{display:none!important}
 #public-store-products .eva-dimension-card:hover,
 #official-credits .eva-dimension-card:hover,
@@ -31,5 +33,5 @@
 .eva-balance-modal[hidden]{display:none!important}.eva-balance-modal{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:18px}.eva-balance-scrim{position:absolute;inset:0;background:rgba(1,4,13,.82);backdrop-filter:blur(14px)}.eva-balance-panel{position:relative;width:min(460px,100%);padding:26px;border:1px solid rgba(100,220,255,.25);border-radius:25px;background:radial-gradient(circle at 90% 4%,rgba(135,72,255,.24),transparent 35%),linear-gradient(155deg,#111a35,#060a18 70%);box-shadow:0 35px 100px rgba(0,0,0,.62),0 0 45px rgba(78,111,255,.14);color:#f6f9ff}.eva-balance-panel .eva-modal-kicker{color:#6deaff;font-size:10px;font-weight:900;letter-spacing:.16em;text-transform:uppercase}.eva-balance-panel h2{margin:10px 0 7px;font-size:26px}.eva-balance-panel>p{margin:0 0 19px;color:#8e9bb5}.eva-balance-lines{display:grid;gap:10px;padding:15px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(2,7,18,.52)}.eva-balance-lines span{display:flex;justify-content:space-between;gap:16px;color:#93a1ba;font-size:13px}.eva-balance-lines b{color:#f5f8ff;text-align:right}.eva-balance-lines .eva-deduction{padding-top:10px;border-top:1px solid rgba(255,255,255,.07);font-size:15px}.eva-balance-lines .eva-deduction b{color:#64e9d2}.eva-balance-actions{display:grid;grid-template-columns:1fr 1.35fr;gap:10px;margin-top:18px}.eva-balance-actions button{min-height:48px;border-radius:13px;font-weight:850;cursor:pointer}.eva-balance-cancel{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.035);color:#c3ccdc}.eva-balance-confirm{border:0;background:linear-gradient(90deg,#53e5ff,#6e70ff 55%,#9a5cff);color:#06101a;box-shadow:0 12px 34px rgba(78,118,255,.25)}.eva-success-mark{width:68px;height:68px;margin:0 auto 16px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#53efb0,#35bd85);color:#032116;font-size:32px;font-weight:900;box-shadow:0 0 38px rgba(68,231,168,.3)}.eva-success-copy{text-align:center}.eva-success-copy h2{margin-bottom:8px}.eva-success-copy p{color:#98a7bf}.eva-success-copy button{width:100%;min-height:48px;margin-top:14px;border:0;border-radius:13px;background:linear-gradient(90deg,#55e8ff,#826aff);color:#07111b;font-weight:900;cursor:pointer}
 
 @keyframes evaDimSweep{to{transform:rotate(360deg)}}@keyframes evaPulse{50%{opacity:.4;transform:scale(.75)}}
-@media (max-width:720px){.eva-dimension-card .eva-card-face{border-radius:21px}.eva-dimension-card .eva-card-back{padding:19px}.eva-balance-panel{padding:22px}.eva-balance-actions{grid-template-columns:1fr}}
+@media (max-width:720px){#public-store-products .eva-dimension-card{--eva-card-height:670px}#official-credits .eva-dimension-card{--eva-card-height:740px}#dashboard-store-products .eva-dimension-card{--eva-card-height:570px}.eva-dimension-card .eva-card-face{border-radius:21px}.eva-dimension-card .eva-card-back{padding:19px}.eva-balance-panel{padding:22px}.eva-balance-actions{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.eva-dimension-card,.eva-dimension-card>.eva-card-inner,.eva-dimension-card .eva-card-face:before{transition:none!important;animation:none!important}}
