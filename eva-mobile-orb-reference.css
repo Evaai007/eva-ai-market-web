@@ -403,3 +403,12 @@
     animation:none!important;
   }
 }
+
+
+/* Mobile layout: approved removal of the hero marketplace kicker. */
+@media (max-width:760px){
+  html.eva-mobile-lite body.premium-home .ref-kicker,
+  body.premium-home .ref-kicker{
+    display:none!important;
+  }
+}
