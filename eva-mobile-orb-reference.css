@@ -670,3 +670,85 @@
   html.eva-mobile-lite body.premium-home .ref-orbit-card.c7,
   body.premium-home .ref-orbit-card.c7{right:57px!important;bottom:-1px!important}
 }
+
+
+/* Continuous circular orbit for the eight mobile product tiles. */
+@keyframes evaProductOrbit {
+  from {
+    transform:
+      rotate(var(--orbit-start))
+      translateX(var(--orbit-radius))
+      rotate(var(--orbit-counter-start));
+  }
+  to {
+    transform:
+      rotate(var(--orbit-end))
+      translateX(var(--orbit-radius))
+      rotate(var(--orbit-counter-end));
+  }
+}
+
+@media (max-width:760px) {
+  html.eva-mobile-lite body.premium-home .ref-cyber-head .ref-orbit-card,
+  body.premium-home .ref-cyber-head .ref-orbit-card {
+    left:50%!important;
+    right:auto!important;
+    top:50%!important;
+    bottom:auto!important;
+    margin:-25px 0 0 -25px!important;
+    --orbit-radius:138px;
+    --orbit-duration:18s;
+    animation:evaProductOrbit var(--orbit-duration) linear infinite!important;
+    transform-origin:25px 25px!important;
+    will-change:transform!important;
+  }
+
+  body.premium-home .ref-orbit-card.c1 {
+    --orbit-start:0deg; --orbit-end:360deg;
+    --orbit-counter-start:0deg; --orbit-counter-end:-360deg;
+  }
+  body.premium-home .ref-orbit-card.c2 {
+    --orbit-start:45deg; --orbit-end:405deg;
+    --orbit-counter-start:-45deg; --orbit-counter-end:-405deg;
+  }
+  body.premium-home .ref-orbit-card.c3 {
+    --orbit-start:90deg; --orbit-end:450deg;
+    --orbit-counter-start:-90deg; --orbit-counter-end:-450deg;
+  }
+  body.premium-home .ref-orbit-card.c4 {
+    --orbit-start:135deg; --orbit-end:495deg;
+    --orbit-counter-start:-135deg; --orbit-counter-end:-495deg;
+  }
+  body.premium-home .ref-orbit-card.c5 {
+    --orbit-start:180deg; --orbit-end:540deg;
+    --orbit-counter-start:-180deg; --orbit-counter-end:-540deg;
+  }
+  body.premium-home .ref-orbit-card.c6 {
+    --orbit-start:225deg; --orbit-end:585deg;
+    --orbit-counter-start:-225deg; --orbit-counter-end:-585deg;
+  }
+  body.premium-home .ref-orbit-card.c7 {
+    --orbit-start:270deg; --orbit-end:630deg;
+    --orbit-counter-start:-270deg; --orbit-counter-end:-630deg;
+  }
+  body.premium-home .ref-orbit-card.c8 {
+    --orbit-start:315deg; --orbit-end:675deg;
+    --orbit-counter-start:-315deg; --orbit-counter-end:-675deg;
+  }
+}
+
+@media (max-width:390px) {
+  html.eva-mobile-lite body.premium-home .ref-cyber-head .ref-orbit-card,
+  body.premium-home .ref-cyber-head .ref-orbit-card {
+    --orbit-radius:126px;
+    margin:-22px 0 0 -22px!important;
+    transform-origin:22px 22px!important;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  html.eva-mobile-lite body.premium-home .ref-cyber-head .ref-orbit-card,
+  body.premium-home .ref-cyber-head .ref-orbit-card {
+    animation:none!important;
+  }
+}
