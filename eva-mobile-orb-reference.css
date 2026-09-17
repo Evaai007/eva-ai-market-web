@@ -574,3 +574,99 @@
     will-change:auto!important;
   }
 }
+
+
+/* Final mobile reference-match correction: center both rings and keep the
+   eight product tiles inside a compact, balanced hero on iPhone/Android. */
+@media (max-width:760px){
+  html.eva-mobile-lite body.premium-home .ref-visual,
+  body.premium-home .ref-visual{
+    height:356px!important;
+    min-height:356px!important;
+    margin:0 auto!important;
+    padding:0 26px!important;
+    overflow:visible!important;
+  }
+
+  html.eva-mobile-lite body.premium-home .ref-cyber-head,
+  body.premium-home .ref-cyber-head{
+    width:286px!important;
+    height:286px!important;
+    max-width:calc(100vw - 60px)!important;
+    max-height:calc(100vw - 60px)!important;
+  }
+
+  /* inset:auto previously cancelled left/top and pushed this ring off-centre. */
+  html.eva-mobile-lite body.premium-home .ref-cyber-head:after,
+  body.premium-home .ref-cyber-head:after{
+    inset:auto!important;
+    left:50%!important;
+    top:50%!important;
+    right:auto!important;
+    bottom:auto!important;
+    width:60px!important;
+    height:168px!important;
+    transform:translate(-50%,-50%) rotate(24deg)!important;
+    transform-origin:50% 50%!important;
+  }
+
+  html.eva-mobile-lite body.premium-home .ref-cyber-head:before,
+  body.premium-home .ref-cyber-head:before{
+    left:50%!important;
+    top:50%!important;
+    right:auto!important;
+    bottom:auto!important;
+    width:184px!important;
+    height:64px!important;
+    transform-origin:50% 50%!important;
+  }
+
+  html.eva-mobile-lite body.premium-home .ref-orbit-card.c1,
+  body.premium-home .ref-orbit-card.c1{left:5px!important;top:24px!important}
+  html.eva-mobile-lite body.premium-home .ref-orbit-card.c2,
+  body.premium-home .ref-orbit-card.c2{left:-11px!important;top:104px!important}
+  html.eva-mobile-lite body.premium-home .ref-orbit-card.c3,
+  body.premium-home .ref-orbit-card.c3{left:7px!important;bottom:38px!important}
+  html.eva-mobile-lite body.premium-home .ref-orbit-card.c8,
+  body.premium-home .ref-orbit-card.c8{left:62px!important;bottom:-2px!important}
+  html.eva-mobile-lite body.premium-home .ref-orbit-card.c4,
+  body.premium-home .ref-orbit-card.c4{right:5px!important;top:24px!important}
+  html.eva-mobile-lite body.premium-home .ref-orbit-card.c5,
+  body.premium-home .ref-orbit-card.c5{right:-11px!important;top:104px!important}
+  html.eva-mobile-lite body.premium-home .ref-orbit-card.c6,
+  body.premium-home .ref-orbit-card.c6{right:7px!important;bottom:38px!important}
+  html.eva-mobile-lite body.premium-home .ref-orbit-card.c7,
+  body.premium-home .ref-orbit-card.c7{right:62px!important;bottom:-2px!important}
+}
+
+@media (max-width:360px){
+  html.eva-mobile-lite body.premium-home .ref-visual,
+  body.premium-home .ref-visual{
+    height:338px!important;
+    min-height:338px!important;
+    padding:0 20px!important;
+  }
+  html.eva-mobile-lite body.premium-home .ref-cyber-head,
+  body.premium-home .ref-cyber-head{
+    width:270px!important;
+    height:270px!important;
+    max-width:calc(100vw - 50px)!important;
+    max-height:calc(100vw - 50px)!important;
+  }
+  html.eva-mobile-lite body.premium-home .ref-orbit-card.c1,
+  body.premium-home .ref-orbit-card.c1{left:4px!important;top:22px!important}
+  html.eva-mobile-lite body.premium-home .ref-orbit-card.c2,
+  body.premium-home .ref-orbit-card.c2{left:-8px!important;top:98px!important}
+  html.eva-mobile-lite body.premium-home .ref-orbit-card.c3,
+  body.premium-home .ref-orbit-card.c3{left:5px!important;bottom:34px!important}
+  html.eva-mobile-lite body.premium-home .ref-orbit-card.c8,
+  body.premium-home .ref-orbit-card.c8{left:57px!important;bottom:-1px!important}
+  html.eva-mobile-lite body.premium-home .ref-orbit-card.c4,
+  body.premium-home .ref-orbit-card.c4{right:4px!important;top:22px!important}
+  html.eva-mobile-lite body.premium-home .ref-orbit-card.c5,
+  body.premium-home .ref-orbit-card.c5{right:-8px!important;top:98px!important}
+  html.eva-mobile-lite body.premium-home .ref-orbit-card.c6,
+  body.premium-home .ref-orbit-card.c6{right:5px!important;bottom:34px!important}
+  html.eva-mobile-lite body.premium-home .ref-orbit-card.c7,
+  body.premium-home .ref-orbit-card.c7{right:57px!important;bottom:-1px!important}
+}
