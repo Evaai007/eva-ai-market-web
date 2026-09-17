@@ -44,14 +44,16 @@
   }
 
   function init3DHero() {
+    if (window.__eva3dHeroCleanup) {
+      try { window.__eva3dHeroCleanup(); } catch (e) {}
+    }
+
     var visualContainer = document.querySelector('.ref-hero .ref-visual');
     if (!visualContainer) return;
 
-    // Check container size
     var rect = visualContainer.getBoundingClientRect();
     if (rect.width < 200 || rect.height < 200) return;
 
-    // Canvas wrapper
     var wrap = document.createElement('div');
     wrap.className = 'eva-3d-canvas-wrap';
     wrap.style.cssText = 'position:absolute;inset:-20px;z-index:2;pointer-events:none;overflow:visible;';
@@ -70,6 +72,8 @@
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.25;
     wrap.appendChild(renderer.domElement);
+
+    var canvasEl = renderer.domElement;
 
     // Lights
     var ambientLight = new THREE.AmbientLight(0x0c1838, 2.5);
@@ -185,65 +189,209 @@
     var particleSystem = new THREE.Points(particlesGeo, particleMat);
     scene.add(particleSystem);
 
-    // Mouse Interaction
+    // State Variables
+    var animFrameId = null;
+    var isIntersecting = true;
+    var isTabVisible = !document.hidden;
+    var isContextLost = false;
+
+    // Motion preference
+    var motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var prefersReducedMotion = motionQuery.matches;
+
     var mouseX = 0, mouseY = 0;
     var targetX = 0, targetY = 0;
 
-    window.addEventListener('mousemove', function (e) {
+    function onMouseMove(e) {
+      if (prefersReducedMotion) return;
       var windowHalfX = window.innerWidth / 2;
       var windowHalfY = window.innerHeight / 2;
       mouseX = (e.clientX - windowHalfX) / windowHalfX;
       mouseY = (e.clientY - windowHalfY) / windowHalfY;
-    }, { passive: true });
-
-    // Render loop with Visibility Optimization
-    var isVisible = true;
-    var observer = new IntersectionObserver(function (entries) {
-      isVisible = entries[0].isIntersecting;
-    }, { threshold: 0.1 });
-    observer.observe(visualContainer);
-
-    var clock = new THREE.Clock();
-
-    function animate() {
-      requestAnimationFrame(animate);
-      if (!isVisible) return;
-
-      var delta = clock.getDelta();
-      var time = clock.getElapsedTime();
-
-      // Mouse Smooth Interpolation
-      targetX += (mouseX - targetX) * 0.05;
-      targetY += (mouseY - targetY) * 0.05;
-
-      // Rotations
-      coreGroup.rotation.y = time * 0.25 + targetX * 0.8;
-      coreGroup.rotation.x = Math.sin(time * 0.2) * 0.15 + targetY * 0.5;
-
-      outerWire.rotation.y = -time * 0.35;
-      ring1.rotation.z = time * 0.4;
-      ring2.rotation.z = -time * 0.3;
-
-      particleSystem.rotation.y = time * 0.08;
-
-      // Pulse lighting
-      pointLight1.intensity = 4.0 + Math.sin(time * 2) * 1.0;
-      pointLight2.intensity = 4.0 + Math.cos(time * 2.5) * 1.0;
-
-      renderer.render(scene, camera);
     }
 
-    animate();
-
-    // Resize handling
-    window.addEventListener('resize', function () {
+    function onWindowResize() {
       if (isMobileEnv()) return;
       var w = visualContainer.clientWidth || 400;
       var h = visualContainer.clientHeight || 400;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
-    }, { passive: true });
+      renderFrame(0);
+    }
+
+    function onVisibilityChange() {
+      isTabVisible = !document.hidden;
+      updateLoopState();
+    }
+
+    function onMotionQueryChange(e) {
+      prefersReducedMotion = e.matches;
+      renderFrame(clock.getElapsedTime());
+      updateLoopState();
+    }
+
+    function onContextLost(e) {
+      e.preventDefault();
+      isContextLost = true;
+      updateLoopState();
+    }
+
+    function onContextRestored() {
+      isContextLost = false;
+      updateLoopState();
+    }
+
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    window.addEventListener('resize', onWindowResize, { passive: true });
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    if (motionQuery.addEventListener) {
+      motionQuery.addEventListener('change', onMotionQueryChange);
+    } else if (motionQuery.addListener) {
+      motionQuery.addListener(onMotionQueryChange);
+    }
+
+    if (canvasEl) {
+      canvasEl.addEventListener('webglcontextlost', onContextLost, false);
+      canvasEl.addEventListener('webglcontextrestored', onContextRestored, false);
+    }
+
+    // Intersection Observer
+    var observer = new IntersectionObserver(function (entries) {
+      isIntersecting = entries[0].isIntersecting;
+      updateLoopState();
+    }, { threshold: 0.1 });
+    observer.observe(visualContainer);
+
+    var clock = new THREE.Clock();
+
+    function renderFrame(time) {
+      if (prefersReducedMotion) {
+        coreGroup.rotation.y = 0.5;
+        coreGroup.rotation.x = 0.1;
+        outerWire.rotation.y = 0;
+        ring1.rotation.z = 0;
+        ring2.rotation.z = 0;
+        particleSystem.rotation.y = 0;
+        pointLight1.intensity = 4.5;
+        pointLight2.intensity = 4.5;
+      } else {
+        targetX += (mouseX - targetX) * 0.05;
+        targetY += (mouseY - targetY) * 0.05;
+
+        coreGroup.rotation.y = time * 0.25 + targetX * 0.8;
+        coreGroup.rotation.x = Math.sin(time * 0.2) * 0.15 + targetY * 0.5;
+
+        outerWire.rotation.y = -time * 0.35;
+        ring1.rotation.z = time * 0.4;
+        ring2.rotation.z = -time * 0.3;
+
+        particleSystem.rotation.y = time * 0.08;
+
+        pointLight1.intensity = 4.0 + Math.sin(time * 2) * 1.0;
+        pointLight2.intensity = 4.0 + Math.cos(time * 2.5) * 1.0;
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    function animate() {
+      if (!shouldRun()) {
+        animFrameId = null;
+        return;
+      }
+
+      var time = clock.getElapsedTime();
+      renderFrame(time);
+
+      if (prefersReducedMotion) {
+        animFrameId = null;
+        return;
+      }
+
+      animFrameId = requestAnimationFrame(animate);
+    }
+
+    function shouldRun() {
+      return isIntersecting && isTabVisible && !isContextLost;
+    }
+
+    function updateLoopState() {
+      if (shouldRun()) {
+        if (!animFrameId) {
+          clock.start();
+          if (prefersReducedMotion) {
+            renderFrame(0);
+          } else {
+            animFrameId = requestAnimationFrame(animate);
+          }
+        }
+      } else {
+        if (animFrameId) {
+          cancelAnimationFrame(animFrameId);
+          animFrameId = null;
+        }
+      }
+    }
+
+    // Full Cleanup Function
+    function cleanup() {
+      if (animFrameId) {
+        cancelAnimationFrame(animFrameId);
+        animFrameId = null;
+      }
+
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('resize', onWindowResize);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+
+      if (motionQuery.removeEventListener) {
+        motionQuery.removeEventListener('change', onMotionQueryChange);
+      } else if (motionQuery.removeListener) {
+        motionQuery.removeListener(onMotionQueryChange);
+      }
+
+      if (canvasEl) {
+        canvasEl.removeEventListener('webglcontextlost', onContextLost);
+        canvasEl.removeEventListener('webglcontextrestored', onContextRestored);
+      }
+
+      if (observer) {
+        observer.disconnect();
+      }
+
+      // Dispose Scene Objects
+      scene.traverse(function (obj) {
+        if (obj.geometry) {
+          obj.geometry.dispose();
+        }
+        if (obj.material) {
+          if (Array.isArray(obj.material)) {
+            obj.material.forEach(function (m) { m.dispose(); });
+          } else {
+            obj.material.dispose();
+          }
+        }
+      });
+
+      if (renderer) {
+        renderer.dispose();
+        if (renderer.domElement && renderer.domElement.parentNode) {
+          renderer.domElement.parentNode.removeChild(renderer.domElement);
+        }
+      }
+
+      if (wrap && wrap.parentNode) {
+        wrap.parentNode.removeChild(wrap);
+      }
+
+      delete window.__eva3dHeroCleanup;
+    }
+
+    window.__eva3dHeroCleanup = cleanup;
+
+    // Start initial state
+    updateLoopState();
   }
 
   if (document.readyState === 'loading') {
