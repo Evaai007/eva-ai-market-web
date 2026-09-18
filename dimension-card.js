@@ -1,5 +1,7 @@
 (()=>{
 'use strict';
+/* iOS/mobile safety: keep the native lightweight product cards. The full 3D transformer is desktop/tablet only to avoid WebKit GPU/memory reload loops. */
+if(window.matchMedia&&window.matchMedia('(max-width: 760px)').matches)return;
 const scopes='#public-store-products, #official-credits, #dashboard-store-products';
 const cards='.account-product, .product-card, .store-product, [data-credit-card]';
 const clean=v=>String(v||'').replace(/\s+/g,' ').trim();
