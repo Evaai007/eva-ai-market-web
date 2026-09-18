@@ -77,7 +77,28 @@ function dashboardProductCard(product){
  return `<article class="account-product panel master-product-card${custom?' quote-product':''}">${dashboardBrandVisual(product)}<span class="product-tag">${escapeHtml(product.category)}</span><h3>${escapeHtml(product.name)}</h3>${dashboardProductSubtitle(product)}<strong>${price}</strong><div class="master-specs"><div><small>Limit</small><b>${product.category==='AWS Cloud Accounts'?((String(product.name).match(/(\\d+)\\s*vCPU/i)?.[1]||'Cloud')+(String(product.name).match(/vCPU/i)?' vCPU':'')):'1 per user'}</b></div><div><small>Tier</small><b>${custom?'Official':'Premium'}</b></div></div><div class="stock-line">${stock}</div>${action}<small class="master-purchase-hint">Tap or click to purchase</small></article>`
 }
 
-async function loadStore(){try{const [catalog,orders]=await Promise.all([fetch('/api/store').then(async r=>{const b=await r.json();if(!r.ok)throw new Error(b.error||'Store unavailable');return b}),apiFetch('/api/store?view=orders')]);document.getElementById('dashboard-store-products').innerHTML=catalog.products.map(dashboardProductCard).join('')+dashboardTelegramCards();document.querySelectorAll('.buy-product').forEach(button=>button.addEventListener('click',()=>buyProduct(button)));renderRows('order-rows',orders.orders,item=>{const terminal=['refunded','cancelled'].includes(item.status);const delivery=terminal?(item.status==='refunded'?'Refunded — no active delivery':'Cancelled — no active delivery'):(item.delivery_details?`<pre>${escapeHtml(item.delivery_details)}</pre>`:'Pending admin delivery');return `<tr><td>${new Date(item.created_at).toLocaleDateString()}</td><td>${escapeHtml(item.product_name)}</td><td>${money(item.price_usd)}</td><td><span class="status ${escapeHtml(item.status)}">${escapeHtml(item.status)}</span></td><td>${delivery}</td></tr>`},5)}catch(error){setNotice(error.message,true)}}
+async function loadStore(){try{const [catalog,orders]=await Promise.all([fetch('/api/store').then(async r=>{const b=await r.json();if(!r.ok)throw new Error(b.error||'Store unavailable');return b}),apiFetch('/api/store?view=orders')]);document.getElementById('dashboard-store-products').innerHTML=catalog.products.map(dashboardProductCard).join('')+dashboardTelegramCards();document.querySelectorAll('.buy-product').forEach(button=>button.addEventListener('click',()=>buyProduct(button)));bindMasterCardInteractions();renderRows('order-rows',orders.orders,item=>{const terminal=['refunded','cancelled'].includes(item.status);const delivery=terminal?(item.status==='refunded'?'Refunded — no active delivery':'Cancelled — no active delivery'):(item.delivery_details?`<pre>${escapeHtml(item.delivery_details)}</pre>`:'Pending admin delivery');return `<tr><td>${new Date(item.created_at).toLocaleDateString()}</td><td>${escapeHtml(item.product_name)}</td><td>${money(item.price_usd)}</td><td><span class="status ${escapeHtml(item.status)}">${escapeHtml(item.status)}</span></td><td>${delivery}</td></tr>`},5)}catch(error){setNotice(error.message,true)}}
+
+
+function bindMasterCardInteractions(){
+ const themes=['theme-cyan','theme-violet','theme-pink','theme-amber','theme-blue'];
+ document.querySelectorAll('.master-product-card').forEach(card=>{
+  if(card.dataset.themeBound)return;
+  card.dataset.themeBound='1';
+  card.setAttribute('tabindex','0');
+  const cycle=()=>{
+   const current=themes.findIndex(t=>card.classList.contains(t));
+   themes.forEach(t=>card.classList.remove(t));
+   card.classList.add(themes[(current+1)%themes.length]);
+   card.classList.remove('theme-pop');void card.offsetWidth;card.classList.add('theme-pop');
+  };
+  card.addEventListener('click',event=>{
+   if(event.target.closest('button,a,input,select,textarea'))return;
+   cycle();
+  });
+  card.addEventListener('keydown',event=>{if((event.key==='Enter'||event.key===' ')&&!event.target.closest('button,a,input,select,textarea')){event.preventDefault();cycle()}});
+ });
+}
 
 async function buyProduct(button){const name=button.dataset.productName||'this product',price=Number(button.dataset.productPrice||0);if(!confirm(`Buy ${name} for ${price.toFixed(2)}? Your EVA balance will be deducted immediately.`))return;button.disabled=true;try{const purchase=await apiFetch('/api/store',{method:'POST',body:JSON.stringify({productId:button.dataset.productId})});const state=String(purchase.status||'approved');setNotice(state==='processing'?'Purchase successful. Balance deducted and order is Processing. The admin will deliver it securely.':'Purchase successful. Balance deducted and order created. Admin review is pending.');const {data:{user}}=await client.auth.getUser();if(user)await Promise.all([loadData(user.id),loadStore()])}catch(error){setNotice(error.message,true);button.disabled=false}}
 
