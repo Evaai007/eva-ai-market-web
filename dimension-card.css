@@ -463,3 +463,17 @@ html body.premium-home .eva-dimension-console {
  .eva-dimension-card .product-actions,.eva-dimension-card .eva-actions{margin-top:8px!important}
  .eva-dimension-card .eva-flip-trigger{margin:5px 0 0!important}
 }
+
+/* Distinct master-reference brand art */
+.eva-product-logo.theme-github{background:linear-gradient(145deg,#334155,#111827 55%,#020617)!important;color:#f8fafc!important}
+.eva-product-logo.theme-netflix{background:linear-gradient(145deg,#450a0a,#180606 58%,#020617)!important;color:#ef4444!important}
+.eva-product-logo.theme-adobe{background:linear-gradient(145deg,#be185d,#581c87 55%,#090314)!important;color:#f472b6!important}
+.eva-product-logo.theme-microsoft{background:linear-gradient(145deg,#0369a1,#1d4ed8 48%,#111827)!important;color:#60a5fa!important}
+.eva-product-logo.theme-vpn{background:linear-gradient(145deg,#1d4ed8,#172554 55%,#020617)!important;color:#60a5fa!important}
+.eva-product-logo.theme-capcut{background:linear-gradient(145deg,#111827,#020617)!important;color:#f8fafc!important}
+.eva-product-logo.theme-kling{background:linear-gradient(145deg,#312e81,#581c87 52%,#020617)!important;color:#c084fc!important}
+.eva-product-logo.theme-grok{background:linear-gradient(145deg,#334155,#0f172a 55%,#020617)!important;color:#e2e8f0!important}
+.eva-product-logo .brand-symbol{font-size:38px;font-weight:900;color:#fff;text-shadow:0 0 14px currentColor}
+.eva-product-logo .netflix-mark{font:900 54px/1 Arial;color:#ef4444;text-shadow:0 0 16px #ef4444}
+.eva-product-logo .adobe-mark{font:900 50px/1 Arial;color:#fff;text-shadow:0 0 15px #f472b6}
+.eva-product-logo .ms-mark{display:grid;grid-template-columns:repeat(2,24px);grid-template-rows:repeat(2,24px);gap:4px}.eva-product-logo .ms-mark i:nth-child(1){background:#f25022}.eva-product-logo .ms-mark i:nth-child(2){background:#7fba00}.eva-product-logo .ms-mark i:nth-child(3){background:#00a4ef}.eva-product-logo .ms-mark i:nth-child(4){background:#ffb900}.eva-product-logo .ms-mark i{display:block;box-shadow:0 0 12px currentColor}
