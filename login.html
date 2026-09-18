@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#080b14">
@@ -19,7 +19,11 @@
     .auth-status.success{color:#34d399}.auth-status.error{color:#fb7185}
     .password-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:#67e8f9}
     .password-toggle:hover{color:#fff}
-  </style>
+  
+/* Neural Key production skin */
+body{background:#030712;background-image:radial-gradient(at 50% 15%,rgba(139,92,246,.25),transparent 65%),radial-gradient(at 15% 85%,rgba(6,182,212,.18),transparent 55%),radial-gradient(at 85% 85%,rgba(236,72,153,.18),transparent 55%);font-family:"Plus Jakarta Sans",system-ui,sans-serif}
+.neural-stage{perspective:1400px}.neural-card{background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(15,23,42,.9));backdrop-filter:blur(28px);border:1.5px solid rgba(255,255,255,.15);box-shadow:0 30px 70px -15px #000,0 0 50px rgba(56,189,248,.18),inset 0 1px rgba(255,255,255,.2);transform-style:preserve-3d;position:relative}.neural-brain{width:110px;height:110px;margin:-72px auto 8px;border-radius:50%;display:grid;place-items:center;font-size:55px;background:radial-gradient(circle,rgba(168,85,247,.32),transparent 65%);filter:drop-shadow(0 15px 24px rgba(56,189,248,.6));animation:brainHover 5.5s ease-in-out infinite}@keyframes brainHover{50%{transform:translateY(-8px) scale(1.03);filter:drop-shadow(0 22px 34px rgba(168,85,247,.75))}}.neural-badge{font:700 10px "JetBrains Mono",monospace;letter-spacing:.16em;color:#22d3ee;text-transform:uppercase}.neural-key-submit{width:100%;margin-top:18px;border:0;background:transparent;display:flex;justify-content:center;align-items:center;filter:drop-shadow(0 13px 18px #000)}.neural-key-submit .bow{width:62px;height:62px;border-radius:50%;z-index:2;display:grid;place-items:center;background:radial-gradient(circle at 35% 35%,#fff1c5,#d4a359 40%,#8c5a2b 75%,#422006);border:5px solid #b47834;color:#fde047;font-size:22px}.neural-key-submit .blade{margin-left:-14px;padding:10px 27px 10px 30px;border:6px solid #b47834;border-radius:999px;background:linear-gradient(#9333ea,#4c1d95);color:#fff;font-weight:900;letter-spacing:.15em;min-width:150px}.neural-card input{background:rgba(10,15,29,.85)!important;border-color:rgba(56,189,248,.45)!important;box-shadow:inset 0 2px 8px rgba(0,0,0,.8),0 0 14px rgba(56,189,248,.12)}.neural-card input:focus{border-color:#38bdf8!important;box-shadow:0 0 22px rgba(56,189,248,.32)}@media(max-width:620px){.neural-card{border-radius:28px!important;padding:26px 20px!important}.neural-brain{width:92px;height:92px;margin-top:-66px;font-size:46px}}
+</style>
 
 <!-- Vercel Web Analytics: strip query strings and URL fragments before collection -->
 <script>
@@ -39,7 +43,7 @@
   <div class="fixed top-10 left-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
   <div class="fixed bottom-0 right-0 w-[420px] h-[420px] bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
-  <div class="glass w-full max-w-md rounded-3xl p-6 sm:p-8 border border-slate-800 relative z-10 shadow-2xl">
+  <main class="neural-stage w-full max-w-md pt-20"><div class="glass neural-card w-full rounded-3xl p-6 sm:p-8 border border-slate-800 relative z-10 shadow-2xl"><div class="neural-brain" aria-hidden="true">🧠</div><div class="text-center mb-3"><span class="neural-badge">● Neural Gateway</span></div>
     <div class="text-center mb-6">
       <a href="/" class="inline-flex items-center gap-2 mb-3">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white text-lg glow-cyan">
@@ -68,7 +72,7 @@
           <button class="password-toggle" type="button" data-toggle-password="login-password" aria-pressed="false">Show</button>
         </div>
       </div>
-      <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm glow-cyan hover:opacity-90 transition">Sign In to Dashboard</button>
+      <button type="submit" class="neural-key-submit" aria-label="Sign In to Dashboard"><span class="bow"><i class="fa-solid fa-key"></i></span><span class="blade">LOGIN</span></button>
     </form>
 
     <form id="signup-form" class="auth-form space-y-4" hidden>
@@ -92,7 +96,7 @@
     <div class="mt-6 text-center">
       <a href="/" class="text-xs text-cyan-400 hover:underline"><i class="fa-solid fa-arrow-left mr-1"></i> Back to Marketplace</a>
     </div>
-  </div>
+  </div></main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js?v=20260918-password1"></script>
