@@ -484,3 +484,20 @@ html body.premium-home .eva-dimension-console {
 @media(min-width:561px) and (max-width:1024px){#dashboard-store-products,#official-credits{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important}.eva-dimension-card{width:100%!important;min-width:0!important;max-width:none!important}}
 @media(min-width:1025px) and (max-width:1099px){#dashboard-store-products,#official-credits{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:16px!important}.eva-dimension-card{width:100%!important;min-width:0!important}}
 @media(min-width:1100px){#dashboard-store-products,#official-credits{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:16px!important}.eva-dimension-card{width:100%!important;min-width:0!important}}
+
+/* Mobile fallback after disabling 3D JS: neutralize desktop 3D selectors that still match native cards */
+@media(max-width:760px){
+ #dashboard-store-products .account-product:not(.eva-dimension-card),
+ #official-credits .account-product:not(.eva-dimension-card),
+ #official-credits .product-card:not(.eva-dimension-card),
+ #dashboard-store-products .store-product:not(.eva-dimension-card){
+   min-height:0!important;height:auto!important;transform:none!important;perspective:none!important;
+   box-shadow:0 12px 28px rgba(0,0,0,.24)!important;
+ }
+ #dashboard-store-products .account-product:not(.eva-dimension-card)::before,
+ #dashboard-store-products .account-product:not(.eva-dimension-card)::after,
+ #official-credits .account-product:not(.eva-dimension-card)::before,
+ #official-credits .account-product:not(.eva-dimension-card)::after,
+ #official-credits .product-card:not(.eva-dimension-card)::before,
+ #official-credits .product-card:not(.eva-dimension-card)::after{animation:none!important;transform:none!important}
+}
