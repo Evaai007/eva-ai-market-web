@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="dashboard-eva-v5.css?v=20260916-ios-fix1">
 <link rel="stylesheet" href="dashboard-customer-control.css?v=20260916-premium-control1">
 <link rel="stylesheet" href="dimension-card.css?v=20260916-all3d1">
-<link rel="stylesheet" href="deposit-quantum.css?v=20260918-q2">
+<link rel="stylesheet" href="deposit-quantum.css?v=20260918-exchange1">
 
 <!-- Vercel Web Analytics: strip query strings and URL fragments before collection -->
 <script>
@@ -65,23 +65,27 @@
     <article class="panel metric"><span>Delivery method</span><strong>Private</strong><small>Delivered securely by admin</small></article>
   </section>
 
-  <section class="quantum-deposit-shell perspective-stage section-anchor" id="new-deposit"><div id="quantum-card-wrap" class="quantum-card-wrap preserve-3d"><div id="quantum-glare" class="quantum-glare"></div><div class="quantum-scanline"></div><div class="quantum-coin" aria-hidden="true">◈</div>
-    <div class="quantum-deposit-head"><div><span>EVA AI <b>NETWORK</b></span><small>DEPOSIT GATE</small><p>Instant Liquidity & Balance Provisioning</p></div><a href="#customer-products">Products</a></div>
-    <div class="quantum-title"><span>● WALLET FUNDING</span><h2>Deposit & Verification</h2><p>Send USDT using the selected network, then submit the completed transaction ID.</p></div>
-    <form id="dashboard-deposit-form" class="quantum-form">
-      <label class="quantum-label">Amount in USDT<input id="dash-amount" type="number" min="10" step="0.01" placeholder="Minimum 10 USDT" required></label>
-      <div class="quantum-label">Select Settlement Network<div class="quantum-networks">
-        <button type="button" data-net="TRC20" class="active">TRC20</button><button type="button" data-net="ERC20">ERC20</button><button type="button" data-net="BEP20">BEP20</button><button type="button" data-net="SOLANA">SOLANA</button>
-      </div><select id="dash-network" aria-label="Network"><option>TRC20</option><option>ERC20</option><option>BEP20</option><option>SOLANA</option></select></div>
-      <div class="quantum-specs"><div><small>Minimum Deposit</small><strong id="quantum-min">10.00 USDT</strong><em>✓ Instant</em></div><div><small>Confirmations</small><strong id="quantum-confirm">1 Network Block</strong></div></div>
-      <div class="quantum-vault"><div class="quantum-vault-top"><span>◈ Send USDT to this <b id="deposit-network-name">TRC20</b> address</span><i id="quantum-badge">TRC20</i></div><small>Vault Address</small><code id="deposit-wallet-address">TJCFS6hDKsEnquGuvw43krk141QLvHnGbG</code><span class="quantum-online">● Online & Listening</span><button id="copy-deposit-address" type="button">⧉ Copy wallet address</button></div>
-      <label class="quantum-label">Transaction ID (TXID)<input id="dash-txid" type="text" autocomplete="off" placeholder="Paste completed payment TXID" required></label>
-      <button class="quantum-submit" type="submit">➤ Submit For Verification</button>
-    </form>
-    <div class="quantum-foot"><a href="#customer-products">← Return to Shop</a><button type="button" id="quantum-ledger">◴ Ledger History</button></div>
-    <p class="quantum-hint">☝ Tilt with cursor or finger</p></div>
-  </section>
-  <section class="panel dash-card quantum-history"><h2>Deposit Verification Log</h2><div class="table-wrap"><table><thead><tr><th>Date</th><th>Network</th><th>Amount</th><th>Status</th></tr></thead><tbody id="deposit-rows"></tbody></table></div></section>
+  <section class="exchange-deposit section-anchor" id="new-deposit">
+  <div class="exchange-top"><a href="#customer-products" aria-label="Back">←</a><h2><span class="usdt-dot">₮</span><span id="asset-title">USDT-Deposit</span></h2><span class="exchange-help">?</span></div>
+  <form id="dashboard-deposit-form" class="exchange-form">
+    <label class="exchange-network">Network:
+      <select id="dash-network" aria-label="Network"><option value="TRC20">TRON (TRC20)</option><option value="ERC20">Ethereum (ERC20)</option><option value="BEP20">BSC (BEP20)</option><option value="SOLANA">SOL</option></select>
+    </label>
+    <div class="exchange-qr"><div id="deposit-qr" aria-label="Wallet QR code"></div><span class="qr-token">₮</span></div>
+    <div class="exchange-address"><small>Wallet Address</small><div><code id="deposit-wallet-address">TJCFS6hDKsEnquGuvw43krk141QLvHnGbG</code><button id="copy-deposit-address" type="button" aria-label="Copy address">⧉</button></div></div>
+    <div class="exchange-details">
+      <div><span>Minimum Deposit Amount</span><b>10 USDT</b></div>
+      <div><span>Route Deposits To</span><b>Funding</b></div>
+      <div><span>Verification</span><b>Network + Admin review</b></div>
+      <div><span>Asset</span><b id="deposit-network-name">TRC20</b></div>
+    </div>
+    <label class="exchange-field">Amount in USDT<input id="dash-amount" type="number" min="10" step="0.01" placeholder="Minimum 10 USDT" required></label>
+    <label class="exchange-field">Transaction ID (TXID)<input id="dash-txid" type="text" autocomplete="off" placeholder="Paste completed payment TXID" required></label>
+    <div class="exchange-actions"><button type="button" id="save-deposit-qr">Save QR</button><button type="button" id="exchange-copy">Copy Address</button></div>
+    <button class="exchange-submit" type="submit">Submit For Verification</button>
+  </form>
+</section>
+<section class="panel dash-card quantum-history"><h2>Deposit Verification Log</h2><div class="table-wrap"><table><thead><tr><th>Date</th><th>Network</th><th>Amount</th><th>Status</th></tr></thead><tbody id="deposit-rows"></tbody></table></div></section>
 
   <div class="section-heading section-anchor" id="customer-products"><div><span>Product catalog</span><h2>Buy with EVA balance</h2></div><p>Available products use wallet balance. Enterprise plans and official credit top-ups use assisted ordering.</p></div>
   <section class="panel dash-card store-dashboard dashboard-section">
