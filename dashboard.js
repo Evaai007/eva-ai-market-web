@@ -51,7 +51,16 @@ function dashboardTelegramCards(){return telegramQuoteServices.map(service=>{con
 
 function dashboardProductSubtitle(product){return product.category==='AWS Cloud Accounts'?'':`<p>${escapeHtml(product.subtitle)}</p>`}
 
-function dashboardBrandVisual(product){const s=(String(product.name||'')+' '+String(product.category||'')).toLowerCase();let brand='eva',mark='EVA';if(/aws|amazon|kiro|gcp ai bundle/.test(s)){brand='aws';mark='aws'}else if(/claude|anthropic/.test(s)){brand='claude';mark='AI'}else if(/gemini|google/.test(s)){brand='gemini';mark='✦'}else if(/chatgpt|openai|gpt/.test(s)){brand='openai';mark='◎'}return '<div class="mobile-brand-visual brand-'+brand+'" aria-hidden="true"><span class="master-status-badge">'+(/free|contact|enterprise/.test(s)?'Official':'Pro')+'</span><div class="mobile-brand-orbit"></div><div class="mobile-brand-mark">'+mark+'</div></div>'}
+function dashboardBrandVisual(product){
+ const s=(String(product.name||'')+' '+String(product.category||'')).toLowerCase();
+ let brand='eva',label='EVA',icon='✦';
+ if(/aws|amazon|kiro|gcp ai bundle/.test(s)){brand='aws';label='AWS';icon='aws'}
+ else if(/claude|anthropic/.test(s)){brand='claude';label='ANTHROPIC';icon='<span class="claude-glyph">AI</span>'}
+ else if(/gemini|google/.test(s)){brand='gemini';label='GOOGLE GEMINI';icon='<span class="gemini-glyph">✦</span>'}
+ else if(/chatgpt|openai|gpt/.test(s)){brand='openai';label='OPENAI';icon='<span class="openai-knot">✣</span>'}
+ const title=escapeHtml(product.name||label);
+ return '<div class="mobile-brand-visual brand-'+brand+'" aria-hidden="true"><span class="master-status-badge">'+(/free|contact|enterprise/.test(s)?'Official':'Pro')+'</span><div class="brand-stage"><div class="brand-halo"></div><div class="mobile-brand-mark">'+icon+'</div><div class="mobile-brand-orbit"></div></div><div class="brand-caption"><small>'+label+'</small><b>'+title+'</b></div></div>'
+}
 
 function dashboardProductCard(product){
  const mode=['balance','contact','reference'].includes(product.purchase_mode)?product.purchase_mode:'balance';
