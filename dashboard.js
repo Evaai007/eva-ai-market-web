@@ -47,19 +47,20 @@ const telegramQuoteServices=[
  {name:'Telegram Giveaway',subtitle:'Premium or Stars giveaway setup assistance'},
  {name:'Telegram Recharge / Top-up',subtitle:'Custom official Telegram recharge service'}
 ];
-function dashboardTelegramCards(){return telegramQuoteServices.map(service=>{const priced=Number.isFinite(service.price);const price=priced?money(service.price)+' <small>USDT</small>':'Custom <small>QUOTE</small>';const msg=priced?`Hello, I want ${service.name} for ${service.price}.`:`Hello, I want ${service.name}. Please send the current price.`;return `<article class="account-product panel telegram-service"><div class="mobile-brand-visual brand-telegram" aria-hidden="true"><div class="mobile-brand-orbit"></div><div class="mobile-brand-mark">➤</div></div><span class="product-tag">Telegram Services</span><h3>${escapeHtml(service.name)}</h3><p>${escapeHtml(service.subtitle)}</p><strong>${price}</strong><div class="stock-line"><span class="in-stock">Available</span><span>Manual delivery</span></div><a class="button secondary" href="https://t.me/eva007_8?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener noreferrer">${priced?'Order Now':'Contact for Price'}</a></article>`}).join('')}
+function dashboardTelegramCards(){return telegramQuoteServices.map(service=>{const priced=Number.isFinite(service.price);const price=priced?money(service.price)+' <small>USDT</small>':'Custom <small>QUOTE</small>';const msg=priced?`Hello, I want ${service.name} for ${service.price}.`:`Hello, I want ${service.name}. Please send the current price.`;const product={name:service.name,category:'Telegram Services',purchase_mode:'contact'};return `<article class="account-product panel master-product-card telegram-service">${dashboardBrandVisual(product)}<span class="product-tag">Telegram Services</span><h3>${escapeHtml(service.name)}</h3><p>${escapeHtml(service.subtitle)}</p><strong>${price}</strong><div class="master-specs"><div><small>Limit</small><b>1 per user</b></div><div><small>Tier</small><b>Premium</b></div></div><div class="stock-line"><span class="in-stock">Available</span><span>Manual delivery</span></div><a class="button secondary" href="https://t.me/eva007_8?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener noreferrer">${priced?'Order Now':'Contact for Price'}</a><small class="master-purchase-hint">Tap or click to purchase</small></article>`}).join('')}
 
 function dashboardProductSubtitle(product){return product.category==='AWS Cloud Accounts'?'':`<p>${escapeHtml(product.subtitle)}</p>`}
 
 function dashboardBrandVisual(product){
  const s=(String(product.name||'')+' '+String(product.category||'')).toLowerCase();
- let brand='eva',label='EVA',icon='✦';
- if(/aws|amazon|kiro|gcp ai bundle/.test(s)){brand='aws';label='AWS';icon='aws'}
- else if(/claude|anthropic/.test(s)){brand='claude';label='ANTHROPIC';icon='<span class="claude-glyph">AI</span>'}
- else if(/gemini|google/.test(s)){brand='gemini';label='GOOGLE GEMINI';icon='<span class="gemini-glyph">✦</span>'}
- else if(/chatgpt|openai|gpt/.test(s)){brand='openai';label='OPENAI';icon='<span class="openai-knot">✣</span>'}
+ let brand='eva',label='EVA',icon='<span class="brand-svg eva-svg">EVA</span>';
+ if(/telegram/.test(s)){brand='telegram';label='TELEGRAM';icon='<svg class="brand-svg telegram-svg" viewBox="0 0 64 64"><path d="M54 10 8 28c-3 1-3 4 0 5l11 4 5 15c1 3 4 3 6 1l7-7 12 9c2 1 4 0 5-3l8-38c1-4-2-6-8-4ZM23 36l25-17-20 21-2 8-3-12Z"/></svg>'}
+ else if(/aws|amazon|kiro|gcp ai bundle/.test(s)){brand='aws';label='AWS';icon='<svg class="brand-svg aws-svg" viewBox="0 0 96 64"><text x="48" y="38" text-anchor="middle">aws</text><path d="M22 47c15 10 37 11 53 2"/><path d="m70 46 8 2-5 6"/></svg>'}
+ else if(/claude|anthropic/.test(s)){brand='claude';label='ANTHROPIC CLAUDE';icon='<svg class="brand-svg claude-svg" viewBox="0 0 64 64"><g><path d="M32 9v46M9 32h46M16 16l32 32M48 16 16 48"/><path d="m23 11 18 42M11 23l42 18M41 11 23 53M53 23 11 41"/></g></svg>'}
+ else if(/gemini|google/.test(s)){brand='gemini';label='GOOGLE GEMINI';icon='<svg class="brand-svg gemini-svg" viewBox="0 0 64 64"><path d="M32 5c3 16 11 24 27 27-16 3-24 11-27 27-3-16-11-24-27-27C21 29 29 21 32 5Z"/></svg>'}
+ else if(/chatgpt|openai|gpt/.test(s)){brand='openai';label='OPENAI';icon='<svg class="brand-svg openai-svg" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round"><path d="M31 9c8-5 17 1 17 10 8 1 12 10 7 17 5 7 0 16-8 17-4 8-14 9-20 3-8 3-16-3-15-12-7-4-7-14 0-19-2-9 6-17 15-15 1 0 3 0 4-1Z"/><path d="m20 25 12-7 12 7v14l-12 7-12-7V25Z"/></g></svg>'}
  const title=escapeHtml(product.name||label);
- return '<div class="mobile-brand-visual brand-'+brand+'" aria-hidden="true"><span class="master-status-badge">'+(/free|contact|enterprise/.test(s)?'Official':'Pro')+'</span><div class="brand-stage"><div class="brand-halo"></div><div class="mobile-brand-mark">'+icon+'</div><div class="mobile-brand-orbit"></div></div><div class="brand-caption"><small>'+label+'</small><b>'+title+'</b></div></div>'
+ return '<div class="mobile-brand-visual brand-'+brand+'" aria-hidden="true"><span class="master-status-badge">'+(/free|contact|enterprise|telegram/.test(s)?'Official':'Pro')+'</span><div class="brand-stage"><div class="brand-halo"></div><div class="mobile-brand-mark">'+icon+'</div><div class="mobile-brand-orbit"></div></div><div class="brand-caption"><small>'+label+'</small><b>'+title+'</b></div></div>'
 }
 
 function dashboardProductCard(product){
