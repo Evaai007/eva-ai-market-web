@@ -80,3 +80,16 @@
 .dashboard-storefront .master-product-card h3{margin-top:10px!important}
 .dashboard-storefront .master-product-card .master-specs{margin-top:14px!important}
 @media(max-width:760px){.dashboard-storefront .master-product-card .mobile-brand-visual{height:166px!important;padding:12px 14px 10px!important}.dashboard-storefront .brand-stage{height:103px}.dashboard-storefront .mobile-brand-mark{width:72px!important;height:72px!important}.dashboard-storefront .brand-caption b{font-size:12px}}
+
+/* Proper branded vector artwork + one master structure */
+.dashboard-storefront .brand-svg{width:54px;height:54px;display:block;overflow:visible}
+.dashboard-storefront .openai-svg{color:#d7fff9;filter:drop-shadow(0 0 8px rgba(94,234,212,.55))}
+.dashboard-storefront .gemini-svg{fill:#c4b5fd;filter:drop-shadow(0 0 10px rgba(139,92,246,.62))}
+.dashboard-storefront .claude-svg{fill:none;stroke:#ffb27a;stroke-width:3.5;stroke-linecap:round;filter:drop-shadow(0 0 8px rgba(249,115,22,.45))}
+.dashboard-storefront .aws-svg text{fill:#fff;font:700 32px Arial,sans-serif}.dashboard-storefront .aws-svg path{fill:none;stroke:#ff9900;stroke-width:3;stroke-linecap:round}
+.dashboard-storefront .telegram-svg{fill:#fff;filter:drop-shadow(0 0 9px rgba(56,189,248,.6))}
+.dashboard-storefront .brand-telegram{background:radial-gradient(circle at 18% 20%,rgba(14,165,233,.42),transparent 39%),linear-gradient(145deg,#062c46,#080e21 66%,#16143c)!important}
+.dashboard-storefront .brand-telegram .mobile-brand-mark{background:linear-gradient(145deg,#31b7ed,#087dbd)!important;border-color:rgba(125,211,252,.65)!important;box-shadow:0 18px 30px rgba(14,165,233,.28),inset 0 1px rgba(255,255,255,.3)!important}
+.dashboard-storefront .telegram-service{border-color:rgba(104,124,255,.38)!important;background:linear-gradient(180deg,#0a1023,#080d1b)!important}
+.dashboard-storefront .telegram-service .button.secondary{min-height:48px;background:linear-gradient(90deg,#5b35f4,#8738ff)!important;border-color:rgba(139,92,246,.65)!important;color:#fff!important;box-shadow:0 0 18px rgba(113,61,255,.32)!important}
+@media(max-width:760px){.dashboard-storefront .brand-svg{width:46px;height:46px}.dashboard-storefront .aws-svg{width:58px}}
