@@ -1,2 +1,40 @@
 .quantum-deposit-shell{max-width:780px;margin:24px auto 38px;padding:12px;perspective:1400px}.quantum-card-wrap{position:relative;overflow:hidden;padding:28px;border:1px solid rgba(34,211,238,.34);border-radius:30px;background:radial-gradient(circle at 75% 18%,rgba(29,78,216,.18),transparent 34%),linear-gradient(145deg,rgba(11,22,44,.96),rgba(4,11,24,.98));box-shadow:0 28px 70px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.05);transform-style:preserve-3d;transition:transform .2s ease;color:#eaf4ff}.quantum-glare{position:absolute;inset:0;pointer-events:none;z-index:10;opacity:0;background:radial-gradient(circle 260px at var(--mx,50%) var(--my,50%),rgba(255,255,255,.22),rgba(34,211,238,.1) 36%,transparent 72%);mix-blend-mode:screen;transition:opacity .2s}.quantum-scanline{position:absolute;inset:0;pointer-events:none;opacity:.1;background:linear-gradient(transparent 50%,rgba(0,0,0,.4) 51%);background-size:100% 4px}.quantum-coin{position:absolute;right:28px;top:20px;width:72px;height:72px;border-radius:50%;display:grid;place-items:center;font-size:31px;color:#fff;background:radial-gradient(circle at 35% 30%,#8fd8ff,#3478f6 58%,#142b73);box-shadow:0 15px 35px rgba(45,116,255,.55),inset 0 2px 5px #fff8;z-index:4;animation:qfloat 4s ease-in-out infinite}@keyframes qfloat{50%{transform:translateY(-7px) rotate(5deg)}}.quantum-deposit-head{position:relative;z-index:2;padding:4px 98px 22px 0;border-bottom:1px solid rgba(148,163,184,.15)}.quantum-deposit-head span{font-weight:800;letter-spacing:.05em}.quantum-deposit-head b,.quantum-title>span{color:#22d3ee}.quantum-deposit-head small{display:block;width:max-content;margin-top:8px;padding:5px 10px;border:1px solid #22d3ee66;border-radius:999px;color:#67e8f9}.quantum-deposit-head p{margin:7px 0 0;color:#718096;font-size:12px}.quantum-deposit-head>a{display:none}.quantum-title{position:relative;z-index:2;margin:30px 0 20px}.quantum-title>span{font-size:12px;font-weight:900;letter-spacing:.18em}.quantum-title h2{font-size:30px;margin:12px 0 7px}.quantum-title p{color:#94a3b8;margin:0}.quantum-form{position:relative;z-index:2}.quantum-label{display:block;margin:20px 0 10px;color:#cbd5e1;text-transform:uppercase;font-size:12px;font-weight:800;letter-spacing:.06em}.quantum-label input{display:block;width:100%;box-sizing:border-box;margin-top:9px;padding:17px 18px;border:1px solid #243149;border-radius:16px;background:#050b17;color:#fff;font:600 16px ui-monospace,SFMono-Regular,Menlo,monospace;outline:none}.quantum-networks{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px;padding:6px;border-radius:16px;background:#07101f;border:1px solid #16243a}.quantum-networks button{padding:14px 5px;border:1px solid transparent;border-radius:12px;background:transparent;color:#64748b;font:800 12px ui-monospace,monospace}.quantum-networks button.active{color:#67e8f9;border-color:#22d3ee;background:#0b3140;box-shadow:0 0 22px #22d3ee22}.quantum-label select{position:absolute;opacity:0;pointer-events:none}.quantum-specs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}.quantum-specs>div{padding:16px;border:1px solid #1e293b;border-radius:16px;background:#050b17}.quantum-specs small{display:block;color:#64748b;text-transform:uppercase}.quantum-specs strong{display:block;margin:8px 0;font:700 14px ui-monospace,monospace}.quantum-specs em{color:#34d399;font-style:normal;font-size:12px}.quantum-vault{padding:20px;border:1px solid #22d3ee66;border-radius:22px;background:linear-gradient(145deg,#071323,#040a14);box-shadow:inset 0 0 28px #06b6d40a}.quantum-vault-top{display:flex;justify-content:space-between;gap:12px;font-size:12px;font-weight:800;text-transform:uppercase}.quantum-vault-top i{font-style:normal;padding:5px 8px;border:1px solid #22d3ee66;border-radius:8px;color:#67e8f9}.quantum-qr-wrap{position:relative;width:158px;height:158px;margin:18px auto;background:#fff;border-radius:16px;display:grid;place-items:center}.quantum-qr-token{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:36px;height:36px;border:4px solid #fff;border-radius:50%;display:grid;place-items:center;background:#14b8a6;color:#fff;font-weight:900}.quantum-vault>small{display:block;color:#64748b;text-transform:uppercase}.quantum-vault code{display:block;margin:8px 0;color:#67e8f9;overflow-wrap:anywhere;font:700 15px ui-monospace,monospace}.quantum-online{display:block;color:#34d399;font:12px ui-monospace,monospace;margin-bottom:12px}.quantum-vault>button{width:100%;padding:14px;border:1px solid #334155;border-radius:14px;background:#101827;color:#fff;font-weight:800}.quantum-submit{width:100%;padding:17px;margin-top:18px;border:0;border-radius:16px;background:linear-gradient(90deg,#a855f7,#ec4899);color:#fff;font-size:16px;font-weight:900;text-transform:uppercase;box-shadow:0 10px 30px #c026d344}.quantum-foot{display:flex;justify-content:center;gap:22px;margin-top:20px}.quantum-foot a{color:#94a3b8;text-decoration:none;font-size:13px}.quantum-foot a:last-child{color:#e879f9}.quantum-hint{text-align:center;color:#64748b;font-size:11px;margin:18px 0 0}.quantum-history{max-width:780px;margin-left:auto;margin-right:auto}
 @media(max-width:620px){.quantum-deposit-shell{margin:0 -10px 28px;padding:0}.quantum-card-wrap{border-radius:26px;padding:22px 18px;transform:none!important}.quantum-glare{display:none}.quantum-coin{width:62px;height:62px;right:18px;top:16px;animation:none}.quantum-title h2{font-size:27px}.quantum-title p{font-size:14px;line-height:1.5}.quantum-networks button{font-size:11px;padding:13px 2px}.quantum-specs{gap:10px}.quantum-specs>div{padding:14px 12px}.quantum-vault{padding:17px 15px}.quantum-vault code{font-size:13px}.quantum-qr-wrap{width:148px;height:148px}.quantum-submit{padding:16px}.quantum-foot{gap:15px;flex-wrap:wrap}}
+
+/* Video-reference compact mobile proportions */
+@media(max-width:620px){
+ .quantum-deposit-shell{max-width:100%;margin:0 -6px 22px}
+ .quantum-card-wrap{padding:16px 14px 20px;border-radius:24px}
+ .quantum-coin{width:52px;height:52px;right:14px;top:12px;font-size:23px}
+ .quantum-deposit-head{padding:2px 68px 14px 0}
+ .quantum-deposit-head span{font-size:14px}
+ .quantum-deposit-head small{margin-top:6px;padding:4px 8px;font-size:10px}
+ .quantum-deposit-head p{margin-top:5px;font-size:10px}
+ .quantum-title{margin:20px 0 14px}
+ .quantum-title>span{font-size:10px}
+ .quantum-title h2{font-size:24px;margin:8px 0 5px}
+ .quantum-title p{font-size:12px;line-height:1.4}
+ .quantum-label{margin:14px 0 7px;font-size:10px}
+ .quantum-label input{margin-top:7px;padding:13px 14px;border-radius:13px;font-size:14px}
+ .quantum-networks{margin-top:7px;padding:4px;border-radius:13px}
+ .quantum-networks button{padding:10px 2px;border-radius:10px;font-size:9px}
+ .quantum-specs{margin:12px 0;gap:8px}
+ .quantum-specs>div{padding:11px 10px;border-radius:13px}
+ .quantum-specs small{font-size:9px}
+ .quantum-specs strong{font-size:11px;margin:6px 0}
+ .quantum-specs em{font-size:10px}
+ .quantum-vault{padding:13px 12px;border-radius:18px}
+ .quantum-vault-top{font-size:9px}
+ .quantum-vault-top i{padding:4px 6px;font-size:9px}
+ .quantum-qr-wrap{width:118px;height:118px;margin:12px auto}
+ .quantum-qr-wrap canvas,.quantum-qr-wrap img{width:104px!important;height:104px!important}
+ .quantum-qr-token{width:28px;height:28px;border-width:3px;font-size:14px}
+ .quantum-vault>small{font-size:9px}
+ .quantum-vault code{font-size:11px;margin:5px 0}
+ .quantum-online{font-size:10px;margin-bottom:8px}
+ .quantum-vault>button{padding:10px;border-radius:11px;font-size:12px}
+ .quantum-submit{padding:13px;margin-top:13px;border-radius:13px;font-size:12px}
+ .quantum-foot{margin-top:13px;gap:12px}
+ .quantum-foot a{font-size:10px}
+ .quantum-hint{font-size:9px;margin-top:12px}
+}
