@@ -203,3 +203,9 @@ body.premium-home #products .master-features>div{border-radius:17px!important;bo
 @media(max-width:430px){body.premium-home #products .stock-line{gap:14px!important}body.premium-home #products .eva-cta-shell .button{min-height:62px!important}body.premium-home #products .ui-icon{width:27px;height:27px}}
 
 /* git integration production trigger: final-master da49127d */
+
+
+/* 2026-09-19: remove stray left-edge decorative seam visible on every homepage product card */
+body.premium-home #products .master-product-card:after{content:none!important;display:none!important;box-shadow:none!important}
+body.premium-home #products .master-product-card:before{inset:0!important}
+@media(max-width:760px){body.premium-home #products .master-product-card:after{content:none!important;display:none!important}}
