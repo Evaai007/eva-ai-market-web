@@ -477,3 +477,10 @@ html body.premium-home .eva-dimension-console {
 .eva-product-logo .netflix-mark{font:900 54px/1 Arial;color:#ef4444;text-shadow:0 0 16px #ef4444}
 .eva-product-logo .adobe-mark{font:900 50px/1 Arial;color:#fff;text-shadow:0 0 15px #f472b6}
 .eva-product-logo .ms-mark{display:grid;grid-template-columns:repeat(2,24px);grid-template-rows:repeat(2,24px);gap:4px}.eva-product-logo .ms-mark i:nth-child(1){background:#f25022}.eva-product-logo .ms-mark i:nth-child(2){background:#7fba00}.eva-product-logo .ms-mark i:nth-child(3){background:#00a4ef}.eva-product-logo .ms-mark i:nth-child(4){background:#ffb900}.eva-product-logo .ms-mark i{display:block;box-shadow:0 0 12px currentColor}
+
+/* Cross-device layout verification fixes: phone / tablet / desktop */
+#dashboard-store-products,#official-credits{min-width:0!important}
+@media(max-width:560px){#dashboard-store-products,#official-credits{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:14px!important}.eva-dimension-card{width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important}.eva-dimension-card .eva-card-face{overflow:hidden!important}}
+@media(min-width:561px) and (max-width:1024px){#dashboard-store-products,#official-credits{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important}.eva-dimension-card{width:100%!important;min-width:0!important;max-width:none!important}}
+@media(min-width:1025px) and (max-width:1099px){#dashboard-store-products,#official-credits{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:16px!important}.eva-dimension-card{width:100%!important;min-width:0!important}}
+@media(min-width:1100px){#dashboard-store-products,#official-credits{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:16px!important}.eva-dimension-card{width:100%!important;min-width:0!important}}
