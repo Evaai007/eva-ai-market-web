@@ -93,3 +93,24 @@
 .dashboard-storefront .telegram-service{border-color:rgba(104,124,255,.38)!important;background:linear-gradient(180deg,#0a1023,#080d1b)!important}
 .dashboard-storefront .telegram-service .button.secondary{min-height:48px;background:linear-gradient(90deg,#5b35f4,#8738ff)!important;border-color:rgba(139,92,246,.65)!important;color:#fff!important;box-shadow:0 0 18px rgba(113,61,255,.32)!important}
 @media(max-width:760px){.dashboard-storefront .brand-svg{width:46px;height:46px}.dashboard-storefront .aws-svg{width:58px}}
+
+/* Interactive neon card themes + lightweight 3D controls */
+.dashboard-storefront .master-product-card{--accent:#6d5cff;--accent2:#22d3ee;transition:border-color .2s ease,box-shadow .2s ease,transform .14s ease;outline:none}
+.dashboard-storefront .master-product-card.theme-cyan{--accent:#00e5ff;--accent2:#2dd4bf}
+.dashboard-storefront .master-product-card.theme-violet{--accent:#8b5cf6;--accent2:#d946ef}
+.dashboard-storefront .master-product-card.theme-pink{--accent:#ec4899;--accent2:#fb7185}
+.dashboard-storefront .master-product-card.theme-amber{--accent:#f59e0b;--accent2:#fb923c}
+.dashboard-storefront .master-product-card.theme-blue{--accent:#3b82f6;--accent2:#06b6d4}
+.dashboard-storefront .master-product-card[class*="theme-"]{border-color:color-mix(in srgb,var(--accent) 72%,transparent)!important;box-shadow:0 15px 34px rgba(0,0,0,.3),0 0 24px color-mix(in srgb,var(--accent) 30%,transparent)!important}
+.dashboard-storefront .master-product-card[class*="theme-"] .mobile-brand-visual{border-color:color-mix(in srgb,var(--accent) 68%,transparent)!important;box-shadow:inset 0 0 34px color-mix(in srgb,var(--accent) 15%,transparent)!important}
+.dashboard-storefront .master-product-card[class*="theme-"] .mobile-brand-orbit{border-color:var(--accent)!important;box-shadow:0 0 22px color-mix(in srgb,var(--accent) 55%,transparent)!important}
+.dashboard-storefront .master-product-card[class*="theme-"] .master-status-badge,.dashboard-storefront .master-product-card[class*="theme-"] .product-tag{border-color:var(--accent)!important;box-shadow:0 0 12px color-mix(in srgb,var(--accent) 28%,transparent)!important}
+.dashboard-storefront .master-product-card.theme-pop{animation:evaThemePop .24s ease}
+@keyframes evaThemePop{50%{transform:translateY(-2px) scale(1.006)}}
+.dashboard-storefront .master-product-card .button,.dashboard-storefront .master-product-card .master-specs>div,.dashboard-storefront .master-product-card .product-tag,.dashboard-storefront .master-status-badge{position:relative;transform:translateY(0);box-shadow:0 7px 0 rgba(0,0,0,.28),0 12px 22px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.2);transition:transform .12s ease,box-shadow .12s ease,filter .12s ease}
+.dashboard-storefront .master-product-card .button{border:1px solid rgba(255,255,255,.22)!important;box-shadow:0 7px 0 #30128a,0 13px 24px rgba(87,47,220,.32),inset 0 2px rgba(255,255,255,.24)!important}
+.dashboard-storefront .master-product-card .button:active{transform:translateY(5px) scale(.992);box-shadow:0 2px 0 #30128a,0 6px 12px rgba(87,47,220,.25),inset 0 1px rgba(255,255,255,.2)!important}
+.dashboard-storefront .master-product-card .product-tag:active,.dashboard-storefront .master-status-badge:active,.dashboard-storefront .master-specs>div:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,.25),0 6px 12px rgba(0,0,0,.2)}
+@media(hover:hover){.dashboard-storefront .master-product-card:hover{transform:translateY(-3px)}.dashboard-storefront .master-product-card .button:hover{transform:translateY(-2px);filter:brightness(1.1)}}
+@media(max-width:760px){.dashboard-storefront .master-product-card{touch-action:manipulation}.dashboard-storefront .master-product-card .button,.dashboard-storefront .master-product-card .master-specs>div{box-shadow:0 5px 0 rgba(0,0,0,.3),0 9px 16px rgba(0,0,0,.2),inset 0 1px rgba(255,255,255,.18)}}
+@media(prefers-reduced-motion:reduce){.dashboard-storefront .master-product-card,.dashboard-storefront .master-product-card *{animation:none!important;transition:none!important}}
