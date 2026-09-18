@@ -1,0 +1,16 @@
+/* Homepage catalog visual parity with Customer Dashboard — scoped only to storefront catalog. */
+body.premium-home #products .store-products{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important}
+body.premium-home #products .store-products .account-product{min-width:0!important;padding:16px!important;border-radius:16px!important;background:#0a101d!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;overflow:hidden}
+body.premium-home #products .store-products .account-product:hover{border-color:rgba(34,211,238,.35)!important;transform:translateY(-2px)!important}
+body.premium-home #products .store-products .account-product h3{font-family:'Inter',system-ui,sans-serif!important;font-size:1rem!important;color:#fff!important;font-weight:800!important}
+body.premium-home #products .store-products .account-product p{font-size:11px!important;line-height:1.6!important;color:#94a3b8!important}
+body.premium-home #products .store-products .account-product strong{font-size:1.25rem!important;color:#fff!important}
+body.premium-home #products .store-products .product-tag{display:inline-flex!important;padding:5px 8px!important;border-radius:999px!important;background:rgba(6,182,212,.09)!important;border:1px solid rgba(6,182,212,.18)!important;color:#67e8f9!important;font-size:9px!important;font-weight:800!important}
+body.premium-home #products .store-products .stock-line{font-size:10px!important;border-top:1px solid rgba(255,255,255,.06)!important;padding-top:10px!important;margin-top:10px!important}
+body.premium-home #products .store-products .in-stock{color:#34d399!important}
+body.premium-home #products .store-products .out-stock{color:#fb7185!important}
+body.premium-home #products .store-products .button{border-radius:12px!important;font-weight:800!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent!important}
+body.premium-home #products .store-products .button.primary{background:linear-gradient(90deg,#06b6d4,#2563eb)!important;border:0!important;color:#fff!important;box-shadow:0 0 20px rgba(0,242,254,.18)!important}
+body.premium-home #products .store-products .button.secondary{background:rgba(15,23,42,.75)!important;border:1px solid rgba(255,255,255,.09)!important;color:#dbeafe!important}
+@media(max-width:860px){body.premium-home #products .store-products{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:620px){body.premium-home #products .store-products{grid-template-columns:1fr!important;gap:10px!important}body.premium-home #products .store-products .account-product{border-radius:15px!important;padding:14px!important;transform:none!important;transition:none!important}body.premium-home #products .store-products .button,body.premium-home #products .store-products button,body.premium-home #products .store-products a{min-height:44px!important}}
