@@ -41,3 +41,17 @@
  .brand-aws{background:radial-gradient(circle at 50% 80%,rgba(245,158,11,.28),transparent 44%),linear-gradient(145deg,#301d08,#090b16 72%)!important}.brand-aws .mobile-brand-mark{color:#fdba74;font-size:31px;letter-spacing:-2px}
 }
 @media(min-width:761px){.mobile-brand-visual{display:none!important}}
+
+@media(max-width:760px){
+ .dashboard-storefront .account-product{padding:16px!important;border-radius:20px!important}
+ .dashboard-storefront .account-product .mobile-brand-visual{height:104px!important;margin:0 0 12px!important;border-radius:16px!important}
+ .dashboard-storefront .mobile-brand-mark{width:64px!important;height:64px!important;border-radius:18px!important;font-size:25px!important}
+ .dashboard-storefront .mobile-brand-orbit{width:94px!important;bottom:10px!important}
+ .dashboard-storefront .account-product .product-tag{margin-bottom:12px!important}
+ .dashboard-storefront .account-product h3{font-size:23px!important;line-height:1.16!important}
+ .dashboard-storefront .account-product>p{font-size:15px!important;line-height:1.35!important}
+ .dashboard-storefront .account-product>strong{font-size:35px!important;line-height:1.05!important}
+ .dashboard-storefront .account-product .stock-line{margin-top:18px!important;padding-top:15px!important}
+ .dashboard-storefront .account-product .button{min-height:54px!important;margin-top:16px!important}
+ .brand-telegram{background:radial-gradient(circle at 50% 80%,rgba(14,165,233,.3),transparent 44%),linear-gradient(145deg,#082f49,#070b18 72%)!important}.brand-telegram .mobile-brand-mark{color:#7dd3fc;font-size:34px!important}
+}
