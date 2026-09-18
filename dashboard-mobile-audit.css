@@ -1,0 +1,31 @@
+/* Final mobile audit: 320/375/390/430px */
+html,body{max-width:100%;overflow-x:hidden}
+.dashboard-page img,.dashboard-page svg,.dashboard-page canvas{max-width:100%}
+@media(max-width:430px){
+ .dash-main,.customer-topbar-inner{width:100%!important;max-width:100%!important;padding-left:10px!important;padding-right:10px!important}
+ .dashboard-page .panel,.dashboard-page .dash-card,.dashboard-page .metric,.store-dashboard,.compact-store,.account-product,.dimension-card,.quantum-deposit-shell,.quantum-card-wrap{max-width:100%!important;min-width:0!important}
+ .dash-grid,.metric-grid,.compact-store{grid-template-columns:minmax(0,1fr)!important}
+ .dash-heading,.section-heading,.card-title-row{max-width:100%!important;min-width:0!important;flex-wrap:wrap!important}
+ .dash-heading h1,.section-heading h2,.card-title-row h2{overflow-wrap:anywhere}
+ .dashboard-page input,.dashboard-page select,.dashboard-page textarea,.dashboard-page button,.dashboard-page .button{max-width:100%!important}
+ .deposit-address,.deposit-address code,#deposit-wallet-address{max-width:100%!important;overflow-wrap:anywhere!important;word-break:break-all!important}
+ .table-wrap{display:block!important;width:100%!important;max-width:100%!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important}
+ .dashboard-page table{width:max-content!important;max-width:none!important}
+ .quantum-networks{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .quantum-networks button{min-width:0!important}
+ .quantum-qr-wrap{max-width:128px!important;margin-left:auto!important;margin-right:auto!important}
+ .dimension-card,.dimension-card *{min-width:0}
+}
+@media(max-width:375px){
+ .dash-main,.customer-topbar-inner{padding-left:8px!important;padding-right:8px!important}
+ .dashboard-page .panel,.dashboard-page .dash-card,.dashboard-page .metric,.store-dashboard{padding-left:12px!important;padding-right:12px!important}
+ .dash-heading h1{font-size:1.8rem!important}
+ .quantum-networks{gap:6px!important}
+}
+@media(max-width:320px){
+ .dash-main,.customer-topbar-inner{padding-left:6px!important;padding-right:6px!important}
+ .dashboard-page .panel,.dashboard-page .dash-card,.dashboard-page .metric,.store-dashboard{padding-left:10px!important;padding-right:10px!important;border-radius:14px!important}
+ .dash-heading h1{font-size:1.62rem!important}
+ .quantum-networks{grid-template-columns:1fr!important}
+ .dashboard-page .button,.dashboard-page button{white-space:normal!important}
+}
