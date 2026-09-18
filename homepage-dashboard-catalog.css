@@ -209,3 +209,11 @@ body.premium-home #products .master-features>div{border-radius:17px!important;bo
 body.premium-home #products .master-product-card:after{content:none!important;display:none!important;box-shadow:none!important}
 body.premium-home #products .master-product-card:before{inset:0!important}
 @media(max-width:760px){body.premium-home #products .master-product-card:after{content:none!important;display:none!important}}
+
+
+/* iPhone cleanup: remove stray left-edge artifact from every homepage product card. */
+body.premium-home #products #public-store-products>.master-product-card{background-image:none!important}
+body.premium-home #products #public-store-products>.master-product-card:before{content:none!important;display:none!important;background:none!important;-webkit-mask:none!important;mask:none!important}
+body.premium-home #products #public-store-products>.master-product-card:after{content:none!important;display:none!important;box-shadow:none!important}
+body.premium-home #products #public-store-products>.master-product-card>.mobile-brand-visual{border-left-color:transparent!important}
+@media(max-width:760px){body.premium-home #products #public-store-products>.master-product-card{overflow:hidden!important;outline:0!important}body.premium-home #products #public-store-products>.master-product-card>.mobile-brand-visual{overflow:hidden!important}}
