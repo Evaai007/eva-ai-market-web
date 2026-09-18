@@ -90,10 +90,10 @@
     <form id="verify-form" class="auth-form space-y-4" hidden>
       <div class="text-center">
         <h3 class="text-base font-bold text-white">Verify Your Email</h3>
-        <p class="text-xs text-slate-400 mt-1">If your email contains a 6-digit verification code, enter it below for <strong id="verify-email" class="text-cyan-300"></strong>.</p>
+        <p class="text-xs text-slate-400 mt-1">We sent a confirmation link to <strong id="verify-email" class="text-cyan-300"></strong>. Open the email and tap <strong class="text-white">Confirm email address</strong>.</p>
       </div>
-      <input id="verify-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-center text-xl tracking-[.45em] font-extrabold text-white focus:border-cyan-400 outline-none">
-      <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm">Verify & Continue</button>
+      <div class="rounded-xl border border-cyan-400/20 bg-cyan-400/5 p-3 text-xs text-slate-300 text-center">No 6-digit code is required. After confirming the email, return here and sign in with your password.</div>
+      <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm">I Confirmed My Email — Sign In</button>
       <div class="text-center"><button id="resend-code" type="button" class="text-xs text-cyan-400 hover:underline">Resend verification email</button></div>
     </form>
 
@@ -105,7 +105,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="auth.js?v=20260916-ios-pwa2"></script>
+  <script src="auth.js?v=20260918-authfix1"></script>
 <script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/eva-market-sw.js',{scope:'/'}).catch(function(){});});}</script>
 </body>
 </html>
