@@ -119,84 +119,24 @@ document.getElementById('signup-form').addEventListener('submit', async (event) 
   event.preventDefault();
   if (!evaClient) return showStatus('Signup service is not ready. Please refresh and try again.', true);
   const email = document.getElementById('signup-email').value.trim().toLowerCase();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showStatus('Enter a valid email address.', true);
+  const password = document.getElementById('signup-password').value;
+  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) return showStatus('Enter a valid email address.', true);
+  if (password.length < 8) return showStatus('Password must be at least 8 characters.', true);
 
   const button = event.currentTarget.querySelector('button[type="submit"]');
   button.disabled = true;
-  showStatus('Sending your 6-digit verification code…');
-
+  showStatus('Creating your account…');
   try {
-    const { error } = await evaClient.auth.signInWithOtp({
-      email,
-      options: { shouldCreateUser: true }
-    });
+    const { data, error } = await evaClient.auth.signUp({ email, password });
     if (error) throw error;
-
-    pendingSignupEmail = email;
-    sessionStorage.setItem('eva-pending-signup-email', email);
-    document.getElementById('verify-email').textContent = email;
-    document.getElementById('verify-code').value = '';
-    showAuthForm('verify-form');
-    document.getElementById('verify-code').focus();
-    startOtpCooldown();
-    showStatus('Verification code sent. Enter the 6-digit code from your email.');
-  } catch (error) {
-    showStatus(friendlyAuthError(error), true);
-  } finally {
-    button.disabled = false;
-  }
-});
-
-document.getElementById('verify-form').addEventListener('submit', async (event) => {
-  event.preventDefault();
-  if (!evaClient) return;
-  const email = pendingSignupEmail || sessionStorage.getItem('eva-pending-signup-email') || '';
-  const token = document.getElementById('verify-code').value.replace(/\D/g, '').slice(0, 6);
-
-  if (!email) return showStatus('Please start account creation again.', true);
-  if (token.length !== 6) return showStatus('Enter the complete 6-digit verification code.', true);
-
-  const button = event.currentTarget.querySelector('button[type="submit"]');
-  button.disabled = true;
-  showStatus('Verifying code…');
-
-  try {
-    const { data, error } = await evaClient.auth.verifyOtp({ email, token, type: 'email' });
-    if (error) throw error;
-    if (!data.session) throw new Error('Verification succeeded but no session was created. Please try again.');
+    if (!data.session) throw new Error('Email confirmation is still enabled in account settings. Disable Confirm Email to allow instant account access.');
     await sendSignupNotification(email);
-    showStatus('Email verified. Opening your dashboard…');
+    showStatus('Account created. Opening your dashboard…');
     await redirectAfterLogin('/dashboard.html');
   } catch (error) {
     showStatus(friendlyAuthError(error), true);
-    button.disabled = false;
-  }
-});
-
-document.getElementById('verify-code').addEventListener('input', (event) => {
-  event.target.value = event.target.value.replace(/\D/g, '').slice(0, 6);
-});
-
-document.getElementById('resend-code').addEventListener('click', async () => {
-  if (!evaClient) return;
-  const email = pendingSignupEmail || sessionStorage.getItem('eva-pending-signup-email') || '';
-  if (!email) return showStatus('Please start account creation again.', true);
-
-  const button = document.getElementById('resend-code');
-  button.disabled = true;
-  showStatus('Sending a new 6-digit code…');
-  try {
-    const { error } = await evaClient.auth.signInWithOtp({
-      email,
-      options: { shouldCreateUser: true }
-    });
-    if (error) throw error;
-    startOtpCooldown();
-    showStatus('A new 6-digit verification code was sent.');
-  } catch (error) {
-    showStatus(friendlyAuthError(error), true);
   } finally {
-    if (!button.textContent.startsWith('Resend code in')) button.disabled = false;
+    button.disabled = false;
   }
 });
 
