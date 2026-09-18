@@ -120,7 +120,7 @@ document.getElementById('signup-form').addEventListener('submit', async (event) 
   if (!evaClient) return showStatus('Signup service is not ready. Please refresh and try again.', true);
   const email = document.getElementById('signup-email').value.trim().toLowerCase();
   const password = document.getElementById('signup-password').value;
-  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) return showStatus('Enter a valid email address.', true);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showStatus('Enter a valid email address.', true);
   if (password.length < 8) return showStatus('Password must be at least 8 characters.', true);
 
   const button = event.currentTarget.querySelector('button[type="submit"]');
@@ -179,12 +179,6 @@ document.querySelectorAll('[data-auth-tab]').forEach(button => button.addEventLi
   statusEl.textContent = '';
   statusEl.className = 'auth-status';
 }));
-
-const savedPendingEmail = sessionStorage.getItem('eva-pending-signup-email');
-if (savedPendingEmail) {
-  pendingSignupEmail = savedPendingEmail;
-  document.getElementById('verify-email').textContent = savedPendingEmail;
-}
 
 if (location.hash === '#signup') {
   setActiveTab('signup');
