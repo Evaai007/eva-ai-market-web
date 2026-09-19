@@ -2,7 +2,7 @@
 <html lang="en">
 <head><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#080b14">
   <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="EVA Market">
 <link rel="manifest" href="/eva-market.webmanifest"><link rel="apple-touch-icon" href="/assets/icons/eva-app-192.png">
@@ -32,6 +32,9 @@ body{background:#030712;background-image:radial-gradient(at 50% 15%,rgba(139,92,
 .signup-active #signup-form{padding-top:4px}.signup-active #signup-form input{border-color:rgba(255,255,255,.12)!important}.signup-active #signup-form input:focus{border-color:#d946ef!important;box-shadow:0 0 18px rgba(217,70,239,.32)}
 .signup-create-btn{width:100%;padding:15px;border:0;border-radius:16px;background:linear-gradient(135deg,#a855f7,#ec4899);box-shadow:0 7px 0 #7e22ce,0 16px 25px rgba(168,85,247,.4);color:#fff;font-weight:900;letter-spacing:.06em}.signup-create-btn:active{transform:translateY(5px);box-shadow:0 2px 0 #7e22ce,0 6px 12px rgba(168,85,247,.35)}
 .signup-strength{height:4px;background:#ffffff12;border-radius:99px;overflow:hidden;margin-top:7px}.signup-strength>i{display:block;height:100%;width:0;background:#64748b;transition:.25s}.signup-strength-text{display:block;text-align:right;font:10px "JetBrains Mono",monospace;color:#94a3b8;margin-top:5px}
+
+@media(max-width:600px){html,body{width:100%;max-width:100%;overflow-x:hidden}.neural-stage{width:100%;max-width:100%;padding-left:10px!important;padding-right:10px!important}.neural-card{width:100%!important;max-width:100%!important;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box!important}input,button{max-width:100%!important}}
+@media(max-width:360px){.neural-stage{padding-left:7px!important;padding-right:7px!important}}
 </style>
 
 <!-- Vercel Web Analytics: strip query strings and URL fragments before collection -->
