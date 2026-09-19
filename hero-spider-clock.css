@@ -1,0 +1,101 @@
+/* EVA mobile hero live spider clock */
+.eva-hero-clock{display:none}
+@media(max-width:760px){
+  .ref-hero-copy{position:relative!important}
+  .eva-hero-clock{
+    display:block;
+    position:absolute;
+    right:10px;
+    top:42px;
+    width:142px;
+    aspect-ratio:1/1;
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 50% 50%,rgba(10,18,34,.92) 0 56%,rgba(5,10,20,.96) 72%,rgba(1,5,12,.98) 100%);
+    border:1px solid rgba(34,211,238,.42);
+    box-shadow:
+      0 0 0 1px rgba(139,92,246,.22) inset,
+      0 0 22px rgba(34,211,238,.18),
+      0 0 34px rgba(139,92,246,.12);
+    z-index:5;
+    overflow:visible;
+    pointer-events:none;
+  }
+  .eva-clock-num{
+    position:absolute;
+    left:50%;top:50%;
+    transform:translate(-50%,-50%);
+    color:#e2e8f0;
+    font-size:9px;
+    font-weight:800;
+    line-height:1;
+    text-shadow:0 0 7px currentColor;
+  }
+  .eva-clock-num.n12{left:50%;top:6%;color:#67e8f9}
+  .eva-clock-num.n1{left:70%;top:12%;color:#67e8f9}
+  .eva-clock-num.n2{left:85%;top:27%;color:#fbbf24}
+  .eva-clock-num.n3{left:92%;top:50%;color:#f472b6}
+  .eva-clock-num.n4{left:85%;top:72%;color:#67e8f9}
+  .eva-clock-num.n5{left:70%;top:87%;color:#67e8f9}
+  .eva-clock-num.n6{left:50%;top:94%;color:#67e8f9}
+  .eva-clock-num.n7{left:30%;top:87%;color:#c084fc}
+  .eva-clock-num.n8{left:15%;top:72%;color:#f472b6}
+  .eva-clock-num.n9{left:8%;top:50%;color:#67e8f9}
+  .eva-clock-num.n10{left:15%;top:27%;color:#f472b6}
+  .eva-clock-num.n11{left:30%;top:12%;color:#f472b6}
+  .eva-clock-web{
+    position:absolute;
+    border-radius:50%;
+    border:1px solid currentColor;
+    opacity:.42;
+  }
+  .eva-clock-web:before,.eva-clock-web:after{
+    content:"";position:absolute;inset:0;border-radius:50%;
+    background:repeating-conic-gradient(currentColor 0 1deg,transparent 1deg 30deg);
+    -webkit-mask:radial-gradient(circle,transparent 0 22%,#000 22%);
+    mask:radial-gradient(circle,transparent 0 22%,#000 22%);
+  }
+  .eva-clock-web:after{transform:rotate(15deg);opacity:.55}
+  .eva-clock-web.w1{width:35px;height:35px;left:22px;top:40px;color:#22d3ee}
+  .eva-clock-web.w2{width:37px;height:37px;right:21px;top:39px;color:#8b5cf6}
+  .eva-clock-web.w3{width:39px;height:39px;left:52px;bottom:19px;color:#f43f5e}
+  .eva-clock-hand{
+    position:absolute;left:50%;top:50%;
+    transform-origin:50% 100%;
+    transform:translate(-50%,-100%) rotate(0deg);
+    border-radius:999px;
+    z-index:4;
+  }
+  .eva-clock-hand.hour{width:3px;height:28px;background:linear-gradient(#2563eb,#22d3ee)}
+  .eva-clock-hand.minute{width:2px;height:42px;background:linear-gradient(#8b5cf6,#f43f5e)}
+  .eva-clock-hand.second{width:1px;height:50px;background:#fb7185;box-shadow:0 0 7px rgba(251,113,133,.8)}
+  .eva-clock-spider{
+    position:absolute;
+    left:50%;top:50%;
+    width:76px;height:62px;
+    transform:translate(-50%,-46%);
+    overflow:visible;
+    z-index:7;
+    filter:drop-shadow(0 0 8px rgba(139,92,246,.45));
+  }
+  .eva-clock-spider .body{fill:url(#evaSpiderBody)}
+  .eva-clock-spider .legs{
+    fill:none;stroke:url(#evaSpiderLeg);stroke-width:6;stroke-linecap:round;stroke-linejoin:round
+  }
+  .eva-clock-center{
+    position:absolute;left:50%;top:50%;
+    width:5px;height:5px;border-radius:50%;
+    transform:translate(-50%,-50%);
+    background:#fff;z-index:8;
+    box-shadow:0 0 8px #67e8f9;
+  }
+  .ref-hero-copy>h1{max-width:56%!important}
+  .ref-hero-copy>p{position:relative;z-index:2}
+}
+@media(max-width:390px){
+  .eva-hero-clock{width:126px;right:6px;top:44px}
+  .ref-hero-copy>h1{max-width:58%!important}
+}
+@media(min-width:761px){
+  .eva-hero-clock{display:none!important}
+}
