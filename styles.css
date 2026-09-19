@@ -1252,3 +1252,19 @@ header{position:sticky;top:0;z-index:50;background:rgba(8,5,16,.84);backdrop-fil
   .hero-logo-img,.hero-logo-api{width:40px;height:40px;border-radius:12px}
   .hero-logo-gcp{transform:scale(.82)}
 }
+
+/* 2026-09-19 universal phone viewport hardening */
+@supports(padding:max(0px)){
+ body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+}
+@media(max-width:600px){
+ html,body{width:100%;max-width:100%;overflow-x:hidden}
+ img,svg,video,canvas{max-width:100%;height:auto}
+ .container{width:100%;max-width:100%;padding-left:12px;padding-right:12px;margin-left:auto;margin-right:auto}
+ .section{padding-left:0;padding-right:0}
+ input,select,textarea,button{max-width:100%}
+ table{max-width:none}
+}
+@media(max-width:360px){
+ .container{padding-left:9px;padding-right:9px}
+}
