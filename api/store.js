@@ -135,7 +135,12 @@ const visitorReferrer=req=>{
  if(!raw)return 'Direct / Unknown';
  try{
   const url=new URL(raw);
-  if(url.hostname==='aicloudmarket.shop'||url.hostname.endsWith('.aicloudmarket.shop'))return 'Internal';
+  if(
+   url.hostname==='aicloudmarket.shop'
+   ||url.hostname.endsWith('.aicloudmarket.shop')
+   ||url.hostname==='eva-ai-market.vercel.app'
+   ||url.hostname.endsWith('.eva-ai-market.vercel.app')
+  )return 'Internal';
   return url.hostname.replace(/^www\./,'');
  }catch{return 'Unknown';}
 };
