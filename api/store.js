@@ -151,7 +151,12 @@ async function trackVisit(req,res,ctx){
 
   if(!recentPing){
    const geo=visitorGeo(req);
-   const location=[geo.city,geo.region,geo.country].filter(Boolean).join(', ')||'Unknown';
+   const locationParts=[geo.city,geo.region,geo.country].filter(Boolean);
+   const location=locationParts.length>1
+    ?locationParts.join(', ')
+    :geo.country&&geo.country!=='Unknown'
+      ?`City/region unavailable, ${geo.country}`
+      :'Location unavailable';
    const zoneLabel=geo.timeZone==='UTC'?'UTC':geo.timeZone;
    const traffic=classifyVisitor(req);
    const client=visitorClient(req);
