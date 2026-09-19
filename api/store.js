@@ -124,6 +124,17 @@ const visitorReferrer=req=>{
  }catch{return 'Unknown';}
 };
 
+const visitorNetworkSignal=(geo,client,traffic)=>{
+ if(traffic?.isBot)return 'Automated / bot network';
+ const city=String(geo?.city||'').toLowerCase();
+ const region=String(geo?.region||'').toLowerCase();
+ const cloudHub=/(ashburn|boardman|dalles|prineville|Council Bluffs|singapore|frankfurt|dublin|amsterdam|london)/i.test(city)
+  ||/(^|\b)(va|virginia)(\b|$)/i.test(region)&&/ashburn/i.test(city);
+ const unusualClient=client?.os==='Other'||client?.browser==='Other'||client?.device==='Automated client';
+ if(cloudHub&&unusualClient)return 'Possible cloud/datacenter (low confidence)';
+ return 'Standard internet / unknown';
+};
+
 async function trackVisit(req,res,ctx){
  try{
   const referer=String(req.headers?.referer||'');
@@ -163,7 +174,8 @@ async function trackVisit(req,res,ctx){
    const visitorType=isReturning?'Returning visitor':'New visitor';
    const fingerprint=hashedVisitorFingerprint(req);
    const referrer=visitorReferrer(req);
-   await sendTelegramAlert(`👀 EVA AI MARKET — New Visit\n\nPage: ${pathname}\nVisitor: ${visitorId.slice(0,12)}…\nVisitor Type: ${visitorType}\nTraffic: ${traffic.label}${traffic.isBot?' 🤖':' 👤'}\nFingerprint: ${fingerprint}\nCountry: ${geo.flag} ${geo.country}${geo.countryCode?` (${geo.countryCode})`:''}\nLocation: ${location}\nDevice Type: ${client.device}\nOS: ${client.os}\nBrowser: ${client.browser}\nReferrer: ${referrer}\nTime: ${formatVisitorTime(geo.timeZone)} (${zoneLabel})\n\n${PUBLIC_SITE_URL}`);
+   const network=visitorNetworkSignal(geo,client,traffic);
+   await sendTelegramAlert(`👀 EVA AI MARKET — New Visit\n\nPage: ${pathname}\nVisitor: ${visitorId.slice(0,12)}…\nVisitor Type: ${visitorType}\nTraffic: ${traffic.label}${traffic.isBot?' 🤖':' 👤'}\nNetwork: ${network}\nFingerprint: ${fingerprint}\nCountry: ${geo.flag} ${geo.country}${geo.countryCode?` (${geo.countryCode})`:''}\nLocation: ${location}\nDevice Type: ${client.device}\nOS: ${client.os}\nBrowser: ${client.browser}\nReferrer: ${referrer}\nTime: ${formatVisitorTime(geo.timeZone)} (${zoneLabel})\n\n${PUBLIC_SITE_URL}`);
   }
  }catch(error){console.error('Visit tracking/notification failed:',error?.message||error);}
 }
