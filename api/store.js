@@ -47,14 +47,16 @@ const readCookie=(req,name)=>{
 const visitorGeo=req=>{
  const headers=req.headers||{};
  const countryCode=String(headers['x-vercel-ip-country']||'').trim().toUpperCase();
- const region=decodeURIComponent(String(headers['x-vercel-ip-country-region']||'').trim());
+ const rawRegion=decodeURIComponent(String(headers['x-vercel-ip-country-region']||'').trim());
+ const region=/^(?:0+|unknown|null|undefined|-)$/i.test(rawRegion)?'':rawRegion;
  const city=decodeURIComponent(String(headers['x-vercel-ip-city']||'').trim());
  const timeZone=decodeURIComponent(String(headers['x-vercel-ip-timezone']||'').trim())||'UTC';
  let country=countryCode||'Unknown';
  try{
   if(countryCode&&typeof Intl.DisplayNames==='function')country=new Intl.DisplayNames(['en'],{type:'region'}).of(countryCode)||countryCode;
  }catch{}
- return {countryCode,country,region,city,timeZone};
+ const flag=/^[A-Z]{2}$/.test(countryCode)?String.fromCodePoint(...[...countryCode].map(char=>127397+char.charCodeAt(0))):'🌐';
+ return {countryCode,country,region,city,timeZone,flag};
 };
 
 const formatVisitorTime=timeZone=>{
@@ -85,6 +87,43 @@ const classifyVisitor=req=>{
  return {isBot:knownBot||suspicious,label:knownBot?'Known bot/crawler':suspicious?'Likely automated':'Likely human'};
 };
 
+const visitorClient=req=>{
+ const ua=String(req.headers?.['user-agent']||'');
+ let browser='Other';
+ if(/edg\//i.test(ua))browser='Microsoft Edge';
+ else if(/opr\//i.test(ua))browser='Opera';
+ else if(/firefox\//i.test(ua))browser='Firefox';
+ else if(/fxios\//i.test(ua))browser='Firefox iOS';
+ else if(/crios\//i.test(ua))browser='Chrome iOS';
+ else if(/chrome\//i.test(ua))browser='Chrome';
+ else if(/safari\//i.test(ua))browser='Safari';
+
+ let os='Other';
+ if(/windows nt 10\.0/i.test(ua))os='Windows 10/11';
+ else if(/windows/i.test(ua))os='Windows';
+ else if(/iphone|ipad|ipod/i.test(ua))os='iOS/iPadOS';
+ else if(/android/i.test(ua))os='Android';
+ else if(/mac os x/i.test(ua))os='macOS';
+ else if(/linux/i.test(ua))os='Linux';
+
+ let device='Desktop';
+ if(/ipad|tablet/i.test(ua))device='Tablet';
+ else if(/iphone|android.+mobile|mobile/i.test(ua))device='Mobile';
+ else if(/bot|crawler|spider|headless/i.test(ua))device='Automated client';
+
+ return {browser,os,device};
+};
+
+const visitorReferrer=req=>{
+ const raw=String(req.headers?.referer||'').trim();
+ if(!raw)return 'Direct / Unknown';
+ try{
+  const url=new URL(raw);
+  if(url.hostname==='aicloudmarket.shop'||url.hostname.endsWith('.aicloudmarket.shop'))return 'Internal';
+  return url.hostname.replace(/^www\./,'');
+ }catch{return 'Unknown';}
+};
+
 async function trackVisit(req,res,ctx){
  try{
   const referer=String(req.headers?.referer||'');
@@ -111,14 +150,15 @@ async function trackVisit(req,res,ctx){
   });
 
   if(!recentPing){
-   const ua=String(req.headers?.['user-agent']||'Unknown device').slice(0,180);
    const geo=visitorGeo(req);
    const location=[geo.city,geo.region,geo.country].filter(Boolean).join(', ')||'Unknown';
    const zoneLabel=geo.timeZone==='UTC'?'UTC':geo.timeZone;
    const traffic=classifyVisitor(req);
+   const client=visitorClient(req);
    const visitorType=isReturning?'Returning visitor':'New visitor';
    const fingerprint=hashedVisitorFingerprint(req);
-   await sendTelegramAlert(`👀 EVA AI MARKET — New Visit\n\nPage: ${pathname}\nVisitor: ${visitorId.slice(0,12)}…\nVisitor Type: ${visitorType}\nTraffic: ${traffic.label}${traffic.isBot?' 🤖':' 👤'}\nFingerprint: ${fingerprint}\nCountry: ${geo.country}${geo.countryCode?` (${geo.countryCode})`:''}\nLocation: ${location}\nDevice: ${ua}\nTime: ${formatVisitorTime(geo.timeZone)} (${zoneLabel})\n\n${PUBLIC_SITE_URL}`);
+   const referrer=visitorReferrer(req);
+   await sendTelegramAlert(`👀 EVA AI MARKET — New Visit\n\nPage: ${pathname}\nVisitor: ${visitorId.slice(0,12)}…\nVisitor Type: ${visitorType}\nTraffic: ${traffic.label}${traffic.isBot?' 🤖':' 👤'}\nFingerprint: ${fingerprint}\nCountry: ${geo.flag} ${geo.country}${geo.countryCode?` (${geo.countryCode})`:''}\nLocation: ${location}\nDevice Type: ${client.device}\nOS: ${client.os}\nBrowser: ${client.browser}\nReferrer: ${referrer}\nTime: ${formatVisitorTime(geo.timeZone)} (${zoneLabel})\n\n${PUBLIC_SITE_URL}`);
   }
  }catch(error){console.error('Visit tracking/notification failed:',error?.message||error);}
 }
