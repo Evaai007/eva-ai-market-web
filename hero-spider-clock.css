@@ -5,9 +5,9 @@
   .eva-hero-clock{
     display:block;
     position:absolute;
-    right:10px;
-    top:42px;
-    width:142px;
+    right:18px;
+    top:-34px;
+    width:132px;
     aspect-ratio:1/1;
     border-radius:50%;
     background:
@@ -89,12 +89,12 @@
     background:#fff;z-index:8;
     box-shadow:0 0 8px #67e8f9;
   }
-  .ref-hero-copy>h1{max-width:56%!important}
+  .ref-hero-copy>h1{max-width:64%!important}
   .ref-hero-copy>p{position:relative;z-index:2}
 }
 @media(max-width:390px){
-  .eva-hero-clock{width:126px;right:6px;top:44px}
-  .ref-hero-copy>h1{max-width:58%!important}
+  .eva-hero-clock{width:122px;right:10px;top:-28px}
+  .ref-hero-copy>h1{max-width:66%!important}
 }
 @media(min-width:761px){
   .eva-hero-clock{display:none!important}
