@@ -66,3 +66,22 @@ linear-gradient(96deg,transparent 48.8%,rgba(0,240,255,.12) 49.3%,rgba(0,240,255
 .dashboard-page .metric-grid .metric:first-child{background:linear-gradient(165deg,rgba(13,19,36,.94),rgba(6,10,20,.97))!important}
 .dashboard-page .dashboard-payment-gateway{border-top-color:rgba(255,50,80,.5)!important;border-bottom-color:rgba(0,140,255,.45)!important}
 }
+/* Mobile fixes: verification log, order tracking, balance activity */
+@media(max-width:820px){
+.dashboard-page #deposit-history,
+.dashboard-page #customer-orders+section,
+.dashboard-page #balance-history+section{padding:16px!important;overflow:hidden!important}
+.dashboard-page #deposit-history h2{font-size:18px!important;line-height:1.25!important;margin:0 0 12px!important;overflow-wrap:anywhere}
+.dashboard-page .section-heading{display:block!important;margin:24px 2px 10px!important;padding:0 2px!important;min-width:0!important}
+.dashboard-page .section-heading>div{min-width:0!important}
+.dashboard-page .section-heading span{display:block!important;font-size:10px!important;line-height:1.2!important;letter-spacing:.14em!important;text-transform:uppercase!important;color:#67e8f9!important;margin-bottom:5px!important}
+.dashboard-page .section-heading h2{font-size:21px!important;line-height:1.18!important;margin:0!important;color:#fff!important;overflow-wrap:anywhere!important}
+.dashboard-page .section-heading p{font-size:12px!important;line-height:1.5!important;margin:7px 0 0!important;color:#94a3b8!important;max-width:100%!important;overflow-wrap:anywhere!important}
+.dashboard-page .table-wrap{width:100%!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;-webkit-overflow-scrolling:touch!important;border-radius:14px!important}
+.dashboard-page .table-wrap table{width:100%!important;min-width:520px!important;border-collapse:collapse!important}
+.dashboard-page #deposit-history .table-wrap table{min-width:430px!important}
+.dashboard-page #balance-history+section .table-wrap table{min-width:440px!important}
+.dashboard-page .table-wrap th,.dashboard-page .table-wrap td{padding:10px 9px!important;font-size:11px!important;line-height:1.35!important;white-space:nowrap!important}
+.dashboard-page .table-wrap th{font-size:10px!important;letter-spacing:.05em!important}
+.dashboard-page #customer-orders+section .table-wrap{margin-top:0!important}
+}
