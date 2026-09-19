@@ -1,0 +1,77 @@
+/* iOS/Safari stability pass — 2026-09-19 */
+@media (max-width: 820px){
+  html,body.dashboard-page{
+    min-height:100%;
+    background:#04060d!important;
+  }
+  body.dashboard-page:before,
+  body.dashboard-page:after{
+    position:absolute!important;
+    inset:0!important;
+    background-attachment:scroll!important;
+  }
+  .dashboard-page *,
+  .dashboard-page *::before,
+  .dashboard-page *::after{
+    -webkit-backdrop-filter:none!important;
+    backdrop-filter:none!important;
+    filter:none!important;
+  }
+  .dashboard-page .glow,
+  .dashboard-page .brand-watermark,
+  .dashboard-page .brand-side-copy,
+  .dashboard-page .brand-halo,
+  .dashboard-page .mobile-brand-orbit,
+  .dashboard-page .quantum-scanline,
+  .dashboard-page .quantum-glare,
+  .dashboard-page .eva-card-face::before,
+  .dashboard-page .eva-card-face::after{
+    display:none!important;
+  }
+  .dashboard-page .master-product-card,
+  .dashboard-page .account-product,
+  .dashboard-page .eva-dimension-card,
+  .dashboard-page .eva-card-inner,
+  .dashboard-page .eva-card-face,
+  .dashboard-page .quantum-card-wrap{
+    transform:none!important;
+    perspective:none!important;
+    will-change:auto!important;
+    animation:none!important;
+  }
+  .dashboard-page .mobile-brand-visual{
+    contain:content!important;
+    overflow:hidden!important;
+  }
+  .dashboard-page .mobile-brand-mark{
+    transform:none!important;
+    animation:none!important;
+  }
+  .dashboard-page .panel,
+  .dashboard-page .dash-card,
+  .dashboard-page .metric,
+  .dashboard-page .master-product-card{
+    box-shadow:0 8px 22px rgba(0,0,0,.28)!important;
+  }
+  #dashboard-store-products{
+    content-visibility:auto;
+    contain-intrinsic-size:520px;
+  }
+  #dashboard-store-products .master-product-card{
+    content-visibility:auto;
+    contain-intrinsic-size:480px;
+  }
+}
+@supports (-webkit-touch-callout:none){
+  @media (max-width:820px){
+    .dashboard-page .customer-topbar{
+      position:relative!important;
+    }
+    .dashboard-page .quantum-card-wrap{
+      overflow:hidden!important;
+    }
+    .dashboard-page svg{
+      filter:none!important;
+    }
+  }
+}
