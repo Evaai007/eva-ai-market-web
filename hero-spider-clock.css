@@ -5,18 +5,14 @@
   .eva-hero-clock{
     display:block;
     position:absolute;
-    right:18px;
-    top:-34px;
-    width:132px;
+    right:16px;
+    top:-30px;
+    width:118px;
     aspect-ratio:1/1;
-    border-radius:50%;
-    background:
-      radial-gradient(circle at 50% 50%,rgba(10,18,34,.92) 0 56%,rgba(5,10,20,.96) 72%,rgba(1,5,12,.98) 100%);
-    border:1px solid rgba(34,211,238,.42);
-    box-shadow:
-      0 0 0 1px rgba(139,92,246,.22) inset,
-      0 0 22px rgba(34,211,238,.18),
-      0 0 34px rgba(139,92,246,.12);
+    border-radius:0;
+    background:transparent;
+    border:none;
+    box-shadow:none;
     z-index:5;
     overflow:visible;
     pointer-events:none;
@@ -29,7 +25,7 @@
     font-size:9px;
     font-weight:800;
     line-height:1;
-    text-shadow:0 0 7px currentColor;
+    text-shadow:0 0 5px currentColor;
   }
   .eva-clock-num.n12{left:50%;top:6%;color:#67e8f9}
   .eva-clock-num.n1{left:70%;top:12%;color:#67e8f9}
@@ -47,7 +43,7 @@
     position:absolute;
     border-radius:50%;
     border:1px solid currentColor;
-    opacity:.42;
+    opacity:.28;
   }
   .eva-clock-web:before,.eva-clock-web:after{
     content:"";position:absolute;inset:0;border-radius:50%;
@@ -93,7 +89,7 @@
   .ref-hero-copy>p{position:relative;z-index:2}
 }
 @media(max-width:390px){
-  .eva-hero-clock{width:122px;right:10px;top:-28px}
+  .eva-hero-clock{width:108px;right:10px;top:-24px}
   .ref-hero-copy>h1{max-width:66%!important}
 }
 @media(min-width:761px){
