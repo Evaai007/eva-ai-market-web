@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#030611">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="EVA Market">
-<link rel="manifest" href="/eva-market.webmanifest"><link rel="apple-touch-icon" href="/assets/icons/eva-app-192.png">
+<link rel="apple-touch-icon" href="/assets/icons/eva-app-192.png">
 <title>Customer Dashboard — EVA AI MARKET</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -33,6 +33,14 @@
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
   <link rel="stylesheet" href="dashboard-mobile-audit.css?v=20260918-mobile-audit1">
+<style>
+@media (max-width: 820px){
+  .dashboard-page .glow{display:none!important}
+  .dashboard-page .master-product-card,.dashboard-page .quantum-card-wrap{transform:none!important;perspective:none!important;will-change:auto!important}
+  .dashboard-page .mobile-brand-orbit,.dashboard-page .quantum-scanline,.dashboard-page .quantum-glare{animation:none!important}
+  .dashboard-page .mobile-brand-visual{contain:layout paint}
+}
+</style>
 </head>
 <body class="dashboard-page dashboard-storefront">
 <div class="glow glow-a"></div><div class="side-scrim" id="side-scrim" hidden></div>
@@ -109,11 +117,23 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="dashboard.js?v=20260911-storefront-final"></script>
 <script src="dashboard-credits.js?v=20260912-customer-credit"></script>
-<script src="dimension-card.js?v=20260916-all3d1"></script>
+<script>if(!/iphone|ipad|ipod/i.test(navigator.userAgent||"")){var s=document.createElement("script");s.src="dimension-card.js?v=20260916-all3d1";document.head.appendChild(s)}</script>
 <script>
 (()=>{const addresses={TRC20:'TJCFS6hDKsEnquGuvw43krk141QLvHnGbG',BEP20:'0x644ed89caecc120d3a3180e9f20a90d970cfa3e8',ERC20:'0x644ed89caecc120d3a3180e9f20a90d970cfa3e8',SOLANA:'6r4BGQ4KTcgCzeNwbWsx5v6qNLTwU92iESYNukSC9c6Y'};const specs={TRC20:['10.00 USDT','1 Network Block'],ERC20:['10.00 USDT','Network confirmation'],BEP20:['10.00 USDT','Network confirmation'],SOLANA:['10.00 USDT','Network confirmation']};const network=document.getElementById('dash-network'),name=document.getElementById('deposit-network-name'),address=document.getElementById('deposit-wallet-address'),copy=document.getElementById('copy-deposit-address'),badge=document.getElementById('quantum-badge'),min=document.getElementById('quantum-min'),confirm=document.getElementById('quantum-confirm'),menu=document.getElementById('mobile-menu'),scrim=document.getElementById('side-scrim');const update=()=>{name.textContent=network.value;address.textContent=addresses[network.value]||'';badge.textContent=network.value;min.textContent=specs[network.value][0];confirm.textContent=specs[network.value][1];document.querySelectorAll('.quantum-networks button').forEach(b=>b.classList.toggle('active',b.dataset.net===network.value))};document.querySelectorAll('.quantum-networks button').forEach(b=>b.addEventListener('click',()=>{network.value=b.dataset.net;update()}));network.addEventListener('change',update);copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(address.textContent)}catch{const area=document.createElement('textarea');area.value=address.textContent;document.body.appendChild(area);area.select();document.execCommand('copy');area.remove()}const old=copy.textContent;copy.textContent='✓ Address Copied';setTimeout(()=>copy.textContent=old,1500)});const closeMenu=()=>{document.body.classList.remove('side-open');menu.setAttribute('aria-expanded','false');scrim.hidden=true};menu.addEventListener('click',()=>{const open=document.body.classList.toggle('side-open');menu.setAttribute('aria-expanded',String(open));scrim.hidden=!open});scrim.addEventListener('click',closeMenu);document.querySelectorAll('.customer-nav a').forEach(a=>a.addEventListener('click',closeMenu));document.getElementById('quantum-ledger')?.addEventListener('click',()=>document.querySelector('.quantum-history')?.scrollIntoView({behavior:'smooth'}));const wrap=document.getElementById('quantum-card-wrap'),glare=document.getElementById('quantum-glare');if(wrap&&glare&&matchMedia('(pointer:fine)').matches){let tx=0,ty=0,cx=0,cy=0;const loop=()=>{cx+=(tx-cx)*.085;cy+=(ty-cy)*.085;wrap.style.transform='rotateX('+cx.toFixed(2)+'deg) rotateY('+cy.toFixed(2)+'deg)';requestAnimationFrame(loop)};requestAnimationFrame(loop);wrap.addEventListener('pointermove',e=>{const r=wrap.getBoundingClientRect();const x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;tx=(.5-y)*14;ty=(x-.5)*14;glare.style.setProperty('--mx',(x*100)+'%');glare.style.setProperty('--my',(y*100)+'%');glare.style.opacity='.7'});wrap.addEventListener('pointerleave',()=>{tx=0;ty=0;glare.style.opacity='0'})};update()})()
 </script>
-<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/eva-market-sw.js',{scope:'/'}).catch(function(){});});}</script>
+<script>
+if('serviceWorker' in navigator){
+ window.addEventListener('load',function(){
+  var isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  if(isIOS){
+   navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.unregister()}))}).catch(function(){});
+   if('caches' in window)caches.keys().then(function(ks){return Promise.all(ks.filter(function(k){return k.indexOf('eva-market-shell-')===0}).map(function(k){return caches.delete(k)}))}).catch(function(){});
+   return;
+  }
+  navigator.serviceWorker.register('/eva-market-sw.js',{scope:'/'}).catch(function(){});
+ });
+}
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 (()=>{const A={TRC20:'TJCFS6hDKsEnquGuvw43krk141QLvHnGbG',ERC20:'0x644ed89caecc120d3a3180e9f20a90d970cfa3e8',BEP20:'0x644ed89caecc120d3a3180e9f20a90d970cfa3e8',SOLANA:'6r4BGQ4KTcgCzeNwbWsx5v6qNLTwU92iESYNukSC9c6Y'};const s=document.getElementById('dash-network'),a=document.getElementById('deposit-wallet-address'),n=document.getElementById('deposit-network-name'),b=document.getElementById('quantum-badge'),q=document.getElementById('deposit-qr'),tabs=[...document.querySelectorAll('.quantum-networks button')];function render(){const k=s.value;a.textContent=A[k];n.textContent=k;b.textContent=k;tabs.forEach(x=>x.classList.toggle('active',x.dataset.net===k));q.innerHTML='';if(window.QRCode)new QRCode(q,{text:A[k],width:132,height:132,colorDark:'#07111d',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H})}tabs.forEach(x=>x.onclick=()=>{s.value=x.dataset.net;s.dispatchEvent(new Event('change'))});s.onchange=render;document.getElementById('copy-deposit-address').onclick=async()=>{try{await navigator.clipboard.writeText(a.textContent.trim())}catch(e){}};render();const card=document.getElementById('quantum-card-wrap'),g=document.getElementById('quantum-glare');if(card&&g&&matchMedia('(pointer:fine)').matches){card.onpointermove=e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;card.style.transform='rotateX('+((.5-y)*7)+'deg) rotateY('+((x-.5)*7)+'deg)';g.style.setProperty('--mx',x*100+'%');g.style.setProperty('--my',y*100+'%');g.style.opacity='.65'};card.onpointerleave=()=>{card.style.transform='';g.style.opacity='0'}}})();
