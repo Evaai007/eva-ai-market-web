@@ -109,5 +109,18 @@ if(!document.documentElement.classList.contains('eva-mobile-lite')){
 }
 </script>
 <script>document.addEventListener('DOMContentLoaded',()=>{const b=document.querySelector('.menu-button'),n=document.getElementById('site-nav');if(b&&n)b.addEventListener('click',()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',String(o))});});</script>
-<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/eva-market-sw.js',{scope:'/'}).catch(function(){});});}</script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    var isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+    var isPwaLaunch=new URLSearchParams(location.search).get('source')==='pwa';
+    if(isIOS||isPwaLaunch){
+      navigator.serviceWorker.getRegistrations().then(function(regs){return Promise.all(regs.map(function(r){return r.unregister();}));}).catch(function(){});
+      if('caches' in window)caches.keys().then(function(keys){return Promise.all(keys.filter(function(k){return k.indexOf('eva-market-shell-')===0;}).map(function(k){return caches.delete(k);}));}).catch(function(){});
+      return;
+    }
+    navigator.serviceWorker.register('/eva-market-sw.js',{scope:'/'}).catch(function(){});
+  });
+}
+</script>
 </body></html>
