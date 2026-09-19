@@ -78,13 +78,29 @@ const hashedVisitorFingerprint=req=>{
 };
 
 const classifyVisitor=req=>{
- const ua=String(req.headers?.['user-agent']||'');
+ const headers=req.headers||{};
+ const ua=String(headers['user-agent']||'');
  const lower=ua.toLowerCase();
- const knownBot=/(bot|crawler|spider|slurp|bingpreview|facebookexternalhit|whatsapp|telegrambot|discordbot|twitterbot|linkedinbot|headlesschrome|lighthouse|pagespeed|vercel-screenshot|uptimerobot|pingdom|curl|wget|python-requests|go-http-client|axios)/i.test(ua);
+ const accept=String(headers.accept||'');
+ const fetchMode=String(headers['sec-fetch-mode']||'').toLowerCase();
+ const fetchSite=String(headers['sec-fetch-site']||'').toLowerCase();
+ const knownBot=/(bot|crawler|spider|slurp|bingpreview|facebookexternalhit|whatsapp|telegrambot|discordbot|twitterbot|linkedinbot|headlesschrome|lighthouse|pagespeed|vercel-screenshot|uptimerobot|pingdom|curl|wget|python-requests|go-http-client|axios|postmanruntime|insomnia)/i.test(ua);
  const browser=/(safari|chrome|crios|firefox|fxios|edg|opr|opera)/i.test(ua);
  const mobile=/(iphone|ipad|android|mobile)/i.test(ua);
- const suspicious=!ua||ua.length<12||(!browser&&!mobile&&/(http|client|library|monitor)/i.test(lower));
- return {isBot:knownBot||suspicious,label:knownBot?'Known bot/crawler':suspicious?'Likely automated':'Likely human'};
+ const browserHeaders=/text\/html/i.test(accept)||fetchMode==='navigate'||['same-origin','same-site','none'].includes(fetchSite);
+ const malformedUa=!ua||ua.length<12;
+ const scriptedClient=!browser&&!mobile&&/(http|client|library|monitor|python|node|java|okhttp)/i.test(lower);
+ let score=0;
+ const reasons=[];
+ if(knownBot)return {isBot:true,level:'bot',label:'Bot',score:-100,reasons:['known automation signature']};
+ if(browser)score+=3;
+ if(mobile)score+=1;
+ if(browserHeaders)score+=2;
+ if(malformedUa){score-=4;reasons.push('missing or malformed user-agent');}
+ if(scriptedClient){score-=5;reasons.push('scripted client signature');}
+ if(!browserHeaders){score-=1;reasons.push('limited browser navigation headers');}
+ const suspicious=malformedUa||scriptedClient||(!browserHeaders&&!browser&&!mobile)||score<2;
+ return {isBot:false,level:suspicious?'suspicious':'human',label:suspicious?'Suspicious':'Likely human',score,reasons};
 };
 
 const visitorClient=req=>{
@@ -136,18 +152,26 @@ const visitorNetworkSignal=(geo,client,traffic)=>{
 };
 
 const visitorConfidence=(geo,client,traffic,network,referrer)=>{
- if(traffic?.isBot)return 'Low';
- let score=0;
- if(traffic?.label==='Likely human')score+=2;
+ if(traffic?.level==='bot')return 'High (bot)';
+ let score=Number(traffic?.score||0);
  if(client?.os&&client.os!=='Other')score+=1;
  if(client?.browser&&client.browser!=='Other')score+=1;
  if(client?.device&&client.device!=='Automated client')score+=1;
  if(geo?.city)score+=1;
  if(geo?.region)score+=1;
- if(referrer&&referrer!=='Unknown')score+=1;
+ if(referrer&&referrer!=='Unknown'&&referrer!=='Direct / Unknown')score+=1;
  if(/cloud\/datacenter/i.test(String(network||'')))score-=2;
- if(/unknown/i.test(String(network||'')))score-=1;
- return score>=6?'High':score>=3?'Medium':'Low';
+ return score>=7?'High':score>=4?'Medium':'Low';
+};
+
+const visitorVerdict=(client,traffic,network,confidence)=>{
+ if(traffic?.level==='bot')return {level:'Bot',emoji:'🔴',text:'Bot / automated traffic'};
+ const cloudLike=/cloud\/datacenter/i.test(String(network||''));
+ const unknownClient=client?.os==='Other'&&client?.browser==='Other';
+ if(traffic?.level==='suspicious'||(cloudLike&&unknownClient)||confidence==='Low'){
+  return {level:'Suspicious',emoji:'🟡',text:'Suspicious — verify before treating as a real customer'};
+ }
+ return {level:'Real Human',emoji:'🟢',text:cloudLike?'Probably real human; location/network may be masked or approximate':'Probably real human; location may be approximate'};
 };
 
 async function trackVisit(req,res,ctx){
@@ -191,7 +215,9 @@ async function trackVisit(req,res,ctx){
    const referrer=visitorReferrer(req);
    const network=visitorNetworkSignal(geo,client,traffic);
    const confidence=visitorConfidence(geo,client,traffic,network,referrer);
-   await sendTelegramAlert(`👀 EVA AI MARKET — New Visit\n\nPage: ${pathname}\nVisitor: ${visitorId.slice(0,12)}…\nVisitor Type: ${visitorType}\nTraffic: ${traffic.label}${traffic.isBot?' 🤖':' 👤'}\nConfidence: ${confidence}\nNetwork: ${network}\nFingerprint: ${fingerprint}\nCountry: ${geo.flag} ${geo.country}${geo.countryCode?` (${geo.countryCode})`:''}\nLocation: ${location}\nDevice Type: ${client.device}\nOS: ${client.os}\nBrowser: ${client.browser}\nReferrer: ${referrer}\nTime: ${formatVisitorTime(geo.timeZone)} (${zoneLabel})\n\n${PUBLIC_SITE_URL}`);
+   const verdict=visitorVerdict(client,traffic,network,confidence);
+   const trafficIcon=verdict.level==='Bot'?'🤖':verdict.level==='Suspicious'?'⚠️':'👤';
+   await sendTelegramAlert(`👀 EVA AI MARKET — New Visit\n\nPage: ${pathname}\nVisitor: ${visitorId.slice(0,12)}…\nVisitor Type: ${visitorType}\nTraffic: ${traffic.label} ${trafficIcon}\nConfidence: ${confidence}\nVerdict: ${verdict.emoji} ${verdict.text}\nNetwork: ${network}\nFingerprint: ${fingerprint}\nCountry: ${geo.flag} ${geo.country}${geo.countryCode?` (${geo.countryCode})`:''}\nLocation: ${location}\nDevice Type: ${client.device}\nOS: ${client.os}\nBrowser: ${client.browser}\nReferrer: ${referrer}\nTime: ${formatVisitorTime(geo.timeZone)} (${zoneLabel})\n\n${PUBLIC_SITE_URL}`);
   }
  }catch(error){console.error('Visit tracking/notification failed:',error?.message||error);}
 }
