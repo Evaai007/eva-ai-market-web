@@ -3,340 +3,201 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>EVA AI MARKET — Full Spider Demo</title>
+<title>EVA AI MARKET — Spider Demo V3</title>
 <style>
 :root{
-  --bg:#040713;--panel:#091024;--panel2:#0d1530;--panel3:#111a3b;
-  --line:rgba(123,99,255,.38);--line2:rgba(71,224,255,.22);
-  --violet:#8b5cf6;--violet2:#6d3cff;--cyan:#39e6ff;--pink:#ff4fd8;
-  --green:#5ef0a5;--gold:#ffc75d;--red:#ff6b7a;--text:#f4f7ff;--muted:#9ba6c8;
+--bg:#03050d;--panel:#08101f;--panel2:#0b1429;--line:rgba(122,91,255,.42);--line2:rgba(54,219,255,.2);
+--violet:#7a3cff;--violet2:#a742ff;--cyan:#38e6ff;--pink:#ff4fd8;--green:#52f2a7;--gold:#ffc65b;
+--text:#f7f8ff;--muted:#9aa5c6;--danger:#ff6d7c;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 html,body{margin:0;background:
-radial-gradient(circle at 50% -10%,#1c1049 0,#090c1d 36%,#03050d 100%);
+radial-gradient(circle at 50% -12%,#1b0d48 0,#080b1a 35%,#03050d 100%);
 color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 body{min-height:100vh;overflow-x:hidden}
 button,input,select{font:inherit}
 button{cursor:pointer}
-.app{width:min(100%,1180px);margin:0 auto;min-height:100vh;padding:14px 14px 116px;position:relative}
-.app:before{content:"";position:fixed;inset:0;pointer-events:none;
-background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),
-linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
-background-size:24px 24px;mask-image:linear-gradient(to bottom,#000 0 70%,transparent)}
-.top{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;
-padding:8px 2px 12px;background:linear-gradient(180deg,rgba(4,7,19,.96),rgba(4,7,19,.7),transparent);
-backdrop-filter:blur(14px)}
-.brand{display:flex;gap:10px;align-items:center;font-weight:950;letter-spacing:.035em}
-.brand-badge{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;
-background:linear-gradient(145deg,#743cff,#22328e);box-shadow:0 0 26px rgba(139,92,246,.56),inset 0 0 20px rgba(255,255,255,.1);font-size:13px}
-.brand small{display:block;color:var(--muted);font-weight:750;letter-spacing:.12em;font-size:9px}
-.top-actions{display:flex;gap:8px}.icon-btn{width:42px;height:42px;border:1px solid var(--line);border-radius:13px;
-background:rgba(15,20,45,.82);color:#fff;font-size:18px}
-.screen{display:none;animation:fade .25s ease}.screen.active{display:block}
-.hero{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:28px;padding:20px 18px 18px;
-background:linear-gradient(180deg,rgba(25,18,62,.95),rgba(6,9,26,.98));
-box-shadow:0 26px 72px rgba(0,0,0,.5),inset 0 0 40px rgba(111,76,255,.07)}
-.hero:before{content:"";position:absolute;inset:-20%;
-background:radial-gradient(circle at 50% 52%,rgba(68,226,255,.08),transparent 32%),
-radial-gradient(circle at 78% 24%,rgba(255,79,216,.08),transparent 25%);pointer-events:none}
-.eyebrow{position:relative;font-size:10px;letter-spacing:.19em;color:#c1bcff;font-weight:850}
-.hero h1{position:relative;font-size:clamp(30px,7vw,52px);line-height:1.01;margin:8px 0 7px;letter-spacing:-.05em}
-.hero h1 span,.gradient{background:linear-gradient(90deg,var(--cyan),#8f7cff,var(--pink));-webkit-background-clip:text;color:transparent}
-.hero p{position:relative;font-size:13px;line-height:1.55;color:#aeb7d2;margin:0 0 10px;max-width:520px}
-.stage{height:250px;position:relative;margin:0 -2px 10px;perspective:1000px}
-.core-wrap{position:absolute;left:50%;top:48%;width:150px;height:150px;transform:translate(-50%,-50%);transform-style:preserve-3d}
-.core{position:absolute;inset:0;border-radius:50%;background:
-radial-gradient(circle at 33% 28%,#d7ffff 0 2%,#64f5ff 5%,#55c7ff 10%,#765bff 24%,#392373 46%,#0c1029 70%,#050815 100%);
-box-shadow:0 0 18px rgba(89,243,255,.95),0 0 62px rgba(98,76,255,.9),0 0 120px rgba(247,67,255,.3),
-inset -22px -24px 40px rgba(0,0,0,.4),inset 14px 12px 24px rgba(255,255,255,.08);animation:pulse 4s ease-in-out infinite}
-.core:after{content:"";position:absolute;left:24px;top:20px;width:46px;height:25px;border-radius:50%;
-background:radial-gradient(ellipse,rgba(255,255,255,.9),rgba(72,233,255,.3) 45%,transparent 70%);
-filter:blur(2px);transform:rotate(-28deg)}
-.ring,.ring2,.ring3{position:absolute;left:50%;top:50%;border-radius:50%;pointer-events:none}.ring{width:230px;height:84px;border:2px solid rgba(93,223,255,.58);transform:translate(-50%,-50%) rotateX(68deg) rotateZ(10deg);animation:spin 7s linear infinite}.ring2{width:182px;height:182px;border:2px solid rgba(255,77,215,.38);transform:translate(-50%,-50%) rotateY(63deg) rotateZ(7deg);animation:spin2 10s linear infinite}.ring3{width:202px;height:126px;border:1px solid rgba(135,110,255,.25);transform:translate(-50%,-50%) rotateX(48deg) rotateY(23deg);animation:spin3 13s linear infinite}
-.badge{position:absolute;width:56px;height:56px;border-radius:17px;background:linear-gradient(145deg,rgba(22,27,60,.97),rgba(7,9,24,.97));border:1px solid rgba(118,103,255,.5);display:grid;place-items:center;font-weight:950;font-size:11px;box-shadow:0 12px 30px rgba(0,0,0,.35),0 0 20px rgba(89,120,255,.18);animation:float 4s ease-in-out infinite;z-index:3}.b1{left:8px;top:22px}.b2{right:8px;top:26px;animation-delay:-1s}.b3{left:16px;bottom:32px;animation-delay:-2s}.b4{right:18px;bottom:26px;animation-delay:-3s}
-.web-line{position:absolute;left:4%;right:4%;bottom:4px;height:72px;opacity:.38;background:
-linear-gradient(135deg,transparent 49.5%,rgba(147,101,255,.4) 50%,transparent 50.5%),
-linear-gradient(45deg,transparent 49.5%,rgba(67,224,255,.28) 50%,transparent 50.5%);
-background-size:34px 34px;mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent)}
-.spider-track{position:absolute;left:3%;right:3%;bottom:4px;height:66px;z-index:5}.spider{position:absolute;left:0;bottom:6px;width:78px;height:52px;animation:walk 8.5s ease-in-out infinite alternate;filter:drop-shadow(0 0 10px rgba(255,74,216,.6))}
-.spider .abdomen{position:absolute;left:34px;top:14px;width:32px;height:25px;border-radius:55% 55% 48% 48%;
-background:radial-gradient(circle at 42% 28%,#ff7af0 0 8%,#9b4cff 28%,#27154d 58%,#0f1020 100%);
-border:1px solid rgba(228,136,255,.45);box-shadow:inset 0 0 12px rgba(255,255,255,.09),0 0 16px rgba(255,75,218,.5)}
-.spider .thorax{position:absolute;left:22px;top:17px;width:22px;height:20px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#442a7b,#171425 68%);border:1px solid rgba(145,107,255,.35)}
-.spider .eye{position:absolute;top:22px;width:4px;height:4px;border-radius:50%;background:#58f0ff;box-shadow:0 0 8px #58f0ff}.eye.e1{left:26px}.eye.e2{left:34px}
-.leg{position:absolute;height:3px;background:linear-gradient(90deg,#a85cff,#e6e2ff 55%,#4ddfff);border-radius:99px;transform-origin:0 50%;box-shadow:0 0 6px rgba(126,89,255,.25)}
-.l1{left:28px;top:19px;width:28px;transform:rotate(-145deg)}.l2{left:27px;top:25px;width:30px;transform:rotate(-175deg)}.l3{left:28px;top:31px;width:30px;transform:rotate(155deg)}.l4{left:31px;top:35px;width:27px;transform:rotate(125deg)}.l5{left:42px;top:18px;width:29px;transform:rotate(-34deg)}.l6{left:44px;top:23px;width:31px;transform:rotate(-5deg)}.l7{left:44px;top:30px;width:30px;transform:rotate(25deg)}.l8{left:42px;top:35px;width:28px;transform:rotate(50deg)}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:2}
-.btn{min-height:48px;border-radius:14px;border:0;font-weight:850;letter-spacing:.01em}
-.primary{color:#fff;background:linear-gradient(90deg,#6b39ff,#b23fff);box-shadow:0 10px 30px rgba(112,57,255,.38)}
-.secondary{color:#dbe1ff;border:1px solid rgba(122,103,255,.45);background:#0b1127}
-.ghost{color:#cdd5f5;border:1px solid rgba(112,112,176,.28);background:rgba(12,17,38,.6)}
+.app{width:min(100%,1180px);margin:0 auto;min-height:100vh;padding:12px 12px calc(124px + env(safe-area-inset-bottom));position:relative}
+.app:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;background-image:
+linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:24px 24px}
+.top{position:sticky;top:0;z-index:45;display:flex;align-items:center;justify-content:space-between;padding:7px 2px 12px;
+background:linear-gradient(180deg,rgba(3,5,13,.98),rgba(3,5,13,.86),rgba(3,5,13,.15),transparent);backdrop-filter:blur(16px)}
+.brand{display:flex;gap:9px;align-items:center;font-weight:950;letter-spacing:.03em}
+.brand-badge{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#7d42ff,#2d2e92);
+box-shadow:0 0 24px rgba(126,73,255,.55),inset 0 0 16px rgba(255,255,255,.09)}
+.brand small{display:block;color:#919bbc;font-size:8.5px;letter-spacing:.12em;font-weight:750}
+.top-actions{display:flex;gap:8px}.icon-btn{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:#091022;color:#fff}
+.screen{display:none;animation:fade .22s ease}.screen.active{display:block}
+.hero{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:28px;padding:18px 16px 16px;
+background:
+radial-gradient(circle at 50% 58%,rgba(90,65,255,.13),transparent 34%),
+linear-gradient(180deg,rgba(19,14,47,.97),rgba(5,8,22,.99));
+box-shadow:0 24px 70px rgba(0,0,0,.45),inset 0 0 36px rgba(111,76,255,.06)}
+.hero-copy{position:relative;z-index:5}
+.eyebrow{font-size:10px;letter-spacing:.18em;color:#c2bcff;font-weight:850}
+.hero h1{font-size:clamp(30px,8vw,54px);line-height:1.01;margin:8px 0 7px;letter-spacing:-.05em}
+.gradient,.hero h1 span{background:linear-gradient(90deg,var(--cyan),#9278ff,var(--pink));-webkit-background-clip:text;color:transparent}
+.hero p{margin:0;color:#aeb8d5;font-size:12.5px;line-height:1.52;max-width:520px}
+.spider-stage{height:310px;position:relative;margin-top:4px;perspective:1000px}
+.web{position:absolute;inset:4% 1% 4% 1%;opacity:.27;background:
+repeating-radial-gradient(circle at 50% 52%,transparent 0 24px,rgba(116,89,255,.32) 25px 26px,transparent 27px 48px),
+linear-gradient(45deg,transparent 49.5%,rgba(111,96,255,.28) 50%,transparent 50.5%),
+linear-gradient(-45deg,transparent 49.5%,rgba(55,225,255,.2) 50%,transparent 50.5%);
+background-size:auto,44px 44px,44px 44px;mask-image:radial-gradient(circle at 50% 55%,#000 0 58%,transparent 82%)}
+.hero-spider{position:absolute;left:50%;top:48%;width:230px;height:180px;transform:translate(-50%,-50%);filter:drop-shadow(0 0 20px rgba(180,69,255,.32));animation:spiderFloat 4s ease-in-out infinite}
+.hero-spider .body{position:absolute;left:89px;top:58px;width:58px;height:72px;border-radius:50% 50% 46% 46%;
+background:radial-gradient(circle at 42% 25%,#d981ff 0 5%,#6a2fc9 17%,#171426 55%,#080a13 82%);
+border:1px solid rgba(170,104,255,.55);box-shadow:inset 0 -16px 26px rgba(0,0,0,.55),0 0 28px rgba(123,64,255,.42)}
+.hero-spider .thorax{position:absolute;left:82px;top:36px;width:71px;height:58px;border-radius:48%;
+background:radial-gradient(circle at 50% 35%,#50308f 0 12%,#171425 58%,#080a13 100%);
+border:1px solid rgba(119,83,204,.5)}
+.eye{position:absolute;top:52px;width:8px;height:8px;border-radius:50%;background:#ff315f;box-shadow:0 0 10px #ff315f,0 0 20px #ff315f}.e1{left:104px}.e2{left:127px}
+.hero-spider i{position:absolute;height:7px;border-radius:99px;background:linear-gradient(90deg,#8f4cff,#d9ddff 58%,#36e3ff);box-shadow:0 0 10px rgba(94,121,255,.28);transform-origin:left 50%}
+.leg1{left:102px;top:61px;width:104px;transform:rotate(-32deg)}.leg2{left:103px;top:73px;width:112px;transform:rotate(-10deg)}.leg3{left:104px;top:87px;width:112px;transform:rotate(12deg)}.leg4{left:103px;top:101px;width:106px;transform:rotate(34deg)}
+.leg5{left:130px;top:61px;width:104px;transform:scaleX(-1) rotate(-32deg)}.leg6{left:130px;top:73px;width:112px;transform:scaleX(-1) rotate(-10deg)}.leg7{left:130px;top:87px;width:112px;transform:scaleX(-1) rotate(12deg)}.leg8{left:130px;top:101px;width:106px;transform:scaleX(-1) rotate(34deg)}
+.hero-logo{position:absolute;width:58px;height:58px;border-radius:16px;border:1px solid rgba(116,99,255,.45);display:grid;place-items:center;background:#091023;box-shadow:0 12px 28px rgba(0,0,0,.35);font-weight:900;font-size:10px;animation:float 4s ease-in-out infinite}
+.hl1{left:4px;top:24px}.hl2{right:4px;top:28px;animation-delay:-1s}.hl3{left:8px;bottom:22px;animation-delay:-2s}.hl4{right:9px;bottom:18px;animation-delay:-3s}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:8}.btn{min-height:48px;border:0;border-radius:14px;font-weight:850}.primary{color:#fff;background:linear-gradient(90deg,#6d38ff,#b83cff);box-shadow:0 10px 28px rgba(110,57,255,.34)}.secondary{color:#fff;background:#091126;border:1px solid rgba(120,93,255,.45)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.stat{padding:12px 7px;border-radius:16px;border:1px solid var(--line);background:#081020;text-align:center}.stat strong{display:block;font-size:17px}.stat small{font-size:9px;color:var(--muted)}
 .section{margin-top:16px}.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:10px}.section-head h2{margin:0;font-size:20px}.section-head small{color:var(--muted)}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.stat{padding:12px 8px;border:1px solid var(--line);border-radius:16px;background:rgba(10,15,35,.85);text-align:center}.stat strong{display:block;font-size:17px}.stat small{font-size:9px;color:var(--muted)}
-.searchbar{display:flex;gap:8px}.searchbar input{flex:1;min-width:0;height:46px;border-radius:14px;border:1px solid var(--line);background:#081026;color:#fff;padding:0 14px;outline:0}.searchbar button{width:48px;border:0;border-radius:14px;color:#fff;background:linear-gradient(145deg,#6f40ff,#ad43ff)}
-.chips{display:flex;gap:8px;overflow:auto;padding:10px 0 2px;scrollbar-width:none}.chip{white-space:nowrap;border:1px solid rgba(121,103,255,.32);border-radius:999px;background:#0a1128;color:#aeb8dc;padding:8px 11px;font-size:11px}.chip.active{background:linear-gradient(90deg,#6338ff,#9c42ff);color:#fff}
-.catalog{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.card{border:1px solid rgba(109,91,233,.42);border-radius:20px;background:linear-gradient(180deg,rgba(13,18,43,.98),rgba(5,8,22,.99));padding:11px;box-shadow:0 14px 35px rgba(0,0,0,.34);min-width:0}.card-media{height:105px;border-radius:15px;background:radial-gradient(circle at 50% 35%,rgba(92,80,255,.35),transparent 40%),linear-gradient(145deg,#121a40,#090d22);display:grid;place-items:center;position:relative;overflow:hidden}.card-media:after{content:"";position:absolute;width:120px;height:120px;border:1px solid rgba(64,220,255,.22);border-radius:50%;transform:rotateX(62deg)}.logo-cube{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(145deg,#693cff,#a153ff);font-size:23px;font-weight:950;box-shadow:0 12px 28px rgba(99,59,255,.35),inset 0 0 14px rgba(255,255,255,.12);z-index:2}.card h3{font-size:14px;line-height:1.2;margin:9px 0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.card p{font-size:10px;line-height:1.35;color:var(--muted);margin:0;height:27px;overflow:hidden}.card-price{font-size:18px;font-weight:950;margin-top:8px}.mini-stock{font-size:9px;color:var(--green);font-weight:800}.card .btn{width:100%;min-height:38px;margin-top:9px;font-size:11px}
-.page-title{margin:6px 0 4px;font-size:28px;letter-spacing:-.04em}.page-sub{margin:0 0 14px;color:var(--muted);font-size:12px}
-.product-detail{display:grid;gap:12px}.detail-media{height:270px;border:1px solid var(--line);border-radius:24px;background:radial-gradient(circle at 50% 40%,rgba(89,79,255,.38),transparent 38%),linear-gradient(145deg,#111a40,#080c20);display:grid;place-items:center;position:relative;overflow:hidden}.detail-media:before,.detail-media:after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(73,229,255,.25)}.detail-media:before{width:260px;height:90px}.detail-media:after{width:170px;height:170px;border-color:rgba(255,84,217,.28);transform:rotateY(65deg)}.detail-logo{width:110px;height:110px;border-radius:28px;display:grid;place-items:center;background:linear-gradient(145deg,#6b3fff,#aa5cff);font-size:44px;font-weight:950;box-shadow:0 18px 42px rgba(105,61,255,.42),0 0 42px rgba(167,86,255,.28),inset 0 0 25px rgba(255,255,255,.12);z-index:2}.detail-box{border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#0b122c,#070b1d);padding:16px}.tag{display:inline-flex;padding:6px 9px;border:1px solid rgba(82,222,255,.35);border-radius:999px;color:#8eeeff;background:rgba(50,196,255,.08);font-size:10px;font-weight:800}.detail-box h2{margin:10px 0 2px;font-size:24px}.detail-box .price{font-size:32px;font-weight:950;margin:10px 0}.feature-list{display:grid;gap:8px;margin:12px 0}.feature-list span{font-size:12px;color:#cbd3ee}.feature-list span:before{content:"✓";color:var(--green);font-weight:950;margin-right:8px}
-.qty{display:grid;grid-template-columns:44px 1fr 44px;gap:8px;margin:12px 0}.qty button,.qty input{height:42px;border-radius:12px;border:1px solid var(--line);background:#081026;color:#fff;text-align:center}
-.flow{display:flex;gap:8px;margin:8px 0 14px}.flow span{flex:1;text-align:center;padding:8px 4px;border-radius:10px;border:1px solid rgba(111,95,217,.25);color:#7f8bb0;font-size:10px}.flow span.active{background:linear-gradient(90deg,#5f37ff,#9d42ff);color:#fff}
-.checkout-grid{display:grid;gap:12px}.panel{border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#0b122c,#070b1d);padding:15px}.panel h3{margin:0 0 12px}.field{display:grid;gap:6px;margin-bottom:10px}.field label{font-size:10px;color:#aeb8db}.field input,.field select{height:44px;border-radius:12px;border:1px solid rgba(119,99,230,.3);background:#081026;color:#fff;padding:0 12px;outline:0}.summary-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:12px}.summary-row.total{font-size:18px;font-weight:900;border-bottom:0}
-.pay-methods{display:grid;gap:8px;margin-top:10px}.pay-method{padding:12px;border:1px solid rgba(121,103,255,.32);border-radius:13px;background:#091126;color:#cbd5ef;font-size:11px}.pay-method.active{border-color:#7d52ff;background:rgba(98,62,255,.12);color:#fff}
-.success{padding:26px 16px;text-align:center;border:1px solid var(--line);border-radius:26px;background:linear-gradient(180deg,#0b122c,#070b1d)}.success-mark{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;margin:4px auto 14px;background:radial-gradient(circle,#1b694c,#0e2c23 68%);border:3px solid var(--green);font-size:44px;color:var(--green);box-shadow:0 0 34px rgba(94,240,165,.35)}.success h2{color:var(--green);margin:0 0 6px}.success p{color:var(--muted);font-size:12px}.order-box{margin-top:14px;text-align:left;border:1px solid rgba(104,94,209,.25);border-radius:16px;padding:10px;background:#081026}
-.dashboard-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.wallet{padding:16px;border:1px solid var(--line);border-radius:22px;background:radial-gradient(circle at 80% 20%,rgba(164,78,255,.18),transparent 34%),linear-gradient(145deg,#0d1838,#091027)}.wallet small{color:var(--muted)}.wallet strong{display:block;font-size:30px;color:var(--green);margin-top:4px}.dash-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.dash-actions button{min-height:56px;border:1px solid rgba(112,95,220,.28);border-radius:14px;background:#0a1128;color:#d8def4;font-size:10px}
-.list{display:grid;gap:8px}.list-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:12px;border:1px solid rgba(101,88,196,.22);border-radius:14px;background:#091126}.list-row strong{font-size:12px}.list-row small{display:block;color:var(--muted);font-size:9px;margin-top:2px}.status{padding:5px 8px;border-radius:999px;font-size:9px;font-weight:850}.completed{background:rgba(45,190,125,.14);color:var(--green)}.processing{background:rgba(255,194,77,.12);color:var(--gold)}.cancelled{background:rgba(255,91,111,.12);color:var(--red)}
-.admin-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.admin-stat{padding:14px;border:1px solid var(--line);border-radius:16px;background:#0a1128}.admin-stat small{color:var(--muted)}.admin-stat strong{display:block;font-size:22px;margin-top:4px}.admin-menu{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}.admin-menu button{min-height:48px;border:1px solid rgba(108,91,206,.25);border-radius:13px;background:#091126;color:#dce2f7;font-size:11px}
-.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.feature-card{padding:13px;border:1px solid rgba(110,93,211,.3);border-radius:15px;background:#091126}.feature-card b{display:block;font-size:12px}.feature-card small{color:var(--muted);font-size:9px}
-.clock-card{margin-top:12px;border:1px solid rgba(100,84,228,.36);border-radius:22px;padding:14px;background:linear-gradient(145deg,#0d1532,#080c1f);display:flex;align-items:center;justify-content:space-between}.clock-face{width:98px;height:98px;border-radius:50%;border:6px solid #1d2d60;box-shadow:inset 0 0 24px rgba(42,220,255,.18),0 0 26px rgba(92,69,255,.25),0 12px 20px rgba(0,0,0,.28);position:relative;background:radial-gradient(circle at 36% 30%,#1a2b58 0 12%,#111a38 30%,#070b1a 70%);transform:rotateX(8deg) rotateY(-12deg)}.clock-face:after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;background:#fff;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 8px #fff}.hand{position:absolute;left:50%;bottom:50%;width:2px;background:#eaf1ff;transform-origin:bottom;border-radius:9px}.hour{height:24px;transform:rotate(38deg)}.minute{height:34px;transform:rotate(142deg);background:#61eaff;box-shadow:0 0 6px #61eaff}
-.bottom-nav{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(calc(100% - 28px),720px);z-index:50;display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:8px;border-radius:19px;border:1px solid rgba(113,95,245,.45);background:rgba(7,11,28,.93);backdrop-filter:blur(18px);box-shadow:0 18px 44px rgba(0,0,0,.44),0 0 24px rgba(104,78,255,.12)}.bottom-nav button{border:0;background:transparent;color:#8994bd;padding:9px 3px;font-size:9px;border-radius:12px}.bottom-nav button.active{color:#fff;background:linear-gradient(145deg,rgba(97,68,255,.5),rgba(39,55,111,.34))}
-.demo-note{margin-top:10px;text-align:center;font-size:9px;color:#6f7898}
-.loading{grid-column:1/-1;padding:26px;border:1px dashed rgba(117,98,227,.28);border-radius:16px;text-align:center;color:var(--muted)}
-@keyframes fade{from{opacity:.25;transform:translateY(6px)}to{opacity:1;transform:none}}
-@keyframes pulse{50%{transform:scale(1.055);filter:hue-rotate(26deg)}}@keyframes spin{to{transform:translate(-50%,-50%) rotateX(68deg) rotateZ(370deg)}}@keyframes spin2{to{transform:translate(-50%,-50%) rotateY(63deg) rotateZ(-353deg)}}@keyframes spin3{to{transform:translate(-50%,-50%) rotateX(48deg) rotateY(23deg) rotateZ(360deg)}}@keyframes float{50%{transform:translateY(-7px)}}@keyframes walk{0%{transform:translateX(0) translateY(0) rotate(-2deg)}50%{transform:translateX(calc((100% - 78px)/2)) translateY(-4px) rotate(1deg)}100%{transform:translateX(calc(100% - 78px)) translateY(0) rotate(2deg)}}
+.searchbar{display:flex;gap:8px}.searchbar input{flex:1;min-width:0;height:45px;border-radius:14px;border:1px solid var(--line);background:#071020;color:#fff;padding:0 13px}.searchbar button{width:48px;border:0;border-radius:14px;background:linear-gradient(145deg,#6d3cff,#af42ff);color:#fff}
+.chips{display:flex;gap:8px;overflow:auto;padding:10px 0 2px;scrollbar-width:none}.chip{white-space:nowrap;padding:8px 11px;border-radius:999px;border:1px solid rgba(120,96,255,.3);background:#091126;color:#aeb9d7;font-size:10px}.chip.active{background:linear-gradient(90deg,#6539ff,#a844ff);color:#fff}
+.catalog{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.card{min-width:0;border:1px solid rgba(110,89,232,.42);border-radius:20px;background:linear-gradient(180deg,#0b132b,#060a19);padding:10px;box-shadow:0 13px 34px rgba(0,0,0,.32)}.card-media{height:106px;border-radius:15px;background:radial-gradient(circle at 50% 35%,rgba(92,80,255,.35),transparent 42%),#0b1430;display:grid;place-items:center;position:relative;overflow:hidden}.card-media:after{content:"";position:absolute;width:128px;height:50px;border:1px solid rgba(62,226,255,.24);border-radius:50%;transform:rotate(-5deg)}.logo-box{width:60px;height:60px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(145deg,#1e2858,#0d1430);z-index:2;box-shadow:0 10px 24px rgba(0,0,0,.3),inset 0 0 14px rgba(255,255,255,.05)}.logo-box svg{width:38px;height:38px}.card h3{font-size:14px;line-height:1.2;margin:9px 0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.card p{height:28px;overflow:hidden;font-size:10px;line-height:1.35;color:var(--muted);margin:0}.card-price{font-size:18px;font-weight:950;margin-top:8px}.stock{font-size:9px;color:var(--green);font-weight:850}.card .btn{width:100%;min-height:38px;margin-top:8px;font-size:11px}
+.page-title{font-size:29px;letter-spacing:-.045em;margin:8px 0 4px}.page-sub{margin:0 0 14px;color:var(--muted);font-size:12px}
+.detail-grid{display:grid;gap:12px}.detail-media{height:282px;border:1px solid var(--line);border-radius:24px;background:radial-gradient(circle at 50% 38%,rgba(94,70,255,.38),transparent 38%),#091126;display:grid;place-items:center;position:relative;overflow:hidden}.detail-media:before{content:"";position:absolute;width:255px;height:92px;border:1px solid rgba(65,225,255,.27);border-radius:50%}.detail-media:after{content:"";position:absolute;width:175px;height:175px;border:1px solid rgba(255,76,215,.28);border-radius:50%;transform:rotateY(65deg)}.detail-logo{width:118px;height:118px;border-radius:30px;display:grid;place-items:center;background:linear-gradient(145deg,#683cff,#a850ff);box-shadow:0 18px 42px rgba(103,61,255,.4),0 0 38px rgba(162,79,255,.28),inset 0 0 22px rgba(255,255,255,.12);z-index:2}.detail-logo svg{width:70px;height:70px}
+.panel{border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#0a1229,#060a19);padding:15px}.tag{display:inline-flex;padding:6px 9px;border-radius:999px;border:1px solid rgba(61,220,255,.33);background:rgba(61,220,255,.07);color:#8cefff;font-size:10px;font-weight:850}.panel h2{margin:10px 0 3px;font-size:24px}.big-price{font-size:31px;font-weight:950;margin:10px 0}.features{display:grid;gap:8px;margin:12px 0}.features span{font-size:12px;color:#cbd4ed}.features span:before{content:"✓";color:var(--green);font-weight:950;margin-right:8px}
+.qty{display:grid;grid-template-columns:44px 1fr 44px;gap:8px;margin:12px 0}.qty button,.qty input{height:42px;border:1px solid var(--line);border-radius:12px;background:#071020;color:#fff;text-align:center}
+.flow{display:flex;gap:7px;margin:8px 0 14px}.flow span{flex:1;text-align:center;padding:8px 3px;border:1px solid rgba(115,91,210,.26);border-radius:10px;color:#7d88ac;font-size:9px}.flow .active{background:linear-gradient(90deg,#5d34ff,#9c40ff);color:#fff}
+.checkout-grid{display:grid;gap:12px}.field{display:grid;gap:5px;margin-bottom:10px}.field label{font-size:10px;color:#aab4d1}.field input,.field select{height:43px;border:1px solid rgba(116,95,224,.28);border-radius:12px;background:#071020;color:#fff;padding:0 12px}.summary-row{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:12px}.summary-row.total{font-size:18px;font-weight:900;border:0}.pay-list{display:grid;gap:8px;margin-top:10px}.pay{padding:12px;border:1px solid rgba(116,95,224,.3);border-radius:13px;background:#081126;color:#cbd4ed;font-size:11px}.pay.active{border-color:#7a4dff;background:rgba(103,63,255,.12);color:#fff}
+.success{padding:24px 15px;text-align:center;border:1px solid var(--line);border-radius:26px;background:linear-gradient(180deg,#0a1229,#060a19)}.success-mark{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;margin:0 auto 14px;background:radial-gradient(circle,#1b704e,#0c2d22 70%);border:3px solid var(--green);font-size:44px;color:var(--green);box-shadow:0 0 32px rgba(82,242,167,.32)}.success h2{margin:0;color:var(--green)}.success p{font-size:12px;color:var(--muted)}
+.wallet{padding:16px;border:1px solid var(--line);border-radius:22px;background:radial-gradient(circle at 82% 20%,rgba(158,74,255,.18),transparent 34%),#0a132b}.wallet strong{display:block;font-size:30px;color:var(--green);margin-top:3px}.wallet small{color:var(--muted)}.dash-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.dash-actions button{min-height:56px;border:1px solid rgba(113,91,218,.26);border-radius:14px;background:#091126;color:#dbe1f4;font-size:10px}
+.list{display:grid;gap:8px}.list-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:12px;border:1px solid rgba(101,88,196,.22);border-radius:14px;background:#081126}.list-row strong{font-size:12px}.list-row small{display:block;color:var(--muted);font-size:9px;margin-top:2px}.status{padding:5px 8px;border-radius:999px;font-size:9px;font-weight:850}.processing{background:rgba(255,194,77,.12);color:var(--gold)}.completed{background:rgba(45,190,125,.13);color:var(--green)}.cancelled{background:rgba(255,90,110,.12);color:var(--danger)}
+.admin-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.admin-stat{padding:14px;border:1px solid var(--line);border-radius:16px;background:#081126}.admin-stat small{color:var(--muted)}.admin-stat strong{display:block;font-size:22px;margin-top:4px}.admin-menu{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}.admin-menu button{min-height:50px;border:1px solid rgba(111,91,208,.25);border-radius:14px;background:#091126;color:#dfe5f8;font-size:11px}
+.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.feature-card{padding:13px;border:1px solid rgba(108,91,211,.3);border-radius:15px;background:#081126}.feature-card b{display:block;font-size:12px}.feature-card small{color:var(--muted);font-size:9px}
+.bottom-nav{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(calc(100% - 28px),720px);z-index:60;display:grid;grid-template-columns:repeat(5,1fr);gap:5px;padding:8px;border:1px solid rgba(115,94,245,.42);border-radius:20px;background:rgba(5,9,24,.94);backdrop-filter:blur(18px);box-shadow:0 18px 46px rgba(0,0,0,.48),0 0 24px rgba(100,75,255,.11)}.bottom-nav button{border:0;border-radius:12px;background:transparent;color:#8d98b9;padding:9px 2px;font-size:9px}.bottom-nav button.active{background:linear-gradient(145deg,rgba(99,68,255,.52),rgba(35,52,106,.38));color:#fff}
+.demo-note{text-align:center;color:#6f7898;font-size:9px;margin-top:10px}
+.loading{grid-column:1/-1;padding:28px;border:1px dashed rgba(111,92,226,.28);border-radius:16px;text-align:center;color:var(--muted)}
+@keyframes fade{from{opacity:.2;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes float{50%{transform:translateY(-7px)}}@keyframes spiderFloat{50%{transform:translate(-50%,-53%) rotate(1deg)}} 
 @media(min-width:760px){
-  body{padding:26px}.app{padding-bottom:100px}.hero{display:grid;grid-template-columns:1.05fr .95fr;column-gap:24px;align-items:center}.hero-copy{grid-column:1}.stage{grid-column:2;grid-row:1/span 4;margin:0;height:330px}.actions{grid-column:1;max-width:520px}.stats{grid-template-columns:repeat(4,1fr)}
-  .catalog{grid-template-columns:repeat(4,minmax(0,1fr))}.product-detail{grid-template-columns:1fr 1fr}.checkout-grid{grid-template-columns:1.1fr .9fr}.feature-grid{grid-template-columns:repeat(4,1fr)}.admin-stats{grid-template-columns:repeat(4,1fr)}
+body{padding:24px}.hero{display:grid;grid-template-columns:1fr 1fr;column-gap:22px;align-items:center}.hero-copy{grid-column:1}.spider-stage{grid-column:2;grid-row:1/span 3;height:360px}.actions{grid-column:1;max-width:520px}.catalog{grid-template-columns:repeat(4,minmax(0,1fr))}.detail-grid{grid-template-columns:1fr 1fr}.checkout-grid{grid-template-columns:1.08fr .92fr}.feature-grid{grid-template-columns:repeat(4,1fr)}.admin-stats{grid-template-columns:repeat(4,1fr)}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
 <div class="app">
-  <header class="top">
-    <div class="brand"><div class="brand-badge">EVA</div><div>EVA AI MARKET<small>FULL SPIDER DEMO</small></div></div>
-    <div class="top-actions"><button class="icon-btn" data-go="catalog" aria-label="Products">⌕</button><button class="icon-btn" data-go="features" aria-label="Menu">☰</button></div>
-  </header>
+<header class="top">
+  <div class="brand"><div class="brand-badge">EVA</div><div>EVA AI MARKET<small>SPIDER DEMO V3</small></div></div>
+  <div class="top-actions"><button class="icon-btn" data-go="catalog">⌕</button><button class="icon-btn" data-go="features">☰</button></div>
+</header>
 
-  <section class="screen active" id="home">
-    <div class="hero">
-      <div class="hero-copy">
-        <div class="eyebrow">PREMIUM AI & CLOUD MARKETPLACE</div>
-        <h1>Your AI Store, <span>Reimagined.</span></h1>
-        <p>Complete EVA redesign demo with your current product data, spider motion, 3D cards, checkout flow, customer workspace and admin controls.</p>
-      </div>
-      <div class="stage">
-        <div class="core-wrap"><div class="core"></div></div>
-        <div class="ring"></div><div class="ring2"></div><div class="ring3"></div>
-        <div class="badge b1">GPT</div><div class="badge b2">AWS</div><div class="badge b3">Kiro</div><div class="badge b4">Claude</div>
-        <div class="web-line"></div>
-        <div class="spider-track"><div class="spider">
-          <span class="abdomen"></span><span class="thorax"></span><span class="eye e1"></span><span class="eye e2"></span>
-          <i class="leg l1"></i><i class="leg l2"></i><i class="leg l3"></i><i class="leg l4"></i><i class="leg l5"></i><i class="leg l6"></i><i class="leg l7"></i><i class="leg l8"></i>
-        </div></div>
-      </div>
-      <div class="actions"><button class="btn primary" data-go="catalog">Explore Products</button><button class="btn secondary" data-go="dashboard">Customer Dashboard</button></div>
+<section class="screen active" id="home">
+  <div class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">PREMIUM AI & CLOUD MARKETPLACE</div>
+      <h1>EVA AI MARKET <span>Spider Edition.</span></h1>
+      <p>A tighter, premium mobile concept based on the reference: large spider hero, clean product cards, live EVA data and full customer/admin flow.</p>
     </div>
-
-    <div class="stats">
-      <div class="stat"><strong>50K+</strong><small>Customers</small></div>
-      <div class="stat"><strong id="productCount">45+</strong><small>Products</small></div>
-      <div class="stat"><strong>100+</strong><small>Countries</small></div>
-      <div class="stat"><strong>99.9%</strong><small>Success</small></div>
-    </div>
-
-    <div class="clock-card">
-      <div><h3 style="margin:0 0 5px">3D EVA Clock</h3><p style="margin:0;color:var(--muted);font-size:11px;line-height:1.5">Existing clock concept preserved.<br>Mobile spacing optimized.</p></div>
-      <div class="clock-face"><span class="hand hour"></span><span class="hand minute"></span></div>
-    </div>
-  </section>
-
-  <section class="screen" id="catalog">
-    <h1 class="page-title">Product <span class="gradient">Catalog</span></h1>
-    <p class="page-sub">Live EVA product data, shown in clean mobile 3D cards.</p>
-    <div class="searchbar"><input id="searchInput" placeholder="Search ChatGPT, Claude, Kiro, AWS..."><button>⌕</button></div>
-    <div class="chips" id="chips"><button class="chip active" data-cat="all">All</button><button class="chip" data-cat="ChatGPT">ChatGPT</button><button class="chip" data-cat="Claude">Claude</button><button class="chip" data-cat="Gemini">Gemini</button><button class="chip" data-cat="AWS">AWS</button><button class="chip" data-cat="Grok">Grok</button><button class="chip" data-cat="Kiro">Kiro</button></div>
-    <div class="catalog" id="catalogGrid"><div class="loading">Loading live products…</div></div>
-  </section>
-
-  <section class="screen" id="detail">
-    <h1 class="page-title">Product <span class="gradient">Details</span></h1>
-    <p class="page-sub">Demo product view using your selected EVA item.</p>
-    <div class="product-detail">
-      <div class="detail-media"><div class="detail-logo" id="detailLogo">K</div></div>
-      <div class="detail-box">
-        <span class="tag" id="detailCategory">KIRO PLANS</span>
-        <h2 id="detailName">Kiro Power — 1 Month</h2>
-        <p id="detailSub" style="margin:0;color:var(--muted);font-size:12px">10,000 Credits · Power subscription</p>
-        <div class="price" id="detailPrice">$130 USDT</div>
-        <div class="feature-list"><span>Instant order handling</span><span>Private delivery</span><span>30-day warranty where applicable</span><span>24/7 support</span></div>
-        <div class="qty"><button id="qtyMinus">−</button><input id="qtyInput" value="1" readonly><button id="qtyPlus">+</button></div>
-        <button class="btn primary" style="width:100%" data-go="checkout">Buy Now — Demo Checkout</button>
+    <div class="spider-stage">
+      <div class="web"></div>
+      <div class="hero-logo hl1">GPT</div><div class="hero-logo hl2">AWS</div><div class="hero-logo hl3">Kiro</div><div class="hero-logo hl4">Claude</div>
+      <div class="hero-spider">
+        <span class="thorax"></span><span class="body"></span><span class="eye e1"></span><span class="eye e2"></span>
+        <i class="leg1"></i><i class="leg2"></i><i class="leg3"></i><i class="leg4"></i><i class="leg5"></i><i class="leg6"></i><i class="leg7"></i><i class="leg8"></i>
       </div>
     </div>
-  </section>
+    <div class="actions"><button class="btn primary" data-go="catalog">Explore Products</button><button class="btn secondary" data-go="dashboard">Customer Dashboard</button></div>
+  </div>
+  <div class="stats"><div class="stat"><strong>50K+</strong><small>Customers</small></div><div class="stat"><strong id="productCount">45+</strong><small>Products</small></div><div class="stat"><strong>100+</strong><small>Countries</small></div><div class="stat"><strong>99.9%</strong><small>Success</small></div></div>
+</section>
 
-  <section class="screen" id="checkout">
-    <h1 class="page-title">Secure <span class="gradient">Checkout</span></h1>
-    <div class="flow"><span>Cart</span><span class="active">Checkout</span><span>Payment</span><span>Complete</span></div>
-    <div class="checkout-grid">
-      <div class="panel">
-        <h3>Billing Information</h3>
-        <div class="field"><label>Full Name</label><input value="Maruf Khan"></div>
-        <div class="field"><label>Email</label><input value="demo@eva-market.com"></div>
-        <div class="field"><label>Country</label><select><option>Bangladesh</option><option>United States</option><option>Singapore</option></select></div>
-        <div class="field"><label>Telegram Username</label><input value="@kidway"></div>
-      </div>
-      <div class="panel">
-        <h3>Order Summary</h3>
-        <div class="summary-row"><span id="checkoutName">Kiro Power — 1 Month</span><b id="checkoutPrice">$130.00</b></div>
-        <div class="summary-row"><span>Quantity</span><b id="checkoutQty">1</b></div>
-        <div class="summary-row total"><span>Total</span><b id="checkoutTotal">$130.00</b></div>
-        <div class="pay-methods"><div class="pay-method active">◉ USDT (TRC20)</div><div class="pay-method">○ USDT (BEP20)</div><div class="pay-method">○ USDT (ERC20)</div><div class="pay-method">○ EVA Balance</div></div>
-        <button class="btn primary" style="width:100%;margin-top:12px" id="demoPay">Pay Now — Demo Only</button>
-        <div class="demo-note">No real payment or order is created on this demo page.</div>
-      </div>
+<section class="screen" id="catalog">
+  <h1 class="page-title">Product <span class="gradient">Catalog</span></h1><p class="page-sub">Live EVA products with tighter premium cards and real brand marks.</p>
+  <div class="searchbar"><input id="searchInput" placeholder="Search ChatGPT, Claude, Kiro, AWS..."><button>⌕</button></div>
+  <div class="chips" id="chips"><button class="chip active" data-cat="all">All</button><button class="chip" data-cat="ChatGPT">ChatGPT</button><button class="chip" data-cat="Claude">Claude</button><button class="chip" data-cat="Gemini">Gemini</button><button class="chip" data-cat="AWS">AWS</button><button class="chip" data-cat="Grok">Grok</button><button class="chip" data-cat="Kiro">Kiro</button></div>
+  <div class="catalog" id="catalogGrid"><div class="loading">Loading live products…</div></div>
+</section>
+
+<section class="screen" id="detail">
+  <h1 class="page-title">Product <span class="gradient">Details</span></h1><p class="page-sub">Reference-style single product view.</p>
+  <div class="detail-grid">
+    <div class="detail-media"><div class="detail-logo" id="detailLogo"></div></div>
+    <div class="panel"><span class="tag" id="detailCategory">KIRO PLANS</span><h2 id="detailName">Kiro Power — 1 Month</h2><p id="detailSub" class="page-sub" style="margin:0">10,000 Credits · Power subscription</p><div class="big-price" id="detailPrice">$130.00</div>
+      <div class="features"><span>Instant order handling</span><span>Private delivery</span><span>30-day warranty where applicable</span><span>24/7 support</span></div>
+      <div class="qty"><button id="qtyMinus">−</button><input id="qtyInput" value="1" readonly><button id="qtyPlus">+</button></div>
+      <button class="btn primary" style="width:100%" data-go="checkout">Buy Now — Demo Checkout</button>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="screen" id="success">
-    <div class="success">
-      <div class="success-mark">✓</div>
-      <h2>Order Placed Successfully!</h2>
-      <p>This is a visual demo. No real payment or order was created.</p>
-      <div class="order-box">
-        <div class="summary-row"><span>Order ID</span><b>#EVA-DEMO-24356</b></div>
-        <div class="summary-row"><span>Product</span><b id="successName">Kiro Power — 1 Month</b></div>
-        <div class="summary-row"><span>Amount</span><b id="successAmount">$130.00</b></div>
-        <div class="summary-row"><span>Payment</span><b>USDT (TRC20)</b></div>
-        <div class="summary-row"><span>Status</span><b style="color:var(--gold)">Processing</b></div>
-      </div>
-      <div class="actions" style="margin-top:14px"><button class="btn primary" data-go="dashboard">View Dashboard</button><button class="btn secondary" data-go="home">Back Home</button></div>
-    </div>
-  </section>
+<section class="screen" id="checkout">
+  <h1 class="page-title">Secure <span class="gradient">Checkout</span></h1>
+  <div class="flow"><span>Cart</span><span class="active">Checkout</span><span>Payment</span><span>Complete</span></div>
+  <div class="checkout-grid">
+    <div class="panel"><h3>Billing Information</h3><div class="field"><label>Full Name</label><input value="Maruf Khan"></div><div class="field"><label>Email</label><input value="demo@eva-market.com"></div><div class="field"><label>Country</label><select><option>Bangladesh</option><option>United States</option><option>Singapore</option></select></div><div class="field"><label>Telegram Username</label><input value="@kidway"></div></div>
+    <div class="panel"><h3>Order Summary</h3><div class="summary-row"><span id="checkoutName">Kiro Power — 1 Month</span><b id="checkoutPrice">$130.00</b></div><div class="summary-row"><span>Quantity</span><b id="checkoutQty">1</b></div><div class="summary-row total"><span>Total</span><b id="checkoutTotal">$130.00</b></div><div class="pay-list"><div class="pay active">◉ USDT (TRC20)</div><div class="pay">○ USDT (BEP20)</div><div class="pay">○ USDT (ERC20)</div><div class="pay">○ EVA Balance</div></div><button class="btn primary" style="width:100%;margin-top:12px" id="demoPay">Pay Now — Demo Only</button><div class="demo-note">No real payment or order is created.</div></div>
+  </div>
+</section>
 
-  <section class="screen" id="dashboard">
-    <div class="dashboard-head"><div><h1 class="page-title" style="margin-bottom:0">Hello, Maruf! 👋</h1><p class="page-sub" style="margin:3px 0 0">Customer Workspace</p></div></div>
-    <div class="wallet"><small>Wallet Balance</small><strong>$145.50 USDT</strong><div class="dash-actions"><button>Deposit</button><button>My Orders</button><button>Support</button></div></div>
-    <div class="section"><div class="section-head"><h2>Recent Orders</h2><small>Demo data</small></div><div class="list">
-      <div class="list-row"><div><strong>Kiro Power — 1 Month</strong><small>#EVA123456 · $130.00</small></div><span class="status processing">Processing</span></div>
-      <div class="list-row"><div><strong>ChatGPT Plus</strong><small>#EVA123455 · $21.00</small></div><span class="status completed">Completed</span></div>
-      <div class="list-row"><div><strong>Claude Pro</strong><small>#EVA123454 · $21.00</small></div><span class="status completed">Completed</span></div>
-      <div class="list-row"><div><strong>AWS Cloud — 128 vCPU</strong><small>#EVA123453 · $100.00</small></div><span class="status completed">Completed</span></div>
-    </div></div>
-    <div class="section"><div class="section-head"><h2>Account Activity</h2><small>Mobile optimized</small></div><div class="list">
-      <div class="list-row"><div><strong>Deposit Verification Log</strong><small>Track pending / approved balance deposits</small></div><span>›</span></div>
-      <div class="list-row"><div><strong>Order Tracking</strong><small>Review, processing and private delivery status</small></div><span>›</span></div>
-      <div class="list-row"><div><strong>Balance History</strong><small>Credits, purchases and refunds</small></div><span>›</span></div>
-    </div></div>
-  </section>
+<section class="screen" id="success">
+  <div class="success"><div class="success-mark">✓</div><h2>Order Placed Successfully!</h2><p>Visual demo only — no real payment or order was created.</p><div class="panel" style="margin-top:14px;text-align:left"><div class="summary-row"><span>Order ID</span><b>#EVA-DEMO-24356</b></div><div class="summary-row"><span>Product</span><b id="successName">Kiro Power — 1 Month</b></div><div class="summary-row"><span>Amount</span><b id="successAmount">$130.00</b></div><div class="summary-row"><span>Status</span><b style="color:var(--gold)">Processing</b></div></div><div class="actions" style="margin-top:14px"><button class="btn primary" data-go="dashboard">View Dashboard</button><button class="btn secondary" data-go="home">Back Home</button></div></div>
+</section>
 
-  <section class="screen" id="admin">
-    <h1 class="page-title">Admin <span class="gradient">Panel</span></h1>
-    <p class="page-sub">Full-control concept for mobile and desktop.</p>
-    <div class="admin-stats"><div class="admin-stat"><small>Total Orders</small><strong>248</strong></div><div class="admin-stat"><small>Revenue</small><strong>$4,320</strong></div><div class="admin-stat"><small>Customers</small><strong>186</strong></div><div class="admin-stat"><small>Products</small><strong id="adminProductCount">45</strong></div></div>
-    <div class="admin-menu"><button>Products</button><button>Orders</button><button>Customers</button><button>Transactions</button><button>Stock Pool</button><button>Coupons</button><button>Financials</button><button>Gateways</button></div>
-    <div class="section"><div class="section-head"><h2>Recent Orders</h2><small>Admin demo</small></div><div class="list">
-      <div class="list-row"><div><strong>Kiro Power — 1 Month</strong><small>demo@eva-market.com · $130.00</small></div><span class="status processing">Processing</span></div>
-      <div class="list-row"><div><strong>ChatGPT Plus</strong><small>buyer@example.com · $21.00</small></div><span class="status completed">Completed</span></div>
-      <div class="list-row"><div><strong>Claude Pro</strong><small>user@example.com · $21.00</small></div><span class="status completed">Completed</span></div>
-      <div class="list-row"><div><strong>Gemini Ultra</strong><small>test@example.com · $104.99</small></div><span class="status cancelled">Cancelled</span></div>
-    </div></div>
-  </section>
+<section class="screen" id="dashboard">
+  <h1 class="page-title">Hello, Maruf! 👋</h1><p class="page-sub">Customer Workspace</p>
+  <div class="wallet"><small>Wallet Balance</small><strong>$145.50 USDT</strong><div class="dash-actions"><button>Deposit</button><button>My Orders</button><button>Support</button></div></div>
+  <div class="section"><div class="section-head"><h2>Recent Orders</h2><small>Demo data</small></div><div class="list"><div class="list-row"><div><strong>Kiro Power — 1 Month</strong><small>#EVA123456 · $130.00</small></div><span class="status processing">Processing</span></div><div class="list-row"><div><strong>ChatGPT Plus</strong><small>#EVA123455 · $21.00</small></div><span class="status completed">Completed</span></div><div class="list-row"><div><strong>Claude Pro</strong><small>#EVA123454 · $21.00</small></div><span class="status completed">Completed</span></div></div></div>
+  <div class="section"><div class="section-head"><h2>Account Activity</h2><small>Mobile optimized</small></div><div class="list"><div class="list-row"><div><strong>Deposit Verification Log</strong><small>Pending and approved deposits</small></div><span>›</span></div><div class="list-row"><div><strong>Order Tracking</strong><small>Review, processing and private delivery</small></div><span>›</span></div><div class="list-row"><div><strong>Balance History</strong><small>Credits, purchases and refunds</small></div><span>›</span></div></div></div>
+</section>
 
-  <section class="screen" id="features">
-    <h1 class="page-title">A–Z <span class="gradient">Feature Presentation</span></h1>
-    <p class="page-sub">How the full EVA spider redesign can cover the entire storefront.</p>
-    <div class="feature-grid">
-      <div class="feature-card"><b>01 · Homepage</b><small>3D orb, spider walk, live hero</small></div>
-      <div class="feature-card"><b>02 · Product Catalog</b><small>Search, filters, clean 3D cards</small></div>
-      <div class="feature-card"><b>03 · Product Details</b><small>Price, stock, warranty, features</small></div>
-      <div class="feature-card"><b>04 · Checkout</b><small>Billing info + order summary</small></div>
-      <div class="feature-card"><b>05 · Payment Flow</b><small>TRC20 / BEP20 / ERC20 / balance</small></div>
-      <div class="feature-card"><b>06 · Order Success</b><small>Status + order summary</small></div>
-      <div class="feature-card"><b>07 · Customer Dashboard</b><small>Wallet, orders, activity, support</small></div>
-      <div class="feature-card"><b>08 · Admin Panel</b><small>Products, orders, stock, customers</small></div>
-      <div class="feature-card"><b>09 · 3D Product Style</b><small>Depth, neon, interactive cards</small></div>
-      <div class="feature-card"><b>10 · 3D EVA Clock</b><small>Existing concept preserved</small></div>
-      <div class="feature-card"><b>11 · Spider Motion</b><small>Animated spider + web effects</small></div>
-      <div class="feature-card"><b>12 · Responsive Mobile</b><small>iPhone + Android optimized</small></div>
-      <div class="feature-card"><b>13 · Desktop Layout</b><small>Wider grid and premium spacing</small></div>
-      <div class="feature-card"><b>14 · Telegram Alerts</b><small>Visit, signup, deposit, order</small></div>
-      <div class="feature-card"><b>15 · Stock Management</b><small>Live availability and admin control</small></div>
-      <div class="feature-card"><b>16 · Search & Categories</b><small>Fast product discovery</small></div>
-      <div class="feature-card"><b>17 · Wallet / Balance</b><small>Customer credit purchases</small></div>
-      <div class="feature-card"><b>18 · Order Tracking</b><small>Processing to delivered status</small></div>
-      <div class="feature-card"><b>19 · Security</b><small>Private delivery and verified payment</small></div>
-      <div class="feature-card"><b>20 · Deploy Ready</b><small>Vercel + Supabase compatible</small></div>
-    </div>
-  </section>
+<section class="screen" id="admin">
+  <h1 class="page-title">Admin <span class="gradient">Panel</span></h1><p class="page-sub">Reference-style compact mobile admin.</p>
+  <div class="admin-stats"><div class="admin-stat"><small>Total Orders</small><strong>248</strong></div><div class="admin-stat"><small>Revenue</small><strong>$4,320</strong></div><div class="admin-stat"><small>Customers</small><strong>186</strong></div><div class="admin-stat"><small>Products</small><strong id="adminProductCount">45</strong></div></div>
+  <div class="admin-menu"><button>Products</button><button>Orders</button><button>Customers</button><button>Transactions</button><button>Stock Pool</button><button>Coupons</button><button>Financials</button><button>Gateways</button></div>
+  <div class="section"><div class="section-head"><h2>Recent Orders</h2><small>Admin demo</small></div><div class="list"><div class="list-row"><div><strong>Kiro Power — 1 Month</strong><small>demo@eva-market.com · $130.00</small></div><span class="status processing">Processing</span></div><div class="list-row"><div><strong>ChatGPT Plus</strong><small>buyer@example.com · $21.00</small></div><span class="status completed">Completed</span></div><div class="list-row"><div><strong>Gemini Ultra</strong><small>test@example.com · $104.99</small></div><span class="status cancelled">Cancelled</span></div></div></div>
+</section>
+
+<section class="screen" id="features">
+  <h1 class="page-title">A–Z <span class="gradient">Feature Presentation</span></h1><p class="page-sub">Full storefront coverage.</p>
+  <div class="feature-grid">
+    <div class="feature-card"><b>01 · Homepage</b><small>Large spider hero + neon web</small></div><div class="feature-card"><b>02 · Product Catalog</b><small>Search, filters, clean brand cards</small></div><div class="feature-card"><b>03 · Product Details</b><small>Price, stock, warranty, features</small></div><div class="feature-card"><b>04 · Checkout</b><small>Billing + order summary</small></div><div class="feature-card"><b>05 · Payment Flow</b><small>TRC20 / BEP20 / ERC20 / balance</small></div><div class="feature-card"><b>06 · Order Success</b><small>Status + summary</small></div><div class="feature-card"><b>07 · Customer Dashboard</b><small>Wallet, orders, activity</small></div><div class="feature-card"><b>08 · Admin Panel</b><small>Products, orders, stock, customers</small></div><div class="feature-card"><b>09 · 3D Product Style</b><small>Depth + neon cards</small></div><div class="feature-card"><b>10 · Spider Identity</b><small>Web texture + glowing spider</small></div><div class="feature-card"><b>11 · Responsive Mobile</b><small>iPhone + Android optimized</small></div><div class="feature-card"><b>12 · Desktop Layout</b><small>Wider premium grid</small></div><div class="feature-card"><b>13 · Telegram Alerts</b><small>Visit, signup, deposit, order</small></div><div class="feature-card"><b>14 · Stock Management</b><small>Live availability control</small></div><div class="feature-card"><b>15 · Wallet / Balance</b><small>Customer credit purchases</small></div><div class="feature-card"><b>16 · Deploy Ready</b><small>Vercel + Supabase compatible</small></div>
+  </div>
+</section>
 </div>
 
-<nav class="bottom-nav">
-  <button class="active" data-go="home">⌂<br>Home</button>
-  <button data-go="catalog">◇<br>Products</button>
-  <button data-go="dashboard">◉<br>Customer</button>
-  <button data-go="admin">⚙<br>Admin</button>
-  <button data-go="features">☰<br>A–Z</button>
-</nav>
+<nav class="bottom-nav"><button class="active" data-go="home">⌂<br>Home</button><button data-go="catalog">◇<br>Products</button><button data-go="dashboard">◉<br>Customer</button><button data-go="admin">⚙<br>Admin</button><button data-go="features">☰<br>A–Z</button></nav>
 
 <script>
 let allProducts=[],selectedProduct={id:'kiro-power-1m',name:'Kiro Power — 1 Month',subtitle:'10,000 Credits · Power subscription',price_usd:130,category:'Kiro Plans',stock:1,warranty_days:30},qty=1,currentCat='all';
-
 const screens=[...document.querySelectorAll('.screen')],navButtons=[...document.querySelectorAll('.bottom-nav [data-go]')];
-function go(id){
-  screens.forEach(s=>s.classList.toggle('active',s.id===id));
-  navButtons.forEach(b=>b.classList.toggle('active',b.dataset.go===id));
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+function go(id){screens.forEach(s=>s.classList.toggle('active',s.id===id));navButtons.forEach(b=>b.classList.toggle('active',b.dataset.go===id));window.scrollTo({top:0,behavior:'smooth'})}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)});
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function initial(name){const m=String(name||'E').match(/[A-Za-z0-9]/);return m?m[0].toUpperCase():'E'}
 function money(v){return '$'+Number(v||0).toFixed(2)}
+function brandType(p){const s=(p.name+' '+p.category).toLowerCase();if(/chatgpt|openai|gpt/.test(s))return'openai';if(/claude|anthropic/.test(s))return'claude';if(/gemini|google/.test(s))return'gemini';if(/grok/.test(s))return'grok';if(/aws|amazon|kiro/.test(s))return'aws';if(/telegram/.test(s))return'telegram';return'eva'}
+function brandSvg(type){
+const base='viewBox="0 0 64 64" aria-hidden="true"';
+if(type==='openai')return '<svg '+base+'><g fill="none" stroke="#7fffd4" stroke-width="4.7" stroke-linecap="round"><path d="M32 9c8-6 18 0 18 9 9 1 13 11 7 18 5 8-1 17-10 17-4 8-15 9-21 3-9 3-17-4-15-13-8-4-8-15 0-20-2-9 6-17 15-14 2 0 4 0 6-1Z"/><path d="m20 25 12-7 12 7v14l-12 7-12-7Z"/></g></svg>';
+if(type==='claude')return '<svg '+base+'><g stroke="#ff8a5b" stroke-width="5" stroke-linecap="round"><path d="M32 9v14M32 41v14M9 32h14M41 32h14M16 16l10 10M38 38l10 10M16 48l10-10M38 26l10-10"/></g></svg>';
+if(type==='gemini')return '<svg '+base+'><path fill="#8c83ff" d="M32 5c4 16 11 23 27 27-16 4-23 11-27 27-4-16-11-23-27-27C21 28 28 21 32 5Z"/></svg>';
+if(type==='grok')return '<svg '+base+'><path fill="#fff" d="M17 10h11l7 11 10-11h8L40 29l14 25H43L33 38 21 54H10l17-24z"/></svg>';
+if(type==='aws')return '<svg '+base+'><text x="32" y="34" text-anchor="middle" font-size="20" font-weight="800" fill="#fff">aws</text><path d="M15 42c13 8 26 9 38 2" fill="none" stroke="#ffb347" stroke-width="3" stroke-linecap="round"/></svg>';
+if(type==='telegram')return '<svg '+base+'><path fill="#55c7ff" d="M54 11 9 28c-4 2-4 5 0 6l11 4 5 15c1 4 4 4 7 1l7-7 11 8c3 2 5 1 6-3l7-36c1-5-3-7-9-5ZM24 37l25-17-20 21-3 8-2-12Z"/></svg>';
+return '<svg '+base+'><circle cx="32" cy="32" r="18" fill="#8358ff"/><path d="M32 14 38 27 51 32 38 37 32 50 26 37 13 32 26 27Z" fill="#d8d5ff"/></svg>';
+}
 function renderCatalog(){
-  const q=document.getElementById('searchInput').value.trim().toLowerCase();
-  const items=allProducts.filter(p=>{
-    const hay=(p.name+' '+p.category+' '+(p.subtitle||'')).toLowerCase();
-    const cat=currentCat==='all'||hay.includes(currentCat.toLowerCase());
-    return cat&&(!q||hay.includes(q));
-  }).slice(0,60);
-  document.getElementById('catalogGrid').innerHTML=items.length?items.map(p=>`
-    <article class="card">
-      <div class="card-media"><div class="logo-cube">${initial(p.name)}</div></div>
-      <h3>${esc(p.name)}</h3>
-      <p>${esc(p.subtitle||p.category)}</p>
-      <div class="card-price">${p.purchase_mode==='contact'?'Custom':money(p.price_usd)}</div>
-      <div class="mini-stock">${Number(p.stock)>0?'● IN STOCK':'● AVAILABLE ON REQUEST'}</div>
-      <button class="btn primary" data-product-id="${esc(p.id)}">View Details</button>
-    </article>`).join(''):'<div class="loading">No matching products.</div>';
+ const q=document.getElementById('searchInput').value.trim().toLowerCase();
+ const items=allProducts.filter(p=>{const hay=(p.name+' '+p.category+' '+(p.subtitle||'')).toLowerCase();return (currentCat==='all'||hay.includes(currentCat.toLowerCase()))&&(!q||hay.includes(q))}).slice(0,60);
+ document.getElementById('catalogGrid').innerHTML=items.length?items.map(p=>'<article class="card"><div class="card-media"><div class="logo-box">'+brandSvg(brandType(p))+'</div></div><h3>'+esc(p.name)+'</h3><p>'+esc(p.subtitle||p.category)+'</p><div class="card-price">'+(p.purchase_mode==='contact'?'Custom':money(p.price_usd))+'</div><div class="stock">'+(Number(p.stock)>0?'● IN STOCK':'● AVAILABLE ON REQUEST')+'</div><button class="btn primary" data-product-id="'+esc(p.id)+'">View Details</button></article>').join(''):'<div class="loading">No matching products.</div>';
 }
-async function loadProducts(){
-  try{
-    const r=await fetch('/api/store',{cache:'no-store'}),b=await r.json();
-    allProducts=Array.isArray(b.products)?b.products:[];
-    document.getElementById('productCount').textContent=allProducts.length+'+';
-    document.getElementById('adminProductCount').textContent=allProducts.length;
-    const kp=allProducts.find(p=>p.id==='kiro-power-1m');if(kp)selectedProduct=kp;
-    syncSelected();renderCatalog();
-  }catch{
-    allProducts=[selectedProduct];renderCatalog();
-  }
-}
-function syncSelected(){
-  const p=selectedProduct;
-  document.getElementById('detailLogo').textContent=initial(p.name);
-  document.getElementById('detailCategory').textContent=String(p.category||'EVA PRODUCT').toUpperCase();
-  document.getElementById('detailName').textContent=p.name;
-  document.getElementById('detailSub').textContent=p.subtitle||p.access_label||'Premium EVA digital product';
-  document.getElementById('detailPrice').textContent=(p.purchase_mode==='contact'?'Custom Quote':money(p.price_usd)+' USDT');
-  const unit=Number(p.price_usd||0),total=unit*qty;
-  document.getElementById('checkoutName').textContent=p.name;
-  document.getElementById('checkoutPrice').textContent=money(unit);
-  document.getElementById('checkoutQty').textContent=qty;
-  document.getElementById('checkoutTotal').textContent=money(total);
-  document.getElementById('successName').textContent=p.name;
-  document.getElementById('successAmount').textContent=money(total);
-  document.getElementById('qtyInput').value=qty;
-}
-document.addEventListener('click',e=>{
-  const p=e.target.closest('[data-product-id]');
-  if(p){const found=allProducts.find(x=>x.id===p.dataset.productId);if(found){selectedProduct=found;qty=1;syncSelected();go('detail')}}
-});
+async function loadProducts(){try{const r=await fetch('/api/store',{cache:'no-store'}),b=await r.json();allProducts=Array.isArray(b.products)?b.products:[];document.getElementById('productCount').textContent=allProducts.length+'+';document.getElementById('adminProductCount').textContent=allProducts.length;const kp=allProducts.find(p=>p.id==='kiro-power-1m');if(kp)selectedProduct=kp;syncSelected();renderCatalog()}catch{allProducts=[selectedProduct];renderCatalog()}}
+function syncSelected(){const p=selectedProduct,t=brandType(p);document.getElementById('detailLogo').innerHTML=brandSvg(t);document.getElementById('detailCategory').textContent=String(p.category||'EVA PRODUCT').toUpperCase();document.getElementById('detailName').textContent=p.name;document.getElementById('detailSub').textContent=p.subtitle||p.access_label||'Premium EVA digital product';document.getElementById('detailPrice').textContent=p.purchase_mode==='contact'?'Custom Quote':money(p.price_usd)+' USDT';const unit=Number(p.price_usd||0),total=unit*qty;document.getElementById('checkoutName').textContent=p.name;document.getElementById('checkoutPrice').textContent=money(unit);document.getElementById('checkoutQty').textContent=qty;document.getElementById('checkoutTotal').textContent=money(total);document.getElementById('successName').textContent=p.name;document.getElementById('successAmount').textContent=money(total);document.getElementById('qtyInput').value=qty}
+document.addEventListener('click',e=>{const p=e.target.closest('[data-product-id]');if(p){const found=allProducts.find(x=>x.id===p.dataset.productId);if(found){selectedProduct=found;qty=1;syncSelected();go('detail')}}});
 document.getElementById('searchInput').addEventListener('input',renderCatalog);
-document.getElementById('chips').addEventListener('click',e=>{
-  const c=e.target.closest('[data-cat]');if(!c)return;
-  currentCat=c.dataset.cat;[...document.querySelectorAll('.chip')].forEach(x=>x.classList.toggle('active',x===c));renderCatalog();
-});
+document.getElementById('chips').addEventListener('click',e=>{const c=e.target.closest('[data-cat]');if(!c)return;currentCat=c.dataset.cat;[...document.querySelectorAll('.chip')].forEach(x=>x.classList.toggle('active',x===c));renderCatalog()});
 document.getElementById('qtyPlus').addEventListener('click',()=>{qty=Math.min(10,qty+1);syncSelected()});
 document.getElementById('qtyMinus').addEventListener('click',()=>{qty=Math.max(1,qty-1);syncSelected()});
 document.getElementById('demoPay').addEventListener('click',()=>go('success'));
