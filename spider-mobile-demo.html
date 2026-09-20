@@ -6,7 +6,7 @@
     name="viewport"
     content="width=device-width,initial-scale=1,viewport-fit=cover"
   />
-  <title>EVA AI MARKET — Spider Demo V3</title>
+  <title>EVA AI MARKET — Spider Demo V4</title>
   <style>
     :root{
       --bg:#050814;
@@ -1071,6 +1071,22 @@
       .feature-grid{grid-template-columns:repeat(4,1fr)}
       .admin-stats{grid-template-columns:repeat(4,1fr)}
     }
+  
+    /* V4 polish */
+    .menu-overlay{position:fixed;inset:0;background:rgba(2,4,13,.72);backdrop-filter:blur(7px);z-index:180;opacity:0;pointer-events:none;transition:.28s}
+    .menu-overlay.open{opacity:1;pointer-events:auto}
+    .side-menu{position:absolute;left:0;top:0;bottom:0;width:min(82vw,330px);padding:calc(20px + env(safe-area-inset-top)) 18px 24px;background:linear-gradient(160deg,#101535,#070a19 72%);border-right:1px solid rgba(128,93,255,.4);box-shadow:30px 0 70px rgba(0,0,0,.5);transform:translateX(-105%);transition:.32s cubic-bezier(.2,.8,.2,1)}
+    .menu-overlay.open .side-menu{transform:none}.menu-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}.menu-links{display:grid;gap:9px}.menu-links button{height:52px;text-align:left;padding:0 16px;border-radius:16px;border:1px solid rgba(122,96,255,.18);background:rgba(13,19,45,.72);color:#e9edff;font-weight:850}.menu-links button:hover{border-color:#7950ff;background:rgba(112,67,255,.13)}
+    .brand-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:950;font-size:15px;color:white;box-shadow:0 9px 24px rgba(0,0,0,.3)}
+    .brand-icon.gpt{background:#10a37f}.brand-icon.aws{background:#202939;color:#ffb33d}.brand-icon.claude{background:#d97757}.brand-icon.gemini{background:linear-gradient(135deg,#3b82f6,#a855f7)}.brand-icon.kiro{background:linear-gradient(135deg,#713cff,#b44dff)}.brand-icon.grok{background:#080a10}.brand-icon.capcut{background:#fff;color:#111}
+    .floating-logo{width:64px;height:64px}.floating-logo .brand-icon{width:46px;height:46px;border-radius:15px}
+    .hero-stage::after{content:"";position:absolute;left:50%;bottom:13px;width:65%;height:28px;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(84,228,255,.15),transparent 68%);filter:blur(7px)}
+    .hero-v4-badge{position:absolute;left:50%;bottom:7px;transform:translateX(-50%);z-index:5;padding:6px 11px;border:1px solid rgba(76,224,255,.22);border-radius:999px;background:rgba(5,10,26,.76);font-size:9px;letter-spacing:.13em;color:#91efff;font-weight:900}
+    .flow{position:relative;overflow:visible;gap:0;margin:14px 2px 20px}.flow::before{content:"";position:absolute;left:12%;right:12%;top:17px;height:2px;background:linear-gradient(90deg,#7748ff 0 50%,rgba(119,83,255,.18) 50%);z-index:0}.flow span{position:relative;z-index:1;border:0;background:transparent;padding:40px 2px 0;min-width:0}.flow span::before{content:"";position:absolute;top:8px;left:50%;width:20px;height:20px;border-radius:50%;transform:translateX(-50%);background:#111832;border:3px solid #343e67;box-shadow:0 0 0 4px #080d20}.flow span.active{background:transparent;color:#fff}.flow span.active::before{background:#9b55ff;border-color:#caa4ff;box-shadow:0 0 0 4px #080d20,0 0 20px rgba(157,85,255,.7)}
+    .bottom-nav{grid-template-columns:1fr 1fr 82px 1fr 1fr;padding:7px 10px}.bottom-nav .spider-fab{width:70px;height:70px;min-height:70px;border-radius:50%;align-self:end;justify-self:center;margin-top:-30px;background:radial-gradient(circle at 36% 30%,#7eefff,#7a43ff 25%,#241542 63%,#090d19);border:2px solid rgba(133,111,255,.75);color:#fff;box-shadow:0 0 0 7px #070b1c,0 0 30px rgba(111,73,255,.58);font-size:25px;animation:fabPulse 2.8s ease-in-out infinite}.bottom-nav .spider-fab.active{background:radial-gradient(circle at 36% 30%,#a9f6ff,#8b4cff 25%,#2c1653 63%,#090d19)}
+    @keyframes fabPulse{50%{transform:translateY(-3px);box-shadow:0 0 0 7px #070b1c,0 0 42px rgba(78,222,255,.38)}}
+    @media(max-width:759px){.hero{padding:16px 14px 18px;border-radius:28px}.hero-copy-wrap{text-align:center}.eyebrow{font-size:9px;margin-top:3px}.hero-title{font-size:42px;max-width:360px;margin:auto}.hero-copy{max-width:340px;margin:13px auto 0}.hero-stage{height:350px;margin:8px -2px 5px}.spider-hero{transform:translate(-50%,-50%) scale(1.12)}.hero-buttons{margin-top:0}.stats{gap:6px}.stat{padding:11px 4px;border-radius:15px}.stat strong{font-size:15px}}
+    @media(prefers-reduced-motion:reduce){.floating-logo,.bottom-nav .spider-fab{animation:none}}
   </style>
 </head>
 <body>
@@ -1080,12 +1096,12 @@
         <div class="brand-mark">EVA</div>
         <div class="brand-text">
           <strong>EVA AI MARKET</strong>
-          <small>FULL SPIDER DEMO V3</small>
+          <small>SPIDER EXPERIENCE V4</small>
         </div>
       </div>
       <div class="top-actions">
         <button class="icon-btn" data-go="catalog" aria-label="Search">⌕</button>
-        <button class="icon-btn" data-go="features" aria-label="Menu">☰</button>
+        <button class="icon-btn" id="menuBtn" aria-label="Menu">☰</button>
       </div>
     </header>
 
@@ -1104,10 +1120,10 @@
         <div class="hero-stage">
           <div class="hero-web"></div>
 
-          <div class="floating-logo logo1">GPT</div>
-          <div class="floating-logo logo2">AWS</div>
-          <div class="floating-logo logo3">Kiro</div>
-          <div class="floating-logo logo4">Claude</div>
+          <div class="floating-logo logo1"><span class="brand-icon gpt">◎</span></div>
+          <div class="floating-logo logo2"><span class="brand-icon aws">aws</span></div>
+          <div class="floating-logo logo3"><span class="brand-icon kiro">K</span></div>
+          <div class="floating-logo logo4"><span class="brand-icon claude">AI</span></div>
 
           <div class="spider-hero">
             <div class="glow"></div>
@@ -1396,7 +1412,7 @@
 
     <section class="screen" id="features">
       <h1 class="page-title">A–Z <span class="grad">Feature Presentation</span></h1>
-      <p class="page-sub">Everything included in the V3 spider reference demo.</p>
+      <p class="page-sub">Polished V4 mobile reference experience.</p>
 
       <div class="feature-grid">
         <div class="feature-card"><b>01 · Homepage</b><small>Spider hero, web background, EVA branding</small></div>
@@ -1419,17 +1435,22 @@
     </section>
   </div>
 
+  <div class="menu-overlay" id="menuOverlay"><aside class="side-menu"><div class="menu-head"><div class="brand"><div class="brand-mark">EVA</div><div class="brand-text"><strong>EVA AI MARKET</strong><small>V4 NAVIGATION</small></div></div><button class="icon-btn" id="menuClose">×</button></div><div class="menu-links"><button data-go="home">⌂ &nbsp; Home</button><button data-go="catalog">◇ &nbsp; Product Catalog</button><button data-go="dashboard">◉ &nbsp; Customer Workspace</button><button data-go="admin">⚙ &nbsp; Admin Panel</button><button data-go="features">✦ &nbsp; A–Z Features</button></div></aside></div>
   <nav class="bottom-nav">
     <button class="active" data-go="home">⌂<br>Home</button>
     <button data-go="catalog">◇<br>Products</button>
+    <button class="spider-fab" data-go="catalog" aria-label="Explore">✦</button>
     <button data-go="dashboard">◉<br>Customer</button>
-    <button data-go="admin">⚙<br>Admin</button>
-    <button data-go="features">☰<br>A–Z</button>
+    <button data-go="features">☰<br>More</button>
   </nav>
 
   <script>
     const screens = [...document.querySelectorAll('.screen')];
     const navButtons = [...document.querySelectorAll('.bottom-nav button')];
+    const menuOverlay=document.getElementById('menuOverlay');
+    document.getElementById('menuBtn').addEventListener('click',()=>menuOverlay.classList.add('open'));
+    document.getElementById('menuClose').addEventListener('click',()=>menuOverlay.classList.remove('open'));
+    menuOverlay.addEventListener('click',e=>{if(e.target===menuOverlay)menuOverlay.classList.remove('open')});
 
     let allProducts = [];
     let selectedProduct = {
@@ -1446,6 +1467,7 @@
     function go(screenId){
       screens.forEach(s => s.classList.toggle('active', s.id === screenId));
       navButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.go === screenId));
+      menuOverlay?.classList.remove('open');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
