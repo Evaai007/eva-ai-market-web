@@ -87,3 +87,50 @@ body.premium-home #public-store-products{gap:7px!important}
 @media(max-width:390px){
   body.premium-home .eva-final-spider{height:210px!important}
 }
+
+/* Exact single-viewport homepage composition from approved mobile reference */
+@media(max-width:760px){
+ body.premium-home .eva-final-mobile-hero{
+   height:100svh!important;min-height:100svh!important;max-height:100svh!important;
+   display:grid!important;
+   grid-template-rows:58px minmax(205px,1fr) auto auto auto auto!important;
+   align-content:stretch!important;
+   gap:0!important;
+   padding:max(6px,env(safe-area-inset-top)) 18px max(12px,env(safe-area-inset-bottom))!important;
+   overflow:hidden!important
+ }
+ body.premium-home .eva-final-topbar{height:58px!important;min-height:58px!important}
+ body.premium-home .eva-final-spider{
+   width:auto!important;height:auto!important;min-height:205px!important;max-height:none!important;
+   margin:0 -18px -2px!important;align-self:stretch!important
+ }
+ body.premium-home .eva-final-spider img{
+   width:100%!important;height:100%!important;object-fit:cover!important;object-position:50% 48%!important;
+   transform:none!important
+ }
+ body.premium-home .eva-final-copy{margin:0!important;padding:0 0 10px!important}
+ body.premium-home .eva-final-copy h1{margin:0 0 6px!important;font-size:clamp(28px,7.7vw,32px)!important;line-height:1!important}
+ body.premium-home .eva-final-copy h2{margin:0 0 5px!important;font-size:11px!important;letter-spacing:.15em!important}
+ body.premium-home .eva-final-copy p{margin:0!important;font-size:9px!important;line-height:1.25!important}
+ body.premium-home .eva-final-brand-grid{gap:8px!important;margin:0 0 12px!important}
+ body.premium-home .eva-final-brand-card{height:clamp(67px,20.5vw,82px)!important;border-radius:9px!important}
+ body.premium-home .eva-final-brand-card img,
+ body.premium-home .eva-final-icon{width:31px!important;height:31px!important}
+ body.premium-home .eva-final-brand-card small{font-size:8px!important}
+ body.premium-home .eva-final-stats{height:61px!important;margin:0 0 12px!important;padding:8px 0!important}
+ body.premium-home .eva-final-stats strong{font-size:15px!important}
+ body.premium-home .eva-final-stats small{font-size:7px!important}
+ body.premium-home .eva-final-cta{width:78%!important;height:50px!important;margin:0 auto 11px!important;font-size:13px!important}
+ body.premium-home .eva-final-benefits{height:48px!important;padding:5px 0 0!important;margin:0!important;align-self:end!important}
+ body.premium-home .eva-final-benefits span{font-size:15px!important}
+ body.premium-home .eva-final-benefits small{font-size:7px!important}
+ body.premium-home .eva-final-menu[hidden]{display:none!important}
+ #eva-spider-layer,.eva-spider,[id*="spider-layer"]{display:none!important}
+}
+@media(max-width:390px){
+ body.premium-home .eva-final-mobile-hero{padding-left:14px!important;padding-right:14px!important;grid-template-rows:54px minmax(185px,1fr) auto auto auto auto!important}
+ body.premium-home .eva-final-topbar{height:54px!important;min-height:54px!important}
+ body.premium-home .eva-final-spider{margin-left:-14px!important;margin-right:-14px!important;min-height:185px!important}
+ body.premium-home .eva-final-brand-card{height:67px!important}
+ body.premium-home .eva-final-copy h1{font-size:28px!important}
+}
