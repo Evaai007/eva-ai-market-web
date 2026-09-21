@@ -1,1 +1,235 @@
-(()=>{const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];const icon=p=>{const s=(p.name+' '+(p.category||'')).toLowerCase();if(s.includes('chatgpt')||s.includes('openai'))return'◉';if(s.includes('claude'))return'✺';if(s.includes('gemini'))return'✦';if(s.includes('grok'))return'𝕏';if(s.includes('aws'))return'aws';if(s.includes('google')||s.includes('gcp'))return'☁';if(s.includes('capcut'))return'✂';if(s.includes('kiro'))return'K';if(s.includes('telegram'))return'➤';return'◆'};const brand=p=>{const s=(p.name+' '+(p.category||'')).toLowerCase();if(s.includes('chatgpt')||s.includes('openai'))return'openai';if(s.includes('claude'))return'claude';if(s.includes('gemini')||s.includes('google'))return'gemini';if(s.includes('grok'))return'grok';if(s.includes('aws'))return'aws';if(s.includes('capcut'))return'capcut';if(s.includes('kiro'))return'kiro';return'eva'};const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let products=[];async function catalog(){if(products.length)return products;const r=await fetch('/api/store',{cache:'no-store'}),b=await r.json();if(!r.ok)throw Error(b.error||'Catalog unavailable');products=b.products||[];return products}function id(){return new URLSearchParams(location.search).get('id')}function card(p){return `<article class="product-card"><div class="product-top"><div class="product-logo brand-${brand(p)}">${icon(p)}</div><span class="heart">♡</span></div><h3>${esc(p.name)}</h3><div class="price">$ ${Number(p.price_usd||0).toFixed(2)} <small>/ ${esc(p.official_price_label||'Plan')}</small></div><button class="buy" data-id="${esc(p.id)}">Buy Now</button></article>`}async function productsPage(){const grid=$('#productsGrid'),search=$('#productSearch');try{await catalog();const render=()=>{const q=(search?.value||'').toLowerCase(),cat=$('.chips .active')?.dataset.cat||'all';const filtered=products.filter(p=>(cat==='all'||(p.category||'').toLowerCase().includes(cat))&&(!q||(p.name+' '+(p.subtitle||'')).toLowerCase().includes(q)));const seen=new Set(),deduped=filtered.filter(p=>{const k=(p.name||'').trim().toLowerCase()+'|'+Number(p.price_usd||0).toFixed(2);if(seen.has(k))return false;seen.add(k);return true});const priority=['chatgpt','claude pro','gemini','kiro','aws','capcut'];const rank=p=>{const n=(p.name||'').toLowerCase();const i=priority.findIndex(x=>n.includes(x));return i<0?99:i};const list=deduped.map((p,i)=>({p,i})).sort((a,b)=>rank(a.p)-rank(b.p)||a.i-b.i).map(x=>x.p);grid.innerHTML=list.map(card).join('');$$('.buy',grid).forEach(b=>b.onclick=()=>location.href='/product.html?id='+encodeURIComponent(b.dataset.id))};search?.addEventListener('input',render);$$('.chips button').forEach(b=>b.onclick=()=>{$$('.chips button').forEach(x=>x.classList.remove('active'));b.classList.add('active');render()});render()}catch(e){grid.innerHTML='<p class="notice">'+esc(e.message)+'</p>'}}async function productPage(){const name=$('#pName'),sub=$('#pSub'),price=$('#pPrice'),stock=$('#pStock'),art=$('#detailArt');name.textContent='Loading product…';sub.textContent='';price.textContent='—';stock.textContent='Checking stock…';try{await catalog();const requested=id();const p=products.find(x=>String(x.id)===String(requested));if(!p)throw Error('Product unavailable');name.textContent=p.name;sub.textContent=p.subtitle||p.category;price.textContent='$'+Number(p.price_usd||0).toFixed(2);stock.textContent=Number(p.stock)>0?'In Stock ('+p.stock+')':'Unavailable';if(art)art.dataset.icon=icon(p);$('#buyNow').onclick=()=>{sessionStorage.setItem('eva-checkout-product',JSON.stringify(p));location.href='/checkout.html?id='+encodeURIComponent(p.id)}}catch(e){name.textContent='Product unavailable';sub.textContent=e.message;price.textContent='—';stock.textContent='';if(art)art.dataset.icon='!'}}async function getSession(){if(!window.supabase)await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';s.onload=res;s.onerror=rej;document.head.appendChild(s)});const cfg=await fetch('/api/config',{cache:'no-store'}).then(r=>r.json());const client=window.supabase.createClient(cfg.url,cfg.anonKey);let {data:{session}}=await client.auth.getSession();if(!session){const x=await client.auth.refreshSession();session=x.data.session}return session}async function checkoutPage(){try{let p=null;try{const cached=JSON.parse(sessionStorage.getItem('eva-checkout-product'));if(cached&&(!id()||String(cached.id)===String(id())))p=cached}catch{}const paint=x=>{$('#coLogo').textContent=icon(x);$('#coName').textContent=x.name;$('#coPlan').textContent=x.subtitle||x.category||'Plan';$('#coPrice').textContent='const sync=()=>{pay.disabled=!agree.checked;$('.payment-option').forEach(x=>x.classList.toggle('active',x.querySelector('input').checked))};agree.addEventListener('change',sync);radios.forEach(r=>r.addEventListener('change',sync));sync();pay.onclick=async()=>{if(!agree.checked)return;const method=$('input[name="payment"]:checked')?.value||'USDT (TRC20)';pay.disabled=true;pay.textContent='Checking account…';try{const session=await getSession();if(!session){sessionStorage.setItem('eva-return-to',location.pathname+location.search);location.href='/login.html';return}pay.textContent='Processing…';const r=await fetch('/api/store',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({productId:p.id,refreshToken:session.refresh_token,paymentMethod:method})});const b=await r.json();if(!r.ok)throw Error(b.error||'Purchase failed');const order={id:b.result?.order_id||'EVA-'+Date.now(),product:p.name,amount:Number(p.price_usd||0),method,status:b.status||'Processing',time:new Date().toLocaleString()};sessionStorage.setItem('eva-last-order',JSON.stringify(order));location.href='/order-success.html'}catch(e){$('#checkoutNotice').textContent=e.message;$('#checkoutNotice').hidden=false;pay.disabled=false;pay.textContent='Pay Now (USDT)'}}}catch(e){$('#checkout').innerHTML='<p class="notice">'+esc(e.message)+'</p>'}}function successPage(){let o;try{o=JSON.parse(sessionStorage.getItem('eva-last-order'))}catch{}const preview=new URLSearchParams(location.search).get('preview')==='1';if(!o&&preview)o={id:'EVA-PREVIEW-123456',product:'Kiro Power — 1 Month',amount:130,method:'USDT (TRC20)',status:'Processing',time:'Preview mode — no order created'};if(!o){location.href='/dashboard.html';return}$('#oId').textContent=String(o.id).slice(0,18);$('#oProduct').textContent=o.product;$('#oAmount').textContent='$'+Number(o.amount||0).toFixed(2);$('#oMethod').textContent=o.method;$('#oStatus').textContent=o.status;$('#oTime').textContent=o.time;if(preview){const n=document.createElement('p');n.className='notice preview-notice';n.textContent='Safe preview — no payment or order was created.';document.querySelector('.success h1').after(n)}}function menu(){const d=$('#drawer'),b=$('#menuBtn'),x=$('#drawerClose');if(!d||!b)return;b.onclick=()=>d.hidden=false;x.onclick=()=>d.hidden=true;d.onclick=e=>{if(e.target===d)d.hidden=true}}document.addEventListener('DOMContentLoaded',()=>{menu();const page=document.body.dataset.page;if(page==='products')productsPage();if(page==='product')productPage();if(page==='checkout')checkoutPage();if(page==='success')successPage()})})();+Number(x.price_usd||0).toFixed(2);$('#coSubtotal').textContent='const sync=()=>{pay.disabled=!agree.checked;$('.payment-option').forEach(x=>x.classList.toggle('active',x.querySelector('input').checked))};agree.addEventListener('change',sync);radios.forEach(r=>r.addEventListener('change',sync));sync();pay.onclick=async()=>{if(!agree.checked)return;const method=$('input[name="payment"]:checked')?.value||'USDT (TRC20)';pay.disabled=true;pay.textContent='Checking account…';try{const session=await getSession();if(!session){sessionStorage.setItem('eva-return-to',location.pathname+location.search);location.href='/login.html';return}pay.textContent='Processing…';const r=await fetch('/api/store',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({productId:p.id,refreshToken:session.refresh_token,paymentMethod:method})});const b=await r.json();if(!r.ok)throw Error(b.error||'Purchase failed');const order={id:b.result?.order_id||'EVA-'+Date.now(),product:p.name,amount:Number(p.price_usd||0),method,status:b.status||'Processing',time:new Date().toLocaleString()};sessionStorage.setItem('eva-last-order',JSON.stringify(order));location.href='/order-success.html'}catch(e){$('#checkoutNotice').textContent=e.message;$('#checkoutNotice').hidden=false;pay.disabled=false;pay.textContent='Pay Now (USDT)'}}}catch(e){$('#checkout').innerHTML='<p class="notice">'+esc(e.message)+'</p>'}}function successPage(){let o;try{o=JSON.parse(sessionStorage.getItem('eva-last-order'))}catch{}const preview=new URLSearchParams(location.search).get('preview')==='1';if(!o&&preview)o={id:'EVA-PREVIEW-123456',product:'Kiro Power — 1 Month',amount:130,method:'USDT (TRC20)',status:'Processing',time:'Preview mode — no order created'};if(!o){location.href='/dashboard.html';return}$('#oId').textContent=String(o.id).slice(0,18);$('#oProduct').textContent=o.product;$('#oAmount').textContent='$'+Number(o.amount||0).toFixed(2);$('#oMethod').textContent=o.method;$('#oStatus').textContent=o.status;$('#oTime').textContent=o.time;if(preview){const n=document.createElement('p');n.className='notice preview-notice';n.textContent='Safe preview — no payment or order was created.';document.querySelector('.success h1').after(n)}}function menu(){const d=$('#drawer'),b=$('#menuBtn'),x=$('#drawerClose');if(!d||!b)return;b.onclick=()=>d.hidden=false;x.onclick=()=>d.hidden=true;d.onclick=e=>{if(e.target===d)d.hidden=true}}document.addEventListener('DOMContentLoaded',()=>{menu();const page=document.body.dataset.page;if(page==='products')productsPage();if(page==='product')productPage();if(page==='checkout')checkoutPage();if(page==='success')successPage()})})();+Number(x.price_usd||0).toFixed(2);$('#coTotal').textContent='const sync=()=>{pay.disabled=!agree.checked;$('.payment-option').forEach(x=>x.classList.toggle('active',x.querySelector('input').checked))};agree.addEventListener('change',sync);radios.forEach(r=>r.addEventListener('change',sync));sync();pay.onclick=async()=>{if(!agree.checked)return;const method=$('input[name="payment"]:checked')?.value||'USDT (TRC20)';pay.disabled=true;pay.textContent='Checking account…';try{const session=await getSession();if(!session){sessionStorage.setItem('eva-return-to',location.pathname+location.search);location.href='/login.html';return}pay.textContent='Processing…';const r=await fetch('/api/store',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({productId:p.id,refreshToken:session.refresh_token,paymentMethod:method})});const b=await r.json();if(!r.ok)throw Error(b.error||'Purchase failed');const order={id:b.result?.order_id||'EVA-'+Date.now(),product:p.name,amount:Number(p.price_usd||0),method,status:b.status||'Processing',time:new Date().toLocaleString()};sessionStorage.setItem('eva-last-order',JSON.stringify(order));location.href='/order-success.html'}catch(e){$('#checkoutNotice').textContent=e.message;$('#checkoutNotice').hidden=false;pay.disabled=false;pay.textContent='Pay Now (USDT)'}}}catch(e){$('#checkout').innerHTML='<p class="notice">'+esc(e.message)+'</p>'}}function successPage(){let o;try{o=JSON.parse(sessionStorage.getItem('eva-last-order'))}catch{}const preview=new URLSearchParams(location.search).get('preview')==='1';if(!o&&preview)o={id:'EVA-PREVIEW-123456',product:'Kiro Power — 1 Month',amount:130,method:'USDT (TRC20)',status:'Processing',time:'Preview mode — no order created'};if(!o){location.href='/dashboard.html';return}$('#oId').textContent=String(o.id).slice(0,18);$('#oProduct').textContent=o.product;$('#oAmount').textContent='$'+Number(o.amount||0).toFixed(2);$('#oMethod').textContent=o.method;$('#oStatus').textContent=o.status;$('#oTime').textContent=o.time;if(preview){const n=document.createElement('p');n.className='notice preview-notice';n.textContent='Safe preview — no payment or order was created.';document.querySelector('.success h1').after(n)}}function menu(){const d=$('#drawer'),b=$('#menuBtn'),x=$('#drawerClose');if(!d||!b)return;b.onclick=()=>d.hidden=false;x.onclick=()=>d.hidden=true;d.onclick=e=>{if(e.target===d)d.hidden=true}}document.addEventListener('DOMContentLoaded',()=>{menu();const page=document.body.dataset.page;if(page==='products')productsPage();if(page==='product')productPage();if(page==='checkout')checkoutPage();if(page==='success')successPage()})})();+Number(x.price_usd||0).toFixed(2)};if(p)paint(p);if(!p){await catalog();p=products.find(x=>String(x.id)===String(id()));if(!p)throw Error('Product unavailable');paint(p)}const pay=$('#payNow'),agree=$('#agreeTerms'),radios=$('input[name="payment"]');const sync=()=>{pay.disabled=!agree.checked;$('.payment-option').forEach(x=>x.classList.toggle('active',x.querySelector('input').checked))};agree.addEventListener('change',sync);radios.forEach(r=>r.addEventListener('change',sync));sync();pay.onclick=async()=>{if(!agree.checked)return;const method=$('input[name="payment"]:checked')?.value||'USDT (TRC20)';pay.disabled=true;pay.textContent='Checking account…';try{const session=await getSession();if(!session){sessionStorage.setItem('eva-return-to',location.pathname+location.search);location.href='/login.html';return}pay.textContent='Processing…';const r=await fetch('/api/store',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({productId:p.id,refreshToken:session.refresh_token,paymentMethod:method})});const b=await r.json();if(!r.ok)throw Error(b.error||'Purchase failed');const order={id:b.result?.order_id||'EVA-'+Date.now(),product:p.name,amount:Number(p.price_usd||0),method,status:b.status||'Processing',time:new Date().toLocaleString()};sessionStorage.setItem('eva-last-order',JSON.stringify(order));location.href='/order-success.html'}catch(e){$('#checkoutNotice').textContent=e.message;$('#checkoutNotice').hidden=false;pay.disabled=false;pay.textContent='Pay Now (USDT)'}}}catch(e){$('#checkout').innerHTML='<p class="notice">'+esc(e.message)+'</p>'}}function successPage(){let o;try{o=JSON.parse(sessionStorage.getItem('eva-last-order'))}catch{}const preview=new URLSearchParams(location.search).get('preview')==='1';if(!o&&preview)o={id:'EVA-PREVIEW-123456',product:'Kiro Power — 1 Month',amount:130,method:'USDT (TRC20)',status:'Processing',time:'Preview mode — no order created'};if(!o){location.href='/dashboard.html';return}$('#oId').textContent=String(o.id).slice(0,18);$('#oProduct').textContent=o.product;$('#oAmount').textContent='$'+Number(o.amount||0).toFixed(2);$('#oMethod').textContent=o.method;$('#oStatus').textContent=o.status;$('#oTime').textContent=o.time;if(preview){const n=document.createElement('p');n.className='notice preview-notice';n.textContent='Safe preview — no payment or order was created.';document.querySelector('.success h1').after(n)}}function menu(){const d=$('#drawer'),b=$('#menuBtn'),x=$('#drawerClose');if(!d||!b)return;b.onclick=()=>d.hidden=false;x.onclick=()=>d.hidden=true;d.onclick=e=>{if(e.target===d)d.hidden=true}}document.addEventListener('DOMContentLoaded',()=>{menu();const page=document.body.dataset.page;if(page==='products')productsPage();if(page==='product')productPage();if(page==='checkout')checkoutPage();if(page==='success')successPage()})})();
+(()=> {
+  const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const esc=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const icon=p=>{
+    const s=((p?.name||'')+' '+(p?.category||'')).toLowerCase();
+    if(s.includes('chatgpt')||s.includes('openai')) return '◉';
+    if(s.includes('claude')) return '✺';
+    if(s.includes('gemini')) return '✦';
+    if(s.includes('grok')) return '𝕏';
+    if(s.includes('aws')) return 'aws';
+    if(s.includes('google')||s.includes('gcp')) return '☁';
+    if(s.includes('capcut')) return '✂';
+    if(s.includes('kiro')) return 'K';
+    if(s.includes('telegram')) return '➤';
+    return '◆';
+  };
+  const brand=p=>{
+    const s=((p?.name||'')+' '+(p?.category||'')).toLowerCase();
+    if(s.includes('chatgpt')||s.includes('openai')) return 'openai';
+    if(s.includes('claude')) return 'claude';
+    if(s.includes('gemini')||s.includes('google')) return 'gemini';
+    if(s.includes('grok')) return 'grok';
+    if(s.includes('aws')) return 'aws';
+    if(s.includes('capcut')) return 'capcut';
+    if(s.includes('kiro')) return 'kiro';
+    return 'eva';
+  };
+
+  let products=[];
+  async function catalog(){
+    if(products.length) return products;
+    const r=await fetch('/api/store',{cache:'no-store'});
+    const b=await r.json();
+    if(!r.ok) throw new Error(b.error||'Catalog unavailable');
+    products=Array.isArray(b.products)?b.products:[];
+    return products;
+  }
+  const id=()=>new URLSearchParams(location.search).get('id');
+
+  function card(p){
+    return '<article class="product-card"><div class="product-top"><div class="product-logo brand-'+brand(p)+'">'+icon(p)+'</div><span class="heart">♡</span></div><h3>'+esc(p.name)+'</h3><div class="price">$ '+Number(p.price_usd||0).toFixed(2)+' <small>/ '+esc(p.official_price_label||'Plan')+'</small></div><button class="buy" data-id="'+esc(p.id)+'">Buy Now</button></article>';
+  }
+
+  async function productsPage(){
+    const grid=$('#productsGrid'), search=$('#productSearch');
+    if(!grid) return;
+    try{
+      await catalog();
+      const render=()=>{
+        const q=(search?.value||'').trim().toLowerCase();
+        const cat=$('.chips .active')?.dataset.cat||'all';
+        const filtered=products.filter(p=>{
+          const category=(p.category||'').toLowerCase();
+          const hay=((p.name||'')+' '+(p.subtitle||'')).toLowerCase();
+          return (cat==='all'||category.includes(cat)) && (!q||hay.includes(q));
+        });
+        const seen=new Set();
+        const deduped=filtered.filter(p=>{
+          const key=((p.name||'').trim().toLowerCase())+'|'+Number(p.price_usd||0).toFixed(2);
+          if(seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+        const priority=['chatgpt','claude pro','gemini','kiro','aws','capcut'];
+        const rank=p=>{
+          const n=(p.name||'').toLowerCase();
+          const x=priority.findIndex(k=>n.includes(k));
+          return x<0?99:x;
+        };
+        const list=deduped.map((p,i)=>({p,i})).sort((a,b)=>rank(a.p)-rank(b.p)||a.i-b.i).map(x=>x.p);
+        grid.innerHTML=list.map(card).join('');
+        $$('.buy',grid).forEach(btn=>{
+          btn.addEventListener('click',()=>{
+            const p=products.find(x=>String(x.id)===String(btn.dataset.id));
+            if(p) sessionStorage.setItem('eva-checkout-product',JSON.stringify(p));
+            location.href='/product.html?id='+encodeURIComponent(btn.dataset.id);
+          });
+        });
+      };
+      search?.addEventListener('input',render);
+      $$('.chips button').forEach(btn=>btn.addEventListener('click',()=>{
+        $$('.chips button').forEach(x=>x.classList.remove('active'));
+        btn.classList.add('active');
+        render();
+      }));
+      render();
+    }catch(e){
+      grid.innerHTML='<p class="notice">'+esc(e.message)+'</p>';
+    }
+  }
+
+  async function productPage(){
+    const name=$('#pName'), sub=$('#pSub'), price=$('#pPrice'), stock=$('#pStock'), art=$('#detailArt'), buy=$('#buyNow');
+    if(!name) return;
+    name.textContent='Loading product…'; sub.textContent=''; price.textContent='—'; stock.textContent='Checking stock…';
+    try{
+      await catalog();
+      const p=products.find(x=>String(x.id)===String(id()));
+      if(!p) throw new Error('Product unavailable');
+      name.textContent=p.name;
+      sub.textContent=p.subtitle||p.category||'';
+      price.textContent='$'+Number(p.price_usd||0).toFixed(2);
+      stock.textContent=Number(p.stock)>0?'In Stock ('+p.stock+')':'Unavailable';
+      if(art) art.dataset.icon=icon(p);
+      if(buy) buy.addEventListener('click',()=>{
+        sessionStorage.setItem('eva-checkout-product',JSON.stringify(p));
+        location.href='/checkout.html?id='+encodeURIComponent(p.id);
+      });
+    }catch(e){
+      name.textContent='Product unavailable'; sub.textContent=e.message; price.textContent='—'; stock.textContent=''; if(art) art.dataset.icon='!';
+    }
+  }
+
+  async function getSession(){
+    if(!window.supabase){
+      await new Promise((resolve,reject)=>{
+        const s=document.createElement('script');
+        s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+        s.onload=resolve; s.onerror=reject; document.head.appendChild(s);
+      });
+    }
+    const cfg=await fetch('/api/config',{cache:'no-store'}).then(r=>r.json());
+    const client=window.supabase.createClient(cfg.url,cfg.anonKey);
+    let result=await client.auth.getSession();
+    let session=result.data.session;
+    if(!session){
+      result=await client.auth.refreshSession();
+      session=result.data.session;
+    }
+    return session;
+  }
+
+  function paintCheckout(p){
+    $('#coLogo').textContent=icon(p);
+    $('#coName').textContent=p.name;
+    $('#coPlan').textContent=p.subtitle||p.category||'Plan';
+    const amount='$'+Number(p.price_usd||0).toFixed(2);
+    $('#coPrice').textContent=amount;
+    $('#coSubtotal').textContent=amount;
+    $('#coTotal').textContent=amount;
+  }
+
+  async function checkoutPage(){
+    try{
+      let p=null;
+      try{
+        const cached=JSON.parse(sessionStorage.getItem('eva-checkout-product'));
+        if(cached && (!id() || String(cached.id)===String(id()))) p=cached;
+      }catch{}
+      if(p) paintCheckout(p);
+      if(!p){
+        await catalog();
+        p=products.find(x=>String(x.id)===String(id()));
+        if(!p) throw new Error('Product unavailable');
+        paintCheckout(p);
+      }
+      const pay=$('#payNow'), agree=$('#agreeTerms'), radios=$$('input[name="payment"]');
+      const sync=()=>{
+        if(pay) pay.disabled=!agree?.checked;
+        $$('.payment-option').forEach(x=>{
+          const input=x.querySelector('input');
+          x.classList.toggle('active',Boolean(input?.checked));
+        });
+      };
+      agree?.addEventListener('change',sync);
+      radios.forEach(r=>r.addEventListener('change',sync));
+      sync();
+      if(pay) pay.addEventListener('click',async()=>{
+        if(!agree?.checked) return;
+        const method=$('input[name="payment"]:checked')?.value||'USDT (TRC20)';
+        pay.disabled=true; pay.textContent='Checking account…';
+        try{
+          const session=await getSession();
+          if(!session){
+            sessionStorage.setItem('eva-return-to',location.pathname+location.search);
+            location.href='/login.html';
+            return;
+          }
+          pay.textContent='Processing…';
+          const r=await fetch('/api/store',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({productId:p.id,refreshToken:session.refresh_token,paymentMethod:method})});
+          const b=await r.json();
+          if(!r.ok) throw new Error(b.error||'Purchase failed');
+          const order={id:b.result?.order_id||('EVA-'+Date.now()),product:p.name,amount:Number(p.price_usd||0),method,status:b.status||'Processing',time:new Date().toLocaleString()};
+          sessionStorage.setItem('eva-last-order',JSON.stringify(order));
+          location.href='/order-success.html';
+        }catch(e){
+          const n=$('#checkoutNotice');
+          if(n){n.textContent=e.message;n.hidden=false;}
+          pay.disabled=false; pay.textContent='Pay Now (USDT)';
+        }
+      });
+    }catch(e){
+      const n=$('#checkoutNotice');
+      if(n){n.textContent=e.message;n.hidden=false;}
+    }
+  }
+
+  function successPage(){
+    let o=null;
+    try{o=JSON.parse(sessionStorage.getItem('eva-last-order'))}catch{}
+    const preview=new URLSearchParams(location.search).get('preview')==='1';
+    if(!o&&preview) o={id:'EVA-PREVIEW-123456',product:'Kiro Power — 1 Month',amount:130,method:'USDT (TRC20)',status:'Processing',time:'Preview mode — no order created'};
+    if(!o){ location.href='/dashboard.html'; return; }
+    $('#oId').textContent=String(o.id).slice(0,18);
+    $('#oProduct').textContent=o.product;
+    $('#oAmount').textContent='$'+Number(o.amount||0).toFixed(2);
+    $('#oMethod').textContent=o.method;
+    $('#oStatus').textContent=o.status;
+    $('#oTime').textContent=o.time;
+    if(preview){
+      const n=document.createElement('p');
+      n.className='notice preview-notice';
+      n.textContent='Safe preview — no payment or order was created.';
+      $('.success h1')?.after(n);
+    }
+  }
+
+  function menu(){
+    const d=$('#drawer'), b=$('#menuBtn'), x=$('#drawerClose');
+    if(!d||!b) return;
+    b.addEventListener('click',()=>d.hidden=false);
+    x?.addEventListener('click',()=>d.hidden=true);
+    d.addEventListener('click',e=>{if(e.target===d)d.hidden=true;});
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    menu();
+    const page=document.body.dataset.page;
+    if(page==='products') productsPage();
+    if(page==='product') productPage();
+    if(page==='checkout') checkoutPage();
+    if(page==='success') successPage();
+  });
+})();
