@@ -73,3 +73,17 @@ body.premium-home .eva-final-mobile-hero{padding-left:13px!important;padding-rig
 body.premium-home .eva-final-spider{height:222px!important;margin-left:-13px!important;margin-right:-13px!important}
 body.premium-home #public-store-products{gap:7px!important}
 }
+
+/* Screenshot correction: menu state, legacy spider overlay, hero scale and viewport gap */
+@media(max-width:760px){
+  #eva-spider-layer,.eva-spider,#five-spider-layer,[id*="spider-layer"]{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
+  body.premium-home .eva-final-menu[hidden]{display:none!important;visibility:hidden!important}
+  body.premium-home .eva-final-menu:not([hidden]){display:grid!important;visibility:visible!important}
+  body.premium-home .eva-final-mobile-hero{min-height:auto!important;padding-bottom:18px!important}
+  body.premium-home .eva-final-spider{height:226px!important;margin-top:0!important;margin-bottom:-2px!important;background:#04030a!important}
+  body.premium-home .eva-final-spider img{transform:none!important;object-fit:cover!important;object-position:50% 48%!important;image-rendering:auto!important}
+  body.premium-home .eva-final-benefits{margin-bottom:0!important;padding-bottom:0!important}
+}
+@media(max-width:390px){
+  body.premium-home .eva-final-spider{height:210px!important}
+}
