@@ -25,7 +25,18 @@
 .icon-btn{width:36px;height:36px;background:transparent;border:1px solid #2d2242;border-radius:10px;display:grid;place-items:center;color:#fff}
 @media(min-width:701px){.functional-zone{max-width:400px;margin:auto}}
 </style>
-</head>
+<style id="eva-dashboard-hard-reset">
+body.dashboard-page .app-container{display:flex!important;flex-direction:column!important;position:relative!important;overflow-y:auto!important;overflow-x:hidden!important}
+body.dashboard-page #overview{display:block!important;visibility:visible!important;opacity:1!important;position:relative!important;order:0!important;margin:0 0 24px!important}
+body.dashboard-page #overview h2{display:flex!important;visibility:visible!important;color:#fff!important;margin:0 0 4px!important;font-size:22px!important;line-height:1.2!important}
+body.dashboard-page #overview>p:not(#customer-email){display:block!important;visibility:visible!important;color:#a59ab8!important;margin:0!important;font-size:13px!important}
+body.dashboard-page .bottom-nav{position:fixed!important;left:50%!important;right:auto!important;top:auto!important;bottom:0!important;transform:translateX(-50%)!important;width:100%!important;max-width:400px!important;height:75px!important;margin:0!important;padding:0 24px calc(env(safe-area-inset-bottom)/2)!important;display:flex!important;flex-direction:row!important;justify-content:space-between!important;align-items:center!important;gap:0!important;border:0!important;border-top:1px solid rgba(45,34,66,.8)!important;border-radius:0!important;background:rgba(8,4,15,.96)!important;backdrop-filter:blur(12px)!important;z-index:999!important;order:999!important}
+body.dashboard-page .bottom-nav>a{position:relative!important;width:45px!important;min-width:45px!important;height:auto!important;padding:0!important;margin:0!important;border:0!important;background:transparent!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:6px!important;color:#73688a!important;text-decoration:none!important}
+body.dashboard-page .bottom-nav .spider-fab{position:absolute!important;left:50%!important;top:-24px!important;bottom:auto!important;transform:translateX(-50%)!important;width:60px!important;height:60px!important;margin:0!important;z-index:1000!important}
+body.dashboard-page .bottom-nav .spider-fab-inner{display:flex!important;width:100%!important;height:100%!important;align-items:center!important;justify-content:center!important;border-radius:50%!important}
+body.dashboard-page .wallet-card,body.dashboard-page .action-btn,body.dashboard-page .menu-item{order:initial!important}
+body.dashboard-page .functional-zone{order:initial!important}
+</style></head>
 <body class="dashboard-page">
 <div class="app-container">
 <div class="glow-bg-top"></div>
