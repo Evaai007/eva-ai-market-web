@@ -36,8 +36,9 @@ radial-gradient(circle at 50% 20%,rgba(138,43,226,.16),transparent 40%),
 /* EVA mobile menu reference v2 */
 .drawer,.menu-overlay{
   background:
-    linear-gradient(rgba(4,1,10,.60),rgba(4,1,10,.68)),
-    url('/assets/eva-spider-hero.jpg') center 20%/cover no-repeat!important;
+    linear-gradient(rgba(4,1,10,.84),rgba(4,1,10,.94)),
+    radial-gradient(circle at 70% 20%,rgba(120,40,220,.16),transparent 42%),
+    #030008!important;
 }
 .drawer-panel,.menu-panel{
   width:80%!important;
