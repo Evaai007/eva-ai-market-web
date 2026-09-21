@@ -48,6 +48,24 @@ body{display:flex;justify-content:center;align-items:flex-start;min-height:100vh
 .spider-orb{width:60px!important;height:60px!important;margin-top:-32px!important;justify-self:center!important;border-radius:50%!important;border:1px solid rgba(138,43,226,.55)!important;background:radial-gradient(circle at 50% 45%,rgba(151,72,255,.62),#0b0514 68%)!important;box-shadow:0 -5px 25px rgba(116,44,224,.4)!important;color:#d5a5ff!important;font-size:29px!important}
 .drawer{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.64)}.drawer[hidden]{display:none}.drawer-panel{position:absolute;right:0;top:0;width:min(82%,330px);height:100%;padding:78px 24px 24px;background:linear-gradient(180deg,rgba(5,7,18,.99),rgba(10,4,22,.98));border-left:1px solid #6f2cad;box-shadow:-20px 0 60px rgba(65,0,130,.38)}.drawer-close{position:absolute;right:18px;top:20px;font-size:24px}.drawer-brand{margin-bottom:24px}.drawer-brand .eva-crown{color:#c257ff;font-size:45px}.drawer-brand b{display:block;color:#fff;font-size:16px;margin-top:4px}.drawer-brand small{color:#8f82aa;font-size:8px;letter-spacing:.18em}.drawer nav a{display:flex;align-items:center;min-height:48px;color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);font-size:14px}.drawer-login{position:absolute;left:24px;right:24px;bottom:28px;height:48px;border:1px solid #9639e8;border-radius:12px;display:grid;place-items:center;color:#fff;text-decoration:none}
 @media(max-width:370px){.product-grid{gap:9px;padding-left:14px;padding-right:14px}.eva-search-wrap,.chips-wrap{padding-left:14px;padding-right:14px}.eva-head{padding-left:14px;padding-right:14px}}
+
+/* EVA master mobile menu */
+.drawer,.menu-overlay{position:fixed!important;inset:0!important;z-index:80!important;background:
+linear-gradient(rgba(3,0,8,.55),rgba(3,0,8,.72)),
+radial-gradient(circle at 50% 20%,rgba(138,43,226,.16),transparent 40%),
+#030008!important}
+.drawer[hidden]{display:none!important}.menu-overlay{display:none!important}.menu-overlay.open{display:block!important}
+.drawer-panel,.menu-panel{position:absolute!important;top:0!important;left:0!important;right:auto!important;width:82%!important;max-width:328px!important;height:100%!important;padding:52px 28px 32px!important;background:rgba(6,2,14,.96)!important;backdrop-filter:blur(10px)!important;-webkit-backdrop-filter:blur(10px)!important;border:0!important;border-right:1px solid rgba(45,34,66,.8)!important;box-shadow:20px 0 50px rgba(0,0,0,.8)!important;display:flex!important;flex-direction:column!important}
+.drawer-close,.menu-close{position:fixed!important;top:32px!important;right:24px!important;left:auto!important;width:38px!important;height:38px!important;border-radius:12px!important;background:rgba(15,10,28,.84)!important;border:1px solid rgba(45,34,66,.8)!important;color:#fff!important;font-size:24px!important;z-index:90!important}
+.drawer-brand,.menu-panel>div.mb-6{margin:0 0 42px!important;text-align:left!important;display:block!important}
+.drawer-brand .eva-crown,.menu-panel .text-4xl{font-size:44px!important;line-height:1!important;color:#d5a5ff!important;text-shadow:0 0 12px rgba(169,117,255,.55)!important}
+.drawer-brand b,.menu-panel .font-extrabold{display:block!important;margin-top:8px!important;font-size:16px!important;font-weight:800!important;letter-spacing:.03em!important;background:linear-gradient(180deg,#fff,#d4b3ff)!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important}
+.drawer-brand small,.menu-panel .tracking-\[\.18em\]{display:block!important;margin-top:2px!important;color:#7d7398!important;font-size:8.5px!important;font-weight:700!important;letter-spacing:.16em!important}
+.drawer nav,.menu-panel nav{display:flex!important;flex-direction:column!important;gap:18px!important}
+.drawer nav a,.menu-panel nav a{display:flex!important;align-items:center!important;min-height:34px!important;padding:4px 0!important;border:0!important;color:#fff!important;text-decoration:none!important;font-size:15px!important;font-weight:500!important;letter-spacing:.01em!important;background:transparent!important}
+.drawer nav a:first-letter,.menu-panel nav a:first-letter{color:#a59ab8!important}
+.drawer-login,.menu-panel>a.absolute{position:absolute!important;left:28px!important;right:28px!important;bottom:32px!important;height:50px!important;border:1.5px solid rgba(138,43,226,.5)!important;border-radius:12px!important;display:flex!important;align-items:center!important;justify-content:center!important;background:transparent!important;color:#fff!important;text-decoration:none!important;font-size:14px!important;font-weight:600!important;letter-spacing:.02em!important}
+@media(max-width:360px){.drawer-panel,.menu-panel{padding-left:22px!important;padding-right:22px!important}.drawer nav,.menu-panel nav{gap:14px!important}.drawer-login,.menu-panel>a.absolute{left:22px!important;right:22px!important}}
 </style>
 </head>
 <body data-page="products">
