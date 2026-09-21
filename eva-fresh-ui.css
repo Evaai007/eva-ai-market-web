@@ -96,3 +96,61 @@ html,body{background:#02050c!important;color:#fff}
   body.premium-home .eva-final-mobile-hero{padding-left:14px!important;padding-right:14px!important;grid-template-rows:54px minmax(185px,1fr) auto auto auto auto!important}
   body.premium-home .eva-final-spider{margin-left:-14px!important;margin-right:-14px!important;min-height:185px!important}
 }
+
+/* EVA FINAL MASTER REFERENCE — 2026-09-21 15:53 +06 */
+@media(max-width:760px){
+  html,body{background:#02040a!important}
+  body{overflow-x:hidden!important}
+  .eva-app{max-width:430px!important;box-shadow:0 0 34px rgba(111,34,255,.18)!important}
+  .eva-head{height:60px!important}
+  .eva-brand b{font-weight:900!important}
+  .eva-crown{font-size:30px!important}
+  .icon-btn{border-color:#33445e!important}
+
+  body[data-page="products"] .product-grid{padding-bottom:4px!important}
+  body[data-page="products"] .product-card{min-height:190px!important}
+  body[data-page="products"] .product-card h3{font-weight:800!important}
+  body[data-page="products"] .buy{background:linear-gradient(90deg,#6c2af2,#7b2cff)!important}
+
+  body[data-page="product"] .detail-art{height:265px!important}
+  body[data-page="product"] .detail-art img{object-position:48% 40%!important}
+  body[data-page="product"] .detail{padding-top:7px!important}
+  body[data-page="product"] .detail h1{font-size:22px!important;font-weight:900!important}
+  body[data-page="product"] .detail .big-price{font-size:28px!important}
+  body[data-page="product"] .primary{background:linear-gradient(90deg,#7022f4,#9d17ff)!important}
+  body[data-page="product"] .outline{border-color:#a33cff!important}
+
+  body[data-page="checkout"] .summary,
+  body[data-page="checkout"] .payment{box-shadow:inset 0 1px 0 rgba(255,255,255,.02)!important}
+  body[data-page="checkout"] .primary{height:49px!important;font-size:15px!important;background:linear-gradient(90deg,#6c22ef,#a817ff)!important}
+
+  body[data-page="success"] .success-visual{height:305px!important}
+  body[data-page="success"] .success-check{width:96px!important;height:96px!important;border:4px solid rgba(255,255,255,.75)!important}
+  body[data-page="success"] .order-info{margin-top:12px!important}
+
+  .drawer-panel{left:0!important;right:auto!important;width:82%!important;max-width:340px!important;border-left:0!important;border-right:1px solid #7131b1!important;background:linear-gradient(180deg,rgba(4,7,16,.98),rgba(8,4,20,.97))!important}
+  .drawer-close{right:18px!important}
+  .drawer-brand{margin-top:8px!important}
+  .drawer nav a{font-weight:600!important}
+  .drawer-login{border-color:#a23cff!important}
+
+  .eva-bottom{box-shadow:0 -10px 30px rgba(0,0,0,.28)!important}
+  .spider-orb{background:radial-gradient(circle at 50% 45%,rgba(133,42,255,.65),rgba(9,6,23,.96) 68%),url('/assets/eva-spider-hero.jpg') 50% 44%/190% no-repeat!important}
+
+  body.premium-home .eva-final-mobile-hero{
+    background:
+      radial-gradient(ellipse at 50% 21%,rgba(108,28,214,.33),transparent 43%),
+      linear-gradient(180deg,#02050d,#070313 60%,#02040a)!important
+  }
+  body.premium-home .eva-final-topbar{border-bottom:1px solid rgba(130,56,211,.23)!important}
+  body.premium-home .eva-final-spider img{object-position:50% 45%!important}
+  body.premium-home .eva-final-copy h1{font-weight:900!important}
+  body.premium-home .eva-final-brand-card{border-color:#6e4c95!important}
+  body.premium-home .eva-final-stats{box-shadow:0 0 20px rgba(119,32,222,.16)!important}
+  body.premium-home .eva-final-cta{font-size:16px!important}
+
+  body.dashboard-page .dash-main,body.dashboard-page main.container{padding-left:12px!important;padding-right:12px!important}
+  body.dashboard-page .customer-topbar{background:#030711!important}
+  body.dashboard-page .quantum-deposit-shell{margin-left:0!important;margin-right:0!important}
+  body.dashboard-page .quantum-card-wrap{border-radius:18px!important}
+}
