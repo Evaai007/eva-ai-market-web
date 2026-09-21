@@ -1,3 +1,4 @@
+@import url('/eva-fresh-ui.css?v=20260921-fresh1');
 /* EVA AI MARKET — uploaded 8-screen mobile reference, 2026-09-21 */
 :root{--eva-bg:#020610;--eva-surface:#071321;--eva-surface-2:#0a1727;--eva-line:rgba(100,127,171,.30);--eva-purple:#8a22ff;--eva-magenta:#cf3cff;--eva-cyan:#33e6ff;--eva-green:#35efa1;--eva-text:#f8f7ff;--eva-muted:#9ea9bd}
 @media(max-width:760px){
