@@ -57,7 +57,7 @@
         });
         const seen=new Set();
         const deduped=filtered.filter(p=>{
-          const key=((p.name||'').trim().toLowerCase())+'|'+Number(p.price_usd||0).toFixed(2);
+          const key=((p.name||'').trim().toLowerCase());
           if(seen.has(key)) return false;
           seen.add(key);
           return true;
@@ -93,22 +93,32 @@
   async function productPage(){
     const name=$('#pName'), sub=$('#pSub'), price=$('#pPrice'), stock=$('#pStock'), art=$('#detailArt'), buy=$('#buyNow');
     if(!name) return;
-    name.textContent='Loading product…'; sub.textContent=''; price.textContent='—'; stock.textContent='Checking stock…';
+    let p=null;
+    const paint=x=>{
+      name.textContent=x.name||'Product';
+      sub.textContent=x.subtitle||x.category||'';
+      price.textContent='$'+Number(x.price_usd||0).toFixed(2);
+      stock.textContent=Number(x.stock)>0?'In Stock ('+x.stock+')':'Unavailable';
+      if(art) art.dataset.icon=icon(x);
+      if(buy) buy.onclick=()=>{
+        sessionStorage.setItem('eva-checkout-product',JSON.stringify(x));
+        location.href='/checkout.html?id='+encodeURIComponent(x.id);
+      };
+    };
+    try{
+      const cached=JSON.parse(sessionStorage.getItem('eva-checkout-product'));
+      if(cached && String(cached.id)===String(id())){p=cached;paint(p);}
+    }catch{}
+    if(!p){name.textContent='Loading product…';sub.textContent='';price.textContent='—';stock.textContent='Checking stock…';}
     try{
       await catalog();
-      const p=products.find(x=>String(x.id)===String(id()));
-      if(!p) throw new Error('Product unavailable');
-      name.textContent=p.name;
-      sub.textContent=p.subtitle||p.category||'';
-      price.textContent='$'+Number(p.price_usd||0).toFixed(2);
-      stock.textContent=Number(p.stock)>0?'In Stock ('+p.stock+')':'Unavailable';
-      if(art) art.dataset.icon=icon(p);
-      if(buy) buy.addEventListener('click',()=>{
-        sessionStorage.setItem('eva-checkout-product',JSON.stringify(p));
-        location.href='/checkout.html?id='+encodeURIComponent(p.id);
-      });
+      const live=products.find(x=>String(x.id)===String(id()));
+      if(!live) throw new Error('Product unavailable');
+      p=live;
+      sessionStorage.setItem('eva-checkout-product',JSON.stringify(p));
+      paint(p);
     }catch(e){
-      name.textContent='Product unavailable'; sub.textContent=e.message; price.textContent='—'; stock.textContent=''; if(art) art.dataset.icon='!';
+      if(!p){name.textContent='Product unavailable';sub.textContent=e.message;price.textContent='—';stock.textContent='';if(art)art.dataset.icon='!';}
     }
   }
 
