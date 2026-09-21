@@ -2,196 +2,56 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#05010a">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#030008">
 <title>EVA AI Market</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-html,body{background:#000;margin:0;min-height:100%;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
-body{display:flex;justify-content:center;align-items:flex-start;min-height:100vh}
-.app-container{width:100%;max-width:400px;background:#05010a;min-height:100svh;position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 50px rgba(74,21,168,.2)}
-.glass-card{background:rgba(18,11,31,.6);border:1px solid rgba(56,43,85,.8);border-radius:12px}
-.title-gradient{background:linear-gradient(180deg,#fff 0%,#d4a5fd 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.subtitle-gradient{background:linear-gradient(90deg,#4ad2da 0%,#76ecdf 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.pink-gradient{background:linear-gradient(180deg,#f27eb6 0%,#b25893 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.bg-glow-left{position:absolute;top:25%;left:-30%;width:300px;height:400px;background:radial-gradient(ellipse,rgba(74,21,168,.2) 0%,rgba(5,1,10,0) 70%);pointer-events:none;z-index:0}
-.bg-glow-right{position:absolute;bottom:10%;right:-30%;width:300px;height:300px;background:radial-gradient(ellipse,rgba(74,21,168,.15) 0%,rgba(5,1,10,0) 70%);pointer-events:none;z-index:0}
-.title-text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:34px;font-weight:900;letter-spacing:-.5px}
-.subtitle-text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:11px;font-weight:800;letter-spacing:.22em}
-::-webkit-scrollbar{display:none}
-.menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:70;display:none}
-.menu-overlay.open{display:block}
-.menu-panel{position:absolute;right:0;top:0;width:min(82%,330px);height:100%;padding:78px 24px 24px;background:linear-gradient(180deg,rgba(5,7,18,.98),rgba(10,4,22,.98));border-left:1px solid #6f2cad;box-shadow:-20px 0 60px rgba(65,0,130,.38)}
-.menu-panel a{display:flex;align-items:center;min-height:48px;color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);font-size:14px}
-.menu-close{position:absolute;right:18px;top:20px;width:36px;height:36px;border:1px solid #362447;border-radius:10px;background:#100a1d;color:#fff;font-size:24px}
-@media(max-width:380px){.app-container{max-width:100%}.title-text{font-size:31px}}
-
-/* EVA master mobile menu */
-.drawer,.menu-overlay{position:fixed!important;inset:0!important;z-index:80!important;background:
-linear-gradient(rgba(3,0,8,.55),rgba(3,0,8,.72)),
-radial-gradient(circle at 50% 20%,rgba(138,43,226,.16),transparent 40%),
-#030008!important}
-.drawer[hidden]{display:none!important}.menu-overlay{display:none!important}.menu-overlay.open{display:block!important}
-.drawer-panel,.menu-panel{position:absolute!important;top:0!important;left:0!important;right:auto!important;width:82%!important;max-width:328px!important;height:100%!important;padding:52px 28px 32px!important;background:rgba(6,2,14,.96)!important;backdrop-filter:blur(10px)!important;-webkit-backdrop-filter:blur(10px)!important;border:0!important;border-right:1px solid rgba(45,34,66,.8)!important;box-shadow:20px 0 50px rgba(0,0,0,.8)!important;display:flex!important;flex-direction:column!important}
-.drawer-close,.menu-close{position:fixed!important;top:32px!important;right:24px!important;left:auto!important;width:38px!important;height:38px!important;border-radius:12px!important;background:rgba(15,10,28,.84)!important;border:1px solid rgba(45,34,66,.8)!important;color:#fff!important;font-size:24px!important;z-index:90!important}
-.drawer-brand,.menu-panel>div.mb-6{margin:0 0 42px!important;text-align:left!important;display:block!important}
-.drawer-brand .eva-crown,.menu-panel .text-4xl{font-size:44px!important;line-height:1!important;color:#d5a5ff!important;text-shadow:0 0 12px rgba(169,117,255,.55)!important}
-.drawer-brand b,.menu-panel .font-extrabold{display:block!important;margin-top:8px!important;font-size:16px!important;font-weight:800!important;letter-spacing:.03em!important;background:linear-gradient(180deg,#fff,#d4b3ff)!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important}
-.drawer-brand small,.menu-panel .tracking-\[\.18em\]{display:block!important;margin-top:2px!important;color:#7d7398!important;font-size:8.5px!important;font-weight:700!important;letter-spacing:.16em!important}
-.drawer nav,.menu-panel nav{display:flex!important;flex-direction:column!important;gap:18px!important}
-.drawer nav a,.menu-panel nav a{display:flex!important;align-items:center!important;min-height:34px!important;padding:4px 0!important;border:0!important;color:#fff!important;text-decoration:none!important;font-size:15px!important;font-weight:500!important;letter-spacing:.01em!important;background:transparent!important}
-.drawer nav a:first-letter,.menu-panel nav a:first-letter{color:#a59ab8!important}
-.drawer-login,.menu-panel>a.absolute{position:absolute!important;left:28px!important;right:28px!important;bottom:32px!important;height:50px!important;border:1.5px solid rgba(138,43,226,.5)!important;border-radius:12px!important;display:flex!important;align-items:center!important;justify-content:center!important;background:transparent!important;color:#fff!important;text-decoration:none!important;font-size:14px!important;font-weight:600!important;letter-spacing:.02em!important}
-@media(max-width:360px){.drawer-panel,.menu-panel{padding-left:22px!important;padding-right:22px!important}.drawer nav,.menu-panel nav{gap:14px!important}.drawer-login,.menu-panel>a.absolute{left:22px!important;right:22px!important}}
-
-/* EVA mobile menu reference v2 */
-.drawer,.menu-overlay{
-  background:
-    linear-gradient(rgba(4,1,10,.60),rgba(4,1,10,.68)),
-    url('/assets/eva-spider-hero.jpg') center 20%/cover no-repeat!important;
-}
-.drawer-panel,.menu-panel{
-  width:80%!important;
-  max-width:320px!important;
-  padding:52px 24px 40px!important;
-  background:rgba(7,3,14,.98)!important;
-  border-right:1px solid rgba(45,34,66,.8)!important;
-  box-shadow:30px 0 50px rgba(0,0,0,.9)!important;
-}
-.drawer-close,.menu-close{
-  top:52px!important;
-  right:20px!important;
-  width:36px!important;
-  height:36px!important;
-  border-radius:10px!important;
-  background:rgba(10,5,20,.8)!important;
-}
-.drawer-brand,.menu-panel>div.mb-6{margin-bottom:45px!important}
-.drawer-brand .eva-crown,.menu-panel .text-4xl{font-size:44px!important}
-.drawer-brand b,.menu-panel .font-extrabold{font-size:17px!important;letter-spacing:.02em!important}
-.drawer-brand small,.menu-panel .tracking-\[\.18em\]{font-size:8px!important;color:#716a85!important;font-weight:800!important;text-transform:uppercase!important}
-.drawer nav,.menu-panel nav{gap:22px!important;padding-left:4px!important}
-.drawer nav a,.menu-panel nav a{
-  min-height:38px!important;
-  padding:8px 0!important;
-  gap:18px!important;
-  font-size:15px!important;
-  font-weight:500!important;
-  letter-spacing:.02em!important;
-  color:#fff!important;
-}
-.drawer-login,.menu-panel>a.absolute{
-  left:24px!important;
-  right:24px!important;
-  bottom:40px!important;
-  height:50px!important;
-  border:1px solid #7c3aed!important;
-  background:transparent!important;
-}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#000;font-family:Inter,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}body{display:flex;justify-content:center;align-items:flex-start;min-height:100vh}
+.app-container{width:100%;max-width:400px;background:#030008;min-height:100svh;height:100svh;position:relative;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;box-shadow:0 0 50px rgba(74,21,168,.2)}.app-container::-webkit-scrollbar{display:none}.app-container{scrollbar-width:none}
+.hero-bg-container{position:absolute;top:0;left:0;width:100%;height:55%;z-index:0;overflow:hidden}.hero-bg-container img{width:100%;height:100%;object-fit:cover;object-position:center top}.hero-bg-mask{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(3,0,8,0) 0%,rgba(3,0,8,.4) 60%,rgba(3,0,8,.95) 85%,#030008 100%)}
+.text-grad-title{background:linear-gradient(180deg,#fff 0%,#e0c2ff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.text-grad-subtitle{background:linear-gradient(90deg,#4adede 0%,#4a90e2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.text-grad-pink{background:linear-gradient(180deg,#ff8aeb 0%,#c452b4 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.glass-panel{background:rgba(14,8,26,.6);border:1px solid rgba(45,34,66,.8);border-radius:14px;backdrop-filter:blur(10px)}.grid-card{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 0;gap:8px;background:rgba(10,5,20,.7);border:1px solid rgba(45,34,66,.6);border-radius:12px;text-decoration:none}.grid-card:active{background:rgba(31,23,61,.8)}.explore-btn{background:linear-gradient(90deg,#6222f5,#7b3dff);box-shadow:0 4px 20px rgba(98,34,245,.4);border-radius:14px}
+.menu-overlay{position:fixed;inset:0;z-index:80;display:none;background:linear-gradient(rgba(4,1,10,.60),rgba(4,1,10,.68)),url('/assets/eva-spider-hero.jpg') center 20%/cover no-repeat}.menu-overlay.open{display:block}.menu-panel{position:absolute;top:0;left:0;width:80%;max-width:320px;height:100%;padding:52px 24px 40px;background:rgba(7,3,14,.98);border-right:1px solid rgba(45,34,66,.8);box-shadow:30px 0 50px rgba(0,0,0,.9);display:flex;flex-direction:column}.menu-close{position:fixed;top:52px;right:20px;width:36px;height:36px;border-radius:10px;background:rgba(10,5,20,.8);border:1px solid rgba(45,34,66,.8);color:#fff;font-size:24px;display:grid;place-items:center;z-index:90}.menu-brand{display:flex;align-items:center;gap:10px;margin-bottom:45px}.menu-brand b{display:block;font-size:17px;font-weight:800;letter-spacing:.02em;background:linear-gradient(180deg,#fff,#d4b3ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.menu-brand small{display:block;margin-top:2px;color:#716a85;font-size:8px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}.menu-panel nav{display:flex;flex-direction:column;gap:22px;padding-left:4px}.menu-panel nav a{display:flex;align-items:center;min-height:38px;padding:8px 0;gap:18px;color:#fff;text-decoration:none;font-size:15px;font-weight:500;letter-spacing:.02em}.menu-login{margin-top:auto;height:50px;border:1px solid #7c3aed;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;font-size:14px;font-weight:600}
 </style>
 </head>
 <body>
-<div class="app-container pb-6">
-<div class="bg-glow-left"></div><div class="bg-glow-right"></div>
+<div class="app-container">
+<div class="hero-bg-container"><img src="/assets/eva-spider-hero.jpg" alt="Spider Background"><div class="hero-bg-mask"></div></div>
 
-<header class="flex justify-between items-center px-5 pt-[52px] pb-2 relative z-20">
-  <a href="/" class="flex items-center gap-[11px] no-underline">
-    <div class="w-9 h-9 flex justify-center items-center">
-      <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
-        <defs><linearGradient id="logoGrad" x1="50%" y1="0%" x2="50%" y2="100%"><stop offset="0%" stop-color="#ffffff"/><stop offset="50%" stop-color="#E9D5FF"/><stop offset="100%" stop-color="#A855F7"/></linearGradient></defs>
-        <path d="M22 35C22 55 30 75 50 85C70 75 78 55 78 35C65 48 50 48 50 48C50 48 35 48 22 35Z" fill="none" stroke="url(#logoGrad)" stroke-width="2.5"/>
-        <path d="M32 46C35 55 45 65 50 65V55C45 55 38 48 32 46Z" fill="url(#logoGrad)"/>
-        <path d="M68 46C65 55 55 65 50 65V55C55 55 62 48 68 46Z" fill="url(#logoGrad)"/>
-        <path d="M50 15L54 38H46Z" fill="url(#logoGrad)"/>
-        <circle cx="30" cy="25" r="2.5" fill="url(#logoGrad)"/><circle cx="70" cy="25" r="2.5" fill="url(#logoGrad)"/>
-        <path d="M50 68L56 78L50 85L44 78Z" fill="url(#logoGrad)"/>
-      </svg>
-    </div>
-    <div class="flex flex-col justify-center -mt-1">
-      <h1 class="text-[14px] font-[800] tracking-[0.03em] text-white leading-tight">EVA AI MARKET</h1>
-      <p class="text-[7.5px] text-[#7d7398] font-bold tracking-[0.16em] leading-tight mt-[1px]">AI & CLOUD SOLUTIONS</p>
-    </div>
-  </a>
-  <div class="flex gap-2.5">
-    <button onclick="location.href='/products.html'" aria-label="Search products" class="w-[34px] h-[34px] bg-[#100a1d]/80 border border-[#2d2242] rounded-[10px] flex items-center justify-center text-white/90">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    </button>
-    <button id="menuBtn" aria-label="Menu" class="w-[34px] h-[34px] bg-[#100a1d]/80 border border-[#2d2242] rounded-[10px] flex items-center justify-center text-white/90">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
-    </button>
-  </div>
+<header class="flex justify-between items-center px-6 pt-[calc(20px+env(safe-area-inset-top))] pb-6 relative z-10">
+<a href="/" class="flex items-center gap-[10px] no-underline">
+<div class="w-11 h-11 flex justify-center items-center flex-shrink-0">
+<svg width="44" height="44" viewBox="0 0 100 100" fill="none"><defs><linearGradient id="logoGrad" x1="50%" y1="0%" x2="50%" y2="100%"><stop offset="0%" stop-color="#fff"/><stop offset="50%" stop-color="#E9D5FF"/><stop offset="100%" stop-color="#A855F7"/></linearGradient></defs><path d="M18 35C18 60 30 80 50 90C70 80 82 60 82 35C65 48 50 48 50 48C50 48 35 48 18 35Z" fill="none" stroke="url(#logoGrad)" stroke-width="3.5"/><path d="M32 46C35 55 45 65 50 65V55C45 55 38 48 32 46Z" fill="url(#logoGrad)"/><path d="M68 46C65 55 55 65 50 65V55C55 55 62 48 68 46Z" fill="url(#logoGrad)"/><path d="M50 12L54 38H46Z" fill="url(#logoGrad)"/><circle cx="28" cy="22" r="3" fill="url(#logoGrad)"/><circle cx="72" cy="22" r="3" fill="url(#logoGrad)"/><path d="M50 70L58 82L50 90L42 82Z" fill="url(#logoGrad)"/></svg>
+</div><div><h1 class="text-[17px] font-[800] tracking-[0.02em] text-white leading-tight">EVA AI MARKET</h1><p class="text-[8px] text-[#716a85] font-[800] tracking-[0.16em] uppercase leading-tight mt-[2px]">AI & Cloud Solutions</p></div>
+</a>
+<div class="flex gap-2.5"><button onclick="location.href='/products.html'" class="w-[38px] h-[38px] bg-transparent border border-[#2d2242] rounded-[10px] flex items-center justify-center text-white/90 backdrop-blur-md" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button><button id="menuBtn" class="w-[38px] h-[38px] bg-transparent border border-[#2d2242] rounded-[10px] flex items-center justify-center text-white/90 backdrop-blur-md" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/></svg></button></div>
 </header>
 
-<div class="absolute top-[80px] left-0 right-0 h-[420px] z-10 flex justify-center overflow-hidden">
-  <img src="/assets/eva-spider-hero.jpg" class="w-[110%] h-[110%] max-w-none object-cover object-[center_top] opacity-95 ml-[-5%]" alt="EVA Spider">
-  <div class="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[#05010a] to-transparent"></div>
-  <div class="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#05010a] to-transparent"></div>
-  <div class="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#05010a] to-transparent"></div>
-  <div class="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#05010a] via-[#05010a]/90 to-transparent"></div>
+<div class="mt-[150px] relative z-10"></div>
+<div class="px-6 text-center mb-7 relative z-10"><h2 class="text-[34px] font-[900] tracking-[-0.02em] text-grad-title leading-none mb-2">EVA AI MARKET</h2><h3 class="text-[12px] font-[800] tracking-[0.12em] text-grad-subtitle uppercase mb-2">PREMIUM AI & CLOUD TOOLS</h3><p class="text-[13px] text-[#a59ab8] font-medium"><span class="text-[#ff7deb] font-bold">AI</span> Today, A Better Tomorrow.</p></div>
+
+<div class="px-6 mb-7 relative z-10"><div class="grid grid-cols-4 gap-[10px]">
+<a href="/products.html" class="grid-card"><div class="w-8 h-8 rounded-full border-2 border-[#74aa9c] text-[#74aa9c] grid place-items-center text-[14px] font-bold">◎</div><span class="text-white text-[11px] font-semibold">ChatGPT</span></a>
+<a href="/products.html" class="grid-card"><div class="text-[#d97757] text-[30px] leading-none">✺</div><span class="text-white text-[11px] font-semibold">Claude</span></a>
+<a href="/products.html" class="grid-card"><div class="text-[#6f79ff] text-[30px] leading-none">✦</div><span class="text-white text-[11px] font-semibold">Gemini</span></a>
+<a href="/products.html" class="grid-card"><div class="w-8 h-8 rounded-full border-2 border-white text-white grid place-items-center text-[16px]">╱</div><span class="text-white text-[11px] font-semibold">Grok</span></a>
+<a href="/products.html" class="grid-card"><div class="text-white text-[20px] font-bold leading-none">aws</div><span class="text-white text-[11px] font-semibold">AWS</span></a>
+<a href="/products.html" class="grid-card text-center"><div class="text-[#4285f4] text-[28px] leading-none">☁</div><span class="text-white text-[11px] font-semibold leading-tight">Google<br>Cloud</span></a>
+<a href="/products.html" class="grid-card"><div class="text-white text-[28px] leading-none">✂</div><span class="text-white text-[11px] font-semibold">CapCut</span></a>
+<a href="/products.html" class="grid-card"><div class="w-8 h-8 rounded-full bg-[rgba(108,50,252,.15)] text-[#b493ff] grid place-items-center text-[25px] font-black italic">K</div><span class="text-white text-[11px] font-semibold">Kiro</span></a>
+</div></div>
+
+<div class="px-6 mb-7 relative z-10"><div class="glass-panel flex justify-between items-center px-5 py-[18px]"><div class="flex flex-col items-center gap-[2px]"><span class="text-[15px] font-[800] text-white">50,000+</span><span class="text-[9px] text-[#867b9f] font-semibold">Customers</span></div><div class="flex flex-col items-center gap-[2px]"><span class="text-[15px] font-[800] text-white">45+</span><span class="text-[9px] text-[#867b9f] font-semibold">Products</span></div><div class="flex flex-col items-center gap-[2px]"><span class="text-[15px] font-[800] text-white">100+</span><span class="text-[9px] text-[#867b9f] font-semibold">Countries</span></div><div class="flex flex-col items-center gap-[2px]"><span class="text-[15px] font-[800] text-grad-pink">99.9%</span><span class="text-[9px] text-[#867b9f] font-semibold">Success</span></div></div></div>
+
+<div class="px-6 mb-8 relative z-10"><button onclick="location.href='/products.html'" class="explore-btn w-full h-[54px] flex justify-center items-center gap-3 text-white active:scale-95"><span class="text-[15px] font-[700] tracking-wide">Explore Products</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+
+<div class="px-10 pb-8 flex justify-between items-end relative z-10"><div class="flex flex-col items-center gap-[6px]"><span class="text-[#a59ab8] text-[22px]">◌</span><span class="text-[#867b9f] text-[10px] font-medium">Fast Delivery</span></div><div class="flex flex-col items-center gap-[6px]"><span class="text-[#a59ab8] text-[22px]">▣</span><span class="text-[#867b9f] text-[10px] font-medium">Secure Payment</span></div><div class="flex flex-col items-center gap-[6px]"><span class="text-[#a59ab8] text-[22px]">◉</span><span class="text-[#867b9f] text-[10px] font-medium">24/7 Support</span></div></div>
 </div>
 
-<div class="relative z-20 mt-[230px] flex flex-col px-5">
-  <div class="text-center mb-[22px]">
-    <h2 class="title-text title-gradient leading-none mb-1.5">EVA AI MARKET</h2>
-    <h3 class="subtitle-text subtitle-gradient mb-2.5">PREMIUM AI & CLOUD TOOLS</h3>
-    <p class="text-[11.5px] text-[#9ca3af] font-medium tracking-[0.01em]"><span class="text-[#e264cd] font-bold drop-shadow-[0_0_8px_rgba(226,100,205,0.7)]">AI</span> Today, A Better Tomorrow.</p>
-  </div>
-
-  <div class="grid grid-cols-4 gap-[9px] mb-5">
-    <a href="/products.html" class="glass-card h-[88px] flex flex-col items-center justify-center gap-2 no-underline"><div class="text-[#70d6a8] text-[28px]">◉</div><span class="text-[10px] font-semibold text-white">ChatGPT</span></a>
-    <a href="/products.html" class="glass-card h-[88px] flex flex-col items-center justify-center gap-2 no-underline"><div class="text-[#f08865] text-[31px]">✺</div><span class="text-[10px] font-semibold text-white">Claude</span></a>
-    <a href="/products.html" class="glass-card h-[88px] flex flex-col items-center justify-center gap-2 no-underline"><div class="text-[#7b8cff] text-[29px]">✦</div><span class="text-[10px] font-semibold text-white">Gemini</span></a>
-    <a href="/products.html" class="glass-card h-[88px] flex flex-col items-center justify-center gap-2 no-underline"><div class="text-white text-[27px]">𝕏</div><span class="text-[10px] font-semibold text-white">Grok</span></a>
-    <a href="/products.html" class="glass-card h-[88px] flex flex-col items-center justify-center gap-[10px] no-underline"><div class="text-white text-[21px] font-bold">aws</div><span class="text-[10px] font-semibold text-white">AWS</span></a>
-    <a href="/products.html" class="glass-card h-[88px] flex flex-col items-center justify-center gap-2 text-center no-underline"><div class="text-[#4285F4] text-[26px]">☁</div><span class="text-[9.5px] font-semibold text-white leading-tight">Google<br>Cloud</span></a>
-    <a href="/products.html" class="glass-card h-[88px] flex flex-col items-center justify-center gap-2 no-underline"><div class="text-white text-[28px]">✂</div><span class="text-[10px] font-semibold text-white">CapCut</span></a>
-    <a href="/products.html" class="glass-card h-[88px] flex flex-col items-center justify-center gap-[7px] no-underline"><div class="text-[#ae71ff] text-[30px] font-black italic leading-none drop-shadow-[0_0_8px_rgba(174,113,255,.7)]" style="font-family:Impact,sans-serif;transform:skewX(-10deg)">K</div><span class="text-[10px] font-semibold text-white">Kiro</span></a>
-  </div>
-
-  <div class="glass-card flex justify-between items-center px-4 py-3 mb-6">
-    <div class="flex flex-col items-center w-1/4"><span class="text-[14px] font-[800] text-white mb-[2px]">50,000+</span><span class="text-[9.5px] text-[#9a92ab]">Customers</span></div>
-    <div class="flex flex-col items-center w-1/4"><span class="text-[14px] font-[800] text-white mb-[2px]">45+</span><span class="text-[9.5px] text-[#9a92ab]">Products</span></div>
-    <div class="flex flex-col items-center w-1/4"><span class="text-[14px] font-[800] text-white mb-[2px]">100+</span><span class="text-[9.5px] text-[#9a92ab]">Countries</span></div>
-    <div class="flex flex-col items-center w-1/4"><span class="text-[14px] font-[900] pink-gradient mb-[2px]">99.9%</span><span class="text-[9.5px] text-[#9a92ab]">Success</span></div>
-  </div>
-
-  <button onclick="location.href='/products.html'" class="w-full bg-[#5213e4] text-white font-[600] py-[15px] rounded-[12px] flex justify-center items-center gap-2 mb-7 shadow-[0_4px_20px_rgba(82,19,228,.35)] active:scale-[.98]">
-    <span class="text-[15px] tracking-wide">Explore Products</span>
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-  </button>
-</div>
-
-<div class="flex justify-between px-8 mt-auto pb-4 relative z-20">
-  <div class="flex flex-col items-center gap-[9px]"><div class="text-[#7e709b] text-xl">◌</div><span class="text-[9.5px] font-medium text-[#9a92ab]">Fast Delivery</span></div>
-  <div class="flex flex-col items-center gap-[9px]"><div class="text-[#7e709b] text-xl">▣</div><span class="text-[9.5px] font-medium text-[#9a92ab]">Secure Payment</span></div>
-  <div class="flex flex-col items-center gap-[9px]"><div class="text-[#7e709b] text-xl">◉</div><span class="text-[9.5px] font-medium text-[#9a92ab]">24/7 Support</span></div>
-</div>
-</div>
-
-<div class="menu-overlay" id="menuOverlay">
-  <div class="menu-panel">
-    <button class="menu-close" id="menuClose">×</button>
-    <div class="mb-6"><div class="text-[#c257ff] text-4xl">♛</div><div class="text-white font-extrabold mt-2">EVA AI MARKET</div><div class="text-[8px] tracking-[.18em] text-[#8f82aa]">AI & CLOUD SOLUTIONS</div></div>
-    <nav>
-      <a href="/">⌂&nbsp;&nbsp;Home</a>
-      <a href="/products.html">▣&nbsp;&nbsp;Products</a>
-      <a href="/products.html">▦&nbsp;&nbsp;Categories</a>
-      <a href="/#pricing">♢&nbsp;&nbsp;Pricing</a>
-      <a href="/#blog">▤&nbsp;&nbsp;Blog / News</a>
-      <a href="/#about">⌂&nbsp;&nbsp;About Us</a>
-      <a href="/#contact">◉&nbsp;&nbsp;Contact</a>
-      <a href="/#faq">?&nbsp;&nbsp;FAQ</a>
-    </nav>
-    <a href="/login.html" class="absolute left-6 right-6 bottom-7 h-12 border border-[#9639e8] rounded-xl flex items-center justify-center text-white no-underline">Login / Sign Up</a>
-  </div>
-</div>
-
+<div class="menu-overlay" id="menuOverlay"><button class="menu-close" id="menuClose">×</button><div class="menu-panel"><div class="menu-brand"><div class="w-11 h-11 flex items-center justify-center text-[#d5a5ff] text-[38px]">♛</div><div><b>EVA AI MARKET</b><small>AI & Cloud Solutions</small></div></div><nav><a href="/">⌂ Home</a><a href="/products.html">▣ Products</a><a href="/products.html">▦ Categories</a><a href="/#pricing">♢ Pricing</a><a href="/#blog">▤ Blog / News</a><a href="/#about">♤ About Us</a><a href="/#contact">@ Contact</a><a href="/#faq">? FAQ</a></nav><a href="/login.html" class="menu-login">Login / Sign Up</a></div></div>
 <script>
-const menuBtn=document.getElementById('menuBtn'),menuOverlay=document.getElementById('menuOverlay'),menuClose=document.getElementById('menuClose');
-menuBtn.addEventListener('click',()=>menuOverlay.classList.add('open'));
-menuClose.addEventListener('click',()=>menuOverlay.classList.remove('open'));
-menuOverlay.addEventListener('click',e=>{if(e.target===menuOverlay)menuOverlay.classList.remove('open')});
+const mb=document.getElementById('menuBtn'),mo=document.getElementById('menuOverlay'),mc=document.getElementById('menuClose');mb.onclick=()=>mo.classList.add('open');mc.onclick=()=>mo.classList.remove('open');mo.onclick=e=>{if(e.target===mo)mo.classList.remove('open')};
 </script>
-</body>
-</html>
+</body></html>
