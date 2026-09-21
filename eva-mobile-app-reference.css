@@ -1,0 +1,75 @@
+/* EVA AI MARKET — uploaded 8-screen mobile reference, 2026-09-21 */
+:root{--eva-bg:#020610;--eva-surface:#071321;--eva-surface-2:#0a1727;--eva-line:rgba(100,127,171,.30);--eva-purple:#8a22ff;--eva-magenta:#cf3cff;--eva-cyan:#33e6ff;--eva-green:#35efa1;--eva-text:#f8f7ff;--eva-muted:#9ea9bd}
+@media(max-width:760px){
+html,body{width:100%;max-width:100%;overflow-x:hidden;background:var(--eva-bg)!important;color:var(--eva-text)!important}
+body{background:radial-gradient(circle at 50% -10%,rgba(126,32,255,.22),transparent 30%),linear-gradient(180deg,#02050d,#030914 60%,#02050c)!important}
+button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
+.panel,.dash-card,.list-card,.stock-card{border-color:var(--eva-line)!important;background:linear-gradient(145deg,rgba(10,24,40,.97),rgba(4,12,23,.98))!important;box-shadow:inset 0 1px rgba(255,255,255,.025),0 12px 32px rgba(0,0,0,.22)!important}
+.button.primary,.submit,.actions button:not(.secondary-action):not(.danger){border:1px solid rgba(202,89,255,.28)!important;background:linear-gradient(100deg,#6420f5,#8e20ff 52%,#b115ff)!important;color:#fff!important;box-shadow:0 0 20px rgba(126,35,255,.25)!important}
+.button.secondary,.secondary,.secondary-action{border-color:rgba(160,71,255,.55)!important;background:#071321!important;color:#f6f1ff!important}
+
+/* storefront header and homepage */
+body.premium-home .eva-final-mobile-hero{min-height:100svh!important;padding-left:18px!important;padding-right:18px!important;background:radial-gradient(ellipse at 50% 23%,rgba(114,31,209,.31),transparent 43%),linear-gradient(180deg,#03060d 0,#070312 62%,#02050c 100%)!important}
+body.premium-home .eva-final-topbar{height:58px!important;border-color:rgba(155,70,255,.24)!important}
+body.premium-home .eva-final-logo{color:#c05aff!important;text-shadow:0 0 18px #9132ff!important}
+body.premium-home .eva-final-brand-text strong{font-size:12px!important;letter-spacing:.075em!important}
+body.premium-home .eva-final-brand-text small{color:#b395d2!important}
+body.premium-home .eva-final-spider{height:242px!important;margin-left:-18px!important;margin-right:-18px!important}
+body.premium-home .eva-final-spider img{object-position:50% 46%!important;filter:brightness(.91) contrast(1.09) saturate(1.12) drop-shadow(0 0 13px rgba(143,40,255,.36))!important}
+body.premium-home .eva-final-copy h1{font-size:30px!important;background:linear-gradient(90deg,#fff,#e8a4ff 48%,#c35aff)!important;-webkit-background-clip:text!important;background-clip:text!important}
+body.premium-home .eva-final-copy h2{color:var(--eva-cyan)!important}
+body.premium-home .eva-final-brand-grid{gap:8px!important}
+body.premium-home .eva-final-brand-card{height:64px!important;border-color:rgba(130,78,190,.72)!important;background:linear-gradient(180deg,#0b1928,#06101d)!important}
+body.premium-home .eva-final-stats{border-color:rgba(154,55,221,.70)!important;background:#070b15!important}
+body.premium-home .eva-final-cta{height:49px!important;background:linear-gradient(100deg,#6219f2,#9018ff,#b900ff)!important;box-shadow:0 0 25px rgba(133,27,255,.34)!important}
+body.premium-home .eva-final-benefits span{color:#d45eff!important}
+body.premium-home .eva-final-menu{border-color:#7035a7!important;background:rgba(3,7,15,.98)!important}
+body.premium-home .eva-final-menu a{min-height:44px;display:flex;align-items:center}
+body.premium-home .store-showcase{padding:24px 10px 88px!important}
+body.premium-home .store-showcase>.container{width:100%!important;padding:0!important}
+body.premium-home #public-store-products{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+body.premium-home #public-store-products>article{min-width:0!important;border:1px solid rgba(104,124,163,.34)!important;border-radius:11px!important;background:linear-gradient(180deg,#091827,#06111e)!important;box-shadow:0 8px 23px rgba(0,0,0,.28)!important}
+body.premium-home #public-store-products .button{min-height:36px!important;border-radius:7px!important;background:linear-gradient(90deg,#6727ef,#7e28ff)!important}
+body.premium-home #public-store-products h3{font-size:13px!important;line-height:1.2!important}
+body.premium-home .pro-section-title h2{font-size:23px!important}
+body.premium-home [class*="floating-spider"],body.premium-home [class*="activity-toast"],body.premium-home [class*="activity-float"],body.premium-home #eva-live-order-popup{display:none!important}
+
+/* customer dashboard */
+body.dashboard-page{padding:0!important;background:radial-gradient(circle at 92% 0,rgba(31,134,179,.13),transparent 28%),#020813!important}
+body.dashboard-page .dash-topbar,body.dashboard-page .customer-topbar{min-height:64px!important;border-bottom:1px solid rgba(92,139,180,.22)!important;background:rgba(2,8,18,.96)!important}
+body.dashboard-page .dash-main,body.dashboard-page main.container{width:100%!important;max-width:100%!important;padding:12px 12px 86px!important}
+body.dashboard-page .customer-hero,body.dashboard-page .dash-hero{border:1px solid rgba(115,69,173,.42)!important;border-radius:15px!important;background:radial-gradient(circle at 88% 45%,rgba(152,35,255,.22),transparent 22%),linear-gradient(140deg,#0b1a2c,#090d1b)!important}
+body.dashboard-page .wallet-balance strong,body.dashboard-page [class*="balance"] strong{color:var(--eva-green)!important;text-shadow:0 0 15px rgba(53,239,161,.22)}
+body.dashboard-page .customer-nav{background:rgba(3,8,16,.985)!important;border-right:1px solid rgba(143,51,222,.46)!important}
+body.dashboard-page .customer-nav a{min-height:45px!important;border-bottom:1px solid rgba(255,255,255,.045)!important}
+body.dashboard-page .customer-nav a:hover,body.dashboard-page .customer-nav a.active{background:linear-gradient(90deg,rgba(84,32,210,.48),rgba(20,49,92,.35))!important;color:#fff!important}
+body.dashboard-page .dash-actions,body.dashboard-page .account-actions{gap:8px!important}
+body.dashboard-page .dash-actions>* ,body.dashboard-page .account-actions>*{border-radius:10px!important;border-color:rgba(121,91,172,.45)!important}
+body.dashboard-page .order-card,body.dashboard-page .activity-card,body.dashboard-page .deposit-log{border-radius:12px!important}
+
+/* private admin + installable admin */
+body.eva-admin-page{background:radial-gradient(circle at 100% 0,rgba(38,164,192,.13),transparent 25%),#020813!important}
+body.eva-admin-page .eva-admin-sidebar{background:#030914!important;border-color:rgba(102,63,154,.4)!important}
+body.eva-admin-page .eva-admin-brand .brand-mark{background:linear-gradient(145deg,#7828ed,#c432ff)!important;box-shadow:0 0 18px rgba(154,45,255,.30)!important}
+body.eva-admin-page .eva-admin-topbar{background:rgba(3,9,20,.96)!important;border-color:rgba(85,124,162,.25)!important}
+body.eva-admin-page .eva-admin-hero{border-color:rgba(64,190,221,.25)!important;background:linear-gradient(135deg,rgba(16,117,146,.18),rgba(68,26,124,.19))!important}
+body.eva-admin-page .eva-admin-mobile-nav{background:#050d19!important;border-color:rgba(110,66,167,.42)!important}
+body.eva-admin-page .eva-admin-mobile-nav a{color:#d7cae7!important}
+body.eva-admin-page .eva-admin-main{padding-bottom:82px!important}
+
+body:not(.premium-home):not(.dashboard-page) #app{width:100%;max-width:100%;padding:0 10px 86px!important}
+body:not(.premium-home):not(.dashboard-page) .topbar{min-height:62px!important;padding:10px 2px!important;border-bottom:1px solid rgba(138,58,205,.28)!important}
+body:not(.premium-home):not(.dashboard-page) .topbar small{color:#b965ff!important}
+body:not(.premium-home):not(.dashboard-page) .hero{border-color:rgba(43,177,211,.24)!important;background:linear-gradient(135deg,rgba(15,123,154,.18),rgba(67,24,127,.22))!important}
+body:not(.premium-home):not(.dashboard-page) .stats-grid{gap:8px!important}
+body:not(.premium-home):not(.dashboard-page) .stats-grid article{border:1px solid rgba(84,121,163,.31)!important;background:linear-gradient(145deg,#09182a,#07111f)!important;border-radius:12px!important}
+body:not(.premium-home):not(.dashboard-page) .stats-grid strong{font-size:20px!important}
+body:not(.premium-home):not(.dashboard-page) .tabs{top:0!important;padding:8px 0!important;background:rgba(2,7,16,.95)!important}
+body:not(.premium-home):not(.dashboard-page) .tabs button.active{background:linear-gradient(100deg,#6027e9,#9e23ff)!important}
+body:not(.premium-home):not(.dashboard-page) .panel{border-radius:14px!important}
+}
+@media(max-width:390px){
+body.premium-home .eva-final-mobile-hero{padding-left:13px!important;padding-right:13px!important}
+body.premium-home .eva-final-spider{height:222px!important;margin-left:-13px!important;margin-right:-13px!important}
+body.premium-home #public-store-products{gap:7px!important}
+}
