@@ -187,7 +187,7 @@
         if(!p) throw new Error('Product unavailable');
         paintCheckout(p);
       }
-      const pay=$('#payNow'), agree=$('#agreeTerms'), radios=$('input[name="payment"]');
+      const pay=$('#payNow'), agree=$('#agreeTerms'), radios=document.querySelectorAll('input[name="payment"]');
       const unavailable=Number(p.stock)<=0;
       if(unavailable){
         const n=$('#checkoutNotice');
