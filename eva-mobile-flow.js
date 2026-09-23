@@ -40,7 +40,7 @@
 
   function card(p){
     const unavailable=Number(p.stock)<=0;
-    return '<article class="product-card'+(unavailable?' out-of-stock':'')+'"><div class="product-top"><div class="product-logo brand-'+brand(p)+'">'+icon(p)+'</div><span class="heart">♡</span></div><h3>'+esc(p.name)+'</h3><div class="price">$ '+Number(p.price_usd||0).toFixed(2)+' <small>/ '+esc(p.official_price_label||'Plan')+'</small></div><button class="buy" data-id="'+esc(p.id)+'"'+(unavailable?' disabled aria-disabled="true"':'')+'>'+(unavailable?'Out of Stock':'Buy Now')+'</button></article>';
+    return '<article class="product-card'+(unavailable?' out-of-stock':'')+'"><div class="product-top"><div class="product-logo brand-'+brand(p)+'">'+icon(p)+'</div><span class="heart">♡</span></div><h3>'+esc(p.name)+'</h3><div class="desc">'+esc(p.subtitle||p.category||'')+'</div><div class="price">US$ '+Number(p.price_usd||0).toFixed(2)+' <small>/ '+esc(p.official_price_label||'Plan')+'</small></div><button class="buy" data-id="'+esc(p.id)+'"'+(unavailable?' disabled aria-disabled="true"':'')+'>'+(unavailable?'Out of Stock':'立即购买 →')+'</button></article>';
   }
 
   async function productsPage(){
