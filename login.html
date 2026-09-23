@@ -1,123 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
-<head><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#080b14">
-  <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="EVA Market">
-<link rel="manifest" href="/eva-market.webmanifest"><link rel="apple-touch-icon" href="/assets/icons/eva-app-192.png">
-<title>Sign In — EVA AI MARKET</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    body{background:#080b14;color:#e2e8f0;font-family:'Segoe UI',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;min-height:100vh;overflow-x:hidden}
-    .glass{background:rgba(15,23,42,.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08)}
-    .glow-cyan{box-shadow:0 0 25px rgba(0,242,254,.32)}
-    .auth-form[hidden]{display:none!important}
-    .auth-tab.active{background:linear-gradient(90deg,#06b6d4,#2563eb);color:#fff;box-shadow:0 0 20px rgba(6,182,212,.24)}
-    .auth-status{min-height:20px;margin-top:14px;font-size:12px;text-align:center;color:#94a3b8}
-    .auth-status.success{color:#34d399}.auth-status.error{color:#fb7185}
-    .password-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:#67e8f9}
-    .password-toggle:hover{color:#fff}
-  
-/* Neural Key production skin */
-body{background:#030712;background-image:radial-gradient(at 50% 15%,rgba(139,92,246,.25),transparent 65%),radial-gradient(at 15% 85%,rgba(6,182,212,.18),transparent 55%),radial-gradient(at 85% 85%,rgba(236,72,153,.18),transparent 55%);font-family:"Plus Jakarta Sans",system-ui,sans-serif}
-.neural-stage{perspective:1400px}.neural-card{background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(15,23,42,.9));backdrop-filter:blur(28px);border:1.5px solid rgba(255,255,255,.15);box-shadow:0 30px 70px -15px #000,0 0 50px rgba(56,189,248,.18),inset 0 1px rgba(255,255,255,.2);transform-style:preserve-3d;position:relative}.neural-brain{width:110px;height:110px;margin:-72px auto 8px;border-radius:50%;display:grid;place-items:center;font-size:55px;background:radial-gradient(circle,rgba(168,85,247,.32),transparent 65%);filter:drop-shadow(0 15px 24px rgba(56,189,248,.6));animation:brainHover 5.5s ease-in-out infinite}@keyframes brainHover{50%{transform:translateY(-8px) scale(1.03);filter:drop-shadow(0 22px 34px rgba(168,85,247,.75))}}.neural-badge{font:700 10px "JetBrains Mono",monospace;letter-spacing:.16em;color:#22d3ee;text-transform:uppercase}.neural-key-submit{width:100%;margin-top:18px;border:0;background:transparent;display:flex;justify-content:center;align-items:center;filter:drop-shadow(0 13px 18px #000)}.neural-key-submit .bow{width:62px;height:62px;border-radius:50%;z-index:2;display:grid;place-items:center;background:radial-gradient(circle at 35% 35%,#fff1c5,#d4a359 40%,#8c5a2b 75%,#422006);border:5px solid #b47834;color:#fde047;font-size:22px}.neural-key-submit .blade{margin-left:-14px;padding:10px 27px 10px 30px;border:6px solid #b47834;border-radius:999px;background:linear-gradient(#9333ea,#4c1d95);color:#fff;font-weight:900;letter-spacing:.15em;min-width:150px}.neural-card input{background:rgba(10,15,29,.85)!important;border-color:rgba(56,189,248,.45)!important;box-shadow:inset 0 2px 8px rgba(0,0,0,.8),0 0 14px rgba(56,189,248,.12)}.neural-card input:focus{border-color:#38bdf8!important;box-shadow:0 0 22px rgba(56,189,248,.32)}@media(max-width:620px){.neural-card{border-radius:28px!important;padding:26px 20px!important}.neural-brain{width:92px;height:92px;margin-top:-66px;font-size:46px}}
-
-/* 3D Neural registration mode */
-.neural-card.signup-active{border-color:rgba(217,70,239,.42);box-shadow:0 35px 80px -15px #000,0 0 48px rgba(168,85,247,.28),inset 0 1px rgba(255,255,255,.2)}
-.signup-active .neural-brain{background:linear-gradient(135deg,#9333ea,#ec4899);width:78px;height:78px;margin-top:-56px;font-size:0;border-radius:20px;box-shadow:0 14px 28px rgba(217,70,239,.4);animation:signupFloat 5s ease-in-out infinite}
-.signup-active .neural-brain:after{content:"👤";font-size:38px;filter:grayscale(1) brightness(3)}
-@keyframes signupFloat{50%{transform:translateY(-5px) scale(1.03)}}
-.signup-active #signup-form{padding-top:4px}.signup-active #signup-form input{border-color:rgba(255,255,255,.12)!important}.signup-active #signup-form input:focus{border-color:#d946ef!important;box-shadow:0 0 18px rgba(217,70,239,.32)}
-.signup-create-btn{width:100%;padding:15px;border:0;border-radius:16px;background:linear-gradient(135deg,#a855f7,#ec4899);box-shadow:0 7px 0 #7e22ce,0 16px 25px rgba(168,85,247,.4);color:#fff;font-weight:900;letter-spacing:.06em}.signup-create-btn:active{transform:translateY(5px);box-shadow:0 2px 0 #7e22ce,0 6px 12px rgba(168,85,247,.35)}
-.signup-strength{height:4px;background:#ffffff12;border-radius:99px;overflow:hidden;margin-top:7px}.signup-strength>i{display:block;height:100%;width:0;background:#64748b;transition:.25s}.signup-strength-text{display:block;text-align:right;font:10px "JetBrains Mono",monospace;color:#94a3b8;margin-top:5px}
-
-@media(max-width:600px){html,body{width:100%;max-width:100%;overflow-x:hidden}.neural-stage{width:100%;max-width:100%;padding-left:10px!important;padding-right:10px!important}.neural-card{width:100%!important;max-width:100%!important;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box!important}input,button{max-width:100%!important}}
-@media(max-width:360px){.neural-stage{padding-left:7px!important;padding-right:7px!important}}
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#f8fbff">
+<title>登录｜EVA AI MARKET</title>
+<style>
+:root{--blue:#1688ff;--navy:#0b2148;--muted:#8190a5;--line:#e4edf6;--bg:#f7fbff}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#edf5fb;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",Arial,sans-serif;color:var(--navy);-webkit-font-smoothing:antialiased}
+body{display:flex;justify-content:center}.app{width:100%;max-width:430px;min-height:100svh;background:linear-gradient(180deg,#fbfdff,#f4f9fd 72%,#fff);padding:calc(20px + env(safe-area-inset-top)) 18px 28px;box-shadow:0 0 42px rgba(26,83,145,.08)}
+.back{width:34px;height:34px;border:0;background:#fff;border-radius:10px;color:#17365e;font-size:22px;box-shadow:0 5px 14px rgba(35,89,146,.06)}
+.brand{text-align:center;margin-top:18px}.logo{width:66px;height:66px;margin:0 auto 10px;display:grid;place-items:center}.logo svg{width:66px;height:66px}.brand h1{margin:0;font-size:21px;font-weight:950;letter-spacing:-.02em}.brand p{margin:6px 0 0;font-size:9.5px;color:#8190a5}
+.card{margin-top:22px;background:#fff;border:1px solid #e4edf6;border-radius:18px;padding:18px 15px 16px;box-shadow:0 10px 28px rgba(35,89,146,.07)}
+.card h2{margin:0;font-size:17px;font-weight:950}.card .lead{margin:5px 0 15px;font-size:9.5px;color:#8190a5}
+.field{margin-bottom:12px}.field-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}.field label{font-size:9.5px;font-weight:900;color:#36506f}.field input{width:100%;height:43px;border:1px solid #dfe8f2;border-radius:11px;background:#fbfdff;padding:0 12px;outline:0;color:#17365e;font-size:11px}.field input:focus{border-color:#1688ff;box-shadow:0 0 0 3px rgba(22,136,255,.08)}.password-wrap{position:relative}.password-wrap input{padding-right:58px}.password-toggle{position:absolute;right:9px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:#1688ff;font-size:9px;font-weight:900}
+#forgot-password{border:0;background:transparent;padding:0;color:#1688ff;font-size:8.8px;font-weight:850}
+.submit{width:100%;height:44px;border:0;border-radius:12px;background:linear-gradient(180deg,#2baaff,#117df0);color:#fff;font-size:12px;font-weight:950;box-shadow:0 6px 14px rgba(10,119,236,.22);margin-top:3px}
+.auth-status{min-height:18px;margin:11px 0 0;text-align:center;font-size:9px;color:#7e8da1}.auth-status.success{color:#0ca468}.auth-status.error{color:#e23a54}
+.signup-link{text-align:center;margin-top:14px;font-size:9.5px;color:#7f8ea3}.signup-link a{color:#1688ff;text-decoration:none;font-weight:900}
+.divider{display:flex;align-items:center;gap:8px;margin:16px 0;color:#a0acbb;font-size:8px}.divider:before,.divider:after{content:"";height:1px;background:#e7eef7;flex:1}
+.safe{margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.safe div{height:50px;border:1px solid #e5edf6;border-radius:10px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#7e8da1;font-size:7.5px}.safe b{color:#1688ff;font-size:14px;margin-bottom:2px}
+.hidden-signup{display:none!important}
+@media(max-width:370px){.app{padding-left:14px;padding-right:14px}.card{padding-left:13px;padding-right:13px}}
 </style>
+</head>
+<body>
+<main class="app">
+<button class="back" onclick="history.back()" aria-label="Back">‹</button>
 
-<!-- Vercel Web Analytics: strip query strings and URL fragments before collection -->
-<script>
-  window.va = window.va || function () {
-    (window.vaq = window.vaq || []).push(arguments);
-  };
-  window.va('beforeSend', function (event) {
-    var url = new URL(event.url);
-    url.search = '';
-    url.hash = '';
-    return Object.assign({}, event, { url: url.toString() });
-  });
-</script>
-<script defer src="/_vercel/insights/script.js"></script>
-<link rel="stylesheet" href="/eva-premium-2026.css?v=20260922-1">
-<link rel="stylesheet" href="/eva-fresh-final.css?v=20260923-step6-polish1">
-<link rel="stylesheet" href="/eva-reference-11.css?v=20260923-ref11a">
-<link rel="stylesheet" href="/eva-reference-final.css?v=20260923-final11"><link rel="stylesheet" href="/eva-reference-exact.css?v=20260923-exact3"></head>
-<body class="min-h-screen flex items-center justify-center p-4 relative selection:bg-cyan-500 selection:text-black">
-  <div class="fixed top-10 left-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-  <div class="fixed bottom-0 right-0 w-[420px] h-[420px] bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+<section class="brand">
+<div class="logo"><svg viewBox="0 0 64 64"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#35b9ff"/><stop offset=".56" stop-color="#147fff"/><stop offset="1" stop-color="#065ce7"/></linearGradient></defs><path fill="url(#cg)" d="M11 18l9 7 7-14 6 14 12-10 5 26c-12 8-25 8-38 0z"/><path fill="#fff" opacity=".9" d="M16 31h32v4H16z"/><circle cx="11" cy="15" r="4" fill="#35b9ff"/><circle cx="28" cy="8" r="4" fill="#147fff"/><circle cx="47" cy="12" r="4" fill="#065ce7"/></svg></div>
+<h1>EVA AI MARKET</h1>
+<p>全球优质AI服务 · 一站式购买平台</p>
+</section>
 
-  <main class="neural-stage w-full max-w-md pt-20"><div class="glass neural-card w-full rounded-3xl p-6 sm:p-8 border border-slate-800 relative z-10 shadow-2xl"><div class="neural-brain" aria-hidden="true">🧠</div><div class="text-center mb-3"><span class="neural-badge">● Neural Gateway</span></div>
-    <div class="text-center mb-6">
-      <a href="/" class="inline-flex items-center gap-2 mb-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-white text-lg glow-cyan">
-          <i class="fa-solid fa-crown text-amber-300"></i>
-        </div>
-        <span class="font-extrabold text-xl tracking-wider text-white">EVA AI MARKET</span>
-      </a>
-      <h2 class="text-xl font-bold text-white">Welcome Back</h2>
-      <p class="text-xs text-slate-400">Access your subscriptions and licenses</p>
-    </div>
+<section class="card">
+<h2>欢迎回来</h2>
+<p class="lead">登录您的 EVA AI MARKET 账户</p>
 
-    <div class="flex p-1 bg-slate-950/80 rounded-2xl border border-white/10 mb-6">
-      <button data-auth-tab="login" type="button" class="auth-tab active flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition">Sign In</button>
-      <button data-auth-tab="signup" type="button" class="auth-tab flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 transition">Create Account</button>
-    </div>
+<form id="login-form" class="auth-form">
+<div class="field">
+<div class="field-head"><label for="login-email">邮箱地址</label></div>
+<input type="email" id="login-email" autocomplete="email" inputmode="email" required placeholder="you@example.com">
+</div>
 
-    <form id="login-form" class="auth-form space-y-4">
-      <div>
-        <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
-        <input type="email" id="login-email" autocomplete="email" inputmode="email" required placeholder="you@example.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-200 focus:border-cyan-400 outline-none">
-      </div>
-      <div>
-        <div class="flex items-center justify-between mb-1"><label class="block text-xs font-semibold text-slate-300">Password</label><button id="forgot-password" type="button" class="text-[11px] text-cyan-400 hover:underline">Forgot Password?</button></div>
-        <div class="relative">
-          <input type="password" id="login-password" autocomplete="current-password" minlength="8" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 pr-14 text-sm text-slate-200 focus:border-cyan-400 outline-none">
-          <button class="password-toggle" type="button" data-toggle-password="login-password" aria-pressed="false">Show</button>
-        </div>
-      </div>
-      <button type="submit" class="neural-key-submit" aria-label="Sign In to Dashboard"><span class="bow"><i class="fa-solid fa-key"></i></span><span class="blade">LOGIN</span></button>
-    </form>
+<div class="field">
+<div class="field-head"><label for="login-password">密码</label><button id="forgot-password" type="button">忘记密码？</button></div>
+<div class="password-wrap">
+<input type="password" id="login-password" autocomplete="current-password" minlength="8" required placeholder="请输入密码">
+<button class="password-toggle" type="button" data-toggle-password="login-password" aria-pressed="false">Show</button>
+</div>
+</div>
 
-    <form id="signup-form" class="auth-form space-y-4" hidden><div class="text-center mb-5"><span class="neural-badge" style="color:#e879f9">● Identity Provisioning</span><h2 style="margin:7px 0 3px;font-size:24px;font-weight:900;color:white">Create Account</h2><p style="margin:0;color:#94a3b8;font-size:12px">Create your EVA AI MARKET account</p></div>
-      <div>
-        <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
-        <input type="email" id="signup-email" autocomplete="email" inputmode="email" required placeholder="you@example.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-200 focus:border-cyan-400 outline-none">
-      </div>
-      <div>
-        <label class="block text-xs font-semibold text-slate-300 mb-1">Create Password</label>
-        <div class="relative">
-          <input type="password" id="signup-password" autocomplete="new-password" minlength="8" required oninput="window.evaStrength&&window.evaStrength(this.value)" placeholder="Minimum 8 characters" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 pr-14 text-sm text-slate-200 focus:border-cyan-400 outline-none">
-          <button class="password-toggle" type="button" data-toggle-password="signup-password" aria-pressed="false">Show</button>
-        </div><div class="signup-strength"><i id="signup-strength-bar"></i></div><span id="signup-strength-text" class="signup-strength-text">Strength: Empty</span>
-      </div>
-      <p class="text-[11px] text-slate-400">Create your account with email and password. No email verification code is required.</p>
-      <button type="submit" class="signup-create-btn">✦ CREATE ACCOUNT</button>
-    </form>
+<button class="submit" type="submit">登录</button>
+</form>
 
-    <p id="auth-status" class="auth-status" role="status" aria-live="polite"></p>
+<p id="auth-status" class="auth-status" role="status" aria-live="polite"></p>
 
-    <div class="mt-6 text-center">
-      <a href="/" class="text-xs text-cyan-400 hover:underline"><i class="fa-solid fa-arrow-left mr-1"></i> Back to Marketplace</a>
-    </div>
-  </div></main>
+<div class="signup-link">还没有账户？ <a href="/signup.html">立即注册</a></div>
+<div class="divider">安全登录</div>
+<div class="safe"><div><b>▣</b>加密保护</div><div><b>ϟ</b>快速访问</div><div><b>◇</b>账户安全</div></div>
+</section>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="auth.js?v=20260918-password1"></script>
-<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/eva-market-sw.js',{scope:'/'}).catch(function(){});});}</script>
-<script>
-(()=>{const card=document.querySelector('.neural-card'),signup=document.getElementById('signup-form'),login=document.getElementById('login-form');const sync=()=>card&&card.classList.toggle('signup-active',!signup.hidden);new MutationObserver(sync).observe(signup,{attributes:true,attributeFilter:['hidden']});sync();window.evaStrength=v=>{const b=document.getElementById('signup-strength-bar'),t=document.getElementById('signup-strength-text');let s=0;if(v.length>=8)s++;if(v.length>=12)s++;if(/[A-Z]/.test(v))s++;if(/[0-9]/.test(v))s++;if(/[^A-Za-z0-9]/.test(v))s++;if(!v){b.style.width='0';b.style.background='#64748b';t.textContent='Strength: Empty';return}if(s<=2){b.style.width='33%';b.style.background='#f43f5e';t.textContent='Strength: Weak'}else if(s<=4){b.style.width='66%';b.style.background='#f59e0b';t.textContent='Strength: Moderate'}else{b.style.width='100%';b.style.background='#34d399';t.textContent='Strength: Strong'}}})();
-</script><script src="/eva-premium-runtime.js?v=20260922-1"></script>
+<form id="signup-form" class="auth-form hidden-signup" hidden>
+<input type="email" id="signup-email" autocomplete="email">
+<input type="password" id="signup-password" autocomplete="new-password" minlength="8">
+<button type="submit">Create Account</button>
+</form>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/auth.js?v=20260918-password1"></script>
 </body>
 </html>
