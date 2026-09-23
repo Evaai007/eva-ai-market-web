@@ -39,7 +39,7 @@
   const id=()=>new URLSearchParams(location.search).get('id');
 
   function card(p){
-    const unavailable=Number(p.stock)<=0;
+    const unavailable=p.unlimited_stock===true?false:Number(p.stock)<=0;
     return '<article class="product-card'+(unavailable?' out-of-stock':'')+'"><div class="product-top"><div class="product-logo brand-'+brand(p)+'">'+icon(p)+'</div><span class="heart">♡</span></div><h3>'+esc(p.name)+'</h3><div class="desc">'+esc(p.subtitle||p.category||'')+'</div><div class="price">US$ '+Number(p.price_usd||0).toFixed(2)+' <small>/ '+esc(p.official_price_label||'Plan')+'</small></div><button class="buy" data-id="'+esc(p.id)+'"'+(unavailable?' disabled aria-disabled="true"':'')+'>'+(unavailable?'Out of Stock':'立即购买 →')+'</button></article>';
   }
 
@@ -99,7 +99,7 @@
       name.textContent=x.name||'Product';
       sub.textContent=x.subtitle||x.category||'';
       price.textContent='$'+Number(x.price_usd||0).toFixed(2);
-      stock.textContent=Number(x.stock)>0?'In Stock ('+x.stock+')':'Out of Stock';
+      stock.textContent=x.unlimited_stock===true?'Unlimited Stock':(Number(x.stock)>0?'In Stock ('+x.stock+')':'Out of Stock');
       if(badges){
         const parts=[];
         if(x.category) parts.push('<span class="badge green">● '+esc(x.category)+'</span>');
@@ -117,7 +117,7 @@
       }
       if(art) art.dataset.icon=icon(x);
       if(buy){
-        const unavailable=Number(x.stock)<=0;
+        const unavailable=x.unlimited_stock===true?false:Number(x.stock)<=0;
         buy.disabled=unavailable;
         buy.setAttribute('aria-disabled',String(unavailable));
         buy.textContent=unavailable?'Out of Stock':'Buy Now';
@@ -189,7 +189,7 @@
         paintCheckout(p);
       }
       const pay=$('#payNow'), agree=$('#agreeTerms'), radios=document.querySelectorAll('input[name="payment"]');
-      const unavailable=Number(p.stock)<=0;
+      const unavailable=p.unlimited_stock===true?false:Number(p.stock)<=0;
       if(unavailable){
         const n=$('#checkoutNotice');
         if(n){n.textContent='This product is currently out of stock.';n.hidden=false;}
