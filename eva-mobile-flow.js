@@ -123,7 +123,8 @@
         buy.textContent=unavailable?'Out of Stock':'Buy Now';
         buy.onclick=unavailable?null:()=>{
           sessionStorage.setItem('eva-checkout-product',JSON.stringify(x));
-          location.href='/checkout.html?id='+encodeURIComponent(x.id);
+          const cloudLike=/aws|gcp|google cloud|digitalocean|azure|cloud/i.test(((x.name||'')+' '+(x.category||'')));
+          location.href=(cloudLike?'/cloud-config.html?id=':'/checkout.html?id=')+encodeURIComponent(x.id);
         };
       }
     };
