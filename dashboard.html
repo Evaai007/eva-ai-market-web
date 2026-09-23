@@ -5,156 +5,138 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#f8fbff">
 <title>我的｜EVA AI MARKET</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="dashboard-storefront.css?v=20260911-final">
-<link rel="stylesheet" href="official-credits.css?v=20260912-dashboard">
-<link rel="stylesheet" href="deposit-quantum.css?v=20260918-video3">
 <style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#000;font-family:Inter,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}body{display:flex;justify-content:center;align-items:flex-start;min-height:100vh;color:#fff}
-.app-container{width:100%;max-width:400px;background:#06020c;min-height:100svh;height:100svh;position:relative;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;box-shadow:0 0 50px rgba(74,21,168,.2);padding-bottom:88px}.app-container::-webkit-scrollbar{display:none}.app-container{scrollbar-width:none}
-.glow-bg-top{position:absolute;top:0;left:0;width:100%;height:300px;background:radial-gradient(ellipse at top,rgba(74,21,168,.15),rgba(6,2,12,0) 70%);pointer-events:none}
-.wallet-card{background:linear-gradient(135deg,rgba(23,17,38,.9),rgba(13,8,22,.9));border:1px solid rgba(45,34,66,.8);border-radius:16px;position:relative;overflow:hidden}.wallet-glow{position:absolute;top:0;left:0;width:150px;height:150px;background:radial-gradient(circle,rgba(16,163,127,.15),transparent 70%)}
-.action-btn{background:#110a1f;border:1px solid #231a38;border-radius:14px}.action-btn.active{background:rgba(16,163,127,.08);border-color:#10a37f}
-.menu-item{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid #160e25;text-decoration:none}.menu-item.active{background:linear-gradient(90deg,rgba(31,23,61,.4),rgba(6,2,12,0));border-left:2px solid #5d429a;padding-left:14px;margin-left:-16px}.menu-icon{color:#d1d5db}.menu-item.active .menu-icon,.menu-item.active .menu-text{color:#a78bfa}
-.bottom-nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:400px;height:75px;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:0 24px calc(env(safe-area-inset-bottom)/2);background:rgba(8,4,15,.95);backdrop-filter:blur(12px);border-top:1px solid rgba(45,34,66,.8)}.bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:6px;color:#73688a;text-decoration:none;width:45px;font-size:9.5px}.spider-fab{position:absolute;top:-24px;left:50%;transform:translateX(-50%);width:60px;height:60px;border-radius:50%;padding:3px;background:linear-gradient(180deg,rgba(138,43,226,.8),#05010a);box-shadow:0 -5px 25px rgba(116,44,224,.4)}.spider-fab-inner{width:100%;height:100%;background:#0b0514;border-radius:50%;display:flex;justify-content:center;align-items:center;border:1px solid rgba(138,43,226,.3);font-size:28px;color:#d5a5ff}
-.functional-zone{padding:20px 16px 100px;background:#04010a}.functional-zone .dash-notice{margin:0 0 14px}.functional-zone .panel,.functional-zone .dash-card{border:1px solid #231a38!important;background:#0d0818!important}.functional-zone .section-heading h2{color:#fff}.functional-zone .section-heading p,.functional-zone .safe-note{color:#968aa8}.hidden-metric{display:none!important}
-#new-deposit,#deposit-history,#customer-products,#customer-orders,#balance-history{scroll-margin-top:12px}
-#customer-email,#side-customer-email{display:none}
-.icon-btn{width:36px;height:36px;background:transparent;border:1px solid #2d2242;border-radius:10px;display:grid;place-items:center;color:#fff}
-@media(min-width:701px){.functional-zone{max-width:400px;margin:auto}}
+:root{--blue:#1688ff;--navy:#0b2148;--muted:#8190a5;--line:#e5edf6;--bg:#f7fbff;--green:#0ca468;--red:#ff3150}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#edf5fb;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",Arial,sans-serif;color:var(--navy);-webkit-font-smoothing:antialiased}
+body{display:flex;justify-content:center}.app{width:100%;max-width:430px;min-height:100svh;background:#fff;padding-bottom:74px;box-shadow:0 0 42px rgba(26,83,145,.08)}
+header{height:58px;padding:calc(8px + env(safe-area-inset-top)) 14px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eef3f8}.brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:#10224b}.logo{width:34px;height:34px}.logo svg{width:34px;height:34px}.brand b{display:block;font-size:15px;font-weight:950}.brand small{display:block;margin-top:2px;font-size:7.5px;color:#8593a7;font-weight:700}.icon-btn{width:30px;height:30px;border:0;background:#f6faff;border-radius:9px;color:#17365e;font-size:17px}
+.welcome{padding:13px 15px 8px}.welcome h2{margin:0;font-size:18px;font-weight:950}.welcome p{margin:4px 0 0;color:#8190a5;font-size:9px}.welcome #customer-email{display:block;font-size:8.5px;color:#9aa7b9;margin-top:4px}.welcome #side-customer-email{display:none}
+.wallet-wrap{padding:0 15px 10px}.wallet{min-height:104px;border-radius:16px;padding:14px;background:linear-gradient(135deg,#eaf6ff,#f7fbff 55%,#edf4ff);border:1px solid #d8eafb;position:relative;overflow:hidden;box-shadow:0 8px 20px rgba(38,91,149,.08)}.wallet:after{content:"◈";position:absolute;right:14px;top:11px;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#fff,#dceeff);color:#1688ff;font-size:26px}.wallet small{display:block;color:#71839a;font-size:9px;font-weight:800}.wallet strong{display:block;margin-top:6px;font-size:25px;color:#0ca468;font-weight:950;letter-spacing:-.03em}.wallet em{font-style:normal;font-size:8px;color:#8494a7;font-weight:800;margin-left:4px}
+.actions{padding:0 15px 12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.action{height:66px;border:1px solid #e3edf6;border-radius:12px;background:#fff;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#6f8096;font-size:8.5px;font-weight:850;box-shadow:0 4px 12px rgba(35,89,146,.04)}.action b{font-size:18px;color:#1688ff}.action.primary{background:#f0f8ff;border-color:#d3eaff;color:#1688ff}
+.stats{padding:0 15px 12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{min-height:66px;border:1px solid #e5edf6;border-radius:12px;background:#fff;padding:10px}.stat small{font-size:7.5px;color:#8b99ab}.stat strong{display:block;margin-top:5px;font-size:15px;color:#17365e}.stat strong.blue{color:#1688ff}.stat strong.green{color:#0ca468}
+.section{border-top:7px solid #f7fbff;padding:12px 15px}.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}.section-head h3{margin:0;font-size:11px;font-weight:950}.section-head a{font-size:8.5px;text-decoration:none;color:#1688ff;font-weight:850}
+.quick-list{display:grid;gap:7px}.quick{min-height:50px;border:1px solid #e4edf6;border-radius:11px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:9px 10px;text-decoration:none;color:#17365e}.quick-left{display:flex;align-items:center;gap:9px}.quick-icon{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:#eef7ff;color:#1688ff;font-size:14px}.quick b{display:block;font-size:9.5px}.quick small{display:block;margin-top:2px;color:#8a98aa;font-size:7.5px}.quick .arrow{color:#a0afbf}
+#dash-notice{margin:0 15px 10px;padding:9px 10px;border-radius:10px;font-size:8.5px;display:none}#dash-notice:not(:empty){display:block;background:#eff9ff;color:#1770be;border:1px solid #d9edff}#dash-notice.error{background:#fff2f4;color:#d3314a;border-color:#ffd4db}
+.hidden-metric{display:none}
+.functional{padding-bottom:18px}.functional .subpanel{border-top:7px solid #f7fbff;padding:12px 15px}.functional .subpanel h3{margin:0 0 9px;font-size:11px}.functional .panel{border:1px solid #e4edf6;border-radius:11px;background:#fff;overflow:hidden}.table-wrap{overflow:auto}.table-wrap table{width:100%;border-collapse:collapse;font-size:8px}.table-wrap th,.table-wrap td{padding:8px 7px;border-bottom:1px solid #edf2f7;text-align:left;white-space:nowrap}.table-wrap th{color:#7b8ba0;background:#f8fbff}.status{display:inline-flex;padding:3px 6px;border-radius:8px;background:#eef5fb;color:#58718e}.positive{color:#0ca468}.negative{color:#e23a54}.empty{text-align:center!important;color:#9aa8b8;padding:14px!important}
+.deposit-card{border:1px solid #e3edf6;border-radius:12px;background:#fff;padding:11px}.deposit-card h3{margin:0 0 4px;font-size:11px}.deposit-card p{margin:0 0 10px;color:#8493a6;font-size:8px}.deposit-form{display:grid;gap:8px}.deposit-form input,.deposit-form select{width:100%;height:38px;border:1px solid #dfe8f2;border-radius:10px;padding:0 10px;background:#fbfdff;color:#17365e;font-size:9px}.networks{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.networks button{height:29px;border:1px solid #dfe8f2;border-radius:9px;background:#fff;color:#71839a;font-size:7.5px;font-weight:850}.networks button.active{background:#eaf5ff;border-color:#1688ff;color:#1688ff}.address-box{padding:9px;border-radius:10px;background:#f8fbff;border:1px solid #e3edf6}.address-box small{display:block;font-size:7px;color:#8b99ab}.address-box code{display:block;margin:5px 0;font-size:7.5px;word-break:break-all;color:#17365e}.address-box button{height:28px;border:0;border-radius:8px;background:#eef7ff;color:#1688ff;font-size:7.5px;font-weight:850}.submit{height:40px;border:0;border-radius:10px;background:linear-gradient(180deg,#25aaff,#087cf3);color:#fff;font-size:10px;font-weight:950}
+#deposit-qr,.quantum-coin,.quantum-glare,.quantum-scanline,.quantum-specs,.quantum-vault-top,.quantum-qr-token,.quantum-online{display:none}
+#dashboard-store-products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.account-product{border:1px solid #e4edf6;border-radius:11px;background:#fff;padding:9px;min-width:0}.account-product h3{font-size:9px;margin:5px 0;color:#17365e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.account-product p{font-size:7px;color:#8795a7;height:19px;overflow:hidden}.account-product>strong{display:block;color:#ff3150;font-size:11px}.product-tag{font-size:6.5px;color:#1688ff;background:#eef7ff;border-radius:6px;padding:2px 5px}.mobile-brand-visual{height:42px;border-radius:9px;background:#f6faff;display:grid;place-items:center;overflow:hidden}.brand-stage,.mobile-brand-mark{display:grid;place-items:center}.mobile-brand-mark{font-weight:950;color:#1688ff}.brand-watermark,.brand-side-copy,.master-top-badges,.mobile-brand-orbit,.pedestal-base,.master-features,.master-purchase-hint,.stock-line{display:none!important}.account-product .button{display:grid;place-items:center;margin-top:7px;min-height:28px;border:0;border-radius:8px;background:#1688ff;color:#fff;text-decoration:none;font-size:7.5px;font-weight:900;width:100%}.account-product .button.disabled{opacity:.45}.account-product button.button{cursor:pointer}.store-loading{grid-column:1/-1;text-align:center;padding:15px;color:#8b99aa;font-size:9px}
+.bottom{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:430px;height:68px;padding-bottom:env(safe-area-inset-bottom);z-index:40;background:rgba(255,255,255,.98);border-top:1px solid #e7eef7;display:grid;grid-template-columns:repeat(5,1fr);box-shadow:0 -6px 18px rgba(34,85,140,.05)}.bottom a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#7e8ca0;text-decoration:none;font-size:9px}.bottom a.active{color:#1684ff;font-weight:900}.bottom span{font-size:18px}
+#side-scrim{display:none!important}
+@media(max-width:370px){.app{max-width:100%}.actions,.stats,.wallet-wrap,.welcome,.section,.functional .subpanel{padding-left:11px;padding-right:11px}}
 </style>
-<style id="eva-dashboard-hard-reset">
-body.dashboard-page .app-container{display:flex!important;flex-direction:column!important;position:relative!important;overflow-y:auto!important;overflow-x:hidden!important}
-body.dashboard-page #overview{display:block!important;visibility:visible!important;opacity:1!important;position:relative!important;order:0!important;margin:0 0 24px!important}
-body.dashboard-page #overview h2{display:flex!important;visibility:visible!important;color:#fff!important;margin:0 0 4px!important;font-size:22px!important;line-height:1.2!important}
-body.dashboard-page #overview>p:not(#customer-email){display:block!important;visibility:visible!important;color:#a59ab8!important;margin:0!important;font-size:13px!important}
-body.dashboard-page .bottom-nav{position:fixed!important;left:50%!important;right:auto!important;top:auto!important;bottom:0!important;transform:translateX(-50%)!important;width:100%!important;max-width:400px!important;height:75px!important;margin:0!important;padding:0 24px calc(env(safe-area-inset-bottom)/2)!important;display:flex!important;flex-direction:row!important;justify-content:space-between!important;align-items:center!important;gap:0!important;border:0!important;border-top:1px solid rgba(45,34,66,.8)!important;border-radius:0!important;background:rgba(8,4,15,.96)!important;backdrop-filter:blur(12px)!important;z-index:999!important;order:999!important}
-body.dashboard-page .bottom-nav>a{position:relative!important;width:45px!important;min-width:45px!important;height:auto!important;padding:0!important;margin:0!important;border:0!important;background:transparent!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:6px!important;color:#73688a!important;text-decoration:none!important}
-body.dashboard-page .bottom-nav .spider-fab{position:absolute!important;left:50%!important;top:-24px!important;bottom:auto!important;transform:translateX(-50%)!important;width:60px!important;height:60px!important;margin:0!important;z-index:1000!important}
-body.dashboard-page .bottom-nav .spider-fab-inner{display:flex!important;width:100%!important;height:100%!important;align-items:center!important;justify-content:center!important;border-radius:50%!important}
-body.dashboard-page .wallet-card,body.dashboard-page .action-btn,body.dashboard-page .menu-item{order:initial!important}
-body.dashboard-page .functional-zone{order:initial!important}
-</style><style id="eva-dashboard-final-reference">
-@media(max-width:760px){
- body.dashboard-page{background:#000!important}
- body.dashboard-page .app-container{max-width:400px!important;background:linear-gradient(180deg,#020711,#02050c 55%,#02040a)!important;padding-bottom:82px!important}
- body.dashboard-page header{padding:calc(18px + env(safe-area-inset-top)) 20px 14px!important}
- body.dashboard-page #overview{padding:0 20px!important;margin:0 0 14px!important}
- body.dashboard-page #overview h2{font-size:20px!important;font-weight:800!important;letter-spacing:-.02em!important}
- body.dashboard-page #overview>p:not(#customer-email){font-size:11px!important;color:#b3bdcc!important}
- body.dashboard-page .wallet-card{min-height:88px!important;padding:16px!important;border-radius:12px!important;background:linear-gradient(135deg,#0b2030,#0b1021 55%,#17102a)!important;border:1px solid #25394f!important;box-shadow:0 12px 26px rgba(0,0,0,.22)!important}
- body.dashboard-page .wallet-card>div:last-child{font-size:0!important;width:62px!important;height:62px!important;border-radius:50%!important;background:radial-gradient(circle at 50% 48%,rgba(167,55,255,.28),rgba(5,9,17,.2) 46%,transparent 70%)!important;filter:drop-shadow(0 0 9px rgba(170,57,255,.55))}
- body.dashboard-page #balance{font-size:25px!important;color:#34e69a!important}
- body.dashboard-page .action-btn{min-height:72px!important;padding:10px 5px!important;border-radius:10px!important;background:linear-gradient(180deg,#0d1730,#0c1022)!important;border:1px solid #28334c!important}
- body.dashboard-page .action-btn.active{background:linear-gradient(180deg,#0b3440,#0c2431)!important;border-color:#1e8f90!important}
- body.dashboard-page .menu-item{height:46px!important;padding:0 12px!important;margin:0!important;border-left:0!important;border-bottom:1px solid #17283a!important;background:#06111d!important}
- body.dashboard-page .menu-item:first-child{border-radius:8px 8px 0 0!important}
- body.dashboard-page .menu-item:last-child{border-radius:0 0 8px 8px!important}
- body.dashboard-page .menu-item.active{background:linear-gradient(90deg,#08244b,#07182c)!important;border-left:2px solid #8248ff!important;padding-left:10px!important}
- body.dashboard-page .bottom-nav{height:68px!important;background:rgba(2,8,15,.98)!important;border-top:1px solid #213247!important}
- body.dashboard-page .bottom-nav .spider-fab{width:58px!important;height:58px!important;top:-23px!important;border:1px solid #a842ff!important;background:radial-gradient(circle,#4a168f,#060713 70%)!important;box-shadow:0 0 24px rgba(140,43,255,.58)!important}
- body.dashboard-page .bottom-nav .spider-fab-inner{font-size:0!important;background:radial-gradient(circle,#4a168f,#060713 70%)!important}
- body.dashboard-page .functional-zone{padding-top:18px!important;background:#02050c!important}
-}
-</style><link rel="stylesheet" href="/eva-premium-2026.css?v=20260922-1">
-<link rel="stylesheet" href="/eva-fresh-reference.css?v=20260923-fresh1">
-<link rel="stylesheet" href="/eva-fresh-final.css?v=20260923-fresh2">
-<link rel="stylesheet" href="/eva-reference-11.css?v=20260923-ref11a">
-<link rel="stylesheet" href="/eva-reference-final.css?v=20260923-final11"><link rel="stylesheet" href="/eva-reference-exact.css?v=20260923-exact3"></head>
+</head>
 <body class="dashboard-page">
-<div class="app-container">
-<div class="glow-bg-top"></div>
-
-<header class="flex justify-between items-center px-6 pt-[calc(20px+env(safe-area-inset-top))] pb-6 relative z-10">
-  <a href="/" class="flex items-center gap-[11px] no-underline">
-    <div class="w-10 h-10 flex justify-center items-center">
-      <svg width="40" height="40" viewBox="0 0 100 100" fill="none"><defs><linearGradient id="logoGrad" x1="50%" y1="0%" x2="50%" y2="100%"><stop offset="0%" stop-color="#fff"/><stop offset="50%" stop-color="#E9D5FF"/><stop offset="100%" stop-color="#A855F7"/></linearGradient></defs><path d="M22 35C22 55 30 75 50 85C70 75 78 55 78 35C65 48 50 48 50 48C50 48 35 48 22 35Z" fill="none" stroke="url(#logoGrad)" stroke-width="2.5"/><path d="M32 46C35 55 45 65 50 65V55C45 55 38 48 32 46Z" fill="url(#logoGrad)"/><path d="M68 46C65 55 55 65 50 65V55C55 55 62 48 68 46Z" fill="url(#logoGrad)"/><path d="M50 15L54 38H46Z" fill="url(#logoGrad)"/><circle cx="30" cy="25" r="2.5" fill="url(#logoGrad)"/><circle cx="70" cy="25" r="2.5" fill="url(#logoGrad)"/><path d="M50 68L56 78L50 85L44 78Z" fill="url(#logoGrad)"/></svg>
-    </div>
-    <div class="flex flex-col justify-center -mt-1"><h1 class="text-[15px] font-[800] tracking-[0.03em] text-white leading-tight">EVA AI MARKET</h1><p class="text-[8px] text-[#867b9f] font-bold tracking-[0.16em] leading-tight mt-[2px]">AI & CLOUD SOLUTIONS</p></div>
-  </a>
-  <button class="icon-btn" id="mobile-menu" aria-label="Dashboard menu" aria-expanded="false">☰</button>
+<main class="app">
+<header>
+<a class="brand" href="/">
+<span class="logo"><svg viewBox="0 0 64 64"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#35b9ff"/><stop offset=".56" stop-color="#147fff"/><stop offset="1" stop-color="#065ce7"/></linearGradient></defs><path fill="url(#cg)" d="M11 18l9 7 7-14 6 14 12-10 5 26c-12 8-25 8-38 0z"/><path fill="#fff" opacity=".9" d="M16 31h32v4H16z"/><circle cx="11" cy="15" r="4" fill="#35b9ff"/><circle cx="28" cy="8" r="4" fill="#147fff"/><circle cx="47" cy="12" r="4" fill="#065ce7"/></svg></span>
+<span><b>EVA AI MARKET</b><small>Customer Workspace</small></span>
+</a>
+<button class="icon-btn" id="sign-out" aria-label="Sign out">↪</button>
 </header>
 
-<section id="overview" class="px-6 mb-6 relative z-10">
-  <h2 class="text-white text-[22px] font-bold mb-1 flex items-center gap-2">Hello, Maruf! <span>👋</span></h2>
-  <p class="text-[#a59ab8] text-[13px] font-medium">Welcome back to EVA AI MARKET</p>
-  <p id="customer-email"></p><p id="side-customer-email"></p>
+<section class="welcome" id="overview">
+<h2>我的账户 👋</h2>
+<p>欢迎回到 EVA AI MARKET</p>
+<p id="customer-email"></p><p id="side-customer-email"></p>
 </section>
 
-<section class="px-6 mb-5 relative z-10">
-  <div class="wallet-card p-5 flex justify-between items-center">
-    <div class="wallet-glow"></div>
-    <div class="flex flex-col z-10 relative"><span class="text-[#a59ab8] text-[13px] font-medium mb-1">Wallet Balance</span><div class="flex items-baseline gap-1.5"><span id="balance" class="text-[#10a37f] text-[28px] font-black tracking-tight leading-none">$0.00</span><span class="text-[#a59ab8] text-[12px] font-bold uppercase tracking-wider">USDT</span></div></div>
-    <div class="w-[60px] h-[60px] relative z-10 flex items-center justify-center text-[#d5a5ff] text-[42px] drop-shadow-[0_0_10px_rgba(169,117,255,.6)]">🕷</div>
-  </div>
-</section>
-
-<section class="px-6 mb-8 relative z-10 flex gap-3">
-  <a href="/deposit.html" class="action-btn active flex-1 py-3.5 flex flex-col items-center justify-center gap-2 no-underline"><span class="text-[22px] text-[#10a37f]">⇩</span><span class="text-[#10a37f] text-[12px] font-semibold">Deposit</span></a>
-  <a href="/orders.html" class="action-btn flex-1 py-3.5 flex flex-col items-center justify-center gap-2 no-underline"><span class="text-[21px] text-[#a59ab8]">▤</span><span class="text-[#a59ab8] text-[12px] font-semibold">My Orders</span></a>
-  <a href="#balance-history" class="action-btn flex-1 py-3.5 flex flex-col items-center justify-center gap-2 no-underline"><span class="text-[21px] text-[#a59ab8]">★</span><span class="text-[#a59ab8] text-[12px] font-semibold">Rewards</span></a>
-</section>
-
-<section class="px-6 pb-4 relative z-10">
-  <a class="menu-item active" href="#overview"><div class="flex items-center gap-4"><span class="menu-icon text-xl">⌂</span><span class="menu-text text-[14px] font-medium">Dashboard</span></div><span class="text-[#524670]">›</span></a>
-  <a class="menu-item" href="/orders.html"><div class="flex items-center gap-4"><span class="menu-icon text-xl">☷</span><span class="text-[#d1d5db] text-[14px] font-medium">My Orders</span></div><span class="text-[#524670]">›</span></a>
-  <a class="menu-item" href="/deposit.html"><div class="flex items-center gap-4"><span class="menu-icon text-xl">▭</span><span class="text-[#d1d5db] text-[14px] font-medium">My Wallet</span></div><span class="text-[#524670]">›</span></a>
-  <a class="menu-item" href="#balance-history"><div class="flex items-center gap-4"><span class="menu-icon text-xl">♙</span><span class="text-[#d1d5db] text-[14px] font-medium">Referrals</span></div><span class="text-[#524670]">›</span></a>
-  <a class="menu-item" href="#overview"><div class="flex items-center gap-4"><span class="menu-icon text-xl">♙</span><span class="text-[#d1d5db] text-[14px] font-medium">Account Settings</span></div><span class="text-[#524670]">›</span></a>
-  <a class="menu-item" href="https://t.me/eva007_8" target="_blank" rel="noopener"><div class="flex items-center gap-4"><span class="menu-icon text-xl">◉</span><span class="text-[#d1d5db] text-[14px] font-medium">Support</span></div><span class="text-[#524670]">›</span></a>
-  <button id="sign-out" class="menu-item w-full bg-transparent border-x-0 border-t-0 text-left"><div class="flex items-center gap-4"><span class="menu-icon text-xl">◌</span><span class="text-[#d1d5db] text-[14px] font-medium">Logout</span></div><span class="text-[#524670]">›</span></button>
-</section>
-
-<section class="functional-zone">
-  <p id="dash-notice" class="dash-notice" role="status" aria-live="polite"></p>
-  <div class="hidden-metric"><strong id="pending-count">0</strong></div>
-
-  <section class="quantum-deposit-shell section-anchor" id="new-deposit">
-    <div id="quantum-card-wrap" class="quantum-card-wrap">
-      <div id="quantum-glare" class="quantum-glare"></div><div class="quantum-scanline"></div><div class="quantum-coin" aria-hidden="true">◇</div>
-      <div class="quantum-title"><span>● WALLET FUNDING</span><h2>Deposit & Verification</h2><p>Send USDT using the selected network, then submit the completed transaction ID.</p></div>
-      <form id="dashboard-deposit-form" class="quantum-form">
-        <label class="quantum-label">Amount in USDT<input id="dash-amount" type="number" min="10" step="0.01" placeholder="Minimum 10 USDT" required></label>
-        <div class="quantum-label">Select Settlement Network<div class="quantum-networks"><button type="button" data-net="TRC20" class="active">TRC20</button><button type="button" data-net="ERC20">ERC20</button><button type="button" data-net="BEP20">BEP20</button><button type="button" data-net="SOLANA">SOLANA</button></div><select id="dash-network" aria-label="Network"><option>TRC20</option><option>ERC20</option><option>BEP20</option><option>SOLANA</option></select></div>
-        <div class="quantum-specs"><div><small>Minimum Deposit</small><strong>10.00 USDT</strong><em>✓ Ready</em></div><div><small>Verification</small><strong>Network + Admin</strong></div></div>
-        <div class="quantum-vault"><div class="quantum-vault-top"><span>◇ SEND USDT TO THIS <b id="deposit-network-name">TRC20</b> ADDRESS</span><i id="quantum-badge">TRC20</i></div><div class="quantum-qr-wrap"><div id="deposit-qr"></div><span class="quantum-qr-token">₮</span></div><small>VAULT ADDRESS</small><code id="deposit-wallet-address">TJCFS6hDKsEnquGuvw43krk141QLvHnGbG</code><span class="quantum-online">● Address Ready</span><button id="copy-deposit-address" type="button">⧉ Copy wallet address</button></div>
-        <label class="quantum-label">Transaction ID (TXID)<input id="dash-txid" type="text" autocomplete="off" placeholder="Paste completed payment TXID" required></label>
-        <button class="quantum-submit" type="submit">➤ Submit For Verification</button>
-      </form>
-    </div>
-  </section>
-
-  <section class="panel dash-card quantum-history" id="deposit-history"><h2>Deposit Verification Log</h2><div class="table-wrap"><table><thead><tr><th>Date</th><th>Network</th><th>Amount</th><th>Status</th></tr></thead><tbody id="deposit-rows"></tbody></table></div></section>
-
-  <div class="section-heading section-anchor" id="customer-products"><div><span>Product catalog</span><h2>Buy with EVA balance</h2></div></div>
-  <section class="panel dash-card store-dashboard"><div id="dashboard-store-products" class="store-products compact-store"><article class="store-loading">Loading products…</article></div></section>
-
-  <div class="section-heading section-anchor" id="customer-orders"><div><span>Order tracking</span><h2>My orders & delivery</h2></div></div>
-  <section class="panel dash-card"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Product</th><th>Price</th><th>Status</th><th>Delivery</th></tr></thead><tbody id="order-rows"></tbody></table></div></section>
-
-  <div class="section-heading section-anchor" id="balance-history"><div><span>Account activity</span><h2>Balance history</h2></div></div>
-  <section class="panel dash-card"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Type</th><th>Change</th><th>Balance</th></tr></thead><tbody id="ledger-rows"></tbody></table></div></section>
-</section>
-
-<nav class="bottom-nav">
-  <a href="/"><span class="text-[22px]">⌂</span><span>Home</span></a>
-  <a href="/orders.html"><span class="text-[21px]">▤</span><span>Orders</span></a>
-  <div class="spider-fab"><a href="/" class="spider-fab-inner" aria-label="EVA Home">🕷</a></div>
-  <a href="/deposit.html"><span class="text-[21px]">▭</span><span>Wallet</span></a>
-  <a href="#overview"><span class="text-[21px]">♙</span><span>Profile</span></a>
-</nav>
+<section class="wallet-wrap">
+<div class="wallet">
+<small>Wallet Balance</small>
+<strong id="balance">$0.000000 <em>USDT</em></strong>
 </div>
+</section>
+
+<section class="actions">
+<a class="action primary" href="/deposit.html"><b>＋</b>充值余额</a>
+<a class="action" href="/orders.html"><b>▤</b>我的订单</a>
+<a class="action" href="#customer-products"><b>▦</b>购买产品</a>
+</section>
+
+<section class="stats">
+<div class="stat"><small>待处理充值</small><strong class="blue" id="pending-count">0</strong></div>
+<div class="stat"><small>活跃产品</small><strong class="green">—</strong></div>
+<div class="stat"><small>账户状态</small><strong>Active</strong></div>
+</section>
+
+<section class="section">
+<div class="section-head"><h3>快捷入口</h3></div>
+<div class="quick-list">
+<a class="quick" href="#deposit-history"><span class="quick-left"><span class="quick-icon">⇩</span><span><b>Deposit Verification Log</b><small>查看充值验证记录</small></span></span><span class="arrow">›</span></a>
+<a class="quick" href="#customer-orders"><span class="quick-left"><span class="quick-icon">▤</span><span><b>Order Tracking</b><small>查看订单与交付状态</small></span></span><span class="arrow">›</span></a>
+<a class="quick" href="#balance-history"><span class="quick-left"><span class="quick-icon">↻</span><span><b>Account Activity</b><small>查看余额变动记录</small></span></span><span class="arrow">›</span></a>
+</div>
+</section>
+
+<p id="dash-notice" role="status" aria-live="polite"></p>
+<div class="hidden-metric"></div>
+
+<section class="functional">
+<div class="subpanel" id="new-deposit">
+<div class="deposit-card">
+<h3>Deposit & Verification</h3>
+<p>选择网络并提交已完成付款的 TXID。</p>
+<form id="dashboard-deposit-form" class="deposit-form">
+<input id="dash-amount" type="number" min="10" step="0.01" placeholder="Minimum 10 USDT" required>
+<div class="networks quantum-networks">
+<button type="button" data-net="TRC20" class="active">TRC20</button><button type="button" data-net="ERC20">ERC20</button><button type="button" data-net="BEP20">BEP20</button><button type="button" data-net="SOLANA">SOLANA</button>
+</div>
+<select id="dash-network" aria-label="Network"><option>TRC20</option><option>ERC20</option><option>BEP20</option><option>SOLANA</option></select>
+<div class="address-box"><small>SEND USDT TO <b id="deposit-network-name">TRC20</b></small><code id="deposit-wallet-address">TJCFS6hDKsEnquGuvw43krk141QLvHnGbG</code><button id="copy-deposit-address" type="button">Copy wallet address</button></div>
+<div id="deposit-qr"></div><span id="quantum-badge" hidden>TRC20</span>
+<input id="dash-txid" type="text" autocomplete="off" placeholder="Paste completed payment TXID" required>
+<button class="submit" type="submit">Submit For Verification</button>
+</form>
+</div>
+</div>
+
+<div class="subpanel" id="deposit-history">
+<div class="section-head"><h3>Deposit Verification Log</h3></div>
+<div class="panel table-wrap"><table><thead><tr><th>Date</th><th>Network</th><th>Amount</th><th>Status</th></tr></thead><tbody id="deposit-rows"></tbody></table></div>
+</div>
+
+<div class="subpanel" id="customer-products">
+<div class="section-head"><h3>Active Products & Catalog</h3><a href="/products.html">查看全部</a></div>
+<div class="panel"><div id="dashboard-store-products"><article class="store-loading">Loading products…</article></div></div>
+</div>
+
+<div class="subpanel" id="customer-orders">
+<div class="section-head"><h3>Order Tracking</h3><a href="/orders.html">全部订单</a></div>
+<div class="panel table-wrap"><table><thead><tr><th>Date</th><th>Product</th><th>Price</th><th>Status</th><th>Delivery</th></tr></thead><tbody id="order-rows"></tbody></table></div>
+</div>
+
+<div class="subpanel" id="balance-history">
+<div class="section-head"><h3>Account Activity</h3></div>
+<div class="panel table-wrap"><table><thead><tr><th>Date</th><th>Type</th><th>Change</th><th>Balance</th></tr></thead><tbody id="ledger-rows"></tbody></table></div>
+</div>
+</section>
+</main>
+
+<nav class="bottom">
+<a href="/"><span>⌂</span>首页</a>
+<a href="/products.html"><span>▦</span>产品</a>
+<a href="/deposit.html"><span>＋</span>充值</a>
+<a href="/orders.html"><span>▤</span>订单</a>
+<a class="active" href="/dashboard.html"><span>♙</span>我的</a>
+</nav>
 
 <div id="side-scrim" hidden></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="dashboard.js?v=20260921-dashboard-fresh1"></script>
-<script src="dashboard-credits.js?v=20260912-customer-credit"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="/dashboard.js?v=20260921-dashboard-fresh1"></script>
+<script src="/dashboard-credits.js?v=20260912-customer-credit"></script>
 <script>
-(()=>{const A={TRC20:'TJCFS6hDKsEnquGuvw43krk141QLvHnGbG',ERC20:'0x644ed89caecc120d3a3180e9f20a90d970cfa3e8',BEP20:'0x644ed89caecc120d3a3180e9f20a90d970cfa3e8',SOLANA:'6r4BGQ4KTcgCzeNwbWsx5v6qNLTwU92iESYNukSC9c6Y'};const s=document.getElementById('dash-network'),a=document.getElementById('deposit-wallet-address'),n=document.getElementById('deposit-network-name'),b=document.getElementById('quantum-badge'),q=document.getElementById('deposit-qr'),tabs=[...document.querySelectorAll('.quantum-networks button')];function render(){const k=s.value;a.textContent=A[k];n.textContent=k;b.textContent=k;tabs.forEach(x=>x.classList.toggle('active',x.dataset.net===k));q.innerHTML='';if(window.QRCode)new QRCode(q,{text:A[k],width:132,height:132,colorDark:'#07111d',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.H})}tabs.forEach(x=>x.onclick=()=>{s.value=x.dataset.net;s.dispatchEvent(new Event('change'))});s.onchange=render;document.getElementById('copy-deposit-address').onclick=async()=>{try{await navigator.clipboard.writeText(a.textContent.trim())}catch(e){}};render()})();
+(()=>{
+ const A={TRC20:'TJCFS6hDKsEnquGuvw43krk141QLvHnGbG',ERC20:'0x644ed89caecc120d3a3180e9f20a90d970cfa3e8',BEP20:'0x644ed89caecc120d3a3180e9f20a90d970cfa3e8',SOLANA:'6r4BGQ4KTcgCzeNwbWsx5v6qNLTwU92iESYNukSC9c6Y'};
+ const s=document.getElementById('dash-network'),a=document.getElementById('deposit-wallet-address'),n=document.getElementById('deposit-network-name'),b=document.getElementById('quantum-badge'),tabs=[...document.querySelectorAll('.quantum-networks button')];
+ function render(){const k=s.value;a.textContent=A[k];n.textContent=k;b.textContent=k;tabs.forEach(x=>x.classList.toggle('active',x.dataset.net===k))}
+ tabs.forEach(x=>x.onclick=()=>{s.value=x.dataset.net;s.dispatchEvent(new Event('change'))});s.onchange=render;
+ document.getElementById('copy-deposit-address').onclick=async()=>{try{await navigator.clipboard.writeText(a.textContent.trim())}catch{}};
+ render();
+})();
 </script>
-<script src="/eva-premium-runtime.js?v=20260922-1"></script>
-</body></html>
+</body>
+</html>
