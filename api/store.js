@@ -281,7 +281,7 @@ export default async function handler(req,res){
  if(req.method==='GET'&&req.query?.view!=='orders'){
   const ctx=serviceContext();
   if(!ctx.url||!ctx.service)return json(res,503,{error:'Store is not configured.'});
-  const response=await serviceRequest(ctx,'store_products?select=id,category,name,subtitle,price_usd,stock,warranty_days,access_label,sort_order,official_price_label,purchase_mode,card_tone&active=eq.true&order=sort_order.asc');
+  const response=await serviceRequest(ctx,'store_products?select=id,category,name,subtitle,price_usd,stock,unlimited_stock,warranty_days,access_label,sort_order,official_price_label,purchase_mode,card_tone&active=eq.true&order=sort_order.asc');
   const products=await response.json().catch(()=>[]);
   if(!response.ok)return json(res,502,{error:products?.message||'Could not load products.'});
   await trackVisit(req,res,ctx);
