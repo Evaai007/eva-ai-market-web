@@ -192,3 +192,38 @@ body[data-page="checkout"] .mt-auto{color:#7b8da3!important;padding-bottom:14px!
 body[data-page="checkout"] .drawer{max-width:none!important}
 
 body.reference-deposit .networks button:disabled{opacity:.45;cursor:not-allowed;background:#f2f5f8!important;color:#9aa7b6!important;border-color:#e5ebf1!important}
+
+/* QA pass 2: actual cloud-config markup */
+body[data-page="cloud-config"] .cfg{width:100%!important;max-width:430px!important;min-height:100svh!important;background:#fff!important;color:var(--n)!important;padding:calc(8px + env(safe-area-inset-top)) 12px 78px!important;overflow-x:hidden!important}
+body[data-page="cloud-config"] .top{height:46px!important;margin:0 0 8px!important;border-radius:0!important;border-bottom:1px solid var(--l)!important;background:#fff!important}
+body[data-page="cloud-config"] .top b{font-size:13px!important}
+body[data-page="cloud-config"] .summary{margin:8px 0!important;padding:9px!important;border:1px solid var(--l)!important;border-radius:9px!important;box-shadow:none!important}
+body[data-page="cloud-config"] .summary .logo{width:44px!important;height:44px!important;border-radius:9px!important;background:#eef6ff!important;color:var(--b)!important;font-size:21px!important}
+body[data-page="cloud-config"] .summary b{font-size:11px!important}
+body[data-page="cloud-config"] .summary small{font-size:8px!important}
+body[data-page="cloud-config"] .steps{margin:6px 0 10px!important}
+body[data-page="cloud-config"] .step{font-size:8px!important}
+body[data-page="cloud-config"] .step i{width:18px!important;height:18px!important}
+body[data-page="cloud-config"] .card{padding:10px!important;margin:0 0 8px!important;border:1px solid var(--l)!important;border-radius:9px!important;box-shadow:none!important}
+body[data-page="cloud-config"] .card h3{font-size:10px!important;margin-bottom:7px!important}
+body[data-page="cloud-config"] .choices{gap:5px!important}
+body[data-page="cloud-config"] .choice{min-height:42px!important;padding:6px 4px!important;border:1px solid var(--l)!important;border-radius:7px!important;background:#fff!important;color:#52677f!important;font-size:8px!important}
+body[data-page="cloud-config"] .choice.active{border-color:var(--b)!important;background:#f3f9ff!important;color:var(--b)!important}
+body[data-page="cloud-config"] .choice b{font-size:8px!important}
+body[data-page="cloud-config"] .choice small{font-size:7px!important}
+body[data-page="cloud-config"] .total{margin:12px 2px 8px!important}
+body[data-page="cloud-config"] .total span{font-size:9px!important}
+body[data-page="cloud-config"] .total b{font-size:18px!important;color:var(--r)!important}
+body[data-page="cloud-config"] .cta{height:40px!important;border-radius:6px!important;background:linear-gradient(#23a8ff,#0785ff)!important;box-shadow:0 3px 0 #0763c6!important}
+
+/* Product detail polish */
+body[data-page="product"] .ref-plan:disabled{opacity:.42!important;cursor:not-allowed!important;background:#f8fafc!important}
+body[data-page="product"] .ref-plan:disabled strong{color:#a4afbd!important}
+body[data-page="product"] .detail-top .right button{font-size:17px!important}
+body[data-page="product"] .detail,body[data-page="checkout"] .app-container,body[data-page="products"] .app-container{overflow-x:hidden!important}
+
+/* Auth page cleanup */
+body:has(.neural-stage) .neural-card{transform:none!important;backdrop-filter:none!important}
+body:has(.neural-stage) .glow-cyan{box-shadow:none!important}
+body:has(.neural-stage) .password-toggle{color:var(--b)!important}
+body:has(.neural-stage) .signup-strength{background:#edf2f7!important}
