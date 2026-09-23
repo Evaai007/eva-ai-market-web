@@ -120,3 +120,14 @@ body[data-page="checkout"] #payNow{height:44px!important;border-radius:10px!impo
 body.eva-auth-page .auth-card,body.account-page .auth-card{position:relative!important;border:0!important;border-radius:0!important;box-shadow:none!important}
 body.eva-auth-page .auth-card:before,body.account-page .auth-card:before{content:"‹";position:absolute;left:0;top:0;width:34px;height:34px;display:grid;place-items:center;color:#10224b;font-size:27px}
 body.eva-auth-page .auth-card>.brand,body.account-page .auth-card>.brand{justify-content:center!important;margin-top:4px!important}
+
+
+/* Step 6 order-success light parity */
+body[data-page="success"],body:has(.success-app){background:#eef6fb!important;color:#10224b!important}
+.success-app{max-width:430px!important;min-height:100svh!important;padding:calc(38px + env(safe-area-inset-top)) 14px 28px!important;background:linear-gradient(180deg,#fff,#f7fbff)!important;color:#10224b!important}
+.success{width:100%!important;margin:0!important;padding:22px 16px!important;border:1px solid #e4edf6!important;border-radius:16px!important;background:#fff!important;box-shadow:0 8px 22px rgba(39,91,149,.075)!important;color:#10224b!important}
+.success-visual{background:linear-gradient(145deg,#eef8ff,#fff)!important}
+.success-check{background:linear-gradient(180deg,#29a9ff,#087cf3)!important;color:#fff!important;box-shadow:0 6px 18px rgba(8,124,243,.22)!important}
+.success h1{color:#10224b!important;font-size:22px!important}.success>p{color:#8293aa!important;font-size:11px!important;line-height:1.65!important}
+.order-info{border:1px solid #e4edf6!important;border-radius:12px!important;background:#f8fbfe!important;color:#405a76!important}.order-info p{border-bottom:1px solid #e9eff6!important}.order-info span{color:#8293aa!important}.order-info b{color:#10224b!important}
+.success-actions .primary{height:44px!important;border-radius:10px!important;background:linear-gradient(180deg,#19a7ff,#087cf3)!important;box-shadow:0 5px 0 #0562c7!important}.success-actions .outline{height:42px!important;border-radius:10px!important;background:#fff!important;color:#087cf3!important;border:1px solid #cfe2f5!important}
