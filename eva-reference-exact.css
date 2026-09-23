@@ -170,3 +170,23 @@ body.eva-auth-page,body:has(.neural-stage){display:flex!important;justify-conten
 @media(max-width:390px){body>*{max-width:390px!important}}
 @media(min-width:391px) and (max-width:414px){body>*{max-width:414px!important}}
 @media(min-width:415px) and (max-width:430px){body>*{max-width:430px!important}}
+
+/* QA cleanup: actual checkout markup */
+body[data-page="checkout"] .app-container{max-width:430px!important;min-height:100svh!important;height:auto!important;background:#fff!important;color:var(--n)!important;box-shadow:none!important;padding-bottom:18px!important;overflow-x:hidden!important}
+body[data-page="checkout"] header{background:#fff!important;border-bottom:1px solid var(--l)!important;padding:calc(9px + env(safe-area-inset-top)) 12px 8px!important}
+body[data-page="checkout"] header h1{color:var(--n)!important;font-size:12px!important}
+body[data-page="checkout"] header p{color:var(--m)!important}
+body[data-page="checkout"] header svg path,body[data-page="checkout"] header svg circle{filter:none!important}
+body[data-page="checkout"] .glow-bg-top{display:none!important}
+body[data-page="checkout"] .checkout-pad{padding-left:12px!important;padding-right:12px!important}
+body[data-page="checkout"] .step-circle{width:26px!important;height:26px!important;font-size:10px!important}
+body[data-page="checkout"] .step-active{background:var(--b)!important;color:#fff!important;box-shadow:none!important}
+body[data-page="checkout"] .step-inactive{background:#edf3f8!important;color:#8090a5!important;border-color:#dfe8f1!important}
+body[data-page="checkout"] .step-line{background:#dfe7ef!important}
+body[data-page="checkout"] .section-card h2,body[data-page="checkout"] .section-card h3,body[data-page="checkout"] .section-card span,body[data-page="checkout"] .section-card strong{color:inherit!important}
+body[data-page="checkout"] .product-icon{width:44px!important;height:44px!important;border-radius:9px!important;background:#eef6ff!important;color:var(--b)!important;font-size:20px!important}
+body[data-page="checkout"] #coPrice,body[data-page="checkout"] #coTotal{color:var(--r)!important}
+body[data-page="checkout"] .terms{color:#72849a!important;font-size:9px!important}
+body[data-page="checkout"] .terms strong{color:var(--n)!important}
+body[data-page="checkout"] .mt-auto{color:#7b8da3!important;padding-bottom:14px!important}
+body[data-page="checkout"] .drawer{max-width:none!important}
