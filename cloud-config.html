@@ -5,26 +5,102 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#f8fbff">
 <title>云服务配置｜EVA AI MARKET</title>
-<link rel="stylesheet" href="/eva-fresh-reference.css?v=20260923-fresh1">
-<link rel="stylesheet" href="/eva-fresh-final.css?v=20260923-step6-polish1">
 <style>
-*{box-sizing:border-box}html,body{margin:0}.cfg{width:100%;max-width:430px;min-height:100svh;margin:auto;background:#f8fbfe;padding:calc(10px + env(safe-area-inset-top)) 14px 90px;color:#10224b}.top{height:42px;display:flex;align-items:center;justify-content:center;position:relative;background:#fff;border-radius:14px;margin-bottom:10px}.back{position:absolute;left:10px;width:30px;height:30px;border:0;background:#fff;color:#18375c;font-size:22px}.top b{font-size:15px}.summary,.card{background:#fff;border:1px solid #e5edf6;border-radius:14px;box-shadow:0 7px 18px rgba(38,91,149,.05)}.summary{display:flex;gap:10px;align-items:center;padding:11px;margin-bottom:12px}.logo{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(145deg,#2aa8ff,#087cf3);color:#fff;font-size:26px;font-weight:900}.summary b{font-size:13px}.summary small{display:block;color:#8a99ad;font-size:9px;margin-top:3px}.steps{display:flex;align-items:center;justify-content:center;gap:6px;margin:7px 0 14px}.step{display:flex;align-items:center;gap:4px;color:#9aa8bb;font-size:9px}.step i{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:#eaf0f6;font-style:normal}.step.active{color:#087cf3}.step.active i{background:#087cf3;color:#fff}.line{width:34px;height:1px;background:#dce6ef}.card{padding:13px;margin-bottom:11px}.card h3{font-size:12px;margin:0 0 9px}.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.choice{border:1px solid #dfe8f2;border-radius:10px;background:#fff;min-height:46px;padding:8px 5px;text-align:center;color:#4e6680;font-size:9px}.choice.active{border-color:#087cf3;background:#f3f9ff;color:#087cf3;font-weight:900}.choice b{display:block;color:inherit;font-size:10px}.choice small{font-size:8px;color:#8b99ad}.duration .choice{min-height:42px}.total{display:flex;justify-content:space-between;align-items:center;margin:16px 2px 10px}.total span{font-size:11px}.total b{font-size:22px;color:#f43650}.cta{width:100%;height:44px;border:0;border-radius:22px;background:linear-gradient(180deg,#19a7ff,#087cf3);color:#fff;font-weight:950;box-shadow:0 5px 0 #0562c7}.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:66px;background:#fff;border-top:1px solid #e5edf6;display:flex;justify-content:space-around;align-items:center}.bottom a{color:#8796aa;text-decoration:none;font-size:9px;text-align:center}.bottom span{display:block;font-size:18px;margin-bottom:2px}
+:root{--blue:#1688ff;--navy:#0b2148;--red:#ff3150;--muted:#8190a5;--line:#e5edf6;--bg:#f7fbff}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#edf5fb;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",Arial,sans-serif;color:var(--navy);-webkit-font-smoothing:antialiased}
+body{display:flex;justify-content:center}.cfg{width:100%;max-width:430px;min-height:100svh;background:#fff;padding-bottom:74px;box-shadow:0 0 42px rgba(26,83,145,.08)}
+.top{height:50px;padding:calc(7px + env(safe-area-inset-top)) 12px 7px;display:flex;align-items:center;justify-content:center;position:relative;border-bottom:1px solid #eef3f8}.back{position:absolute;left:10px;width:32px;height:32px;border:0;background:transparent;color:#17365e;font-size:23px}.top b{font-size:14px;font-weight:950}
+.summary{display:flex;gap:11px;align-items:center;padding:13px 15px 10px}.logo{width:52px;height:52px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#2caaff,#087cf3);color:#fff;font-size:27px;font-weight:900;box-shadow:0 6px 14px rgba(16,125,241,.18)}.summary b{font-size:13px}.summary small{display:block;color:#8290a4;font-size:9px;margin-top:4px}
+.steps{display:flex;align-items:center;justify-content:center;gap:7px;padding:4px 15px 12px}.step{display:flex;align-items:center;gap:5px;color:#9aa7b9;font-size:9px;font-weight:800}.step i{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:#eaf0f6;font-style:normal}.step.active{color:#087cf3}.step.active i{background:#087cf3;color:#fff}.line{width:38px;height:1px;background:#dce6ef}
+.section{padding:10px 15px;border-top:7px solid #f7fbff}.section h3{font-size:11px;margin:0 0 9px;font-weight:950}
+.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.choice{border:1px solid #dfe8f2;border-radius:10px;background:#fff;min-height:54px;padding:7px 5px;text-align:center;color:#4e6680;font-size:9px;position:relative}.choice.active{border:2px solid #1688ff;background:#f4f9ff;color:#087cf3;font-weight:900}.choice b{display:block;color:inherit;font-size:9.5px}.choice small{display:block;margin-top:4px;font-size:7.5px;color:#8b99ad;line-height:1.25}.choice .price{display:block;margin-top:5px;color:#17365e;font-size:9px;font-weight:900}.choice.active .price{color:#087cf3}
+.discount{position:absolute;right:4px;top:4px;border-radius:5px;background:#fff0f3;color:#ff3a57;font-size:6.5px;font-weight:900;padding:2px 4px}
+.duration .choice{min-height:44px;display:grid;place-items:center}.duration .choice b{font-size:9.5px}
+.total-box{padding:13px 15px 16px;border-top:7px solid #f7fbff}.total{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.total span{font-size:11px;font-weight:800}.total b{font-size:22px;color:#f43650}.note{margin:0 0 12px;font-size:8px;color:#7f8ea3;line-height:1.55}.cta{width:100%;height:44px;border:0;border-radius:12px;background:linear-gradient(180deg,#25aaff,#087cf3);color:#fff;font-weight:950;font-size:12px;box-shadow:0 6px 14px rgba(10,119,236,.22)}
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:68px;padding-bottom:env(safe-area-inset-bottom);background:rgba(255,255,255,.98);border-top:1px solid #e5edf6;display:grid;grid-template-columns:repeat(5,1fr);box-shadow:0 -6px 18px rgba(34,85,140,.05)}.bottom a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#8796aa;text-decoration:none;font-size:9px}.bottom span{font-size:18px}.bottom a.active{color:#1684ff;font-weight:900}
+@media(max-width:370px){.choices{gap:5px}.choice{padding-left:4px;padding-right:4px}.choice b{font-size:8.5px}.choice small{font-size:7px}}
 </style>
-<link rel="stylesheet" href="/eva-reference-11.css?v=20260923-ref11a">
-<link rel="stylesheet" href="/eva-reference-final.css?v=20260923-final11"><link rel="stylesheet" href="/eva-reference-exact.css?v=20260923-exact3"></head>
+</head>
 <body data-page="cloud-config">
 <main class="cfg">
 <div class="top"><button class="back" onclick="history.back()">‹</button><b>配置服务器</b></div>
-<section class="summary"><div class="logo" id="cfgLogo">☁</div><div><b id="cfgName">云服务</b><small id="cfgSub">高性能云服务 · 简单可靠</small></div></section>
-<div class="steps"><span class="step active"><i>1</i>配置</span><i class="line"></i><span class="step"><i>2</i>确认</span><i class="line"></i><span class="step"><i>3</i>支付</span></div>
-<section class="card"><h3>偏好地区</h3><div class="choices" id="regions"><button class="choice active" type="button"><b>纽约 (US)</b><small>推荐</small></button><button class="choice" type="button"><b>新加坡 (SG)</b><small>低延迟</small></button><button class="choice" type="button"><b>法兰克福 (DE)</b><small>欧洲</small></button></div></section>
-<section class="card"><h3>偏好配置</h3><div class="choices" id="configs"><button class="choice" type="button"><b>2GB / 1 vCPU</b><small>基础配置</small></button><button class="choice active" type="button"><b>4GB / 2 vCPU</b><small>推荐配置</small></button><button class="choice" type="button"><b>8GB / 4 vCPU</b><small>高性能</small></button></div></section>
-<section class="card duration"><h3>偏好时长</h3><div class="choices" id="durations"><button class="choice active" type="button"><b>1个月</b></button><button class="choice" type="button"><b>3个月</b></button><button class="choice" type="button"><b>12个月</b></button></div></section>
+
+<section class="summary">
+<div class="logo" id="cfgLogo">☁</div>
+<div><b id="cfgName">云服务</b><small id="cfgSub">高性能云服务 · 简单可靠</small></div>
+</section>
+
+<div class="steps"><span class="step active"><i>1</i>选择配置</span><i class="line"></i><span class="step"><i>2</i>确认</span><i class="line"></i><span class="step"><i>3</i>支付</span></div>
+
+<section class="section">
+<h3>选择地区</h3>
+<div class="choices" id="regions">
+<button class="choice active" type="button"><b>纽约 (US)</b><small>推荐区域</small></button>
+<button class="choice" type="button"><b>新加坡 (SG)</b><small>亚洲低延迟</small></button>
+<button class="choice" type="button"><b>法兰克福 (DE)</b><small>欧洲区域</small></button>
+</div>
+</section>
+
+<section class="section">
+<h3>选择配置</h3>
+<div class="choices" id="configs">
+<button class="choice" type="button"><b>2GB / 1 vCPU</b><small>50GB SSD</small><span class="price">基础</span></button>
+<button class="choice active" type="button"><b>4GB / 2 vCPU</b><small>80GB SSD</small><span class="price">推荐</span></button>
+<button class="choice" type="button"><b>8GB / 4 vCPU</b><small>160GB SSD</small><span class="price">高性能</span></button>
+</div>
+</section>
+
+<section class="section duration">
+<h3>购买时长</h3>
+<div class="choices" id="durations">
+<button class="choice active" type="button"><b>1个月</b></button>
+<button class="choice" type="button"><span class="discount">-5%</span><b>3个月</b></button>
+<button class="choice" type="button"><span class="discount">-10%</span><b>12个月</b></button>
+</div>
+</section>
+
+<section class="total-box">
 <div class="total"><span>预计费用</span><b id="cfgPrice">US$ —</b></div>
-<p style="margin:5px 2px 9px;font-size:8px;color:#7f8ea3">最终可用地区、配置与交付内容以商品库存和订单确认结果为准。</p><button class="cta" id="continueBtn" type="button">下一步 →</button>
-<nav class="bottom"><a href="/"><span>⌂</span>首页</a><a href="/categories.html"><span>▦</span>分类</a><a href="/checkout.html"><span>🛒</span>购物车</a><a href="/orders.html"><span>▤</span>订单</a><a href="/profile.html"><span>♙</span>我的</a></nav>
+<p class="note">最终可用地区、配置与交付内容以当前商品库存和订单确认结果为准。此页面不会修改商品基础售价。</p>
+<button class="cta" id="continueBtn" type="button">下一步 →</button>
+</section>
+
+<nav class="bottom">
+<a href="/"><span>⌂</span>首页</a>
+<a href="/categories.html"><span>▦</span>分类</a>
+<a class="active" href="/checkout.html"><span>🛒</span>购物车</a>
+<a href="/orders.html"><span>▤</span>订单</a>
+<a href="/profile.html"><span>♙</span>我的</a>
+</nav>
 </main>
+
 <script>
-(()=>{const q=new URLSearchParams(location.search),id=q.get('id');let p=null;const set=x=>{p=x;document.getElementById('cfgName').textContent=x.name||'云服务';document.getElementById('cfgSub').textContent=x.subtitle||x.category||'高性能云服务 · 简单可靠';document.getElementById('cfgPrice').textContent='US$ '+Number(x.price_usd||0).toFixed(2);try{sessionStorage.setItem('eva-checkout-product',JSON.stringify(x))}catch{}};try{const c=JSON.parse(sessionStorage.getItem('eva-checkout-product'));if(c&&String(c.id)===String(id))set(c)}catch{};if(!p&&id)fetch('/api/store',{cache:'no-store'}).then(r=>r.json()).then(b=>{const x=(b.products||[]).find(v=>String(v.id)===String(id));if(x)set(x)}).catch(()=>{});document.querySelectorAll('.choices').forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('.choice');if(!b)return;g.querySelectorAll('.choice').forEach(x=>x.classList.remove('active'));b.classList.add('active')}));document.getElementById('continueBtn').onclick=()=>{if(!p||!p.id)return;location.href='/checkout.html?id='+encodeURIComponent(p.id)}})();
+(()=>{
+ const q=new URLSearchParams(location.search),id=q.get('id');let p=null;
+ const set=x=>{
+   p=x;
+   document.getElementById('cfgName').textContent=x.name||'云服务';
+   document.getElementById('cfgSub').textContent=x.subtitle||x.category||'高性能云服务 · 简单可靠';
+   document.getElementById('cfgPrice').textContent='US$ '+Number(x.price_usd||0).toFixed(2);
+   try{sessionStorage.setItem('eva-checkout-product',JSON.stringify(x))}catch{}
+ };
+ try{const c=JSON.parse(sessionStorage.getItem('eva-checkout-product'));if(c&&String(c.id)===String(id))set(c)}catch{}
+ if(id) fetch('/api/store',{cache:'no-store'}).then(async r=>{const b=await r.json();if(!r.ok)throw new Error(b.error||'Catalog unavailable');const x=(b.products||[]).find(v=>String(v.id)===String(id));if(x)set(x)}).catch(()=>{});
+ document.querySelectorAll('.choices').forEach(g=>g.addEventListener('click',e=>{
+   const b=e.target.closest('.choice');if(!b)return;
+   g.querySelectorAll('.choice').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+ }));
+ document.getElementById('continueBtn').onclick=()=>{
+   if(!p||!p.id)return;
+   const selections={
+     region:document.querySelector('#regions .active b')?.textContent||'',
+     config:document.querySelector('#configs .active b')?.textContent||'',
+     duration:document.querySelector('#durations .active b')?.textContent||''
+   };
+   try{sessionStorage.setItem('eva-cloud-config',JSON.stringify(selections))}catch{}
+   location.href='/checkout.html?id='+encodeURIComponent(p.id);
+ };
+})();
 </script>
-</body></html>
+</body>
+</html>
