@@ -56,13 +56,7 @@
           const hay=((p.name||'')+' '+(p.subtitle||'')).toLowerCase();
           return (cat==='all'||category.includes(cat)) && (!q||hay.includes(q));
         });
-        const seen=new Set();
-        const deduped=filtered.filter(p=>{
-          const key=((p.name||'').trim().toLowerCase());
-          if(seen.has(key)) return false;
-          seen.add(key);
-          return true;
-        });
+        const deduped=filtered;
         const priority=['chatgpt','claude pro','gemini','kiro','aws','capcut'];
         const rank=p=>{
           const n=(p.name||'').toLowerCase();
