@@ -11,6 +11,23 @@ const serviceContext=()=>({
  service:process.env.SUPABASE_SERVICE_ROLE_KEY||process.env.SUPABASE_SECRET_KEY
 });
 
+const cleanPublicPriceLabel=value=>{
+ const label=String(value||'').trim();
+ if(!label)return null;
+ return label
+  .replace(/\s*\+\s*5%\s*EVA\s*fee\s*/gi,' ')
+  .replace(/\s+·\s+/g,' · ')
+  .replace(/\s{2,}/g,' ')
+  .trim()
+  .replace(/^·\s*|\s*·$/g,'')
+  .trim()||null;
+};
+
+const sanitizeStoreProduct=product=>({
+ ...product,
+ official_price_label:cleanPublicPriceLabel(product?.official_price_label)
+});
+
 async function sendTelegramAlert(text){
  const token=process.env.TELEGRAM_BOT_TOKEN;
  const chatId=VERIFIED_TELEGRAM_CHAT_ID;
@@ -285,7 +302,8 @@ export default async function handler(req,res){
   const products=await response.json().catch(()=>[]);
   if(!response.ok)return json(res,502,{error:products?.message||'Could not load products.'});
   await trackVisit(req,res,ctx);
-  return json(res,200,{products});
+  const publicProducts=Array.isArray(products)?products.map(sanitizeStoreProduct):[];
+  return json(res,200,{products:publicProducts});
  }
  const ctx=await requireUser(req,res);if(!ctx)return;
  if(req.method==='GET'&&req.query?.view==='orders'){
