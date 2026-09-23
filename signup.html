@@ -1,3 +1,91 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#05070c"><title>Create Account — EVA AI MARKET</title><script src="https://cdn.tailwindcss.com"></script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="/eva-premium-2026.css?v=20260922-1"><style>body{font-family:Inter,sans-serif}.auth-shell{width:min(100%,520px);padding:24px}.auth-card{padding:30px;border:1px solid #202a39;border-radius:24px;background:linear-gradient(180deg,#0f1621,#080d14);box-shadow:0 24px 80px #0008}.brand{display:flex;gap:10px;align-items:center;color:#fff;text-decoration:none;font-weight:800}.mark{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#6d5dfc,#8b5cf6);font-size:22px}.auth-card h1{font-size:28px;margin:28px 0 6px}.auth-card p{color:#8e9aab}.auth-card label{display:block;margin-top:16px;font-size:12px;font-weight:700}.auth-card input{width:100%;height:48px;margin-top:7px;padding:0 13px;border-radius:12px;border:1px solid #263244;background:#080d14;color:#fff;outline:0}.auth-card input:focus{border-color:#6d5dfc}.cta{width:100%;height:50px;margin-top:20px;border:0;border-radius:12px;color:#fff;font-weight:800;background:linear-gradient(135deg,#6d5dfc,#8b5cf6)}#status{min-height:20px;font-size:12px;text-align:center;margin-top:12px}.links{text-align:center;margin-top:18px;font-size:12px}.links a{color:#8fa3ff}</style><link rel="stylesheet" href="/eva-fresh-final.css?v=20260923-step6-polish1">
-<link rel="stylesheet" href="/eva-reference-11.css?v=20260923-ref11a">
-<link rel="stylesheet" href="/eva-reference-final.css?v=20260923-final11"><link rel="stylesheet" href="/eva-reference-exact.css?v=20260923-exact3"></head><body class="eva-auth-page"><main class="auth-shell"><section class="auth-card"><a class="brand" href="/"><span class="mark">E</span><span>EVA AI MARKET</span></a><h1>Create your account</h1><p>Use your email and password to access orders, wallet and products.</p><form id="form"><label>Email<input id="email" type="email" autocomplete="email" required></label><label>Password<input id="password" type="password" autocomplete="new-password" minlength="8" required></label><button class="cta" type="submit">Create Account</button></form><div id="status"></div><div class="links">Already have an account? <a href="/login.html">Sign in</a></div></section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>let c;const s=document.getElementById('status');(async()=>{try{const r=await fetch('/api/config');const x=await r.json();c=supabase.createClient(x.url,x.anonKey,{auth:{persistSession:true,autoRefreshToken:true}})}catch(e){s.textContent='Account service unavailable.'}})();document.getElementById('form').addEventListener('submit',async e=>{e.preventDefault();if(!c)return;const email=document.getElementById('email').value.trim().toLowerCase(),password=document.getElementById('password').value;s.textContent='Creating account…';const {data,error}=await c.auth.signUp({email,password});if(error){s.textContent=error.message;return}if(!data.session){s.textContent='Email confirmation is enabled. Check your email.';return}const next=new URLSearchParams(location.search).get('next');location.replace(next&&next.startsWith('/')&&!next.startsWith('//')?next:'/dashboard.html')});</script><script src="/eva-premium-runtime.js?v=20260922-1"></script></body></html>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#f8fbff">
+<title>注册｜EVA AI MARKET</title>
+<style>
+:root{--blue:#1688ff;--navy:#0b2148;--muted:#8190a5;--line:#e4edf6}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#edf5fb;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",Arial,sans-serif;color:var(--navy);-webkit-font-smoothing:antialiased}
+body{display:flex;justify-content:center}.app{width:100%;max-width:430px;min-height:100svh;background:linear-gradient(180deg,#fbfdff,#f4f9fd 72%,#fff);padding:calc(20px + env(safe-area-inset-top)) 18px 28px;box-shadow:0 0 42px rgba(26,83,145,.08)}
+.back{width:34px;height:34px;border:0;background:#fff;border-radius:10px;color:#17365e;font-size:22px;box-shadow:0 5px 14px rgba(35,89,146,.06)}
+.brand{text-align:center;margin-top:18px}.logo{width:66px;height:66px;margin:0 auto 10px;display:grid;place-items:center}.logo svg{width:66px;height:66px}.brand h1{margin:0;font-size:21px;font-weight:950}.brand p{margin:6px 0 0;font-size:9.5px;color:#8190a5}
+.card{margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 15px 16px;box-shadow:0 10px 28px rgba(35,89,146,.07)}
+.card h2{margin:0;font-size:17px;font-weight:950}.lead{margin:5px 0 15px;font-size:9.5px;color:#8190a5}
+.field{margin-bottom:12px}.field label{display:block;margin-bottom:6px;font-size:9.5px;font-weight:900;color:#36506f}.field input{width:100%;height:43px;border:1px solid #dfe8f2;border-radius:11px;background:#fbfdff;padding:0 12px;outline:0;color:#17365e;font-size:11px}.field input:focus{border-color:#1688ff;box-shadow:0 0 0 3px rgba(22,136,255,.08)}.password-wrap{position:relative}.password-wrap input{padding-right:58px}.toggle{position:absolute;right:9px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:#1688ff;font-size:9px;font-weight:900}
+.strength{height:4px;background:#edf2f7;border-radius:99px;overflow:hidden;margin-top:7px}.strength i{display:block;height:100%;width:0;background:#94a3b8;transition:.2s}.strength-text{display:block;text-align:right;margin-top:4px;font-size:7.5px;color:#8a98aa}
+.note{font-size:8.5px;color:#7f8ea3;line-height:1.5;margin:0 0 12px}.cta{width:100%;height:44px;border:0;border-radius:12px;background:linear-gradient(180deg,#2baaff,#117df0);color:#fff;font-size:12px;font-weight:950;box-shadow:0 6px 14px rgba(10,119,236,.22)}
+#status{min-height:18px;margin-top:11px;text-align:center;font-size:9px;color:#7e8da1}.links{text-align:center;margin-top:14px;font-size:9.5px;color:#7f8ea3}.links a{color:#1688ff;text-decoration:none;font-weight:900}
+.safe{margin-top:15px;display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.safe div{height:50px;border:1px solid #e5edf6;border-radius:10px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#7e8da1;font-size:7.5px}.safe b{color:#1688ff;font-size:14px;margin-bottom:2px}
+@media(max-width:370px){.app{padding-left:14px;padding-right:14px}.card{padding-left:13px;padding-right:13px}}
+</style>
+</head>
+<body>
+<main class="app">
+<button class="back" onclick="history.back()" aria-label="Back">‹</button>
+
+<section class="brand">
+<div class="logo"><svg viewBox="0 0 64 64"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#35b9ff"/><stop offset=".56" stop-color="#147fff"/><stop offset="1" stop-color="#065ce7"/></linearGradient></defs><path fill="url(#cg)" d="M11 18l9 7 7-14 6 14 12-10 5 26c-12 8-25 8-38 0z"/><path fill="#fff" opacity=".9" d="M16 31h32v4H16z"/><circle cx="11" cy="15" r="4" fill="#35b9ff"/><circle cx="28" cy="8" r="4" fill="#147fff"/><circle cx="47" cy="12" r="4" fill="#065ce7"/></svg></div>
+<h1>EVA AI MARKET</h1>
+<p>全球优质AI服务 · 一站式购买平台</p>
+</section>
+
+<section class="card">
+<h2>创建账户</h2>
+<p class="lead">注册后即可访问订单、钱包与已购产品</p>
+
+<form id="form">
+<div class="field">
+<label for="email">邮箱地址</label>
+<input id="email" type="email" autocomplete="email" inputmode="email" required placeholder="you@example.com">
+</div>
+
+<div class="field">
+<label for="password">创建密码</label>
+<div class="password-wrap">
+<input id="password" type="password" autocomplete="new-password" minlength="8" required placeholder="至少 8 个字符">
+<button class="toggle" type="button" id="togglePassword">Show</button>
+</div>
+<div class="strength"><i id="strengthBar"></i></div>
+<span class="strength-text" id="strengthText">Strength: Empty</span>
+</div>
+
+<p class="note">使用邮箱和密码直接创建 EVA AI MARKET 账户。若账户服务要求邮箱确认，页面会明确提示。</p>
+<button class="cta" type="submit">创建账户</button>
+</form>
+
+<div id="status" role="status" aria-live="polite"></div>
+<div class="links">已有账户？ <a href="/login.html">立即登录</a></div>
+
+<div class="safe"><div><b>▣</b>账户保护</div><div><b>ϟ</b>快速注册</div><div><b>◇</b>安全访问</div></div>
+</section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+let c;const s=document.getElementById('status');
+(async()=>{try{const r=await fetch('/api/config',{cache:'no-store'});const x=await r.json();if(!r.ok)throw new Error(x.error||'Configuration unavailable');c=supabase.createClient(x.url,x.anonKey,{auth:{persistSession:true,autoRefreshToken:true}})}catch(e){s.textContent='Account service unavailable.'}})();
+
+const pwd=document.getElementById('password'),bar=document.getElementById('strengthBar'),txt=document.getElementById('strengthText');
+const strength=v=>{let score=0;if(v.length>=8)score++;if(v.length>=12)score++;if(/[A-Z]/.test(v))score++;if(/[0-9]/.test(v))score++;if(/[^A-Za-z0-9]/.test(v))score++;if(!v){bar.style.width='0';bar.style.background='#94a3b8';txt.textContent='Strength: Empty';return}if(score<=2){bar.style.width='33%';bar.style.background='#f43f5e';txt.textContent='Strength: Weak'}else if(score<=4){bar.style.width='66%';bar.style.background='#f59e0b';txt.textContent='Strength: Moderate'}else{bar.style.width='100%';bar.style.background='#34d399';txt.textContent='Strength: Strong'}};
+pwd.addEventListener('input',()=>strength(pwd.value));
+document.getElementById('togglePassword').onclick=()=>{const show=pwd.type==='password';pwd.type=show?'text':'password';document.getElementById('togglePassword').textContent=show?'Hide':'Show'};
+
+document.getElementById('form').addEventListener('submit',async e=>{
+ e.preventDefault();if(!c)return;
+ const email=document.getElementById('email').value.trim().toLowerCase(),password=pwd.value;
+ if(password.length<8){s.textContent='Password must be at least 8 characters.';return}
+ s.textContent='Creating account…';
+ const {data,error}=await c.auth.signUp({email,password});
+ if(error){s.textContent=error.message;return}
+ if(!data.session){s.textContent='Email confirmation is enabled. Check your email.';return}
+ try{
+   fetch('/api/store',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'notify_signup',email}),keepalive:true});
+ }catch{}
+ const next=new URLSearchParams(location.search).get('next');
+ location.replace(next&&next.startsWith('/')&&!next.startsWith('//')?next:'/dashboard.html');
+});
+</script>
+</body>
+</html>
