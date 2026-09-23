@@ -83,6 +83,29 @@ header{padding:calc(16px + env(safe-area-inset-top)) 19px 11px;display:flex;alig
 .app .enterprise h3,.app .enterprise p,.app .benefits{position:relative;z-index:3}
 .app .benefits{max-width:292px}
 .app .consult{z-index:4}
+/* Reference 11-screen homepage alignment */
+.home-reference-note{display:none}
+.categories{grid-template-columns:repeat(5,minmax(0,1fr));gap:13px 8px;padding:0 15px 18px}
+.cat{font-size:10px;font-weight:800}
+.ci{width:44px;height:44px;border-radius:12px;margin-bottom:6px;font-size:19px}
+.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.product{height:176px!important;min-height:176px!important;padding:12px 11px 10px;border-radius:14px}
+.product .badge,.product .desc,.product .price-label{display:none!important}
+.plogo{width:48px;height:48px;border-radius:12px;margin-bottom:8px}
+.product h3{min-height:auto!important;margin:0 0 3px!important;font-size:12px;white-space:nowrap;text-overflow:ellipsis}
+.product h3:after{content:" 1个月";display:block;color:#6e819c;font-size:9px;font-weight:600;margin-top:4px}
+.price{margin:6px 0 8px;font-size:16px}
+.buy{height:31px;border-radius:16px}
+.enterprise,.features,.telegram{display:none!important}
+.section{padding-bottom:96px}
+.section-head{margin-bottom:10px}.section-head h2{font-size:19px}.section-head p{display:none}
+.hero{margin-bottom:14px;border-radius:14px}
+.search{height:43px;border-radius:13px;margin:0 15px 12px;padding:0 13px}
+.app header{padding:calc(10px + env(safe-area-inset-top)) 15px 8px}
+.app .logo{width:40px;height:40px}.app .brand{gap:8px}.app .brand b{font-size:18px}.app .brand small{font-size:8px;margin-top:4px}
+.app .head-actions{gap:8px}.app .iconbtn{width:28px;height:28px}.app .iconbtn svg{width:22px;height:22px}
+.bottom{height:68px}
+@media(min-width:390px) and (max-width:430px){.app{max-width:430px}.hero{margin-left:12px;margin-right:12px}.categories{padding-left:12px;padding-right:12px}}
 </style>
 <link rel="stylesheet" href="/eva-reference-11.css?v=20260923-ref11a">
 <link rel="stylesheet" href="/eva-reference-final.css?v=20260923-final11"><link rel="stylesheet" href="/eva-reference-exact.css?v=20260923-exact3"></head>
@@ -91,7 +114,7 @@ header{padding:calc(16px + env(safe-area-inset-top)) 19px 11px;display:flex;alig
 <header>
 <a class="brand" href="/">
 <span class="logo"><svg viewBox="0 0 64 64"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#35b9ff"/><stop offset=".56" stop-color="#147fff"/><stop offset="1" stop-color="#065ce7"/></linearGradient></defs><path fill="url(#cg)" d="M11 18l9 7 7-14 6 14 12-10 5 26c-12 8-25 8-38 0z"/><path fill="#fff" opacity=".9" d="M16 31h32v4H16z"/><circle cx="11" cy="15" r="4" fill="#35b9ff"/><circle cx="28" cy="8" r="4" fill="#147fff"/><circle cx="47" cy="12" r="4" fill="#065ce7"/></svg></span>
-<span><b>EVA AI 市场</b><small>全球优质 AI 服务 · 一站式购买平台</small></span>
+<span><b>EVA AI MARKET</b><small>全球优质AI服务 · 一站式购买平台</small></span>
 </a>
 <div class="head-actions">
 <button class="iconbtn" onclick="location.href='/dashboard.html'" aria-label="通知"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 10-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg><i class="dot"></i></button>
@@ -101,12 +124,16 @@ header{padding:calc(16px + env(safe-area-inset-top)) 19px 11px;display:flex;alig
 <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="#18345b" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="homeSearch" placeholder="搜索 AI 产品、服务或品牌..."><svg class="scan" viewBox="0 0 24 24" fill="none" stroke="#173558" stroke-width="1.8" aria-hidden="true"><path d="M8 3H4a1 1 0 0 0-1 1v4M16 3h4a1 1 0 0 1 1 1v4M8 21H4a1 1 0 0 1-1-1v-4M16 21h4a1 1 0 0 0 1-1v-4"/></svg></div>
 <section class="hero"><img src="/assets/eva-reference-hero.jpg?v=20260923-final2" width="719" height="303" decoding="async" fetchpriority="high" alt="EVA AI MARKET"><a class="hero-hit" href="/products.html" aria-label="立即探索"></a></section>
 <section class="categories">
-<a class="cat" href="/categories.html"><div class="ci ci-chat"><svg viewBox="0 0 48 48"><rect x="7" y="10" width="34" height="25" rx="9" fill="url(#chatG)"/><path d="M16 35l-5 6 1-10" fill="#2388f7"/><circle cx="17" cy="22.5" r="2" fill="#fff"/><circle cx="24" cy="22.5" r="2" fill="#fff"/><circle cx="31" cy="22.5" r="2" fill="#fff"/><defs><linearGradient id="chatG"><stop stop-color="#55c9ff"/><stop offset="1" stop-color="#1374f4"/></linearGradient></defs></svg></div>AI聊天</a>
-<a class="cat" href="/categories.html"><div class="ci ci-art"><svg viewBox="0 0 48 48"><path d="M25 7C14 7 6 15 6 25c0 9 7 16 16 16h4c3 0 5-2 5-5 0-2-1-3-1-5 0-3 3-4 6-4h2c3 0 5-2 5-5C43 13 35 7 25 7z" fill="url(#artG)"/><circle cx="17" cy="18" r="2.5" fill="#fff"/><circle cx="25" cy="14" r="2.5" fill="#fff"/><circle cx="33" cy="18" r="2.5" fill="#fff"/><circle cx="14" cy="26" r="2.5" fill="#fff"/><defs><linearGradient id="artG"><stop stop-color="#ffc351"/><stop offset="1" stop-color="#ff7b3e"/></linearGradient></defs></svg></div>AI绘画</a>
-<a class="cat" href="/categories.html"><div class="ci ci-cloud"><svg viewBox="0 0 48 48"><path d="M15 36h22a8 8 0 000-16 13 13 0 00-25-2A9 9 0 0015 36z" fill="url(#cloudG)"/><defs><linearGradient id="cloudG"><stop stop-color="#62d3ff"/><stop offset="1" stop-color="#208cf5"/></linearGradient></defs></svg></div>云服务</a>
-<a class="cat" href="/categories.html"><div class="ci ci-video"><svg viewBox="0 0 48 48"><rect x="7" y="8" width="34" height="32" rx="11" fill="url(#videoG)"/><path d="M21 17l13 7-13 7z" fill="#fff"/><defs><linearGradient id="videoG"><stop stop-color="#ff8ac2"/><stop offset="1" stop-color="#ef3f82"/></linearGradient></defs></svg></div>视频工具</a>
-<a class="cat" href="/api-docs"><div class="ci ci-api"><svg viewBox="0 0 48 48"><rect x="6" y="8" width="36" height="32" rx="11" fill="url(#apiG)"/><path d="M19 17l-7 7 7 7M29 17l7 7-7 7M27 13l-6 22" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="apiG"><stop stop-color="#5a9bff"/><stop offset="1" stop-color="#345eea"/></linearGradient></defs></svg></div>API服务</a>
-<a class="cat" href="/categories.html"><div class="ci ci-more"><svg viewBox="0 0 48 48"><g fill="url(#moreG)"><rect x="8" y="8" width="13" height="13" rx="5"/><rect x="27" y="8" width="13" height="13" rx="5"/><rect x="8" y="27" width="13" height="13" rx="5"/><rect x="27" y="27" width="13" height="13" rx="5"/></g><defs><linearGradient id="moreG"><stop stop-color="#48d8df"/><stop offset="1" stop-color="#28b8dd"/></linearGradient></defs></svg></div>更多</a>
+<a class="cat" href="/categories.html?cat=AI聊天"><div class="ci ci-chat">💬</div>AI聊天</a>
+<a class="cat" href="/categories.html?cat=AI绘画"><div class="ci ci-art">🎨</div>AI绘画</a>
+<a class="cat" href="/categories.html?cat=AI视频"><div class="ci ci-video">▶</div>AI视频</a>
+<a class="cat" href="/categories.html?cat=AI音乐"><div class="ci" style="color:#fff;background:linear-gradient(145deg,#b46cff,#7556ff)!important">♫</div>AI音乐</a>
+<a class="cat" href="/categories.html?cat=办公效率"><div class="ci" style="color:#fff;background:linear-gradient(145deg,#ff7aa8,#ff4f78)!important">✣</div>办公效率</a>
+<a class="cat" href="/categories.html?cat=开发工具"><div class="ci ci-api">&lt;/&gt;</div>开发工具</a>
+<a class="cat" href="/categories.html?cat=云服务"><div class="ci ci-cloud">☁</div>云服务</a>
+<a class="cat" href="/categories.html?cat=自动化"><div class="ci" style="color:#fff;background:linear-gradient(145deg,#41c9de,#168eff)!important">⚙</div>自动化</a>
+<a class="cat" href="/categories.html?cat=存储备份"><div class="ci" style="color:#fff;background:linear-gradient(145deg,#74ca72,#39a84b)!important">↥</div>存储备份</a>
+<a class="cat" href="/categories.html"><div class="ci ci-more">•••</div>更多</a>
 </section>
 <section class="section"><div class="section-head"><div><h2><span class="fire">🔥</span>热门推荐</h2><p>全球热门 AI 产品 · 正品保障 · 即买即用</p></div><a href="/products.html">查看全部 ›</a></div><div class="products" id="homeProducts"><div class="notice">正在加载热门产品…</div></div></section>
 <section class="enterprise"><h3>企业定制方案 <span class="pill">为企业而生</span></h3><p>一站式 AI 解决方案 · 助力企业数字化转型</p><div class="benefits"><span>♢ 专属方案</span><span>♧ 批量采购</span><span>▣ 专业支持</span><span>▤ 灵活结算</span></div><div class="buildings"><i class="building two"></i><i class="building one"></i></div><a class="consult" href="https://t.me/AWSXCLOUDEBUYSELL">立即咨询 →</a></section>
@@ -132,9 +159,9 @@ const gcloud='<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M22 48H48a11 
 if(s.includes('chatgpt')||s.includes('openai'))return [openai,'openai'];if(s.includes('claude'))return [claude,'claude'];if(p?.id==='google-ai-pro')return [gcloud,'google'];if(s.includes('midjourney'))return [mid,'midjourney'];if(s.includes('gemini')||s.includes('google ai ultra'))return [gemini,'gemini'];if(s.includes('aws'))return [aws,'aws'];if(s.includes('google'))return [gcloud,'google'];if(s.includes('kiro'))return ['K','kiro'];return ['AI','']};
 fetch('/api/store',{cache:'no-store'}).then(async r=>{const b=await r.json();if(!r.ok)throw new Error(b.error||'Catalog unavailable');return b}).then(b=>{
 const all=Array.isArray(b.products)?b.products:[];
-const realIds=['chatgpt-plus','claude-pro','gemini-ultra-5x','aws-8','google-ai-pro'];
+const realIds=['chatgpt-plus','claude-pro'];
 const real=Object.fromEntries(realIds.map(id=>[id,all.find(p=>p.id===id)]));
-const list=[real['chatgpt-plus'],real['claude-pro'],real['gemini-ultra-5x'],{id:'midjourney-placeholder',name:'Midjourney Pro',subtitle:'专业 AI 绘画工具 · 当前库存待确认',price_usd:null,official_price_label:'联系客服获取报价',stock:0,placeholder:true},real['aws-8'],real['google-ai-pro']].filter(Boolean);
+const list=[real['chatgpt-plus'],real['claude-pro']].filter(Boolean);
 const root=document.getElementById('homeProducts');
 root.innerHTML=list.map((p,i)=>{const [ic,cl]=brand(p);const title=p.id==='gemini-ultra-5x'?'Gemini Ultra':p.id==='aws-8'?'AWS 云服务':p.id==='google-ai-pro'?'Google Cloud':p.name;const price=p.placeholder?'询价':'US$ '+Number(p.price_usd||0).toFixed(1);const action=p.placeholder?'联系咨询 →':(Number(p.stock)<=0?'暂时缺货':'立即购买 →');return '<article class="product"><span class="badge">'+(i===1?'推荐':'热门')+'</span><div class="plogo '+cl+'">'+ic+'</div><h3>'+esc(title)+'</h3><div class="desc">'+esc(p.subtitle||p.category||'优质 AI 服务')+'</div><div class="price">'+price+'</div><div class="price-label">'+esc(p.official_price_label||'月度方案')+'</div><button class="buy" data-id="'+esc(p.id)+'" '+((Number(p.stock)<=0&&!p.placeholder)?'disabled':'')+'>'+action+'</button></article>'}).join('');
 root.querySelectorAll('.buy').forEach(btn=>btn.onclick=()=>{if(btn.dataset.id==='midjourney-placeholder'){location.href='https://t.me/AWSXCLOUDEBUYSELL';return}const p=all.find(x=>String(x.id)===String(btn.dataset.id));if(!p||Number(p.stock)<=0)return;sessionStorage.setItem('eva-checkout-product',JSON.stringify(p));location.href='/product.html?id='+encodeURIComponent(btn.dataset.id)});
