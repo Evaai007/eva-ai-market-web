@@ -67,10 +67,10 @@ function dashboardBrandVisual(product){
 function dashboardProductCard(product){
  const mode=['balance','contact','reference'].includes(product.purchase_mode)?product.purchase_mode:'balance';
  const custom=mode==='contact'||mode==='reference';
- const available=mode==='balance'&&Number(product.stock)>0;
+ const available=mode==='balance'&&(product.unlimited_stock===true||Number(product.stock)>0);
  const calculatorIds=new Set(['claude-team-standard','claude-team-premium','claude-enterprise','chatgpt-business','chatgpt-enterprise','gemini-enterprise']);
  const price=custom?(mode==='reference'?escapeHtml(product.official_price_label||'Official reference'):'Custom <small>QUOTE</small>'):money(product.price_usd)+' <small>USDT</small>';
- const stock=custom?'<span class="in-stock"><i class="stock-dot"></i>Available on request</span><i class="stock-divider"></i><span class="warranty-line">Official/custom plan</span>':`<span class="${available?'in-stock':'out-stock'}">${available?'<i class="stock-dot"></i>'+product.stock+' in stock':'Out of stock'}</span><i class="stock-divider"></i><span class="warranty-line"><span class="mini-shield">✓</span>${product.warranty_days}-day warranty</span>`;
+ const stock=custom?'<span class="in-stock"><i class="stock-dot"></i>Available on request</span><i class="stock-divider"></i><span class="warranty-line">Official/custom plan</span>':`<span class="${available?'in-stock':'out-stock'}">${available?(product.unlimited_stock===true?'<i class="stock-dot"></i>Unlimited stock':'<i class="stock-dot"></i>'+product.stock+' in stock'):'Out of stock'}</span><i class="stock-divider"></i><span class="warranty-line"><span class="mini-shield">✓</span>${product.warranty_days}-day warranty</span>`;
  let action='';
  if(custom&&calculatorIds.has(String(product.id)))action='<div class="eva-cta-shell"><i></i><a class="button primary" href="/#products">Calculate Price & Order</a></div>';
  else if(custom){const msg=encodeURIComponent('Hello, I want to order '+product.name+'. Please send the current price.');action='<div class="eva-cta-shell"><i></i><a class="button secondary" href="https://t.me/eva007_8?text='+msg+'" target="_blank" rel="noopener noreferrer">Contact for Order</a></div>'}
