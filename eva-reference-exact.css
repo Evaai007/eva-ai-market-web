@@ -190,3 +190,5 @@ body[data-page="checkout"] .terms{color:#72849a!important;font-size:9px!importan
 body[data-page="checkout"] .terms strong{color:var(--n)!important}
 body[data-page="checkout"] .mt-auto{color:#7b8da3!important;padding-bottom:14px!important}
 body[data-page="checkout"] .drawer{max-width:none!important}
+
+body.reference-deposit .networks button:disabled{opacity:.45;cursor:not-allowed;background:#f2f5f8!important;color:#9aa7b6!important;border-color:#e5ebf1!important}
