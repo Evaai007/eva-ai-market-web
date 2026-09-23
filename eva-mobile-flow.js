@@ -53,7 +53,7 @@
         const cat=$('.chips .active')?.dataset.cat||'all';
         const filtered=products.filter(p=>{
           const category=(p.category||'').toLowerCase();
-          const hay=((p.name||'')+' '+(p.subtitle||'')).toLowerCase();
+          const hay=((p.name||'')+' '+(p.subtitle||'')+' '+(p.category||'')).toLowerCase();
           return (cat==='all'||category.includes(cat)) && (!q||hay.includes(q));
         });
         const deduped=filtered;
