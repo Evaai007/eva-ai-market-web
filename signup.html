@@ -56,7 +56,7 @@ body{display:flex;justify-content:center}.app{width:100%;max-width:430px;min-hei
 </form>
 
 <div id="status" role="status" aria-live="polite"></div>
-<div class="links">已有账户？ <a href="/login.html">立即登录</a></div>
+<div class="links">已有账户？ <a id="loginLink" href="/login.html">立即登录</a></div>
 
 <div class="safe"><div><b>▣</b>账户保护</div><div><b>ϟ</b>快速注册</div><div><b>◇</b>安全访问</div></div>
 </section>
@@ -65,6 +65,8 @@ body{display:flex;justify-content:center}.app{width:100%;max-width:430px;min-hei
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 let c;const s=document.getElementById('status');
+const authNext=()=>{const n=new URLSearchParams(location.search).get('next');return n&&n.startsWith('/')&&!n.startsWith('//')?n:''};
+const loginLink=document.getElementById('loginLink');const nextTarget=authNext();if(loginLink&&nextTarget)loginLink.href='/login.html?next='+encodeURIComponent(nextTarget);
 (async()=>{try{const r=await fetch('/api/config',{cache:'no-store'});const x=await r.json();if(!r.ok)throw new Error(x.error||'Configuration unavailable');c=supabase.createClient(x.url,x.anonKey,{auth:{persistSession:true,autoRefreshToken:true}})}catch(e){s.textContent='Account service unavailable.'}})();
 
 const pwd=document.getElementById('password'),bar=document.getElementById('strengthBar'),txt=document.getElementById('strengthText');
