@@ -71,6 +71,11 @@ async function redirectAfterLogin(defaultTarget = '/dashboard.html') {
 
 async function init() {
   try {
+    const signupLink=document.querySelector('.signup-link a[href="/signup.html"]');
+    if(signupLink){
+      const next=getSafeReturnTarget();
+      if(next) signupLink.href='/signup.html?next='+encodeURIComponent(next);
+    }
     const response = await fetch('/api/config');
     const config = await response.json();
     if (!response.ok) throw new Error(config.error || 'Configuration unavailable');
