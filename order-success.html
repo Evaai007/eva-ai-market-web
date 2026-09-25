@@ -9,7 +9,7 @@
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#edf5fb;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif;color:#10224b}
 body{display:flex;justify-content:center}.success-app{width:100%;max-width:430px;min-height:100svh;background:linear-gradient(180deg,#fff,#f7fbff);padding-bottom:28px;overflow-x:hidden}
 .top{height:54px;padding:calc(7px + env(safe-area-inset-top)) 14px 7px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #edf2f7;background:#fff}.brand{font-size:14px;font-weight:950}
-.success{padding:28px 16px 24px;text-align:center}.success-check{width:82px;height:82px;margin:12px auto 16px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#20b977,#0aa667);box-shadow:0 12px 28px rgba(12,164,103,.22);color:#fff;font-size:46px;font-weight:950}
+.success{padding:28px 16px 24px;text-align:center}.success-product-logo{width:82px;height:82px;margin:12px auto 16px;border-radius:50%;display:grid;place-items:center;background:#fff;border:1px solid #e4edf6;box-shadow:0 12px 28px rgba(38,91,149,.10);color:#087cf3;font-size:34px;font-weight:950}.success-product-logo img{width:54px;height:54px;object-fit:contain;display:block}.success-check{width:82px;height:82px;margin:12px auto 16px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#20b977,#0aa667);box-shadow:0 12px 28px rgba(12,164,103,.22);color:#fff;font-size:46px;font-weight:950}
 .success h1{margin:0 0 8px;font-size:21px;color:#0a9a62}.success>p{margin:0 auto 16px;max-width:320px;color:#7d8da1;font-size:10px;line-height:1.65}
 .order-info{margin:15px 0;border:1px solid #e4edf6;border-radius:13px;background:#fff;padding:3px 12px;box-shadow:0 6px 16px rgba(38,91,149,.05)}.order-info p{display:flex;justify-content:space-between;gap:12px;margin:0;padding:11px 0;border-bottom:1px solid #edf2f7;font-size:9.5px;text-align:left}.order-info p:last-child{border-bottom:0}.order-info span{color:#8493a6}.order-info b{font-weight:800;text-align:right;color:#17365e}.order-info #oStatus{color:#0ca468}
 .success-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:15px}.success-actions button{height:43px;border-radius:10px;font-size:10px;font-weight:900}.success-actions .primary{border:0;background:linear-gradient(180deg,#25aaff,#087cf3);color:#fff}.success-actions .outline{border:1px solid #cfe5fb;background:#f5faff;color:#087cf3}.preview-notice{margin:8px 0 12px!important;color:#b67a18!important;font-size:9px}
@@ -19,7 +19,7 @@ body{display:flex;justify-content:center}.success-app{width:100%;max-width:430px
 <main class="success-app">
 <header class="top"><div class="brand">EVA AI MARKET</div></header>
 <section class="success">
-<div class="success-check">✓</div>
+<div class="success-product-logo" id="successProductLogo">✓</div>
 <h1>订单提交成功</h1>
 <p>感谢您的购买。订单正在处理中，交付信息完成后会显示在您的订单记录中。</p>
 <div class="order-info">
