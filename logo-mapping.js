@@ -15,7 +15,7 @@
     if(!Array.isArray(products))return;
     const byId=new Map(products.map(p=>[String(p.id),p]));
     document.querySelectorAll('[data-id], [data-product-id], .product, .account-product').forEach(card=>{
-      const id=card.getAttribute('data-id')||card.getAttribute('data-product-id')||card.querySelector('[data-id],[data-product-id]')?.getAttribute('data-id')||card.querySelector('[data-id],[data-product-id]')?.getAttribute('data-product-id');
+      const id=card.getAttribute('data-id')||card.getAttribute('data-product-id')||card.querySelector('[data-id],[data-product-id]')?.getAttribute('data-id')||card.querySelector('[data-id],[data-product-id]')?.getAttribute('data-product-id')||card.querySelector('.buy[data-id],button[data-id]')?.getAttribute('data-id');
       const p=byId.get(String(id)); if(!p)return;
       const host=card.querySelector('.plogo,.brand-icon-shell,.mobile-brand-mark,[data-logo-host]');
       if(!host)return;
