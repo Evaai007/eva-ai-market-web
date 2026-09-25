@@ -1,4 +1,7 @@
 let client;
+/* EVA_OFFICIAL_LOGO_CSS */
+const injectOfficialLogoCss=()=>{if(document.getElementById('eva-official-logo-css'))return;const s=document.createElement('style');s.id='eva-official-logo-css';s.textContent='.mobile-brand-mark{position:relative}.mobile-brand-mark .eva-official-logo{width:62%;height:62%;object-fit:contain;display:block}.mobile-brand-mark .eva-logo-fallback{display:none}';document.head.appendChild(s)};
+injectOfficialLogoCss();
 const money=value=>'$'+Number(value||0).toFixed(2);
 const moneyPrecise=value=>'$'+Number(value||0).toFixed(6);
 const escapeHtml=value=>String(value??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
