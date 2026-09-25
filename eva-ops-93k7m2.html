@@ -132,6 +132,29 @@ body.eva-admin-page{background:#050914!important;color:#f8fafc!important}
 input,select,textarea,button{font-size:16px!important}
 .trial-form input{width:100%!important;box-sizing:border-box!important}
 }
+</style><style id="eva-admin-mobile-structure-final">
+@media(max-width:760px){
+  /* Mobile: one dashboard only. Disable all legacy/reference layers. */
+  .eva-admin-page .eva-admin-reference,
+  .eva-admin-page .eva-ref-bottom,
+  .eva-admin-page .eva-admin-sidebar{display:none!important}
+  .eva-admin-page .eva-admin-shell{display:block!important;width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;padding:0!important}
+  .eva-admin-page .eva-admin-workspace{display:block!important;width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;padding:0!important}
+  .eva-admin-page .eva-admin-topbar{display:flex!important;width:100%!important;box-sizing:border-box!important;position:sticky!important;top:0!important;z-index:1000!important;min-height:58px!important;margin:0!important;padding:9px 10px!important}
+  .eva-admin-page .eva-admin-mobile-nav{display:flex!important;width:100%!important;box-sizing:border-box!important;position:sticky!important;top:58px!important;z-index:999!important;margin:0!important;padding:7px 10px!important;overflow-x:auto!important;white-space:nowrap!important}
+  .eva-admin-page .eva-admin-main{display:block!important;width:100%!important;max-width:none!important;min-width:0!important;box-sizing:border-box!important;margin:0!important;padding:10px!important}
+  .eva-admin-page .eva-admin-main>*{max-width:100%!important;box-sizing:border-box!important}
+  .eva-admin-page .eva-admin-main>.eva-admin-hero{display:block!important;width:100%!important;margin:0 0 10px!important;padding:14px!important}
+  .eva-admin-page #admin-live-stats{display:block!important;width:100%!important;max-width:100%!important;margin:0 0 10px!important;box-sizing:border-box!important}
+  .eva-admin-page .panel.dash-card{display:block!important;width:100%!important;max-width:100%!important;margin:0 0 10px!important;box-sizing:border-box!important;padding:12px!important}
+  .eva-admin-page .profit-fields,
+  .eva-admin-page .profit-results,
+  .eva-admin-page .trial-form{grid-template-columns:1fr!important}
+  .eva-admin-page .admin-product-grid{grid-template-columns:1fr!important}
+  .eva-admin-page .table-wrap{display:block!important;width:100%!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important}
+  .eva-admin-page .table-wrap table{min-width:680px!important}
+  .eva-admin-page input,.eva-admin-page select,.eva-admin-page textarea{max-width:100%!important;box-sizing:border-box!important}
+}
 </style></head>
 <body class="dashboard-page eva-admin-page">
 <div class="eva-admin-shell">
