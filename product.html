@@ -12,13 +12,13 @@ body{display:flex;justify-content:center}.product-app{width:100%;max-width:430px
 .topbar{height:50px;padding:calc(7px + env(safe-area-inset-top)) 12px 7px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eef3f8}.topbar button{width:32px;height:32px;border:0;background:transparent;color:#17365e;font-size:23px;display:grid;place-items:center}.top-actions{display:flex;gap:7px}
 .hero{padding:14px 15px 8px;display:grid;grid-template-columns:74px minmax(0,1fr);gap:12px;align-items:start}.detail-art{width:74px;height:74px;border-radius:16px;background:linear-gradient(145deg,#f2f8ff,#fff);border:1px solid #e4edf6;display:grid;place-items:center;box-shadow:0 6px 18px rgba(35,89,146,.06);position:relative;overflow:hidden}.detail-art:after{content:attr(data-icon);font-size:38px;font-weight:950;color:#1688ff}.title-wrap h1{margin:2px 0 5px;font-size:17px;font-weight:950;line-height:1.15}.sub{font-size:9px;color:#7e8ea4;line-height:1.45;min-height:26px}.badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}.badge{height:22px;padding:0 7px;border-radius:11px;display:flex;align-items:center;background:#eef7ff;border:1px solid #d7ecff;color:#1680ec;font-size:8px;font-weight:800}.badge.green{background:#ecfbf4;border-color:#c9f1dd;color:#0ca468}
 .price-row{padding:0 15px 10px;display:flex;align-items:end;justify-content:space-between}.big-price{color:var(--red);font-size:23px;font-weight:950}.stock{font-size:10px;font-weight:900;color:#11a86d}
-.section{padding:10px 15px}.section-title{font-size:11px;font-weight:950;margin-bottom:8px}.ref-plans{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}.ref-plan{height:58px;border:1px solid #e2ebf5;border-radius:10px;background:#fff;color:#17365e;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:4px}.ref-plan b{font-size:9px}.ref-plan strong{font-size:8.5px;color:#ff3150}.ref-plan.active{border:2px solid #1688ff;background:#f4f9ff;box-shadow:0 4px 12px rgba(22,136,255,.10)}.ref-plan:disabled{opacity:.55}
+.section{padding:10px 15px}.section-title{font-size:11px;font-weight:950;margin-bottom:8px}.ref-plans{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}.ref-plan{height:58px;border:1px solid #e2ebf5;border-radius:10px;background:#fff;color:#17365e;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px}.ref-plan b{font-size:9px}.ref-plan strong{font-size:8.5px;color:#ff3150}.ref-plan small{font-size:6.5px;color:#8190a5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}.ref-plan.active{border:2px solid #1688ff;background:#f4f9ff;box-shadow:0 4px 12px rgba(22,136,255,.10)}.ref-plan:disabled{opacity:.55}
 .primary{width:100%;height:44px;border:0;border-radius:11px;background:linear-gradient(180deg,#2ba9ff,#127ef0);color:#fff;font-size:12px;font-weight:950;box-shadow:0 6px 13px rgba(18,126,240,.22)}.primary:disabled{opacity:.45;box-shadow:none}
 .ref-benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:2px 15px 10px}.ref-benefit{min-height:62px;border:1px solid #e4edf6;border-radius:11px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 4px 12px rgba(35,89,146,.04)}.ref-benefit i{font-style:normal;font-size:17px;color:#1688ff}.ref-benefit b{font-size:8.5px;margin-top:4px}.ref-benefit small{font-size:7px;color:#8b98a9;margin-top:2px}
 .ref-tabs{border-top:8px solid #f7fbff;margin-top:2px}.ref-tab-head{display:grid;grid-template-columns:repeat(3,1fr);height:44px;border-bottom:1px solid #e8eff7}.ref-tab-head button{border:0;background:#fff;color:#7d8da3;font-size:10px;font-weight:800;position:relative}.ref-tab-head button.active{color:#17365e}.ref-tab-head button.active:after{content:"";position:absolute;left:28%;right:28%;bottom:0;height:2px;border-radius:2px;background:#1688ff}.ref-tab-body{padding:13px 15px 18px;color:#6f8098;font-size:9.5px;line-height:1.75}
 .features{list-style:none;margin:0;padding:0;display:none}
 .eva-bottom{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:430px;height:68px;padding-bottom:env(safe-area-inset-bottom);z-index:40;background:rgba(255,255,255,.98);border-top:1px solid #e7eef7;display:grid;grid-template-columns:repeat(5,1fr);box-shadow:0 -6px 18px rgba(34,85,140,.05)}.eva-bottom a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#7e8ca0;text-decoration:none;font-size:9px}.eva-bottom a span{font-size:18px}.eva-bottom a.active{color:#1684ff;font-weight:900}
-@media(max-width:370px){.hero{grid-template-columns:66px minmax(0,1fr)}.detail-art{width:66px;height:66px}.detail-art:after{font-size:33px}.ref-plans{gap:5px}.ref-plan{height:54px}}
+@media(max-width:370px){.hero{grid-template-columns:66px minmax(0,1fr)}.detail-art{width:66px;height:66px}.detail-art:after{font-size:33px}.ref-plans{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.ref-plan{height:54px}}
 </style>
 </head>
 <body data-page="product">
@@ -85,6 +85,7 @@ body{display:flex;justify-content:center}.product-app{width:100%;max-width:430px
 </main>
 
 <script src="/eva-mobile-flow.js?v=20260921-runtime4"></script>
+<script src="/product-variants.js?v=20260925-v1"></script>
 <script>
 (()=>{
  const tabs=[...document.querySelectorAll('.ref-tab-head button')];
@@ -97,13 +98,8 @@ body{display:flex;justify-content:center}.product-app{width:100%;max-width:430px
  tabs.forEach((b,i)=>b.onclick=()=>{tabs.forEach(x=>x.classList.remove('active'));b.classList.add('active');body.textContent=copy[i]});
  const sync=()=>{const p=document.getElementById('pPrice')?.textContent?.trim();if(p)document.getElementById('planBasic').textContent=p};
  new MutationObserver(sync).observe(document.getElementById('pPrice'),{childList:true,subtree:true});sync();
-
  const fav=document.getElementById('favoriteBtn'),share=document.getElementById('shareBtn');
- if(fav){
-   const key='eva-fav:'+location.search;
-   const set=()=>{const on=localStorage.getItem(key)==='1';fav.textContent=on?'♥':'♡';fav.setAttribute('aria-pressed',String(on))};set();
-   fav.onclick=()=>{try{localStorage.setItem(key,fav.getAttribute('aria-pressed')==='true'?'0':'1')}catch{}set()}
- }
+ if(fav){const key='eva-fav:'+location.search;const set=()=>{const on=localStorage.getItem(key)==='1';fav.textContent=on?'♥':'♡';fav.setAttribute('aria-pressed',String(on))};set();fav.onclick=()=>{try{localStorage.setItem(key,fav.getAttribute('aria-pressed')==='true'?'0':'1')}catch{}set()}}
  if(share)share.onclick=async()=>{try{if(navigator.share)await navigator.share({title:document.getElementById('pName')?.textContent||'EVA AI MARKET',url:location.href});else await navigator.clipboard?.writeText(location.href)}catch{}};
 })();
 </script>
