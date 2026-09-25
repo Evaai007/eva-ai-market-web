@@ -216,9 +216,15 @@ async function trackVisit(req,res,ctx){
   if(cookies.length)res.setHeader('Set-Cookie',cookies);
 
   const path=(referer||pathname||'/').slice(0,500);
+  const geo=visitorGeo(req);
   await serviceRequest(ctx,'site_visit_events',{
    method:'POST',headers:{Prefer:'return=minimal'},
-   body:JSON.stringify({visitor_id:visitorId,path})
+   body:JSON.stringify({
+    visitor_id:visitorId,
+    path,
+    country_code:geo.countryCode||null,
+    country:geo.country&&geo.country!=='Unknown'?geo.country:null
+   })
   });
 
   if(!recentPing){
