@@ -17,7 +17,7 @@ body{display:flex;justify-content:center}.cfg{width:100%;max-width:430px;min-hei
 .discount{position:absolute;right:4px;top:4px;border-radius:5px;background:#fff0f3;color:#ff3a57;font-size:6.5px;font-weight:900;padding:2px 4px}
 .duration .choice{min-height:44px;display:grid;place-items:center}.duration .choice b{font-size:9.5px}
 .total-box{padding:13px 15px 16px;border-top:7px solid #f7fbff}.total{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.total span{font-size:11px;font-weight:800}.total b{font-size:22px;color:#f43650}.note{margin:0 0 12px;font-size:8px;color:#7f8ea3;line-height:1.55}.cta{width:100%;height:44px;border:0;border-radius:12px;background:linear-gradient(180deg,#25aaff,#087cf3);color:#fff;font-weight:950;font-size:12px;box-shadow:0 6px 14px rgba(10,119,236,.22)}
-.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:68px;padding-bottom:env(safe-area-inset-bottom);background:rgba(255,255,255,.98);border-top:1px solid #e5edf6;display:grid;grid-template-columns:repeat(5,1fr);box-shadow:0 -6px 18px rgba(34,85,140,.05)}.bottom a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#8796aa;text-decoration:none;font-size:9px}.bottom span{font-size:18px}.bottom a.active{color:#1684ff;font-weight:900}
+.summary .logo img{width:34px;height:34px;object-fit:contain;display:block}.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:68px;padding-bottom:env(safe-area-inset-bottom);background:rgba(255,255,255,.98);border-top:1px solid #e5edf6;display:grid;grid-template-columns:repeat(5,1fr);box-shadow:0 -6px 18px rgba(34,85,140,.05)}.bottom a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#8796aa;text-decoration:none;font-size:9px}.bottom span{font-size:18px}.bottom a.active{color:#1684ff;font-weight:900}
 @media(max-width:370px){.choices{gap:5px}.choice{padding-left:4px;padding-right:4px}.choice b{font-size:8.5px}.choice small{font-size:7px}}
 </style>
 </head>
@@ -79,7 +79,7 @@ body{display:flex;justify-content:center}.cfg{width:100%;max-width:430px;min-hei
  const q=new URLSearchParams(location.search),id=q.get('id');let p=null;
  const set=x=>{
    p=x;
-   document.getElementById('cfgName').textContent=x.name||'云服务';
+   const logo=document.getElementById('cfgLogo');if(logo){const u=String(x.logo_url||'').trim()||(()=>{const d=String(x.brand_domain||'').trim();return d?'https://www.google.com/s2/favicons?domain='+encodeURIComponent(d)+'&sz=128':''})();logo.innerHTML=u?'<img src="'+u.replace(/"/g,'&quot;')+'" alt="Official product logo" loading="lazy" referrerpolicy="no-referrer">':'☁';}document.getElementById('cfgName').textContent=x.name||'云服务';
    document.getElementById('cfgSub').textContent=x.subtitle||x.category||'高性能云服务 · 简单可靠';
    document.getElementById('cfgPrice').textContent='US$ '+Number(x.price_usd||0).toFixed(2);
    try{sessionStorage.setItem('eva-checkout-product',JSON.stringify(x))}catch{}
