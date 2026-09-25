@@ -60,6 +60,11 @@ export default async function handler(req,res){
     const approvedDeposits=deposits.filter(d=>d.status==='approved').length;
     const approvedAmount=deposits.filter(d=>d.status==='approved').reduce((sum,d)=>sum+Number(d.amount_usdt||0),0);
     const visitRow=Array.isArray(visitsBody)?visitsBody[0]:visitsBody;
+    const countriesResponse=await serviceRequest(ctx,'rpc/admin_site_visit_countries',{method:'POST',body:'{}'});
+    const countriesBody=await countriesResponse.json().catch(()=>[]);
+    const countries=Array.isArray(countriesBody)
+     ?countriesBody.map(row=>({countryCode:String(row.country_code||'??'),country:String(row.country||'Unknown'),visitors:Number(row.visitors||0)}))
+     :[];
     return json(res,200,{
      signups:{total:totalUsers,recent:recentUsers},
      deposits:{total:deposits.length,pending:pendingDeposits,approved:approvedDeposits,approvedAmount},
@@ -70,6 +75,7 @@ export default async function handler(req,res){
       uniqueToday:Number(visitRow?.unique_today||0),
       onlineNow:Number(visitRow?.online_now||0)
      },
+     countries,
      telegram:{configured:Boolean(String(process.env.TELEGRAM_BOT_TOKEN||'').trim()&&String(process.env.TELEGRAM_CHAT_ID||'').trim())}
     });
    }catch(_error){return json(res,500,{error:'Could not load admin statistics.'});}
