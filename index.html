@@ -168,5 +168,6 @@ root.querySelectorAll('.buy').forEach(btn=>btn.onclick=()=>{if(btn.dataset.id===
 }).catch(e=>document.getElementById('homeProducts').innerHTML='<div class="notice">'+esc(e.message)+'</div>');
 document.getElementById('homeSearch').addEventListener('keydown',e=>{if(e.key==='Enter')location.href='/products.html?q='+encodeURIComponent(e.target.value||'')});
 </script>
+<script src="/logo-mapping.js?v=20260926-official-200" defer></script>
 </body>
 </html>
