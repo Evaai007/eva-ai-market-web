@@ -51,6 +51,7 @@ function dashboardTelegramCards(){return telegramQuoteServices.map(service=>{con
 
 function dashboardProductSubtitle(product){return product.category==='AWS Cloud Accounts'?'':`<p>${escapeHtml(product.subtitle)}</p>`}
 
+function dashboardLogoImg(product){const url=String(product?.logo_url||'').trim()||(()=>{const d=String(product?.brand_domain||'').trim();return d?'https://www.google.com/s2/favicons?domain='+encodeURIComponent(d)+'&sz=128':''})();if(!url)return '';return '<img class="eva-official-logo" src="'+escapeHtml(url)+'" alt="'+escapeHtml((product?.name||product?.brand_domain||'Official product')+' official logo')+'" loading="lazy" referrerpolicy="no-referrer">'}
 function dashboardBrandVisual(product){
  const s=(String(product.name||'')+' '+String(product.category||'')).toLowerCase();
  let brand='eva',label='EVA',icon='<span class="brand-svg eva-svg">EVA</span>';
@@ -61,7 +62,8 @@ function dashboardBrandVisual(product){
  else if(/chatgpt|openai|gpt/.test(s)){brand='openai';label='CHATGPT';icon='<svg class="brand-svg openai-svg" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round"><path d="M31 9c8-5 17 1 17 10 8 1 12 10 7 17 5 7 0 16-8 17-4 8-14 9-20 3-8 3-16-3-15-12-7-4-7-14 0-19-2-9 6-17 15-15 1 0 3 0 4-1Z"/><path d="m20 25 12-7 12 7v14l-12 7-12-7V25Z"/></g></svg>'}
  const title=escapeHtml(product.name||label);
  const sideLabel=brand==='claude'?'ANTHROPIC CLAUDE':brand==='gemini'?'GOOGLE GEMINI':brand==='openai'?'OPENAI':label;
- return '<div class="mobile-brand-visual brand-'+brand+'" aria-hidden="true"><div class="master-top-badges"><span class="master-pro-badge"><b>♛</b> Pro</span><span class="master-status-badge"><b>✓</b> Official</span></div><div class="brand-watermark">'+label+'</div><div class="brand-side-copy brand-side-left">'+sideLabel.replace(' ','<br>')+'</div><div class="brand-side-copy brand-side-right">THINK<br>CREATE<br>SOLVE<br>FASTER</div><div class="brand-stage"><div class="brand-halo"></div><div class="mobile-brand-mark">'+icon+'</div><div class="mobile-brand-orbit orbit-outer"></div><div class="mobile-brand-orbit orbit-inner"></div><div class="pedestal-base"></div></div></div>'
+ const officialLogo=dashboardLogoImg(product);
+ return '<div class="mobile-brand-visual brand-'+brand+'" aria-hidden="true"><div class="master-top-badges"><span class="master-pro-badge"><b>♛</b> Pro</span><span class="master-status-badge"><b>✓</b> Official</span></div><div class="brand-watermark">'+label+'</div><div class="brand-side-copy brand-side-left">'+sideLabel.replace(' ','<br>')+'</div><div class="brand-side-copy brand-side-right">THINK<br>CREATE<br>SOLVE<br>FASTER</div><div class="brand-stage"><div class="brand-halo"></div><div class="mobile-brand-mark">'+(officialLogo||icon)+'</div><div class="mobile-brand-orbit orbit-outer"></div><div class="mobile-brand-orbit orbit-inner"></div><div class="pedestal-base"></div></div></div>'
 }
 
 function dashboardProductCard(product){
