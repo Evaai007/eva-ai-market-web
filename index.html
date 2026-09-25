@@ -159,7 +159,7 @@ const gcloud='<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M22 48H48a11 
 if(s.includes('chatgpt')||s.includes('openai'))return [openai,'openai'];if(s.includes('claude'))return [claude,'claude'];if(p?.id==='google-ai-pro')return [gcloud,'google'];if(s.includes('midjourney'))return [mid,'midjourney'];if(s.includes('gemini')||s.includes('google ai ultra'))return [gemini,'gemini'];if(s.includes('aws'))return [aws,'aws'];if(s.includes('google'))return [gcloud,'google'];if(s.includes('kiro'))return ['K','kiro'];return ['AI','']};
 fetch('/api/store',{cache:'no-store'}).then(async r=>{const b=await r.json();if(!r.ok)throw new Error(b.error||'Catalog unavailable');return b}).then(b=>{
 const all=Array.isArray(b.products)?b.products:[];
-const realIds=['chatgpt-plus','claude-pro'];
+const realIds=['chatgpt-plus','claude-pro','google-ai-pro','kiro-pro','aws-8','supergrok-1m'];
 const real=Object.fromEntries(realIds.map(id=>[id,all.find(p=>p.id===id)]));
 const list=[real['chatgpt-plus'],real['claude-pro']].filter(Boolean);
 const root=document.getElementById('homeProducts');
