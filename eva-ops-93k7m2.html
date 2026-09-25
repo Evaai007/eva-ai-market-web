@@ -39,7 +39,55 @@
 <link rel="stylesheet" href="/eva-fresh-reference.css?v=20260923-fresh1">
 <link rel="stylesheet" href="/eva-fresh-final.css?v=20260923-fresh2">
 <link rel="stylesheet" href="/eva-reference-11.css?v=20260923-ref11a">
-<link rel="stylesheet" href="/eva-reference-final.css?v=20260923-final11"><link rel="stylesheet" href="/eva-reference-exact.css?v=20260923-exact3"></head>
+<link rel="stylesheet" href="/eva-reference-final.css?v=20260923-final11"><link rel="stylesheet" href="/eva-reference-exact.css?v=20260923-exact3"><style id="eva-admin-layout-final">
+/* Final admin layout normalization — keep desktop/mobile on one coherent structure */
+.eva-admin-main{width:100%;box-sizing:border-box}
+#admin-live-stats{order:-1}
+.eva-live-stats{margin:0 0 18px!important}
+.eva-stat-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+.eva-live-stats .table-wrap{overflow:auto}
+@media (max-width:760px){
+  .eva-admin-reference{display:none!important}
+  .eva-admin-shell{display:block!important;width:100%!important;max-width:none!important;min-height:100svh!important;background:#050914!important}
+  .eva-admin-sidebar{display:none!important}
+  .eva-admin-workspace{width:100%!important;margin:0!important}
+  .eva-admin-topbar{display:flex!important;position:sticky!important;top:0!important;z-index:50!important;padding:14px 16px!important;background:rgba(5,9,20,.96)!important;border-bottom:1px solid rgba(148,163,184,.14)!important;backdrop-filter:blur(16px)!important}
+  .eva-admin-topbar .top-copy b{font-size:14px!important}
+  .eva-admin-topbar .top-copy small{font-size:10px!important}
+  .eva-admin-actions{gap:6px!important}
+  .eva-admin-actions .button{font-size:10px!important;padding:9px 10px!important}
+  .eva-admin-mobile-nav{display:flex!important;position:sticky!important;top:63px!important;z-index:40!important;overflow-x:auto!important;gap:7px!important;padding:9px 12px!important;background:#050914!important;border-bottom:1px solid rgba(148,163,184,.10)!important}
+  .eva-admin-mobile-nav a{white-space:nowrap!important;font-size:11px!important;padding:7px 11px!important;border:1px solid rgba(148,163,184,.16)!important;border-radius:999px!important}
+  .eva-admin-main{display:block!important;padding:14px 12px 42px!important;max-width:none!important}
+  .eva-admin-hero{display:block!important;padding:16px!important;margin:0 0 12px!important}
+  .eva-admin-hero h1{font-size:20px!important;line-height:1.15!important;margin:7px 0!important}
+  .eva-admin-hero p{font-size:11px!important;line-height:1.5!important;margin:0!important}
+  .eva-admin-hero .button{margin-top:12px!important}
+  .eva-live-stats{padding:14px!important}
+  .eva-live-stats .card-title-row{align-items:flex-start!important}
+  .eva-live-stats h2{font-size:16px!important}
+  .eva-live-badge{font-size:9px!important;white-space:nowrap!important}
+  .eva-stat-grid{grid-template-columns:1fr 1fr!important;gap:8px!important}
+  .eva-stat-grid article{min-width:0!important;padding:11px!important;border-radius:12px!important}
+  .eva-stat-grid strong{font-size:20px!important}
+  .eva-stat-grid span{font-size:10px!important}
+  .eva-stat-grid small{font-size:8px!important;line-height:1.25!important}
+  .eva-recent-signups,.eva-country-breakdown{margin-top:14px!important}
+  .eva-recent-signups h3,.eva-country-breakdown h3{font-size:13px!important}
+  .eva-country-row{grid-template-columns:28px 1fr auto!important;padding:9px!important}
+  .eva-admin-main>.panel,.eva-admin-main>.dash-card{margin:0 0 12px!important;padding:14px!important}
+  .card-title-row{gap:8px!important}
+  .card-title-row h2{font-size:16px!important}
+  .table-wrap{width:100%!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important}
+  table{min-width:720px!important}
+  .admin-product-grid{grid-template-columns:1fr!important}
+  .profit-fields{grid-template-columns:1fr!important}
+  .profit-results{grid-template-columns:1fr!important}
+}
+@media (min-width:761px){
+  .eva-admin-main{max-width:1280px!important;margin:0 auto!important;padding:22px 28px 60px!important}
+}
+</style></head>
 <body class="dashboard-page eva-admin-page">
 <div class="eva-admin-shell">
   <aside class="eva-admin-sidebar">
