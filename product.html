@@ -55,7 +55,7 @@ body{display:flex;justify-content:center}.product-app{width:100%;max-width:430px
 </div>
 </section>
 
-<section class="section"><button class="primary" id="buyNow">立即购买 →</button></section>
+<section class="section" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="primary" id="addToCart" type="button" style="background:#eef7ff;color:#1680ee;box-shadow:none;border:1px solid #cfe8ff">加入购物车</button><button class="primary" id="buyNow">立即购买 →</button></section>
 
 <div class="ref-benefits">
 <div class="ref-benefit"><i>⬟</i><b>官方正版</b></div>
@@ -98,7 +98,7 @@ body{display:flex;justify-content:center}.product-app{width:100%;max-width:430px
  tabs.forEach((b,i)=>b.onclick=()=>{tabs.forEach(x=>x.classList.remove('active'));b.classList.add('active');body.textContent=copy[i]});
  const sync=()=>{const p=document.getElementById('pPrice')?.textContent?.trim();if(p)document.getElementById('planBasic').textContent=p};
  new MutationObserver(sync).observe(document.getElementById('pPrice'),{childList:true,subtree:true});sync();
- const fav=document.getElementById('favoriteBtn'),share=document.getElementById('shareBtn');
+ const cart=document.getElementById('addToCart');if(cart)cart.onclick=()=>{try{const p=JSON.parse(sessionStorage.getItem('eva-checkout-product')||'null');if(!p?.id){alert('产品信息尚未加载，请稍后再试。');return;}const key='eva-cart-v1';const items=JSON.parse(localStorage.getItem(key)||'[]');const next=Array.isArray(items)?items.filter(x=>String(x.id)!==String(p.id)):[];next.push(p);localStorage.setItem(key,JSON.stringify(next));cart.textContent='已加入购物车 ✓';setTimeout(()=>cart.textContent='加入购物车',1200);}catch{alert('无法保存购物车，请重试。')}};const fav=document.getElementById('favoriteBtn'),share=document.getElementById('shareBtn');
  if(fav){const key='eva-fav:'+location.search;const set=()=>{const on=localStorage.getItem(key)==='1';fav.textContent=on?'♥':'♡';fav.setAttribute('aria-pressed',String(on))};set();fav.onclick=()=>{try{localStorage.setItem(key,fav.getAttribute('aria-pressed')==='true'?'0':'1')}catch{}set()}}
  if(share)share.onclick=async()=>{try{if(navigator.share)await navigator.share({title:document.getElementById('pName')?.textContent||'EVA AI MARKET',url:location.href});else await navigator.clipboard?.writeText(location.href)}catch{}};
 })();
