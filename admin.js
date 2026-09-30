@@ -142,7 +142,7 @@ document.getElementById('trial-credit-form').addEventListener('submit', async ev
   }
 });
 
-document.getElementById('admin-refresh').addEventListener('click',async event=>{const button=event.currentTarget,original=button.textContent;button.disabled=true;button.textContent='Refreshing…';adminNotice('Loading latest deposits and orders…');try{await Promise.all([loadDeposits(),loadStoreAdmin(),loadSupport()]);adminNotice('Updated with the latest deposits, orders and support.')catch(error){adminNotice(error.message,true)}finally{button.disabled=false;button.textContent=original}});
+document.getElementById('admin-refresh').addEventListener('click',async event=>{const button=event.currentTarget,original=button.textContent;button.disabled=true;button.textContent='Refreshing…';adminNotice('Loading latest deposits and orders…');try{await Promise.all([loadDeposits(),loadStoreAdmin(),loadSupport()]);adminNotice('Updated with the latest deposits, orders and support.')}catch(error){adminNotice(error.message,true)}finally{button.disabled=false;button.textContent=original}});
 if (!canonicalizeAdminOrigin()) initAdmin();
 
 function updateReferenceMetrics(products=[],orders=[]){
