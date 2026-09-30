@@ -5,6 +5,13 @@ const VERIFIED_TELEGRAM_CHAT_ID='5461634710';
 const PUBLIC_SITE_URL='https://aicloudmarket.shop/';
 const ADMIN_URL='https://aicloudmarket.shop/eva-ops-93k7m2';
 
+const notifyCustomer=async(ctx,{userId,type,title,message,referenceId})=>{
+ try{
+  if(!userId||!referenceId)return;
+  await serviceRequest(ctx,'customer_notifications',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify({user_id:userId,type,title,message:String(message||'').slice(0,500),reference_id:referenceId})});
+ }catch(error){console.error('Customer notification failed:',error?.message||error);}
+};
+
 const serviceContext=()=>({
  url:process.env.SUPABASE_URL||process.env.NEXT_PUBLIC_SUPABASE_URL,
  anon:process.env.SUPABASE_ANON_KEY||process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY||process.env.SUPABASE_PUBLISHABLE_KEY,
@@ -336,6 +343,7 @@ export default async function handler(req,res){
    const orderBody=await orderResponse.json().catch(()=>[]);
    if(orderResponse.ok&&Array.isArray(orderBody)&&orderBody[0])order=orderBody[0];
   }
+  await notifyCustomer(ctx,{userId:ctx.user.id,type:'order_created',title:'订单已创建',message:`你的订单 ${orderId||''} 已创建，正在等待处理。`,referenceId:orderId});
   const productName=String(order?.product_name||result?.product_name||productId);
   const price=Number(order?.price_usd??result?.price_usd??0);
   const telegram=await sendTelegramAlert(`🛒 EVA AI MARKET — New Order\n\nCustomer: ${ctx.user.email||ctx.user.id}\nProduct: ${productName}\nPrice: $${price.toFixed(2)}\nStatus: ${status}\nOrder: ${orderId||'Created'}\nTime: ${new Date().toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)\n\nAdmin: ${ADMIN_URL}`);
