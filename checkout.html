@@ -36,12 +36,13 @@ body{display:flex;justify-content:center}.app{width:100%;max-width:430px;min-hei
 <section class="section"><h2>优惠码</h2><div class="coupon"><input id="couponCode" placeholder="输入优惠码（可选）"><button type="button" id="couponBtn">使用</button></div></section>
 <section class="section"><h2>支付方式</h2><label class="payment-option active"><input type="radio" checked name="payment" value="Wallet Balance"><span class="pay-icon">$</span><span>Wallet Balance · USDT</span></label></section>
 <section class="section"><h2>订单金额</h2><div class="summary-line"><span>商品小计</span><strong id="coSubtotal"></strong></div><div class="summary-line"><span>优惠</span><strong>$0.00</strong></div><div class="summary-line total"><span>应付总额</span><strong id="coTotal"></strong></div><label class="terms"><input type="checkbox" id="agreeTerms"><span>我已确认商品信息，并同意 Terms &amp; Conditions。</span></label><button id="payNow" disabled>Pay from Wallet</button></section>
-<p class="notice" id="checkoutNotice" hidden></p><div class="trust"><div><b>▣</b>安全支付</div><div><b>ϟ</b>快速处理</div><div><b>◇</b>可靠交付</div></div>
+<p class="notice" id="checkoutNotice" hidden></p><div class="trust"><div><b>▣</b>安全支付</div><div><b>ϟ</b>快速���理</div><div><b>◇</b>可靠交付</div></div>
 </main>
 <nav class="bottom"><a href="/"><span>⌂</span>首页</a><a href="/categories.html"><span>▦</span>分类</a><a class="active" href="/products.html"><span>▦</span>产品</a><a href="/orders.html"><span>▤</span>订单</a><a href="/profile.html"><span>♙</span>我的</a></nav>
 <script>
 document.getElementById('couponBtn').addEventListener('click',()=>{const n=document.getElementById('checkoutNotice');const v=document.getElementById('couponCode').value.trim();if(!v){n.textContent='请输入优惠码。';n.hidden=false;return}n.textContent='当前未应用任何优惠；商品价格保持不变。';n.hidden=false;});
 </script>
 <script src="/eva-mobile-flow.js?v=20260921-runtime4"></script>
+<script src="/speed-insights-init.js" defer></script>
 </body>
 </html>
