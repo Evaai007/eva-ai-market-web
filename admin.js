@@ -85,7 +85,7 @@ async function initAdmin() {
     adminClient=window.supabase.createClient(config.url,config.anonKey);
     const session = await waitForAdminSession();
     if (!session) return goToAdminLogin();
-    await Promise.all([loadDeposits(),loadStoreAdmin()]);
+    await Promise.all([loadDeposits(),loadStoreAdmin(),loadSupport()]);
   } catch(error) { adminNotice(error.message,true); }
 }
 
@@ -210,7 +210,19 @@ document.addEventListener('visibilitychange', () => {
   waitForAdminSession()
     .then(session => {
       if (!session) return adminNotice('Session is temporarily unavailable. Refresh to reconnect, or sign in again if needed.', true);
-      return Promise.all([loadDeposits(), loadStoreAdmin(), loadAdminStats(false)]);
+      return Promise.all([loadDeposits(), loadStoreAdmin(), loadSupport(), loadAdminStats(false)]);
     })
     .catch(error => adminNotice(error.message, true));
 });
+
+async function loadSupport(){
+ const data=await adminFetch('/api/admin/support?refresh='+Date.now(),{cache:'no-store'});
+ const tickets=data.tickets||[], messages=data.messages||[], by=new Map();
+ messages.forEach(function(m){if(!by.has(m.ticket_id))by.set(m.ticket_id,[]);by.get(m.ticket_id).push(m)});
+ const rows=document.getElementById('admin-support-rows'); if(!rows)return;
+ rows.innerHTML=tickets.length?tickets.map(function(t){
+  const conversation=(by.get(t.id)||[]).map(function(m){return '<div style="margin:3px 0"><b>'+ (m.sender_type==='admin'?'Admin':'Customer') +':</b> '+escapeAdmin(m.message)+'</div>'}).join('');
+  return '<tr><td>'+new Date(t.updated_at).toLocaleString()+'</td><td>'+escapeAdmin(t.customer_email||t.user_id)+'</td><td><strong>'+escapeAdmin(t.subject)+'</strong><br><small>'+escapeAdmin(t.category||'Other')+'</small></td><td><select class="support-status"><option value="open" '+(t.status==='open'?'selected':'')+'>open</option><option value="pending" '+(t.status==='pending'?'selected':'')+'>pending</option><option value="resolved" '+(t.status==='resolved'?'selected':'')+'>resolved</option><option value="closed" '+(t.status==='closed'?'selected':'')+'>closed</option></select></td><td><select class="support-priority"><option value="low" '+(t.priority==='low'?'selected':'')+'>low</option><option value="normal" '+(t.priority==='normal'?'selected':'')+'>normal</option><option value="high" '+(t.priority==='high'?'selected':'')+'>high</option></td><td><div style="max-width:380px;max-height:150px;overflow:auto;font-size:11px">'+(conversation||'No messages')+'</div><textarea class="support-reply" rows="3" maxlength="4000" placeholder="Reply to customer…"></textarea></td><td><button class="button primary small-button support-save" type="button" data-ticket-id="'+t.id+'">Save</button></td></tr>'
+ }).join(''):'<tr><td colspan="7" class="empty">No support tickets yet.</td></tr>';
+ document.querySelectorAll('.support-save').forEach(function(btn){btn.addEventListener('click',async function(){const row=btn.closest('tr'),message=row.querySelector('.support-reply').value.trim();btn.disabled=true;try{await adminFetch('/api/admin/support',{method:'PATCH',body:JSON.stringify({ticketId:btn.dataset.ticketId,status:row.querySelector('.support-status').value,priority:row.querySelector('.support-priority').value,message:message})});adminNotice('Support ticket updated.');await loadSupport()}catch(e){adminNotice(e.message,true)}finally{btn.disabled=false}})});
+}
