@@ -79,6 +79,23 @@ export default async function handler(req, res) {
 
   if(req.body?.action==='reassign')return reassignDeposit(ctx,req,res);
 
+  if(req.body?.action==='reject'){
+    const depositId=String(req.body?.depositId||'').trim();
+    const adminNote=String(req.body?.adminNote||'').trim().slice(0,500);
+    if(!/^[0-9a-f-]{36}$/i.test(depositId))return json(res,400,{error:'Invalid deposit.'});
+    const depositResponse=await serviceRequest(ctx,`deposits?select=id,user_id,amount_usdt,status& id=eq.${encodeURIComponent(depositId)}&limit=1`.replace('status& id','status&id'));
+    const body=await depositResponse.json().catch(()=>[]);
+    const deposit=Array.isArray(body)?body[0]:null;
+    if(!deposit)return json(res,404,{error:'Deposit not found.'});
+    if(deposit.status!=='pending')return json(res,409,{error:'Only pending deposits can be rejected.'});
+    const update=await serviceRequest(ctx,`deposits?id=eq.${encodeURIComponent(depositId)}`,{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({status:'rejected',admin_note:adminNote||'Payment could not be verified.'})});
+    const result=await update.json().catch(()=>({}));
+    if(!update.ok)return json(res,400,{error:result?.message||'Could not reject deposit.'});
+    await notifyCustomer(ctx,{userId:deposit.user_id,type:'deposit_rejected',title:'充值未通过',message:adminNote||'你的充值申请未通过审核，请检查交易信息或联系客服。',referenceId:depositId});
+    return json(res,200,{rejected:true});
+  }
+
+
   const depositId = req.body?.depositId;
   const repair = req.body?.repair === true;
   const adminNote = String(req.body?.adminNote || '').trim().slice(0, 500) || null;
