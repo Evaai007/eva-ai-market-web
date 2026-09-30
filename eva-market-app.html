@@ -31,4 +31,5 @@ install.addEventListener('click',async function(){
 });
 window.addEventListener('appinstalled',function(){install.hidden=true;status.textContent='EVA Market installed successfully.'});
 if('serviceWorker'in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('/eva-market-sw.js',{scope:'/'}).catch(function(){status.textContent='Online app is available; offline shell registration was unavailable.'})});
-</script></body></html>
+</script><script src="/speed-insights.js" defer></script>
+</body></html>
