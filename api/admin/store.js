@@ -1,6 +1,12 @@
 import { json, requireAdmin, serviceRequest } from '../_supabase.js';
 
 const allowedStatuses = new Set(['approved','processing','delivered','cancelled','refunded']);
+const notifyCustomer=async(ctx,{userId,type,title,message,referenceId})=>{
+ try{
+  if(!userId||!referenceId)return;
+  await serviceRequest(ctx,'customer_notifications',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify({user_id:userId,type,title,message:String(message||'').slice(0,500),reference_id:referenceId})});
+ }catch(error){console.error('Customer notification failed:',error?.message||error);}
+};
 
 async function sendTelegramAlert(text){
  const token=String(process.env.TELEGRAM_BOT_TOKEN||'').trim();
@@ -144,6 +150,15 @@ export default async function handler(req,res){
    const result=await response.json().catch(()=>({}));
    if(!response.ok)return json(res,400,{error:result.message||'Order update failed.'});
 
+   if(before?.user_id&&before.status!==status){
+    const notification={
+     processing:{type:'order_processing',title:'订单处理中',message:'你的订单正在处理中。'},
+     delivered:{type:'order_delivered',title:'订单已交付',message:'你的订单已完成交付，请前往 My Products 查看。'},
+     cancelled:{type:'order_cancelled',title:'订单已取消',message:'你的订单已被取消。'},
+     refunded:{type:'order_refunded',title:'订单已退款',message:'你的订单已退款，余额已按后台处理结果更新。'}
+    }[status];
+    if(notification)await notifyCustomer(ctx,{userId:before.user_id,type:notification.type,title:notification.title,message:notification.message,referenceId:orderId});
+   }
    let email='Unknown customer';
    if(before?.user_id){
     const userResponse=await fetch(`${ctx.url}/auth/v1/admin/users/${encodeURIComponent(before.user_id)}`,{headers:{apikey:ctx.service,authorization:`Bearer ${ctx.service}`}});
