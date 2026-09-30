@@ -84,7 +84,7 @@ body{display:flex;justify-content:center}.product-app{width:100%;max-width:430px
 </nav>
 </main>
 
-<script src="/eva-mobile-flow.js?v=20260921-runtime4"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="/eva-mobile-flow.js?v=20260921-runtime4"></script>
 <script src="/product-variants.js?v=20260925-v1"></script>
 <script>
 (()=>{
@@ -99,7 +99,7 @@ body{display:flex;justify-content:center}.product-app{width:100%;max-width:430px
  const sync=()=>{const p=document.getElementById('pPrice')?.textContent?.trim();if(p)document.getElementById('planBasic').textContent=p};
  new MutationObserver(sync).observe(document.getElementById('pPrice'),{childList:true,subtree:true});sync();
  const cart=document.getElementById('addToCart');if(cart)cart.onclick=()=>{try{const p=JSON.parse(sessionStorage.getItem('eva-checkout-product')||'null');if(!p?.id){alert('产品信息尚未加载，请稍后再试。');return;}const key='eva-cart-v1';const items=JSON.parse(localStorage.getItem(key)||'[]');const next=Array.isArray(items)?items.filter(x=>String(x.id)!==String(p.id)):[];next.push(p);localStorage.setItem(key,JSON.stringify(next));cart.textContent='已加入购物车 ✓';setTimeout(()=>cart.textContent='加入购物车',1200);}catch{alert('无法保存购物车，请重试。')}};const fav=document.getElementById('favoriteBtn'),share=document.getElementById('shareBtn');
- if(fav){const key='eva-fav:'+location.search;const set=()=>{const on=localStorage.getItem(key)==='1';fav.textContent=on?'♥':'♡';fav.setAttribute('aria-pressed',String(on))};set();fav.onclick=()=>{try{localStorage.setItem(key,fav.getAttribute('aria-pressed')==='true'?'0':'1')}catch{}set()}}
+ if(fav){const productId=new URLSearchParams(location.search).get('id');let token='';const loadFavorite=async()=>{try{const cfg=await fetch('/api/config').then(r=>r.json());const sb=supabase.createClient(cfg.url,cfg.anonKey,{auth:{persistSession:true,autoRefreshToken:true}});const {data:{session}}=await sb.auth.getSession();if(!session){fav.textContent='♡';return}token=session.access_token;const r=await fetch('/api/favorites',{headers:{authorization:'Bearer '+token}});const b=await r.json();if(!r.ok)throw Error(b.error||'Favorites unavailable');const on=(b.favorites||[]).some(x=>String(x.product_id)===String(productId));fav.textContent=on?'♥':'♡';fav.setAttribute('aria-pressed',String(on))}catch{fav.textContent='♡';fav.setAttribute('aria-pressed','false')}};loadFavorite();fav.onclick=async()=>{if(!productId)return;if(!token){location.href='/login.html?next='+encodeURIComponent(location.pathname+location.search);return}try{const on=fav.getAttribute('aria-pressed')==='true';const r=await fetch('/api/favorites'+(on?'?productId='+encodeURIComponent(productId):''),{method:on?'DELETE':'POST',headers:{'content-type':'application/json',authorization:'Bearer '+token},body:on?undefined:JSON.stringify({productId})});const b=await r.json();if(!r.ok)throw Error(b.error||'Unable to update favorite');fav.textContent=on?'♡':'♥';fav.setAttribute('aria-pressed',String(!on))}catch{}}}
  if(share)share.onclick=async()=>{try{if(navigator.share)await navigator.share({title:document.getElementById('pName')?.textContent||'EVA AI MARKET',url:location.href});else await navigator.clipboard?.writeText(location.href)}catch{}};
 })();
 </script>
