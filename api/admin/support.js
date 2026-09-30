@@ -35,7 +35,7 @@ export default async function handler(req,res){
       await serviceRequest(ctx,'support_tickets?id=eq.'+encodeURIComponent(ticketId),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({updated_at:new Date().toISOString(),status:status||'pending',priority:priority||ticket.priority})});
       await serviceRequest(ctx,'customer_notifications',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify({user_id:ticket.user_id,type:'support_reply',title:'客服回复',message:message.slice(0,500),reference_id:ticketId})});
     }else if(status||priority){
-      await serviceRequest(ctx,'support_tickets?id=eq.'+encodeURIComponent(ticketId),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({...(status?{status}:{}),...(priority?{priority}:{}),updated_at:new Date().toISOString(),...(status==='closed'||status==='resolved'?{closed_at:new Date().toISOString()}:{})})});
+      await serviceRequest(ctx,'support_tickets?id=eq.'+encodeURIComponent(ticketId),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({...(status?{status}:{}),...(priority?{priority}:{}),updated_at:new Date().toISOString(),...(status==='closed'||status==='resolved'?{closed_at:new Date().toISOString()}:(status==='open'||status==='pending'?{closed_at:null}:{}))})});
     }
     return json(res,200,{updated:true});
   }
