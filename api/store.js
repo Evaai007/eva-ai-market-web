@@ -31,8 +31,19 @@ const cleanPublicPriceLabel=value=>{
 };
 
 const sanitizeStoreProduct=product=>({
- ...product,
- official_price_label:cleanPublicPriceLabel(product?.official_price_label)
+ id:product?.id,
+ category:product?.category,
+ name:product?.name,
+ subtitle:product?.subtitle,
+ price_usd:product?.price_usd,
+ unlimited_stock:product?.unlimited_stock,
+ warranty_days:product?.warranty_days,
+ access_label:product?.access_label,
+ official_price_label:cleanPublicPriceLabel(product?.official_price_label),
+ purchase_mode:product?.purchase_mode,
+ card_tone:product?.card_tone,
+ logo_url:product?.logo_url,
+ brand_domain:product?.brand_domain
 });
 
 async function sendTelegramAlert(text){
