@@ -93,7 +93,7 @@ async function loadDeposits() {
   const { deposits } = await adminFetch(`/api/admin/store?view=deposits&refresh=${Date.now()}`, { cache:'no-store', headers:{ 'cache-control':'no-cache' } });
   document.getElementById('admin-deposit-rows').innerHTML = deposits.length ? deposits.map(item => {
     const action = item.status==='pending'
-      ? `<button class="approve-button" data-id="${item.id}">Approve</button>`
+      ? `<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="approve-button" data-id="${item.id}">Approve</button><button class="reject-button button secondary small-button" data-id="${item.id}">Reject</button></div>`
       : item.status==='approved'
         ? `<button class="repair-button button secondary small-button" data-id="${item.id}">Repair balance</button>`
         : '—';
@@ -107,6 +107,16 @@ async function approve(button) {
   if(!confirm('Approve this verified payment and add the balance?')) return;
   button.disabled=true; adminNotice('Approving payment…');
   try { await adminFetch('/api/admin/approve',{method:'POST',body:JSON.stringify({depositId:button.dataset.id})}); adminNotice('Payment approved and balance added.'); await loadDeposits(); }
+  catch(error){ adminNotice(error.message,true); button.disabled=false; }
+}
+
+
+async function rejectDeposit(button) {
+  const note=prompt('Reason for rejecting this deposit (optional):','Payment could not be verified.');
+  if(note===null)return;
+  if(!confirm('Reject this pending deposit? No wallet credit will be added.'))return;
+  button.disabled=true; adminNotice('Rejecting deposit…');
+  try { await adminFetch('/api/admin/approve',{method:'POST',body:JSON.stringify({action:'reject',depositId:button.dataset.id,adminNote:note})}); adminNotice('Deposit rejected and customer notified.'); await loadDeposits(); }
   catch(error){ adminNotice(error.message,true); button.disabled=false; }
 }
 
