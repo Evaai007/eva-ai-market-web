@@ -43,5 +43,6 @@ body{display:flex;justify-content:center}.app{width:100%;max-width:430px;min-hei
 document.getElementById('couponBtn').addEventListener('click',()=>{const n=document.getElementById('checkoutNotice');const v=document.getElementById('couponCode').value.trim();if(!v){n.textContent='请输入优惠码。';n.hidden=false;return}n.textContent='当前未应用任何优惠；商品价格保持不变。';n.hidden=false;});
 </script>
 <script src="/eva-mobile-flow.js?v=20260921-runtime4"></script>
+<script src="/speed-insights.js" defer></script>
 </body>
 </html>

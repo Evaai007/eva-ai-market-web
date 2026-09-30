@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+.turbo/
+out/
+
+# Cache
+.cache/
+.vercel/
+.parcel-cache/
+
+# Build info
+*.tsbuildinfo
