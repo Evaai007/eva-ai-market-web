@@ -287,7 +287,7 @@ async function submitDepositWithRefresh(req,res){
  const tokenResponse=await fetch(`${ctx.url}/auth/v1/token?grant_type=refresh_token`,{method:'POST',headers:{apikey:ctx.anon,'content-type':'application/json'},body:JSON.stringify({refresh_token:refreshToken})});
  const tokenBody=await tokenResponse.json().catch(()=>({}));
  if(!tokenResponse.ok||!tokenBody?.user?.id)return json(res,401,{error:'Your secure session expired. Please sign in again.'});
- const insertResponse=await serviceRequest(ctx,'deposits',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify({user_id:tokenBody.user.id,amount_usdt:amount,network,transaction_id:transactionId})});
+ const insertResponse=await serviceRequest(ctx,'deposits',{method:'POST',headers:{Prefer:'return=representation'},body:JSON.stringify({user_id:tokenBody.user.id,amount_usdt:amount,network,transaction_id:transactionId})});
  const insertBody=await insertResponse.json().catch(()=>({}));
  if(!insertResponse.ok){
   if(insertBody?.code==='23505'){
@@ -299,6 +299,8 @@ async function submitDepositWithRefresh(req,res){
   }
   return json(res,400,{error:insertBody?.message||'Deposit submission failed.'});
  }
+ const depositId=Array.isArray(insertBody)?String(insertBody[0]?.id||''):String(insertBody?.id||'');
+ if(depositId)await notifyCustomer(ctx,{userId:tokenBody.user.id,type:'deposit_submitted',title:'充值申请已提交',message:'你的 '+amount.toFixed(2)+' USDT 充值申请已提交，等待审核。',referenceId:depositId});
  const email=String(tokenBody.user?.email||'Unknown customer');
  const txShort=transactionId.length>22?`${transactionId.slice(0,12)}…${transactionId.slice(-8)}`:transactionId;
  const telegram=await sendTelegramAlert(`💰 EVA AI MARKET — New Deposit Submitted\n\nCustomer: ${email}\nAmount: ${amount.toFixed(2)} USDT\nNetwork: ${network}\nTxID: ${txShort}\nStatus: Pending verification\nTime: ${new Date().toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)\n\nAdmin: ${ADMIN_URL}`);
