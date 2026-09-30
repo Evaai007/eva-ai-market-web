@@ -1,5 +1,12 @@
 import { json, requireAdmin, serviceRequest } from '../_supabase.js';
 
+const notifyCustomer=async(ctx,{userId,type,title,message,referenceId})=>{
+  try{
+   if(!userId||!referenceId)return;
+   await serviceRequest(ctx,'customer_notifications',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify({user_id:userId,type,title,message:String(message||'').slice(0,500),reference_id:referenceId})});
+  }catch(error){console.error('Customer notification failed:',error?.message||error);}
+ };
+
 const emailPattern=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const txPattern=/^(?:0x)?[a-fA-F0-9]{64}$/;
 
@@ -58,6 +65,9 @@ async function reassignDeposit(ctx,req,res){
   });
   const updated=await updateResponse.json().catch(()=>[]);
   if(!updateResponse.ok)return json(res,400,{error:updated?.message||'Could not reassign deposit.'});
+  if(!repair&&deposit?.user_id){
+    await notifyCustomer(ctx,{userId:deposit.user_id,type:'deposit_approved',title:'充值已到账',message:'你的 '+Number(deposit?.amount_usdt||0).toFixed(2)+' USDT 充值已审核通过并计入余额。',referenceId:depositId});
+  }
   const telegram=await sendTelegramAlert(`🔁 EVA AI MARKET — Deposit Reassigned\n\nCustomer: ${customer.email}\nAmount: ${Number(deposit.amount_usdt||0).toFixed(2)} USDT\nTxID: ${transactionId}\nTime: ${new Date().toLocaleString('en-GB',{timeZone:'Asia/Dhaka'})} (BD)`);
   return json(res,200,{reassigned:true,email:customer.email,depositId:deposit.id,amount:deposit.amount_usdt,telegram:telegram.sent});
 }
