@@ -20,11 +20,22 @@ body{display:flex;justify-content:center}.product-app{width:100%;max-width:430px
 .eva-bottom{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:430px;height:68px;padding-bottom:env(safe-area-inset-bottom);z-index:40;background:rgba(255,255,255,.98);border-top:1px solid #e7eef7;display:grid;grid-template-columns:repeat(5,1fr);box-shadow:0 -6px 18px rgba(34,85,140,.05)}.eva-bottom a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#7e8ca0;text-decoration:none;font-size:9px}.eva-bottom a span{font-size:18px}.eva-bottom a.active{color:#1684ff;font-weight:900}
 @media(max-width:370px){.hero{grid-template-columns:66px minmax(0,1fr)}.detail-art{width:66px;height:66px}.detail-art:after{font-size:33px}.ref-plans{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.ref-plan{height:54px}}
 </style>
-</head>
+<style>.eva-page-logo{position:absolute;left:43px;width:24px;height:24px;object-fit:contain}.topbar .eva-page-logo{position:static;width:26px;height:26px;margin-right:auto;margin-left:6px}.topbar{justify-content:flex-start!important}.topbar .top-actions{margin-left:auto}</style><style>
+/* EVA 11-screen mobile consistency */
+html{background:#edf5fb}
+body{background:#edf5fb!important}
+@media(max-width:430px){
+  body{overflow-x:hidden}
+  main,.app,.page,.container,.shell{max-width:430px!important;margin-left:auto!important;margin-right:auto!important}
+  img{max-width:100%}
+  input,select,button{font-size:16px; /* prevents iOS auto-zoom */ }
+}
+.eva-official-brand-img{display:block;width:100%;height:100%;object-fit:contain}
+</style></head>
 <body data-page="product">
 <main class="product-app">
 <div class="topbar">
-<button onclick="history.back()" aria-label="Back">‹</button>
+<button onclick="history.back()" aria-label="Back">‹</button><img class="eva-page-logo" src="/assets/eva-official-logo.svg" alt="EVA AI MARKET">
 <div class="top-actions">
 <button id="favoriteBtn" aria-label="Favorite">♡</button>
 <button id="shareBtn" aria-label="Share">⌯</button>

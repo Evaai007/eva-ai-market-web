@@ -23,10 +23,21 @@ body{display:flex;justify-content:center}.app{width:100%;max-width:430px;min-hei
 .bottom{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:430px;height:68px;padding-bottom:env(safe-area-inset-bottom);z-index:40;background:rgba(255,255,255,.98);border-top:1px solid #e7eef7;display:grid;grid-template-columns:repeat(5,1fr);box-shadow:0 -6px 18px rgba(34,85,140,.05)}.bottom a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#7e8ca0;text-decoration:none;font-size:9px}.bottom a.active{color:#1684ff;font-weight:900}.bottom span{font-size:18px}
 @media(max-width:370px){.section{padding-left:11px;padding-right:11px}.product{grid-template-columns:48px minmax(0,1fr) auto}.product-icon{width:46px;height:46px}.coupon button{width:72px}}
 </style>
-</head>
+<style>.eva-page-logo{position:absolute;left:43px;width:24px;height:24px;object-fit:contain}.topbar .eva-page-logo{position:static;width:26px;height:26px;margin-right:auto;margin-left:6px}.topbar{justify-content:flex-start!important}.topbar .top-actions{margin-left:auto}</style><style>
+/* EVA 11-screen mobile consistency */
+html{background:#edf5fb}
+body{background:#edf5fb!important}
+@media(max-width:430px){
+  body{overflow-x:hidden}
+  main,.app,.page,.container,.shell{max-width:430px!important;margin-left:auto!important;margin-right:auto!important}
+  img{max-width:100%}
+  input,select,button{font-size:16px; /* prevents iOS auto-zoom */ }
+}
+.eva-official-brand-img{display:block;width:100%;height:100%;object-fit:contain}
+</style></head>
 <body data-page="checkout">
 <main class="app" id="checkout">
-<div class="top"><button onclick="history.back()" aria-label="Back">‹</button><b>确认订单</b></div>
+<div class="top"><button onclick="history.back()" aria-label="Back">‹</button><img class="eva-page-logo" src="/assets/eva-official-logo.svg" alt="EVA AI MARKET"><b>确认订单</b></div>
 <div class="steps"><span class="step"><i>1</i>购物车</span><i class="line"></i><span class="step active"><i>2</i>确认</span><i class="line"></i><span class="step"><i>3</i>支付</span></div>
 <section class="section">
 <h2>商品信息</h2>

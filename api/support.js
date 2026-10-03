@@ -1,6 +1,6 @@
-const { requireUser, serviceRequest } = require('./_supabase');
+import { json, requireUser, serviceRequest } from './_supabase.js';
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   try {
     const ctx = await requireUser(req, res);
     if (!ctx) return;

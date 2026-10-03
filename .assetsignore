@@ -1,0 +1,17 @@
+# Server-side code and deployment configuration must never be published as static assets.
+api/
+_security.js
+worker.js
+wrangler.json
+wrangler.jsonc
+.assetsignore
+supabase/
+
+# Repository and local tooling metadata.
+.git/
+.github/
+.wrangler/
+node_modules/
+
+# Database/migration source files are not public website assets.
+**/*.sql
