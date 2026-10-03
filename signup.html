@@ -20,7 +20,18 @@ body{display:flex;justify-content:center}.app{width:100%;max-width:430px;min-hei
 .safe{margin-top:15px;display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.safe div{height:50px;border:1px solid #e5edf6;border-radius:10px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#7e8da1;font-size:7.5px}.safe b{color:#1688ff;font-size:14px;margin-bottom:2px}
 @media(max-width:370px){.app{padding-left:14px;padding-right:14px}.card{padding-left:13px;padding-right:13px}}
 </style>
-<style>.eva-official-brand-img{display:block;width:100%;height:100%;object-fit:contain}</style></head>
+<style>.eva-official-brand-img{display:block;width:100%;height:100%;object-fit:contain}</style><style>
+/* EVA 11-screen mobile consistency */
+html{background:#edf5fb}
+body{background:#edf5fb!important}
+@media(max-width:430px){
+  body{overflow-x:hidden}
+  main,.app,.page,.container,.shell{max-width:430px!important;margin-left:auto!important;margin-right:auto!important}
+  img{max-width:100%}
+  input,select,button{font-size:16px; /* prevents iOS auto-zoom */ }
+}
+.eva-official-brand-img{display:block;width:100%;height:100%;object-fit:contain}
+</style></head>
 <body>
 <main class="app">
 <button class="back" onclick="history.back()" aria-label="Back">‹</button>
