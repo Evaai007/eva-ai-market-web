@@ -1,14 +1,10 @@
-const { requireUser, serviceRequest } = require('./_supabase');
+import { json, requireUser, serviceRequest } from './_supabase.js';
 
-const json = (status, body) => ({
-  status,
-  headers: { 'content-type': 'application/json; charset=utf-8' },
-  body: JSON.stringify(body)
-});
-
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   try {
-    const ctx = await requireUser(req, res);\n    if (!ctx) return;\n    const { user } = ctx;
+    const ctx = await requireUser(req, res);
+    if (!ctx) return;
+    const { user } = ctx;
     if (req.method === 'GET') {
       const result = await serviceRequest(ctx, '/customer_favorites?select=id,product_id,created_at&user_id=eq.' + encodeURIComponent(user.id) + '&order=created_at.desc');
       if (!result.ok) return res.status(result.status).json({ error: 'Unable to load favorites.' });

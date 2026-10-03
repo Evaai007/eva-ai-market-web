@@ -1,4 +1,4 @@
-import { json, requireAdmin, serviceRequest } from '../../_supabase.js';
+import { json, requireAdmin, serviceRequest } from '../_supabase.js';
 
 export default async function handler(req,res){
   const ctx=await requireAdmin(req,res); if(!ctx)return;

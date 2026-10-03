@@ -155,12 +155,12 @@ input,select,textarea,button{font-size:16px!important}
   .eva-admin-page .table-wrap table{min-width:680px!important}
   .eva-admin-page input,.eva-admin-page select,.eva-admin-page textarea{max-width:100%!important;box-sizing:border-box!important}
 }
-</style></head>
+</style><style>.eva-admin-brand .brand-mark{display:grid;place-items:center}.eva-admin-brand .brand-mark img{width:34px;height:34px;object-fit:contain}.eva-admin-logo{width:30px;height:30px;object-fit:contain;flex:0 0 auto}</style></head>
 <body class="dashboard-page eva-admin-page">
 <div class="eva-admin-shell">
   <aside class="eva-admin-sidebar">
     <a class="eva-admin-brand" href="/">
-      <span class="brand-mark">E</span>
+      <span class="brand-mark"><img src="/assets/eva-official-logo.svg" alt="EVA AI MARKET"></span>
       <span>EVA AI MARKET<small>ADMIN CONTROL</small></span>
     </a>
     <nav class="admin-quick-nav" aria-label="Admin sections">
@@ -182,7 +182,7 @@ input,select,textarea,button{font-size:16px!important}
 <div class="eva-ref-bottom"><a href="/"><span>⌂</span>Home</a><a href="#orders"><span>▤</span>Orders</a><a class="orb" href="/" aria-label="EVA home">E</a><a href="#inventory"><span>⬟</span>Products</a><a href="#overview"><span>◉</span>More</a></div>
 </section>
     <header class="eva-admin-topbar">
-      <div class="top-copy"><b>Admin Control Center</b><small>Live products, deposits, orders and customer activity</small></div>
+      <img class="eva-admin-logo" src="/assets/eva-official-logo.svg" alt="EVA AI MARKET"><div class="top-copy"><b>Admin Control Center</b><small>Live products, deposits, orders and customer activity</small></div>
       <div class="eva-admin-actions">
         <a class="button secondary small-button" href="/dashboard.html">Customer view</a>
         <button id="admin-refresh" class="button primary small-button" type="button">Refresh live data</button>
@@ -212,7 +212,7 @@ input,select,textarea,button{font-size:16px!important}
           <label>Billing<select id="profit-billing"><option value="monthly">Monthly</option><option value="annual">Annual</option></select></label>
           <label>Seats<input id="profit-seats" type="number" min="2" max="200" value="5"></label>
           <label>Supplier / official cost<input id="profit-cost" type="number" min="0" step="0.01" value="125"></label>
-          <label>EVA service fee (%)<input id="profit-fee" type="number" min="0" max="100" step="1" value="10"></label>
+          <label>Additional customer fee (%)<input id="profit-fee" type="number" min="0" max="100" step="1" value="0"></label>
           <label>Payment & support expense<input id="profit-expense" type="number" min="0" step="0.01" value="2"></label>
         </div>
         <div class="profit-results" aria-live="polite"><article><span>Customer pays</span><strong id="profit-customer">$137.50</strong></article><article><span>Gross service fee</span><strong id="profit-gross">$12.50</strong></article><article class="net"><span>Your net profit</span><strong id="profit-net">$10.50</strong></article></div>
