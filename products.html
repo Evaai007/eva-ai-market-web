@@ -19,7 +19,18 @@ body{display:flex;justify-content:center}.app-container{width:100%;max-width:430
 .drawer{display:none!important}
 @media(max-width:370px){.product-grid{padding-left:9px;padding-right:9px}.eva-search-wrap,.chips-wrap{padding-left:9px;padding-right:9px}.buy{width:76px}.product-card .desc{max-width:170px}}
 </style>
-<style>.eva-official-brand-img{display:block;width:100%;height:100%;object-fit:contain}</style></head>
+<style>.eva-official-brand-img{display:block;width:100%;height:100%;object-fit:contain}</style><style>
+/* EVA 11-screen mobile consistency */
+html{background:#edf5fb}
+body{background:#edf5fb!important}
+@media(max-width:430px){
+  body{overflow-x:hidden}
+  main,.app,.page,.container,.shell{max-width:430px!important;margin-left:auto!important;margin-right:auto!important}
+  img{max-width:100%}
+  input,select,button{font-size:16px; /* prevents iOS auto-zoom */ }
+}
+.eva-official-brand-img{display:block;width:100%;height:100%;object-fit:contain}
+</style></head>
 <body data-page="products">
 <main class="app-container">
 <header class="eva-head">
