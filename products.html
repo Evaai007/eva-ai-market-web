@@ -19,12 +19,23 @@ body{display:flex;justify-content:center}.app-container{width:100%;max-width:430
 .drawer{display:none!important}
 @media(max-width:370px){.product-grid{padding-left:9px;padding-right:9px}.eva-search-wrap,.chips-wrap{padding-left:9px;padding-right:9px}.buy{width:76px}.product-card .desc{max-width:170px}}
 </style>
-</head>
+<style>.eva-official-brand-img{display:block;width:100%;height:100%;object-fit:contain}</style><style>
+/* EVA 11-screen mobile consistency */
+html{background:#edf5fb}
+body{background:#edf5fb!important}
+@media(max-width:430px){
+  body{overflow-x:hidden}
+  main,.app,.page,.container,.shell{max-width:430px!important;margin-left:auto!important;margin-right:auto!important}
+  img{max-width:100%}
+  input,select,button{font-size:16px; /* prevents iOS auto-zoom */ }
+}
+.eva-official-brand-img{display:block;width:100%;height:100%;object-fit:contain}
+</style></head>
 <body data-page="products">
 <main class="app-container">
 <header class="eva-head">
 <a class="eva-brand" href="/">
-<span class="eva-logo"><svg viewBox="0 0 64 64"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#35b9ff"/><stop offset=".56" stop-color="#147fff"/><stop offset="1" stop-color="#065ce7"/></linearGradient></defs><path fill="url(#cg)" d="M11 18l9 7 7-14 6 14 12-10 5 26c-12 8-25 8-38 0z"/><path fill="#fff" opacity=".9" d="M16 31h32v4H16z"/><circle cx="11" cy="15" r="4" fill="#35b9ff"/><circle cx="28" cy="8" r="4" fill="#147fff"/><circle cx="47" cy="12" r="4" fill="#065ce7"/></svg></span>
+<span class="eva-logo"><img src="/assets/eva-official-logo.svg" alt="EVA AI MARKET" class="eva-official-brand-img"></span>
 <span><b>EVA AI MARKET</b><small>全球优质AI服务 · 一站式购买平台</small></span>
 </a>
 <div class="eva-head-actions">

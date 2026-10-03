@@ -3,5 +3,12 @@
   "private": true,
   "engines": {
     "node": "22.x"
+  },
+  "devDependencies": {
+    "wrangler": "4.147.0"
+  },
+  "scripts": {
+    "deploy": "wrangler deploy --config wrangler.jsonc",
+    "preview": "wrangler dev --config wrangler.jsonc"
   }
 }
