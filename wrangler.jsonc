@@ -3,29 +3,16 @@
   "name": "eva-ai-market",
   "main": "./worker.js",
   "compatibility_date": "2026-10-02",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
     "run_worker_first": [
       "/api/*",
       "/v1/*"
-    ],
-    "exclude": [
-      "node_modules/**",
-      ".git/**",
-      ".github/**",
-      ".wrangler/**",
-      "api/**",
-      "supabase/**",
-      "worker.js",
-      "wrangler.json",
-      "wrangler.jsonc",
-      ".assetsignore",
-      "**/*.sql",
-      "_security.js"
     ]
   },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
+  "previews": {}
 }
