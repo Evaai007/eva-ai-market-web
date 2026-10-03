@@ -177,7 +177,7 @@ async function serveAsset(env, request, pathname) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    let pathname = url.pathname.replace(/\\/+$/, "") || "/";
+    let pathname = url.pathname.replace(/\/+$/, "") || "/";
 
     // Preserve the existing Vercel rewrites without changing frontend code.
     if (pathname === "/v1/messages") {
