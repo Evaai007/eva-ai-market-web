@@ -72,7 +72,7 @@ if(form)form.addEventListener('submit',async event=>{
  finally{button.disabled=false;button.textContent=original}
 },true);
 
-function sortStoreProducts(products){return [...products].sort((a,b)=>{const aAws=a.category==='AWS Cloud Accounts',bAws=b.category==='AWS Cloud Accounts';if(aAws!==bAws)return aAws?-1:1;if(!aAws)return 0;const size=p=>{const text=`${p.name||''} ${p.subtitle||''}`;const match=text.match(/(\d{1,4})\s*(?:v?cpu|v\b)/i);return match?Number(match[1]):Number((p.name||'').match(/\d{1,4}/)?.[0]||0)};return size(b)-size(a)})}
+function sortStoreProducts(products){const featured=['chatgpt-plus','claude-pro','gemini-ultra-5x','master-midjourney-pro','aws-128','gcp-billing-25000'];const rank=new Map(featured.map((id,i)=>[id,i]));return [...products].sort((a,b)=>{const ar=rank.has(a.id)?rank.get(a.id):-1,br=rank.has(b.id)?rank.get(b.id):-1;if(ar!==-1||br!==-1){if(ar===-1)return 1;if(br===-1)return -1;return ar-br}const aAws=a.category==='AWS Cloud Accounts',bAws=b.category==='AWS Cloud Accounts';if(aAws!==bAws)return aAws?-1:1;if(!aAws)return 0;const size=p=>{const text=`${p.name||''} ${p.subtitle||''}`;const match=text.match(/(\d{1,4})\s*(?:v?cpu|v\b)/i);return match?Number(match[1]):Number((p.name||'').match(/\d{1,4}/)?.[0]||0)};return size(b)-size(a)})}
 function productPaletteStyle(index){const h=Math.round((index*137.508+326)%360),h2=Math.round((h+42+(index%3)*18)%360);return `--h:${h};--h2:${h2}`}
 const telegramQuoteServices=[
  {name:'Telegram Premium — 3 Months',subtitle:'Official 3-month Telegram Premium gift subscription',price:20},
