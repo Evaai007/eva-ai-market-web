@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     const userId = encodeURIComponent(ctx.user.id);
 
     if (req.method === 'GET') {
-      const result = await serviceRequest(ctx, '/customer_notifications?select=id,type,title,message,reference_id,read_at,created_at&user_id=eq.' + userId + '&order=created_at.desc&limit=100');
+      const result = await serviceRequest(ctx, 'customer_notifications?select=id,type,title,message,reference_id,read_at,created_at&user_id=eq.' + userId + '&order=created_at.desc&limit=100');
       if (!result.ok) return res.status(result.status).json({ error: 'Unable to load notifications.' });
       const rows = result.data || [];
       return res.status(200).json({
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     if (req.method === 'PATCH') {
       const id = String(req.body?.id || '').trim();
       if (!id) return res.status(400).json({ error: 'id is required.' });
-      const result = await serviceRequest(ctx, '/customer_notifications?id=eq.' + encodeURIComponent(id) + '&user_id=eq.' + userId, {
+      const result = await serviceRequest(ctx, 'customer_notifications?id=eq.' + encodeURIComponent(id) + '&user_id=eq.' + userId, {
         method: 'PATCH',
         headers: { Prefer: 'return=minimal' },
         body: JSON.stringify({ read_at: new Date().toISOString() })
