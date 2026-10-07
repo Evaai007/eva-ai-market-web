@@ -6,7 +6,11 @@ on:
       base_url:
         description: "Cloudflare Preview URL to test"
         required: true
+        default: "https://e6b418d7-eva-ai-market-web.marufkhannew01.workers.dev"
         type: string
+
+permissions:
+  contents: read
 
 jobs:
   browser-qa:
