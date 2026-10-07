@@ -15,7 +15,7 @@ export default async function handler(req, res) {
       const productId = String(req.body?.productId || '').trim();
       if (!productId) return res.status(400).json({ error: 'productId is required.' });
 
-      const product = await serviceRequest(ctx, 'store_products?select=id&eq.id=' + encodeURIComponent(productId) + '&eq.active=eq.true&limit=1');
+      const product = await serviceRequest(ctx, 'store_products?select=id&id=eq.' + encodeURIComponent(productId) + '&active=eq.true&limit=1');
       if (!product.ok) return res.status(502).json({ error: 'Unable to verify product.' });
       if (!product.data?.length) return res.status(404).json({ error: 'Product not found.' });
 
