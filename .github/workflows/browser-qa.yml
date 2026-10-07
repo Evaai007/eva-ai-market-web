@@ -24,12 +24,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
 
       - run: npm install
-      - run: npx playwright install --with-deps chromium
 
-      - name: Run real Chromium A-Z QA
+      - name: Run real Chromium A-Z QA through Cloudflare Browser Run
         run: npm run test:browser
 
       - name: Upload browser evidence
