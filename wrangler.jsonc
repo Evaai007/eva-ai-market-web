@@ -1,10 +1,11 @@
 {
   "$schema": "https://developers.cloudflare.com/workers/wrangler/config-schema.json",
-  "name": "eva-ai-market",
+  "name": "eva-ai-market-web",
   "main": "./worker.js",
   "compatibility_date": "2026-10-02",
   "compatibility_flags": [
-    "nodejs_compat"
+    "nodejs_compat",
+    "nodejs_compat_populate_process_env"
   ],
   "assets": {
     "directory": ".",
