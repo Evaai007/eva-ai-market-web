@@ -1,0 +1,43 @@
+name: Browser QA
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Cloudflare Preview URL to test"
+        required: true
+        default: "https://e6b418d7-eva-ai-market-web.marufkhannew01.workers.dev"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  browser-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      BASE_URL: ${{ inputs.base_url }}
+      EVA_QA_EMAIL: ${{ secrets.EVA_QA_EMAIL }}
+      EVA_QA_PASSWORD: ${{ secrets.EVA_QA_PASSWORD }}
+      CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm install
+
+      - name: Run real Chromium A-Z QA through Cloudflare Browser Run
+        run: npm run test:browser
+
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-qa-evidence
+          path: test-results/
+          if-no-files-found: ignore
