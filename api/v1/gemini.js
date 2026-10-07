@@ -18,7 +18,7 @@ const send = (res, status, body) => {
 const serviceEnv = () => ({
   url: process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
   service: process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY,
-  gemini: process.env.GEMINI_API_KEY
+  gemini: process.env.GEMINI_API_KEY || process.env.GIMINI_API_KEY
 });
 
 const serviceFetch = (env, path, options = {}) => fetch(`${env.url}/rest/v1/${path}`, {

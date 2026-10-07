@@ -122,7 +122,7 @@ header{padding:calc(16px + env(safe-area-inset-top)) 19px 11px;display:flex;alig
 </a>
 <div class="head-actions">
 <button class="iconbtn" onclick="location.href='/dashboard.html'" aria-label="通知"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 10-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg><i class="dot"></i></button>
-<button class="iconbtn" onclick="location.href='/products.html'" aria-label="购物车"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 4h2l2.4 11.2a2 2 0 002 1.6h7.8a2 2 0 002-1.5L21 8H7"/><circle cx="10" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/></svg></button>
+<button class="iconbtn" onclick="location.href='/cart.html'" aria-label="购物车"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 4h2l2.4 11.2a2 2 0 002 1.6h7.8a2 2 0 002-1.5L21 8H7"/><circle cx="10" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/></svg></button>
 </div>
 </header>
 <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="#18345b" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="homeSearch" placeholder="搜索 AI 产品、服务或品牌..."><svg class="scan" viewBox="0 0 24 24" fill="none" stroke="#173558" stroke-width="1.8" aria-hidden="true"><path d="M8 3H4a1 1 0 0 0-1 1v4M16 3h4a1 1 0 0 1 1 1v4M8 21H4a1 1 0 0 1-1-1v-4M16 21h4a1 1 0 0 0 1-1v-4"/></svg></div>
@@ -147,7 +147,7 @@ header{padding:calc(16px + env(safe-area-inset-top)) 19px 11px;display:flex;alig
 <nav class="bottom">
 <a class="active" href="/"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 11l9-8 9 8v10h-6v-6H9v6H3z"/></svg>首页</a>
 <a href="/categories.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>分类</a>
-<a href="/products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 4h2l2.4 11.2a2 2 0 002 1.6h7.8a2 2 0 002-1.5L21 8H7"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg><i class="count">3</i>产品</a>
+<a href="/products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 4h2l2.4 11.2a2 2 0 002 1.6h7.8a2 2 0 002-1.5L21 8H7"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg><i class="count" id="homeCartCount" hidden>0</i>产品</a>
 <a href="/orders.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3h12v18H6z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>订单</a>
 <a href="/profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4.5 3.5-7 8-7s7.2 2.5 8 7"/></svg>我的</a>
 </nav>
@@ -171,6 +171,7 @@ root.innerHTML=list.map((p,i)=>{const [ic,cl]=brand(p);const title=p.id==='gemin
 root.querySelectorAll('.buy').forEach(btn=>btn.onclick=()=>{if(btn.dataset.id==='midjourney-placeholder'){location.href='https://t.me/EVADigitalMarket';return}const p=all.find(x=>String(x.id)===String(btn.dataset.id));if(!p||(p.unlimited_stock!==true&&Number(p.stock)<=0))return;sessionStorage.setItem('eva-checkout-product',JSON.stringify(p));location.href='/product.html?id='+encodeURIComponent(btn.dataset.id)});
 }).catch(e=>document.getElementById('homeProducts').innerHTML='<div class="notice">'+esc(e.message)+'</div>');
 document.getElementById('homeSearch').addEventListener('keydown',e=>{if(e.key==='Enter')location.href='/products.html?q='+encodeURIComponent(e.target.value||'')});
+(function syncHomeCart(){const el=document.getElementById('homeCartCount');if(!el)return;try{const items=JSON.parse(localStorage.getItem('eva-cart-v1')||'[]');const n=Array.isArray(items)?items.length:0;el.textContent=String(n);el.hidden=n<1;}catch{el.hidden=true}})();
 </script>
 <script src="/logo-mapping.js?v=20260926-official-200" defer></script>
 </body>
