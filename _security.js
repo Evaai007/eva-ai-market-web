@@ -45,6 +45,7 @@ const allowedOrigins = () => {
     .filter(Boolean);
   configured.push('https://eva-ai-market.vercel.app');
   configured.push('https://eva-ai-market-web.vercel.app');
+  configured.push('https://aicloudmarket.shop');
   return new Set(configured);
 };
 
