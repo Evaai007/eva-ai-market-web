@@ -5,10 +5,12 @@
     "node": "22.x"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "wrangler": "4.147.0"
   },
   "scripts": {
     "deploy": "wrangler deploy --config wrangler.jsonc",
-    "preview": "wrangler dev --config wrangler.jsonc"
+    "preview": "wrangler dev --config wrangler.jsonc",
+    "test:browser": "playwright test"
   }
 }
