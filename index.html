@@ -106,6 +106,15 @@ header{padding:calc(16px + env(safe-area-inset-top)) 19px 11px;display:flex;alig
 .app .head-actions{gap:8px}.app .iconbtn{width:28px;height:28px}.app .iconbtn svg{width:22px;height:22px}
 .bottom{height:68px}
 @media(min-width:390px) and (max-width:430px){.app{max-width:430px}.hero{margin-left:12px;margin-right:12px}.categories{padding-left:12px;padding-right:12px}}
+
+/* EVA final mobile navigation: Home / Categories / Cart / Orders / Account */
+.bottom{padding-bottom:env(safe-area-inset-bottom);height:calc(66px + env(safe-area-inset-bottom));background:rgba(255,255,255,.97);border-top:1px solid #e4ecf8;box-shadow:0 -8px 28px rgba(19,63,130,.07);backdrop-filter:blur(16px)}
+.bottom a{font-size:10px;gap:2px;min-width:0;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#70819f;text-decoration:none}
+.bottom a.active{color:#245bff;font-weight:800}
+.bottom svg{width:21px;height:21px;margin-bottom:2px}
+.bottom .count{top:0;right:calc(50% - 22px)}
+.app{padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+@media(max-width:360px){.bottom a{font-size:9px}.bottom svg{width:19px;height:19px}}
 </style>
 <link rel="stylesheet" href="/eva-reference-11.css?v=20260923-ref11a">
 <link rel="stylesheet" href="/eva-reference-final.css?v=20260923-final11"><link rel="stylesheet" href="/eva-reference-exact.css?v=20260923-exact3"><style>.eva-official-brand-img{display:block;width:100%;height:100%;object-fit:contain}</style><style>
@@ -147,7 +156,7 @@ header{padding:calc(16px + env(safe-area-inset-top)) 19px 11px;display:flex;alig
 <nav class="bottom">
 <a class="active" href="/"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 11l9-8 9 8v10h-6v-6H9v6H3z"/></svg>首页</a>
 <a href="/categories.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>分类</a>
-<a href="/products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 4h2l2.4 11.2a2 2 0 002 1.6h7.8a2 2 0 002-1.5L21 8H7"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg><i class="count">3</i>产品</a>
+<a href="/cart.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 4h2l2.4 11.2a2 2 0 002 1.6h7.8a2 2 0 002-1.5L21 8H7"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg><i class="count">0</i>Cart</a>
 <a href="/orders.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3h12v18H6z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>订单</a>
 <a href="/profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4.5 3.5-7 8-7s7.2 2.5 8 7"/></svg>我的</a>
 </nav>
