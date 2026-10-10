@@ -15,6 +15,35 @@ import claude from "./api/v1/claude.js";
 import gemini from "./api/v1/gemini.js";
 import openai from "./api/v1/openai.js";
 
+
+function syncWorkerEnvironment(env) {
+  // Keep the existing Vercel-style API handlers compatible with Cloudflare bindings.
+  // Prefer explicit Worker bindings; preserve process.env values when a binding is absent.
+  const root = globalThis;
+  if (!root.process) root.process = { env: {} };
+  if (!root.process.env) root.process.env = {};
+  const target = root.process.env;
+
+  const aliases = {
+    SUPABASE_URL: ["SUPABASE_URL", "SUPABASE_URl", "SUBABASE_URL", "NEXT_PUBLIC_SUPABASE_URL"],
+    SUPABASE_SERVICE_ROLE_KEY: ["SUPABASE_SERVICE_ROLE_KEY", "SERVICE_ROLE_KEY", "Saevice_Role", "SUPABASE_SECRET_KEY"],
+    SUPABASE_ANON_KEY: ["SUPABASE_ANON_KEY", "SUPABASE_PUBLISHABLE_KEY", "anon_public", "NEXT_PUBLIC_SUPABASE_ANON_KEY"],
+    TELEGRAM_BOT_TOKEN: ["TELEGRAM_BOT_TOKEN", "TELEGRAM_BOT_TOKEN."],
+    GEMINI_API_KEY: ["GEMINI_API_KEY", "GIMINI_API_KEY"],
+    OPENAI_API_KEY: ["OPENAI_API_KEY"],
+    ANTHROPIC_API_KEY: ["ANTHROPIC_API_KEY"],
+    ADMIN_EMAIL: ["ADMIN_EMAIL"],
+    ADMIN_EMAILS: ["ADMIN_EMAILS"]
+  };
+
+  for (const [canonical, candidates] of Object.entries(aliases)) {
+    const bindingName = candidates.find(name =>
+      typeof env[name] === "string" && env[name].length > 0
+    );
+    if (bindingName) target[canonical] = env[bindingName];
+  }
+}
+
 const ROUTES = new Map([
   ["/api/store", store],
   ["/api/config", config],
@@ -176,6 +205,7 @@ async function serveAsset(env, request, pathname) {
 
 export default {
   async fetch(request, env) {
+    syncWorkerEnvironment(env);
     const url = new URL(request.url);
     let pathname = url.pathname.replace(/\/+$/, "") || "/";
 
