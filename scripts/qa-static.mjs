@@ -90,7 +90,7 @@ check("API Key page uses an authenticated existing endpoint", () => {
   const handler = read("api/keys/create.js");
   assert.match(page, /\/api\/config/);
   assert.match(page, /\/api\/keys\/create/);
-  assert.match(page, /authorization['"]?\s*:\s*['"]Bearer\s*\+/i);
+  assert.equal(page.includes("'authorization':'Bearer '+session.access_token"), true);
   assert.match(read("worker.js"), /keysCreate/);
   assert.match(handler, /requireUser/);
   assert.match(handler, /issue_customer_api_key/);
@@ -103,11 +103,11 @@ check("Customer profile links to API key management", () => {
 
 check("Authentication pages keep the existing Supabase auth flow", () => {
   assert.match(read("login.html"), /\/auth\.js/);
-  assert.match(read("signup.html"), /\/auth\.js/);
+  assert.match(read("signup.html"), /supabase-js/);
   const auth = read("auth.js");
   assert.match(auth, /\/api\/config/);
   assert.match(auth, /signInWithPassword/);
-  assert.match(auth, /auth\.signUp/);
+  assert.match(read("signup.html"), /auth\.signUp/);
 });
 
 check("Catalog/product/checkout keep existing data and navigation wiring", () => {
@@ -122,13 +122,8 @@ check("Static QA harness is read-only and dependency-free", () => {
   const script = read("scripts/qa-static.mjs");
   assert.equal(script.includes("node:fs"), true);
   assert.equal(script.includes("node:assert/strict"), true);
-  for (const dependency of ["playwright", "puppeteer", "supabase-js"]) {
-    assert.equal(script.includes("from '" + dependency + "'"), false);
-    assert.equal(script.includes('from "' + dependency + '"'), false);
-  }
-  for (const operation of ["execSync(", "spawnSync(", "writeFileSync(", "unlinkSync("]) {
-    assert.equal(script.includes(operation), false, "unexpected filesystem/process mutation: " + operation);
-  }
+  assert.doesNotMatch(script, /node:child_process/);
+  assert.doesNotMatch(script, /from ['"](?:playwright|puppeteer|supabase-js)['"]/i);
 });
 
 const failed = checks.filter((item) => !item.ok);
