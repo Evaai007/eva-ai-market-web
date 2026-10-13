@@ -94,6 +94,7 @@ img{max-width:100%}
 @media(max-width:430px){
   html,body{overflow-x:hidden}
   input,select,textarea{font-size:16px}
+  .field input,.eva-search input,.deposit-form input,.deposit-form select{font-size:16px!important}
   .app,.app-container,.product-app{
     width:100%!important;max-width:430px!important;min-height:100svh;
     margin:0 auto!important;box-shadow:none!important
@@ -141,7 +142,7 @@ img{max-width:100%}
   .app .section-head h2{font-size:22px}
   .app .products{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
   .app .product{height:auto!important;min-height:240px!important;padding:18px!important;border-radius:16px}
-  .app .product .badge,.app .product .desc,.app .product .price-label{display:revert!important}
+  .app .product .badge{display:inline-flex!important}.app .product .desc{display:block!important}.app .product .price-label{display:block!important}
   .app .product .plogo{width:58px;height:58px;border-radius:15px;margin-bottom:13px}
   .app .product h3{white-space:normal;font-size:14px;margin:0 0 5px!important}
   .app .product h3:after{display:none}
