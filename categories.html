@@ -28,13 +28,15 @@ header{height:58px;padding:calc(8px + env(safe-area-inset-top)) 14px 8px;display
   html body main#eva-product-shell,
   html body main#eva-categories-shell,
   html body main#eva-dashboard-shell,
-  html body main#eva-checkout-shell {
+  html body main#checkout {
     width: min(1240px, calc(100vw - 44px)) !important;
     max-width: 1240px !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
 }
+
+@media (min-width: 768px) { html body main#eva-categories-shell nav.bottom { position:static!important; left:auto!important; right:auto!important; transform:none!important; width:100%!important; max-width:none!important; height:64px!important; margin:0!important; grid-template-columns:repeat(5,minmax(0,1fr))!important; } }
 </style>
 </head>
 <body>
