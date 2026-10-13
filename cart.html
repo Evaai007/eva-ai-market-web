@@ -11,10 +11,16 @@
 <link rel="stylesheet" href="/eva-reference-11.css?v=20260923-ref11b">
 <link rel="stylesheet" href="/eva-reference-final.css?v=20260923-final11">
 <link rel="stylesheet" href="/eva-reference-exact.css?v=20260923-exact4">
+<style id="eva-reference-cart-fix">body[data-page="cart"] nav.bottom{display:none!important}.summary{bottom:0!important;z-index:99!important}body[data-page="cart"] main{padding-bottom:90px!important}</style>
 </head>
 <body data-page="cart"><main><div class="top"><b>购物车</b></div><div class="wrap"><div id="list"></div></div></main>
 <div class="summary"><div>合计 <span class="total" id="total">$0.00</span></div><div class="note">每次选择一个产品结算<br>使用 EVA Balance</div></div>
-<nav class="bottom"><a href="/"><span>⌂</span>首页</a><a href="/products.html"><span>▦</span>产品</a><a class="active" href="/cart.html"><span>🛒</span>购物车</a><a href="/orders.html"><span>▤</span>订单</a><a href="/profile.html"><span>♙</span>我的</a></nav>
+<nav class="bottom" aria-label="主导航">
+<a  href="/"><span>⌂</span>首页</a>
+<a  href="/categories.html"><span>▦</span>分类</a>
+<a class="active" href="/cart.html"><span>🛒</span>购物车</a>
+<a  href="/profile.html"><span>♙</span>我的</a>
+</nav>
 <script>
 const KEY='eva-cart-v1';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

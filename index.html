@@ -133,6 +133,19 @@ header{padding:calc(16px + env(safe-area-inset-top)) 19px 11px;display:flex;alig
 @media (min-width: 768px) { html body main#eva-home-shell nav.bottom { position:static!important; left:auto!important; right:auto!important; transform:none!important; width:100%!important; max-width:none!important; height:64px!important; margin:0!important; grid-template-columns:repeat(5,minmax(0,1fr))!important; } }
 
 @media (min-width: 768px) { html body nav.bottom { position:static!important; left:auto!important; right:auto!important; transform:none!important; width:calc(100vw - 44px)!important; max-width:none!important; height:64px!important; margin:0 auto!important; grid-template-columns:repeat(5,minmax(0,1fr))!important; } }
+
+/* Match the supplied storefront reference: four shortcut categories and dark market hero. */
+#eva-home-shell .hero{height:124px!important;min-height:124px!important;aspect-ratio:auto!important;margin:0 12px 14px!important;border-radius:12px!important;background:linear-gradient(105deg,#061744 0%,#073995 62%,#0b3fc0 100%)!important;box-shadow:0 8px 20px rgba(0,43,135,.18)!important}
+#eva-home-shell .hero img{position:absolute!important;top:0!important;right:0!important;width:48%!important;height:100%!important;object-fit:cover!important;object-position:center 12%!important;opacity:.88!important;mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.45) 17%,#000 48%)!important}
+#eva-home-shell .hero-copy{position:absolute!important;z-index:2!important;left:15px!important;top:18px!important;width:58%!important;color:#fff!important;text-align:left!important}
+#eva-home-shell .hero-copy h2{margin:0 0 7px!important;font-size:14px!important;line-height:1.35!important;font-weight:950!important;color:#fff!important;letter-spacing:-.02em!important}
+#eva-home-shell .hero-copy p{margin:0 0 10px!important;font-size:8px!important;line-height:1.45!important;color:#d6e7ff!important}
+#eva-home-shell .hero-copy a{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;height:26px!important;padding:0 15px!important;border-radius:7px!important;background:#0b69ff!important;color:#fff!important;text-decoration:none!important;font-size:9px!important;font-weight:900!important;box-shadow:0 3px 0 #0649bc!important}
+#eva-home-shell .categories{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;padding:0 12px 13px!important}
+#eva-home-shell .ci{width:40px!important;height:40px!important;border-radius:11px!important;margin-bottom:5px!important;font-size:14px!important}
+#eva-home-shell .cat{font-size:9px!important;font-weight:800!important}
+html body nav.bottom{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+@media(max-width:360px){#eva-home-shell .hero{height:116px!important;min-height:116px!important}#eva-home-shell .hero-copy h2{font-size:12px!important}}
 </style>
 </head>
 <body>
@@ -144,33 +157,29 @@ header{padding:calc(16px + env(safe-area-inset-top)) 19px 11px;display:flex;alig
 </a>
 <div class="head-actions">
 <button class="iconbtn" onclick="location.href='/dashboard.html'" aria-label="通知"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 10-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg><i class="dot"></i></button>
-<button class="iconbtn" onclick="location.href='/products.html'" aria-label="购物车"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 4h2l2.4 11.2a2 2 0 002 1.6h7.8a2 2 0 002-1.5L21 8H7"/><circle cx="10" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/></svg></button>
+<button class="iconbtn" onclick="location.href='/cart.html'" aria-label="购物车"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 4h2l2.4 11.2a2 2 0 002 1.6h7.8a2 2 0 002-1.5L21 8H7"/><circle cx="10" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/></svg></button>
 </div>
 </header>
 <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="#18345b" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="homeSearch" placeholder="搜索 AI 产品、服务或品牌..."><svg class="scan" viewBox="0 0 24 24" fill="none" stroke="#173558" stroke-width="1.8" aria-hidden="true"><path d="M8 3H4a1 1 0 0 0-1 1v4M16 3h4a1 1 0 0 1 1 1v4M8 21H4a1 1 0 0 1-1-1v-4M16 21h4a1 1 0 0 0 1-1v-4"/></svg></div>
-<section class="hero"><img src="/assets/eva-reference-hero.jpg?v=20260923-final2" width="719" height="303" decoding="async" fetchpriority="high" alt="EVA AI MARKET"><a class="hero-hit" href="/products.html" aria-label="立即探索"></a></section>
-<section class="categories">
-<a class="cat" href="/categories.html?cat=AI聊天"><div class="ci ci-chat">💬</div>AI聊天</a>
-<a class="cat" href="/categories.html?cat=AI绘画"><div class="ci ci-art">🎨</div>AI绘画</a>
-<a class="cat" href="/categories.html?cat=AI视频"><div class="ci ci-video">▶</div>AI视频</a>
-<a class="cat" href="/categories.html?cat=AI音乐"><div class="ci" style="color:#fff;background:linear-gradient(145deg,#b46cff,#7556ff)!important">♫</div>AI音乐</a>
-<a class="cat" href="/categories.html?cat=办公效率"><div class="ci" style="color:#fff;background:linear-gradient(145deg,#ff7aa8,#ff4f78)!important">✣</div>办公效率</a>
-<a class="cat" href="/categories.html?cat=开发工具"><div class="ci ci-api">&lt;/&gt;</div>开发工具</a>
-<a class="cat" href="/categories.html?cat=云服务"><div class="ci ci-cloud">☁</div>云服务</a>
-<a class="cat" href="/categories.html?cat=自动化"><div class="ci" style="color:#fff;background:linear-gradient(145deg,#41c9de,#168eff)!important">⚙</div>自动化</a>
-<a class="cat" href="/categories.html?cat=存储备份"><div class="ci" style="color:#fff;background:linear-gradient(145deg,#74ca72,#39a84b)!important">↥</div>存储备份</a>
-<a class="cat" href="/categories.html"><div class="ci ci-more">•••</div>更多</a>
+<section class="hero" aria-label="EVA AI MARKET 主视觉">
+<img src="/assets/ai-cyborg-hero.webp" width="719" height="303" decoding="async" fetchpriority="high" alt="EVA AI MARKET AI 服务市场主视觉">
+<div class="hero-copy"><h2>全球领先的 AI 资源市场</h2><p>AI 工具 · API 服务 · 数字产品</p><a href="/products.html">立即购买 <span>→</span></a></div>
+</section>
+<section class="categories" aria-label="快捷分类">
+<a class="cat" href="/products.html"><div class="ci ci-chat">AI</div>AI 工具</a>
+<a class="cat" href="/api-docs.html"><div class="ci ci-api">API</div>API 服务</a>
+<a class="cat" href="/categories.html"><div class="ci ci-cloud">◇</div>数字产品</a>
+<a class="cat" href="/categories.html"><div class="ci ci-more">•••</div>全部分类</a>
 </section>
 <section class="section"><div class="section-head"><div><h2><span class="fire">🔥</span>热门推荐</h2><p>全球热门 AI 产品 · 正品保障 · 即买即用</p></div><a href="/products.html">查看全部 ›</a></div><div class="products" id="homeProducts"><div class="notice">正在加载热门产品…</div></div></section>
 <section class="enterprise"><h3>企业定制方案 <span class="pill">为企业而生</span></h3><p>一站式 AI 解决方案 · 助力企业数字化转型</p><div class="benefits"><span>♢ 专属方案</span><span>♧ 批量采购</span><span>▣ 专业支持</span><span>▤ 灵活结算</span></div><div class="buildings"><i class="building two"></i><i class="building one"></i></div><a class="consult" href="https://t.me/EVADigitalMarket">立即咨询 →</a></section>
 <section class="features"><div class="feature"><div class="fi"><svg viewBox="0 0 32 32"><path d="M16 3l10 4v7c0 7-4 12-10 15C10 26 6 21 6 14V7z" fill="#218cff"/><path d="M11 16l3 3 7-8" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg></div><b>正品保障</b><small>官方授权 正规渠道</small></div><div class="feature"><div class="fi"><svg viewBox="0 0 32 32"><path d="M18 2L7 18h8l-1 12 11-17h-8z" fill="#ffbd13"/></svg></div><b>快速交付</b><small>自动发货 即买即用</small></div><div class="feature"><div class="fi"><svg viewBox="0 0 32 32"><path d="M6 17v-2a10 10 0 0120 0v2" fill="none" stroke="#147cf0" stroke-width="3"/><rect x="3" y="16" width="6" height="10" rx="3" fill="#42a9ff"/><rect x="23" y="16" width="6" height="10" rx="3" fill="#147cf0"/><path d="M23 26c-2 3-5 3-8 3" fill="none" stroke="#147cf0" stroke-width="2"/></svg></div><b>售后支持</b><small>专业团队 7×24小时</small></div><div class="feature"><div class="fi"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke="#1688ff" stroke-width="2.5"/><path d="M3 16h26M16 3c5 5 5 21 0 26M16 3c-5 5-5 21 0 26" fill="none" stroke="#1688ff" stroke-width="2"/></svg></div><b>全球服务</b><small>服务全球用户</small></div></section>
 <section class="telegram"><div class="tg"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#fff" d="M27.7 5.1L3.9 14.3c-1.6.6-1.6 1.5-.3 1.9l6.1 1.9 2.3 7.1c.3.8.1 1.1.9 1.1.6 0 .9-.3 1.2-.6l3-2.9 6.2 4.6c1.1.6 2 .3 2.3-1.1l4.1-19.2c.4-1.8-.7-2.7-2-2zM11 17.7l12.9-8.1c.6-.4 1.2-.2.7.2L14 19.4l-.4 4.2z"/></svg></div><div><b>加入我们的 Telegram 社群</b><small>获取最新优惠 · 产品资讯 · 使用教程 · 专属客服</small></div><a href="https://t.me/EVADigitalMarket">立即加入 →</a></section>
 </main>
-<nav class="bottom">
+<nav class="bottom" aria-label="主导航">
 <a class="active" href="/"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 11l9-8 9 8v10h-6v-6H9v6H3z"/></svg>首页</a>
 <a href="/categories.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>分类</a>
-<a href="/products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 4h2l2.4 11.2a2 2 0 002 1.6h7.8a2 2 0 002-1.5L21 8H7"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg><i class="count">3</i>产品</a>
-<a href="/orders.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3h12v18H6z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>订单</a>
+<a href="/cart.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 4h2l2.4 11.2a2 2 0 002 1.6h7.8a2 2 0 002-1.5L21 8H7"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>购物车</a>
 <a href="/profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4.5 3.5-7 8-7s7.2 2.5 8 7"/></svg>我的</a>
 </nav>
 <script>

@@ -57,6 +57,7 @@ body{background:#edf5fb!important}
 
 @media (min-width: 768px) { html body nav.bottom { position:static!important; left:auto!important; right:auto!important; transform:none!important; width:calc(100vw - 44px)!important; max-width:none!important; height:64px!important; margin:0 auto!important; grid-template-columns:repeat(5,minmax(0,1fr))!important; } }
 </style>
+<style id="eva-reference-checkout-fix">body[data-page="checkout"] nav.bottom{display:none!important}body[data-page="checkout"] main{padding-bottom:18px!important}body[data-page="checkout"] #payNow{position:sticky!important;bottom:8px!important;z-index:30!important}</style>
 </head>
 <body data-page="checkout">
 <main id="checkout" class="app eva-checkout-shell">
@@ -72,7 +73,7 @@ body{background:#edf5fb!important}
 <section class="section"><h2>订单金额</h2><div class="summary-line"><span>商品小计</span><strong id="coSubtotal"></strong></div><div class="summary-line"><span>优惠</span><strong>$0.00</strong></div><div class="summary-line total"><span>应付总额</span><strong id="coTotal"></strong></div><label class="terms"><input type="checkbox" id="agreeTerms"><span>我已确认商品信息，并同意 Terms &amp; Conditions。</span></label><button id="payNow" disabled>Pay from Wallet</button></section>
 <p class="notice" id="checkoutNotice" hidden></p><div class="trust"><div><b>▣</b>安全支付</div><div><b>ϟ</b>快速处理</div><div><b>◇</b>可靠交付</div></div>
 </main>
-<nav class="bottom"><a href="/"><span>⌂</span>首页</a><a href="/categories.html"><span>▦</span>分类</a><a class="active" href="/products.html"><span>▦</span>产品</a><a href="/orders.html"><span>▤</span>订单</a><a href="/profile.html"><span>♙</span>我的</a></nav>
+
 <script>
 document.getElementById('couponBtn').addEventListener('click',()=>{const n=document.getElementById('checkoutNotice');const v=document.getElementById('couponCode').value.trim();if(!v){n.textContent='请输入优惠码。';n.hidden=false;return}n.textContent='当前未应用任何优惠；商品价格保持不变。';n.hidden=false;});
 </script>
