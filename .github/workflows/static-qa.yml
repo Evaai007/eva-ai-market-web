@@ -1,12 +1,6 @@
 name: Static QA
 
 on:
-  push:
-    branches:
-      - "redesign/chinese-mobile-market-*"
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
