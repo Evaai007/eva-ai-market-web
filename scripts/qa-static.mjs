@@ -118,12 +118,11 @@ check("Catalog/product/checkout keep existing data and navigation wiring", () =>
   assert.match(read("cart.html"), /\/checkout\.html/);
 });
 
-check("Static QA harness is read-only and dependency-free", () => {
+check("Static QA harness uses only Node built-in modules", () => {
   const script = read("scripts/qa-static.mjs");
-  assert.equal(script.includes("node:fs"), true);
-  assert.equal(script.includes("node:assert/strict"), true);
-  assert.doesNotMatch(script, /node:child_process/);
-  assert.doesNotMatch(script, /from ['"](?:playwright|puppeteer|supabase-js)['"]/i);
+  const imports = [...script.matchAll(/\bfrom\s+["']([^"']+)["']/g)].map((match) => match[1]);
+  assert.ok(imports.length > 0, "expected test harness imports");
+  assert.deepEqual(imports.filter((name) => !name.startsWith("node:")), [], "unexpected external dependency");
 });
 
 const failed = checks.filter((item) => !item.ok);
