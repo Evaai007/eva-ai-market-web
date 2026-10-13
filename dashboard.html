@@ -31,9 +31,24 @@ header{height:58px;padding:calc(8px + env(safe-area-inset-top)) 14px 8px;display
 .app header .logo{display:grid;place-items:center}
 .app header .logo img{width:34px;height:34px;object-fit:contain}
 </style><link rel="stylesheet" href="/eva-chinese-market.css?v=20261013-cn4">
+<style id="eva-responsive-shell-fix">
+@media (min-width: 768px) {
+  html body main#eva-home-shell,
+  html body main#eva-catalog-shell,
+  html body main#eva-product-shell,
+  html body main#eva-categories-shell,
+  html body main#eva-dashboard-shell,
+  html body main#eva-checkout-shell {
+    width: min(1240px, calc(100vw - 44px)) !important;
+    max-width: 1240px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+</style>
 </head>
 <body class="dashboard-page">
-<main class="app">
+<main id="eva-dashboard-shell" class="app">
 <header>
 <a class="brand" href="/">
 <span class="logo"><img src="/assets/eva-official-logo.svg" alt="EVA AI MARKET" class="eva-official-brand-img"></span>
