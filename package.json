@@ -9,6 +9,8 @@
   },
   "scripts": {
     "deploy": "wrangler deploy --config wrangler.jsonc",
-    "preview": "wrangler dev --config wrangler.jsonc"
+    "preview": "wrangler dev --config wrangler.jsonc",
+    "test": "node scripts/qa-static.mjs",
+    "test:static": "node scripts/qa-static.mjs"
   }
 }

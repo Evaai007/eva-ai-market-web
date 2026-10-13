@@ -30,9 +30,30 @@ body{background:#edf5fb!important}
   input,select,button{font-size:16px; /* prevents iOS auto-zoom */ }
 }
 .eva-official-brand-img{display:block;width:100%;height:100%;object-fit:contain}
-</style></head>
+</style><link rel="stylesheet" href="/eva-chinese-market.css?v=20261013-cn4">
+<link rel="stylesheet" href="/eva-reference-11.css?v=20260923-ref11b">
+<link rel="stylesheet" href="/eva-reference-final.css?v=20260923-final11">
+<link rel="stylesheet" href="/eva-reference-exact.css?v=20260923-exact4">
+<style id="eva-responsive-shell-fix">
+@media (min-width: 768px) {
+  html body main#eva-home-shell,
+  html body main#eva-catalog-shell,
+  html body main#eva-product-shell,
+  html body main#eva-categories-shell,
+  html body main#eva-dashboard-shell,
+  html body main#eva-checkout-shell {
+    width: min(1240px, calc(100vw - 44px)) !important;
+    max-width: 1240px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+@media (min-width: 768px) { html body main#eva-catalog-shell nav.eva-bottom { position:static!important; left:auto!important; right:auto!important; transform:none!important; width:100%!important; max-width:none!important; height:64px!important; margin:0!important; grid-template-columns:repeat(5,minmax(0,1fr))!important; } }
+</style>
+</head>
 <body data-page="products">
-<main class="app-container">
+<main id="eva-catalog-shell" class="app-container">
 <header class="eva-head">
 <a class="eva-brand" href="/">
 <span class="eva-logo"><img src="/assets/eva-official-logo.svg" alt="EVA AI MARKET" class="eva-official-brand-img"></span>
@@ -59,12 +80,11 @@ body{background:#edf5fb!important}
 
 <section class="product-grid" id="productsGrid"><p class="notice">正在加载产品…</p></section>
 
-<nav class="eva-bottom">
-<a href="/"><span>⌂</span>首页</a>
-<a class="active" href="/products.html"><span>▦</span>分类</a>
-<a class="spider-orb" href="/products.html" aria-label="产品"></a>
-<a href="/orders.html"><span>▤</span>订单</a>
-<a href="/profile.html"><span>♙</span>我的</a>
+<nav class="bottom" aria-label="主导航">
+<a  href="/"><span>⌂</span>首页</a>
+<a class="active" href="/categories.html"><span>▦</span>分类</a>
+<a  href="/cart.html"><span>🛒</span>购物车</a>
+<a  href="/profile.html"><span>♙</span>我的</a>
 </nav>
 </main>
 

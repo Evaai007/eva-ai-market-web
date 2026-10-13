@@ -20,9 +20,32 @@ header{height:58px;padding:calc(8px + env(safe-area-inset-top)) 14px 8px;display
 .bottom{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:430px;height:68px;padding-bottom:env(safe-area-inset-bottom);z-index:30;background:rgba(255,255,255,.98);border-top:1px solid #e7eef7;display:grid;grid-template-columns:repeat(5,1fr);box-shadow:0 -6px 18px rgba(34,85,140,.05)}.bottom a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#7e8ca0;text-decoration:none;font-size:9px}.bottom a.active{color:#1684ff;font-weight:900}.bottom svg{width:20px;height:20px}
 @media(max-width:370px){.content{grid-template-columns:84px minmax(0,1fr)}.side{padding-left:5px;padding-right:5px}.side a{font-size:9.5px;padding:0 7px}.main{padding-left:7px;padding-right:7px}.row{padding:8px} .ico{width:39px;height:39px;flex-basis:39px}}
 </style>
-<style>.eva-official-brand-img{display:block;width:100%;height:100%;object-fit:contain}</style></head>
-<body>
-<main class="app">
+<style>.eva-official-brand-img{display:block;width:100%;height:100%;object-fit:contain}</style><link rel="stylesheet" href="/eva-chinese-market.css?v=20261013-cn4">
+<link rel="stylesheet" href="/eva-reference-11.css?v=20260923-ref11b">
+<link rel="stylesheet" href="/eva-reference-final.css?v=20260923-final11">
+<link rel="stylesheet" href="/eva-reference-exact.css?v=20260923-exact4">
+<style id="eva-responsive-shell-fix">
+@media (min-width: 768px) {
+  html body main#eva-home-shell,
+  html body main#eva-catalog-shell,
+  html body main#eva-product-shell,
+  html body main#eva-categories-shell,
+  html body main#eva-dashboard-shell,
+  html body main#checkout {
+    width: min(1240px, calc(100vw - 44px)) !important;
+    max-width: 1240px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+@media (min-width: 768px) { html body main#eva-categories-shell nav.bottom { position:static!important; left:auto!important; right:auto!important; transform:none!important; width:100%!important; max-width:none!important; height:64px!important; margin:0!important; grid-template-columns:repeat(5,minmax(0,1fr))!important; } }
+
+@media (min-width: 768px) { html body nav.bottom { position:static!important; left:auto!important; right:auto!important; transform:none!important; width:calc(100vw - 44px)!important; max-width:none!important; height:64px!important; margin:0 auto!important; grid-template-columns:repeat(5,minmax(0,1fr))!important; } }
+</style>
+</head>
+<body data-page="categories">
+<main id="eva-categories-shell" class="app">
 <header>
 <a class="brand" href="/">
 <span class="logo"><img src="/assets/eva-official-logo.svg" alt="EVA AI MARKET" class="eva-official-brand-img"></span>
@@ -71,12 +94,11 @@ header{height:58px;padding:calc(8px + env(safe-area-inset-top)) 14px 8px;display
 </section>
 </main>
 
-<nav class="bottom">
-<a href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-8 9 8v10h-6v-6H9v6H3z"/></svg>首页</a>
-<a class="active" href="/categories.html"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>分类</a>
-<a href="/products.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 4h2l2.4 11.2a2 2 0 002 1.6h7.8a2 2 0 002-1.5L21 8H7"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>产品</a>
-<a href="/orders.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3h12v18H6z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>订单</a>
-<a href="/profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4.5 3.5-7 8-7s7.2 2.5 8 7"/></svg>我的</a>
+<nav class="bottom" aria-label="主导航">
+<a  href="/"><span>⌂</span>首页</a>
+<a class="active" href="/categories.html"><span>▦</span>分类</a>
+<a  href="/cart.html"><span>🛒</span>购物车</a>
+<a  href="/profile.html"><span>♙</span>我的</a>
 </nav>
 
 <script>

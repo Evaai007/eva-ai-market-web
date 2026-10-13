@@ -31,15 +31,41 @@ body{background:#edf5fb!important}
   input,select,button{font-size:16px; /* prevents iOS auto-zoom */ }
 }
 .eva-official-brand-img{display:block;width:100%;height:100%;object-fit:contain}
-</style></head>
+</style><link rel="stylesheet" href="/eva-chinese-market.css?v=20261013-cn4">
+<link rel="stylesheet" href="/eva-reference-11.css?v=20260923-ref11b">
+<link rel="stylesheet" href="/eva-reference-final.css?v=20260923-final11">
+<link rel="stylesheet" href="/eva-reference-exact.css?v=20260923-exact4">
+<style id="eva-responsive-shell-fix">
+@media (min-width: 768px) {
+  html body main#eva-home-shell,
+  html body main#eva-catalog-shell,
+  html body main#eva-product-shell,
+  html body main#eva-categories-shell,
+  html body main#eva-dashboard-shell,
+  html body main#eva-checkout-shell {
+    width: min(1240px, calc(100vw - 44px)) !important;
+    max-width: 1240px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+@media (min-width: 768px) { html body main#eva-product-shell nav.eva-bottom { position:static!important; left:auto!important; right:auto!important; transform:none!important; width:100%!important; max-width:none!important; height:64px!important; margin:0!important; grid-template-columns:repeat(5,minmax(0,1fr))!important; } }
+</style>
+<style id="eva-reference-product-footer-fix">
+body[data-page="product"] .product-app{padding-bottom:76px!important}
+body[data-page="product"] .topbar .top-actions{display:none!important}
+body[data-page="product"] .detail-actions{position:fixed!important;left:50%!important;bottom:0!important;transform:translateX(-50%)!important;width:100%!important;max-width:430px!important;height:58px!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;padding:7px 14px!important;z-index:100!important;background:#fff!important;border-top:1px solid #e6edf5!important;box-shadow:0 -5px 16px rgba(35,86,142,.05)!important}
+body[data-page="product"] .detail-actions button{display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;border:0!important;border-radius:9px!important;background:#f4f8fc!important;color:#365779!important;font-size:13px!important;font-weight:800!important}
+body[data-page="product"] .detail-actions button span{font-size:10px!important}
+</style>
+
+</head>
 <body data-page="product">
-<main class="product-app">
+<main id="eva-product-shell" class="product-app">
 <div class="topbar">
 <button onclick="history.back()" aria-label="Back">‹</button><img class="eva-page-logo" src="/assets/eva-official-logo.svg" alt="EVA AI MARKET">
-<div class="top-actions">
-<button id="favoriteBtn" aria-label="Favorite">♡</button>
-<button id="shareBtn" aria-label="Share">⌯</button>
-</div>
+<div class="top-actions" aria-hidden="true"></div>
 </div>
 
 <section class="hero">
@@ -86,13 +112,10 @@ body{background:#edf5fb!important}
 <div class="ref-tab-body" id="refTabBody">专业 AI 服务，购买前请确认当前套餐、库存、地区限制与交付说明。</div>
 </div>
 
-<nav class="eva-bottom">
-<a href="/"><span>⌂</span>首页</a>
-<a href="/categories.html"><span>▦</span>分类</a>
-<a href="/products.html"><span>🛒</span>产品</a>
-<a href="/orders.html"><span>▤</span>订单</a>
-<a href="/profile.html"><span>♙</span>我的</a>
-</nav>
+<div class="detail-actions" aria-label="收藏与分享">
+<button id="favoriteBtn" type="button" aria-pressed="false">♡ <span>收藏</span></button>
+<button id="shareBtn" type="button">↗ <span>分享</span></button>
+</div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="/eva-mobile-flow.js?v=20260921-runtime4"></script>

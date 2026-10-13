@@ -30,9 +30,32 @@ header{height:58px;padding:calc(8px + env(safe-area-inset-top)) 14px 8px;display
 /* EVA customer dashboard reference alignment */
 .app header .logo{display:grid;place-items:center}
 .app header .logo img{width:34px;height:34px;object-fit:contain}
-</style></head>
-<body class="dashboard-page">
-<main class="app">
+</style><link rel="stylesheet" href="/eva-chinese-market.css?v=20261013-cn4">
+<link rel="stylesheet" href="/eva-reference-11.css?v=20260923-ref11b">
+<link rel="stylesheet" href="/eva-reference-final.css?v=20260923-final11">
+<link rel="stylesheet" href="/eva-reference-exact.css?v=20260923-exact4">
+<style id="eva-responsive-shell-fix">
+@media (min-width: 768px) {
+  html body main#eva-home-shell,
+  html body main#eva-catalog-shell,
+  html body main#eva-product-shell,
+  html body main#eva-categories-shell,
+  html body main#eva-dashboard-shell,
+  html body main#checkout {
+    width: min(1240px, calc(100vw - 44px)) !important;
+    max-width: 1240px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+@media (min-width: 768px) { html body main#eva-dashboard-shell nav.bottom { position:static!important; left:auto!important; right:auto!important; transform:none!important; width:100%!important; max-width:none!important; height:64px!important; margin:0!important; grid-template-columns:repeat(5,minmax(0,1fr))!important; } }
+
+@media (min-width: 768px) { html body nav.bottom { position:static!important; left:auto!important; right:auto!important; transform:none!important; width:calc(100vw - 44px)!important; max-width:none!important; height:64px!important; margin:0 auto!important; grid-template-columns:repeat(5,minmax(0,1fr))!important; } }
+</style>
+</head>
+<body class="dashboard-page" data-page="dashboard">
+<main id="eva-dashboard-shell" class="app">
 <header>
 <a class="brand" href="/">
 <span class="logo"><img src="/assets/eva-official-logo.svg" alt="EVA AI MARKET" class="eva-official-brand-img"></span>
@@ -119,12 +142,11 @@ header{height:58px;padding:calc(8px + env(safe-area-inset-top)) 14px 8px;display
 </section>
 </main>
 
-<nav class="bottom">
-<a href="/"><span>⌂</span>首页</a>
-<a href="/products.html"><span>▦</span>产品</a>
-<a href="/deposit.html"><span>＋</span>充值</a>
-<a href="/orders.html"><span>▤</span>订单</a>
-<a class="active" href="/dashboard.html"><span>♙</span>我的</a>
+<nav class="bottom" aria-label="主导航">
+<a  href="/"><span>⌂</span>首页</a>
+<a  href="/categories.html"><span>▦</span>分类</a>
+<a  href="/cart.html"><span>🛒</span>购物车</a>
+<a class="active" href="/profile.html"><span>♙</span>我的</a>
 </nav>
 
 <div id="side-scrim" hidden></div>
