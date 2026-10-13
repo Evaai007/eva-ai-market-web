@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
+import vm from "node:vm";
 
 const root = process.cwd();
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
@@ -52,6 +53,26 @@ check("Shared stylesheet has balanced blocks and mobile/tablet/desktop breakpoin
   assert.match(css, /env\(safe-area-inset-bottom\)/i, "missing mobile safe-area support");
 });
 
+check("Inline JavaScript blocks parse without syntax errors", () => {
+  const errors = [];
+  for (const file of pages) {
+    const html = read(file);
+    for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
+      const attrs = match[1] || "";
+      const source = match[2] || "";
+      if (/\bsrc\s*=/i.test(attrs) || !source.trim()) continue;
+      const type = attrs.match(/\btype\s*=\s*["']([^"']+)["']/i)?.[1]?.toLowerCase();
+      if (type && type !== "text/javascript" && type !== "application/javascript") continue;
+      try {
+        new vm.Script(source, { filename: file });
+      } catch (error) {
+        errors.push(file + ": " + error.message);
+      }
+    }
+  }
+  assert.deepEqual(errors, [], errors.join("\n"));
+});
+
 check("Existing Worker and product/config APIs remain wired", () => {
   const worker = read("worker.js");
   assert.match(worker, /["']\/api\/store["']/);
@@ -97,9 +118,12 @@ check("Catalog/product/checkout keep existing data and navigation wiring", () =>
   assert.match(read("cart.html"), /\/checkout\.html/);
 });
 
-check("QA script contains no deployment or database-write commands", () => {
+check("Static QA harness is read-only and dependency-free", () => {
   const script = read("scripts/qa-static.mjs");
-  assert.doesNotMatch(script, /wrangler deploy|vercel deploy|INSERT INTO|DELETE FROM|DROP TABLE/i);
+  assert.match(script, /node:fs/);
+  assert.match(script, /node:assert\\/strict/);
+  assert.doesNotMatch(script, /from ['"](?:playwright|puppeteer|supabase-js)['"]/i);
+  assert.doesNotMatch(script, /\\b(?:execSync|spawnSync|writeFileSync|unlinkSync)\\s*\\(/);
 });
 
 const failed = checks.filter((item) => !item.ok);
