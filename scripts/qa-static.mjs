@@ -120,10 +120,15 @@ check("Catalog/product/checkout keep existing data and navigation wiring", () =>
 
 check("Static QA harness is read-only and dependency-free", () => {
   const script = read("scripts/qa-static.mjs");
-  assert.match(script, /node:fs/);
-  assert.match(script, /node:assert\\/strict/);
-  assert.doesNotMatch(script, /from ['"](?:playwright|puppeteer|supabase-js)['"]/i);
-  assert.doesNotMatch(script, /\\b(?:execSync|spawnSync|writeFileSync|unlinkSync)\\s*\\(/);
+  assert.equal(script.includes("node:fs"), true);
+  assert.equal(script.includes("node:assert/strict"), true);
+  for (const dependency of ["playwright", "puppeteer", "supabase-js"]) {
+    assert.equal(script.includes("from '" + dependency + "'"), false);
+    assert.equal(script.includes('from "' + dependency + '"'), false);
+  }
+  for (const operation of ["execSync(", "spawnSync(", "writeFileSync(", "unlinkSync("]) {
+    assert.equal(script.includes(operation), false, "unexpected filesystem/process mutation: " + operation);
+  }
 });
 
 const failed = checks.filter((item) => !item.ok);
